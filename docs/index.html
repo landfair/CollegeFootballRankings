@@ -109,6 +109,17 @@ no margin of victory, no votes. The AP and Coaches polls are shown alongside for
   <label class="ctl">Through week
     <input type="range" id="wk" min="1" max="8" value="8"><span class="wk" id="wkv">8</span>
   </label>
+  <label class="ctl">Victors gate
+    <select id="gmode">
+      <option value="auto" selected>automatic</option>
+      <option value="off">off</option>
+      <option value="one">one pass</option>
+      <option value="stable">self&#8209;consistent</option>
+    </select>
+  </label>
+  <label class="ctl">over top
+    <select id="gn"><option>25</option><option>50</option><option>75</option><option selected>100</option></select>
+  </label>
   <span class="ctl" id="gatelbl"></span>
   <button class="help" id="helpbtn" aria-expanded="false" aria-controls="helppanel"
           title="How this works">?</button>
@@ -362,9 +373,14 @@ async function load(year){
   CACHE.set(year,{SEASON,ENG});
 }
 
+/* Automatic follows GATE_SCHEDULE; anything else is the reader overriding it. */
 function current(){
   const h=+$('wk').value;
-  const g=gateFor(h);
+  const pick=$('gmode').value;
+  const auto=pick==='auto';
+  const g=auto?{...gateFor(h),auto:true}
+              :{mode:pick,n:+$('gn').value,auto:false};
+  $('gn').disabled=auto||g.mode==='off';
   const rows=rank(ENG,SEASON,h);
   return {h,g,rows,gated:applyGate(ENG,rows,g.mode,g.n,h)};
 }
@@ -383,9 +399,11 @@ function renderList(){
   const ap=pollAt(SEASON,'AP Top 25',h), co=pollAt(SEASON,'Coaches Poll',h);
   const apR=new Map((ap?ap.ranks:[]).map(r=>[r.team,r.rank]));
   const coR=new Map((co?co.ranks:[]).map(r=>[r.team,r.rank]));
-  $('gatelbl').innerHTML = g.mode==='off'
-    ? 'Victors gate <b>off</b> until week '+GATE_STARTS
-    : 'Victors gate <b>top '+g.n+'</b>, self&#8209;consistent';
+  const how = g.mode==='off' ? '<b>off</b>'
+    : '<b>top '+g.n+'</b>, '+(g.mode==='one'?'one pass':'self\u2011consistent');
+  $('gatelbl').innerHTML = g.auto
+    ? how+(g.mode==='off'?' until week '+GATE_STARTS:'')+' <span class="nr">(automatic)</span>'
+    : how+' <span class="nr">(manual)</span>';
 
   const bits=[`<b>${rows.length}</b> teams through week <b>${h}</b>`];
   if(g.mode!=='off') bits.push(`gate removed <b>${gated.all.length-gated.kept.length}</b> in ${gated.passes} passes`);
@@ -395,6 +413,7 @@ function renderList(){
   } else bits.push('no poll published this early');
   if($('season').value==='2020')
     bits.push('<b>2020 was shortened by the pandemic</b>; some teams played only a handful of games');
+  if(g.auto){ $('gmode').value='auto'; if(g.mode!=='off') $('gn').value=String(g.n); }
   if(g.mode!=='off'&&gated.kept.length<25)
     bits.push(`<b>only ${gated.kept.length} qualify</b> — too little cross-conference play yet for this tier`);
   $('status').innerHTML=bits.join(' · ');
@@ -517,6 +536,8 @@ async function pick(year){
 }
 $('season').onchange=e=>{ VIEW=null; location.hash=''; pick(e.target.value); };
 $('wk').oninput=render;
+$('gmode').onchange=render;
+$('gn').onchange=render;
 $('helpbtn').onclick=()=>{
   const p=$('helppanel'), open=p.hidden;
   p.hidden=!open;
