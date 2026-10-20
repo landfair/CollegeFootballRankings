@@ -135,7 +135,9 @@ no margin of victory, no votes. The AP and Coaches polls are shown alongside for
   <p><b>Why rankings move backwards.</b> A Week&nbsp;2 win is not settled in
   Week&nbsp;2. It gains value if the team you beat keeps winning and loses value if
   they collapse. Drag the week slider and you are watching the season reinterpret
-  itself. Click any team to see each of its games and how their worth has shifted.</p>
+  itself. Click any team to see each of its games and how their worth has shifted:
+  the small line beside each game is that game alone, re&#8209;graded after every week
+  since it was played. Hover it for the week&#8209;by&#8209;week figures.</p>
   <p><b>The victors gate.</b> To be listed you must have beaten somebody worth
   beating, and that team must qualify too &mdash; the rule is applied over and over
   until the set stops changing. It needs enough cross&#8209;conference play to work,
@@ -145,6 +147,7 @@ no margin of victory, no votes. The AP and Coaches polls are shown alongside for
 </div>
 
 <div id="listview">
+<div class="facts" id="pollfacts"></div>
 <div class="scroll"><table id="tbl"><tbody><tr><td class="msg">Loading…</td></tr></tbody></table></div>
 </div>
 <div id="teamview" hidden></div>
@@ -331,6 +334,27 @@ function applyGate(eng,rows,mode,N,horizon){
   return {kept:all.filter(r=>live.has(r.team)),all,passes};
 }
 
+/* Spearman on the two rank orders, over the teams both lists place. Measured
+   against the full ranking, not the gated view, so the number reports how much
+   the two orderings agree rather than moving about as the gate opens and shuts. */
+function spearman(x,y){
+  const rankOf=a=>{
+    const idx=a.map((v,i)=>[v,i]).sort((p,q)=>p[0]-q[0]), r=new Array(a.length);
+    idx.forEach((p,i)=>r[p[1]]=i+1);
+    return r;
+  };
+  const rx=rankOf(x), ry=rankOf(y), n=x.length, m=(n+1)/2;
+  let num=0,dx=0,dy=0;
+  for(let i=0;i<n;i++){ const a=rx[i]-m, b=ry[i]-m; num+=a*b; dx+=a*a; dy+=b*b; }
+  return dx&&dy?num/Math.sqrt(dx*dy):0;
+}
+function agreement(a,b){
+  const common=a.filter(r=>b.has(r.team));
+  if(common.length<3) return null;
+  return {n:common.length,
+    rho:spearman(common.map(r=>r.rank),common.map(r=>b.get(r.team)))};
+}
+
 const pollAt=(season,name,h)=>{
   let best=null;
   for(const p of season.polls)
@@ -348,7 +372,9 @@ function revision(eng,team,w,horizon){
   return out;
 }
 function sparkHTML(pts){
-  if(pts.length<2) return '<span class="val">graded once, no later weeks yet</span>';
+  if(pts.length<2) return '<span class="val" title="This is the most recent game '+
+    'played, so nothing has happened since to change what it is worth. From next '+
+    'week it starts being re-graded.">graded once, no later weeks yet</span>';
   const W=150,H=32,P=4;
   const vals=pts.map(p=>p.score);
   const lo=Math.min(...vals), hi=Math.max(...vals), mid=(lo+hi)/2;
@@ -360,7 +386,19 @@ function sparkHTML(pts){
   const d=pts.map((p,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(p.score).toFixed(1)).join(' ');
   const dots=pts.map((p,i)=>'<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(p.score).toFixed(1)+
     '" r="'+(i===pts.length-1?2.6:1.5)+'" fill="'+(i===pts.length-1?col:'var(--muted)')+'"/>').join('');
-  const tip=pts.map(p=>'through wk '+p.through+': '+p.score.toFixed(1)).join('\n');
+  const first=vals[0], last=vals[vals.length-1];
+  const moved = Math.abs(net)<0.05 ? 'unchanged since it was played'
+    : (net>0?'up ':'down ')+Math.abs(net).toFixed(1)+' since it was played';
+  const tip=
+    'HOW TO READ THIS\n'+
+    'The line is what this one game has been worth, re-graded after every week\n'+
+    'since it was played. A game scores 0-100 by where the team finished among\n'+
+    'everyone who played that week, so 100 is the best result of the week.\n\n'+
+    'It moves because the grade depends on what the opponent did next. Beat a\n'+
+    'team that keeps winning and the line rises; beat one that collapses and it\n'+
+    'falls. The last dot is where it stands now.\n\n'+
+    pts.map(p=>'  through wk '+String(p.through).padStart(2)+'   '+p.score.toFixed(1)).join('\n')+
+    '\n\nFirst graded '+first.toFixed(1)+', now '+last.toFixed(1)+' \u2014 '+moved+'.';
   return '<span class="spark" title="'+esc(tip)+'"><span class="lbl">week by week</span>'+
     '<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" aria-hidden="true">'+
     '<path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="1.6" '+
@@ -423,6 +461,20 @@ function renderList(){
   if(g.mode!=='off'&&gated.kept.length<25)
     bits.push(`<b>only ${gated.kept.length} qualify</b> — too little cross-conference play yet for this tier`);
   $('status').innerHTML=bits.join(' · ');
+
+  const fullRank=new Map(rows.map(r=>[r.team,r.rank]));
+  const sAP=ap?agreement(ap.ranks,fullRank):null;
+  const sCO=co?agreement(co.ranks,fullRank):null;
+  const ref=(ap&&co)?agreement(ap.ranks,new Map(co.ranks.map(r=>[r.team,r.rank]))):null;
+  const fact=(v,k,tip)=>`<div class="fact" title="${esc(tip)}"><b>${v}</b><span>${k}</span></div>`;
+  $('pollfacts').innerHTML = (sAP||sCO||ref)
+    ? (sAP?fact(sAP.rho.toFixed(3),'RANK CORRELATION WITH AP',
+        `Spearman over the ${sAP.n} teams the AP ranks. +1 means the two orders agree exactly, 0 means no relation, −1 means they are reversed. Measured against the full ranking, so the victors gate does not move it.`):'')
+      +(sCO?fact(sCO.rho.toFixed(3),'RANK CORRELATION WITH COACHES',
+        `Spearman over the ${sCO.n} teams the Coaches poll ranks.`):'')
+      +(ref?fact(ref.rho.toFixed(3),'AP AGAINST COACHES — HOW MUCH TWO VOTES AGREE',
+        `The same measure applied to the two human polls against each other, over the ${ref.n} teams both rank. It is the yardstick: this is how closely two rooms of voters looking at the same season agree with one another.`):'')
+    : '';
 
   if(!shown.length){
     $('tbl').innerHTML='<tbody><tr><td class="msg">No team has yet beaten anyone inside '+

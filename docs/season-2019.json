@@ -3436,17 +3436,17 @@
    "division": "OTHER"
   },
   {
-   "name": "Oklahoma Panhandle",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
    "name": "Texas Wesleyan",
    "conference": "",
    "division": "OTHER"
   },
   {
    "name": "Phoenix",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Oklahoma Panhandle",
    "conference": "",
    "division": "OTHER"
   },
@@ -17107,7 +17107,7 @@
   {
    "week": 13,
    "poll": "AP Top 25",
-   "throughWeek": 14,
+   "throughWeek": 13,
    "ranks": [
     {
      "rank": 1,
@@ -17214,7 +17214,7 @@
   {
    "week": 13,
    "poll": "Coaches Poll",
-   "throughWeek": 14,
+   "throughWeek": 13,
    "ranks": [
     {
      "rank": 1,
@@ -17749,7 +17749,7 @@
   {
    "week": 16,
    "poll": "AP Top 25",
-   "throughWeek": 17,
+   "throughWeek": 16,
    "ranks": [
     {
      "rank": 1,
@@ -17856,7 +17856,7 @@
   {
    "week": 16,
    "poll": "Coaches Poll",
-   "throughWeek": 17,
+   "throughWeek": 16,
    "ranks": [
     {
      "rank": 1,

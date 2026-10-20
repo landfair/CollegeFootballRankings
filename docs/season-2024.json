@@ -3456,22 +3456,12 @@
    "division": "OTHER"
   },
   {
-   "name": "Warner",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
    "name": "Kentucky Christian",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Dakota State University",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Langston",
+   "name": "Warner",
    "conference": "",
    "division": "OTHER"
   },
@@ -3481,12 +3471,17 @@
    "division": "OTHER"
   },
   {
-   "name": "Simpson (CA)",
+   "name": "Langston",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Mayville State",
+   "name": "Dakota State University",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Simpson (CA)",
    "conference": "",
    "division": "OTHER"
   },
@@ -3496,12 +3491,12 @@
    "division": "OTHER"
   },
   {
-   "name": "Dickinson State University",
+   "name": "Mayville State",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Phoenix",
+   "name": "Dickinson State University",
    "conference": "",
    "division": "OTHER"
   },
@@ -3511,12 +3506,12 @@
    "division": "OTHER"
   },
   {
-   "name": "Saint Francis (IN)",
+   "name": "Phoenix",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Madonna University (Mich.)",
+   "name": "Saint Francis (IN)",
    "conference": "",
    "division": "OTHER"
   },
@@ -3531,12 +3526,17 @@
    "division": "OTHER"
   },
   {
-   "name": "Keiser (Fl)",
+   "name": "Nelson (TX)",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Nelson (TX)",
+   "name": "Madonna University (Mich.)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Keiser (Fl)",
    "conference": "",
    "division": "OTHER"
   },

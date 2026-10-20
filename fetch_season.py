@@ -31,6 +31,7 @@ import argparse
 import datetime as dt
 import json
 import os
+import statistics
 import sys
 import time
 import urllib.error
@@ -300,12 +301,20 @@ def build_polls(raw, through_of):
 
 
 def through_week_map(games):
-    """CFBD week -> the renumbered week that the last of its games landed in."""
-    last = {}
+    """CFBD week -> the renumbered week by which that week's games had been played.
+
+    Uses the median of each week's renumbered weeks rather than the maximum. The
+    feed occasionally files a stray game under the wrong week -- 2025 lists four
+    D2/D3 playoff games played on 13 December as week 1 -- and taking the maximum
+    let a single mis-filed row drag every poll's alignment to the end of the
+    season, so a preseason ballot would be compared against a finished ranking.
+    """
+    buckets = {}
     for g in games:
         c = g.get("_cfbd")
         if c is not None:
-            last[c] = max(last.get(c, 0), g["week"])
+            buckets.setdefault(c, []).append(g["week"])
+    last = {c: statistics.median_low(v) for c, v in buckets.items()}
 
     def through_of(cfbd_week):
         return max([w for c, w in last.items() if c <= cfbd_week] or [0])
@@ -527,6 +536,12 @@ def selftest():
                    [p for p in polls if p["week"] == 1][0]["throughWeek"] == 0))
     checks.append(("week-2 poll maps to the renumbered week holding CFBD week 1",
                    ap2["throughWeek"] == 2))
+    # one row filed under the wrong week must not move anybody's alignment
+    stray = [dict(g) for g in sg2]
+    stray.append({"week": 99, "_cfbd": 1, "home": "X", "away": "Y",
+                  "homePoints": 1, "awayPoints": 0, "_date": dt.date(2026, 12, 13)})
+    checks.append(("one mis-filed game cannot drag the poll alignment",
+                   through_week_map(stray)(1) == through_week_map(sg2)(1)))
     checks.append(("postseason games are not tagged for poll alignment",
                    build_games(FIXTURE_GAMES, dict(st), tag_cfbd=False)[0][0]["_cfbd"]
                    is None))

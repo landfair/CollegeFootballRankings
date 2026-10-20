@@ -3426,7 +3426,7 @@
    "division": "OTHER"
   },
   {
-   "name": "Central Methodist",
+   "name": "Louisiana Christian",
    "conference": "",
    "division": "OTHER"
   },
@@ -3436,7 +3436,7 @@
    "division": "OTHER"
   },
   {
-   "name": "Louisiana Christian",
+   "name": "Central Methodist",
    "conference": "",
    "division": "OTHER"
   },
@@ -3476,12 +3476,12 @@
    "division": "OTHER"
   },
   {
-   "name": "Point University",
+   "name": "Dakota State University",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Dakota State University",
+   "name": "Point University",
    "conference": "",
    "division": "OTHER"
   },
@@ -3511,12 +3511,12 @@
    "division": "OTHER"
   },
   {
-   "name": "Eastern Oregon",
+   "name": "Simpson (CA)",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Simpson (CA)",
+   "name": "Eastern Oregon",
    "conference": "",
    "division": "OTHER"
   },
@@ -29928,7 +29928,7 @@
   {
    "week": 2,
    "poll": "AP Top 25",
-   "throughWeek": 17,
+   "throughWeek": 2,
    "ranks": [
     {
      "rank": 1,
@@ -30035,7 +30035,7 @@
   {
    "week": 2,
    "poll": "Coaches Poll",
-   "throughWeek": 17,
+   "throughWeek": 2,
    "ranks": [
     {
      "rank": 1,
@@ -30142,7 +30142,7 @@
   {
    "week": 3,
    "poll": "AP Top 25",
-   "throughWeek": 17,
+   "throughWeek": 3,
    "ranks": [
     {
      "rank": 1,
@@ -30249,7 +30249,7 @@
   {
    "week": 3,
    "poll": "Coaches Poll",
-   "throughWeek": 17,
+   "throughWeek": 3,
    "ranks": [
     {
      "rank": 1,
@@ -30356,7 +30356,7 @@
   {
    "week": 4,
    "poll": "AP Top 25",
-   "throughWeek": 17,
+   "throughWeek": 4,
    "ranks": [
     {
      "rank": 1,
@@ -30463,7 +30463,7 @@
   {
    "week": 4,
    "poll": "Coaches Poll",
-   "throughWeek": 17,
+   "throughWeek": 4,
    "ranks": [
     {
      "rank": 1,
@@ -30570,7 +30570,7 @@
   {
    "week": 5,
    "poll": "AP Top 25",
-   "throughWeek": 17,
+   "throughWeek": 5,
    "ranks": [
     {
      "rank": 1,
@@ -30677,7 +30677,7 @@
   {
    "week": 5,
    "poll": "Coaches Poll",
-   "throughWeek": 17,
+   "throughWeek": 5,
    "ranks": [
     {
      "rank": 1,
@@ -30784,7 +30784,7 @@
   {
    "week": 6,
    "poll": "AP Top 25",
-   "throughWeek": 17,
+   "throughWeek": 6,
    "ranks": [
     {
      "rank": 1,
@@ -30891,7 +30891,7 @@
   {
    "week": 6,
    "poll": "Coaches Poll",
-   "throughWeek": 17,
+   "throughWeek": 6,
    "ranks": [
     {
      "rank": 1,
@@ -30998,7 +30998,7 @@
   {
    "week": 7,
    "poll": "AP Top 25",
-   "throughWeek": 17,
+   "throughWeek": 7,
    "ranks": [
     {
      "rank": 1,
@@ -31105,7 +31105,7 @@
   {
    "week": 7,
    "poll": "Coaches Poll",
-   "throughWeek": 17,
+   "throughWeek": 7,
    "ranks": [
     {
      "rank": 1,
@@ -31212,7 +31212,7 @@
   {
    "week": 8,
    "poll": "AP Top 25",
-   "throughWeek": 17,
+   "throughWeek": 8,
    "ranks": [
     {
      "rank": 1,
@@ -31319,7 +31319,7 @@
   {
    "week": 8,
    "poll": "Coaches Poll",
-   "throughWeek": 17,
+   "throughWeek": 8,
    "ranks": [
     {
      "rank": 1,
@@ -31426,7 +31426,7 @@
   {
    "week": 9,
    "poll": "AP Top 25",
-   "throughWeek": 17,
+   "throughWeek": 9,
    "ranks": [
     {
      "rank": 1,
@@ -31533,7 +31533,7 @@
   {
    "week": 9,
    "poll": "Coaches Poll",
-   "throughWeek": 17,
+   "throughWeek": 9,
    "ranks": [
     {
      "rank": 1,
@@ -31640,7 +31640,7 @@
   {
    "week": 10,
    "poll": "AP Top 25",
-   "throughWeek": 17,
+   "throughWeek": 10,
    "ranks": [
     {
      "rank": 1,
@@ -31747,7 +31747,7 @@
   {
    "week": 10,
    "poll": "Coaches Poll",
-   "throughWeek": 17,
+   "throughWeek": 10,
    "ranks": [
     {
      "rank": 1,
@@ -31854,7 +31854,7 @@
   {
    "week": 11,
    "poll": "AP Top 25",
-   "throughWeek": 17,
+   "throughWeek": 11,
    "ranks": [
     {
      "rank": 1,
@@ -31961,7 +31961,7 @@
   {
    "week": 11,
    "poll": "Coaches Poll",
-   "throughWeek": 17,
+   "throughWeek": 11,
    "ranks": [
     {
      "rank": 1,
@@ -32068,7 +32068,7 @@
   {
    "week": 12,
    "poll": "AP Top 25",
-   "throughWeek": 17,
+   "throughWeek": 12,
    "ranks": [
     {
      "rank": 1,
@@ -32175,7 +32175,7 @@
   {
    "week": 12,
    "poll": "Coaches Poll",
-   "throughWeek": 17,
+   "throughWeek": 12,
    "ranks": [
     {
      "rank": 1,
@@ -32282,7 +32282,7 @@
   {
    "week": 13,
    "poll": "AP Top 25",
-   "throughWeek": 17,
+   "throughWeek": 13,
    "ranks": [
     {
      "rank": 1,
@@ -32389,7 +32389,7 @@
   {
    "week": 13,
    "poll": "Coaches Poll",
-   "throughWeek": 17,
+   "throughWeek": 13,
    "ranks": [
     {
      "rank": 1,
@@ -32496,7 +32496,7 @@
   {
    "week": 14,
    "poll": "AP Top 25",
-   "throughWeek": 17,
+   "throughWeek": 14,
    "ranks": [
     {
      "rank": 1,
@@ -32603,7 +32603,7 @@
   {
    "week": 14,
    "poll": "Coaches Poll",
-   "throughWeek": 17,
+   "throughWeek": 14,
    "ranks": [
     {
      "rank": 1,
@@ -32710,7 +32710,7 @@
   {
    "week": 15,
    "poll": "AP Top 25",
-   "throughWeek": 17,
+   "throughWeek": 15,
    "ranks": [
     {
      "rank": 1,
@@ -32817,7 +32817,7 @@
   {
    "week": 15,
    "poll": "Coaches Poll",
-   "throughWeek": 17,
+   "throughWeek": 15,
    "ranks": [
     {
      "rank": 1,
@@ -32924,7 +32924,7 @@
   {
    "week": 16,
    "poll": "AP Top 25",
-   "throughWeek": 17,
+   "throughWeek": 16,
    "ranks": [
     {
      "rank": 1,
@@ -33031,7 +33031,7 @@
   {
    "week": 16,
    "poll": "Coaches Poll",
-   "throughWeek": 17,
+   "throughWeek": 16,
    "ranks": [
     {
      "rank": 1,

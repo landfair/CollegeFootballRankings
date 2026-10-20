@@ -3411,17 +3411,12 @@
    "division": "FCS"
   },
   {
-   "name": "Marian (IN)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
    "name": "Kentucky Christian",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "William Woods",
+   "name": "Marian (IN)",
    "conference": "",
    "division": "OTHER"
   },
@@ -3431,12 +3426,12 @@
    "division": "OTHER"
   },
   {
-   "name": "Northwestern (IA)",
+   "name": "William Woods",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Valley City State",
+   "name": "Northwestern (IA)",
    "conference": "",
    "division": "OTHER"
   },
@@ -3446,17 +3441,22 @@
    "division": "OTHER"
   },
   {
+   "name": "Valley City State",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
    "name": "Rocky Mountain",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Georgetown College Kentucky",
+   "name": "Andrew",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Andrew",
+   "name": "Georgetown College Kentucky",
    "conference": "",
    "division": "OTHER"
   },
@@ -3486,12 +3486,12 @@
    "division": "OTHER"
   },
   {
-   "name": "Oklahoma Panhandle",
+   "name": "Central Methodist",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Central Methodist",
+   "name": "Oklahoma Panhandle",
    "conference": "",
    "division": "OTHER"
   },
@@ -3501,12 +3501,12 @@
    "division": "OTHER"
   },
   {
-   "name": "Bethel University Tennessee",
+   "name": "Wayland Baptist",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Wayland Baptist",
+   "name": "Bethel University Tennessee",
    "conference": "",
    "division": "OTHER"
   },

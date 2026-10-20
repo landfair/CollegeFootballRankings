@@ -3436,17 +3436,22 @@
    "division": "FCS"
   },
   {
-   "name": "Reinhardt",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
    "name": "Point University",
    "conference": "",
    "division": "OTHER"
   },
   {
+   "name": "Reinhardt",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
    "name": "Missouri Baptist",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Taylor",
    "conference": "",
    "division": "OTHER"
   },
@@ -3457,11 +3462,6 @@
   },
   {
    "name": "Union College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Taylor",
    "conference": "",
    "division": "OTHER"
   },
