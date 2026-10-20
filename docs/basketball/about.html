@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>About — Recursive Rankings, College Basketball</title>
+<meta name="description" content="How a college basketball ranking built only from wins and losses works, and what it can't do.">
+<style>
+  :root{
+    --bg:#faf9f6; --ink:#1a1a18; --muted:#6b6b63; --rule:#dedcd4; --soft:#edebe4;
+    --mark:#b8860b; --panel:#fff; --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme=light]){
+      --bg:#17171a; --ink:#ecebe6; --muted:#9a998f; --rule:#33332f;
+      --soft:#222226; --mark:#d9a62e; --panel:#1e1e22;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.65 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Helvetica,sans-serif}
+  .wrap{max-width:660px;margin:0 auto;padding:0 16px 72px}
+  header{border-bottom:1px solid var(--rule);margin-bottom:28px}
+  .bar{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;padding:20px 0 14px}
+  h1{font-size:21px;margin:0;letter-spacing:-.01em}
+  nav{margin-left:auto;display:flex;gap:16px}
+  nav a{color:var(--muted);text-decoration:none;font-size:14px}
+  nav a:hover,nav a[aria-current]{color:var(--ink)}
+  h2{font-size:18px;margin:34px 0 10px;letter-spacing:-.01em}
+  h3{font-size:15px;margin:24px 0 6px}
+  p{margin:0 0 14px}
+  ul{margin:0 0 14px;padding-left:22px}
+  li{margin-bottom:7px}
+  .ex{background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--mark);
+    border-radius:0 6px 6px 0;padding:12px 15px;margin:18px 0;font-size:14.5px}
+  .ex b{font-family:var(--mono);font-weight:600}
+  code{font-family:var(--mono);font-size:13.5px;background:var(--soft);padding:1px 5px;border-radius:4px}
+  a{color:var(--mark)}
+  .sport{font:400 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;
+    color:var(--mark);border:1px solid var(--rule);border-radius:4px;padding:3px 6px;
+    vertical-align:middle;margin-left:4px}
+  footer{margin-top:40px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--rule);padding-top:14px}
+  footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="bar">
+    <h1>Recursive Rankings <span class="sport">basketball</span></h1>
+    <nav><a href="./">Rankings</a><a href="about.html" aria-current="page">About</a><a href="../">Football</a></nav>
+  </div>
+</header>
+
+<h2>The problem</h2>
+
+<p>Every team plays about thirty games out of three hundred and sixty-odd possible
+opponents, and almost all of them against the dozen or so teams in its own
+conference. Nobody plays a common schedule. So the raw question — who had the best
+season — has no direct answer. A 28&#8209;4 record in a weak league and a
+24&#8209;8 in a brutal one are not comparable on their face.</p>
+
+<p>The usual solutions all add information from outside the results. The AP and
+Coaches polls start from a preseason ballot written before a single game, and
+voters move teams up and down from there, carrying reputation with them. Most
+computer ratings lean on margin of victory, which rewards running up the score
+and punishes teams that empty the bench in the fourth quarter.</p>
+
+<p>This ranking adds nothing. It knows who played whom and who won. That is all.
+No preseason poll, no margin of victory, no conference prestige, no human vote.</p>
+
+<h2>How it works</h2>
+
+<p>Start with a single game. If Duke beats Kansas, how much is that worth?</p>
+
+<p>On its own, nothing — you cannot tell a good win from a bad one without knowing
+something about Kansas. So the system looks at <em>what Kansas did in the rest of
+its season</em>, with this one game removed so no result is ever counted twice
+against the team that produced it. If Kansas went on to win most of its other
+games, beating Kansas was worth a lot.</p>
+
+<p>But that just moves the question along: how good were the teams Kansas beat?
+So it looks one step further out — the records of Kansas's other opponents, each
+with their own game against Kansas removed. That is the recursion. Your result,
+then your opponent's season, then their opponents' seasons.</p>
+
+<div class="ex">
+<b>Duke beat Kansas</b> — Kansas was 20&#8209;10 in its other games, and those thirty
+opponents were a combined .540 in theirs. Both numbers travel with the win.
+</div>
+
+<p>Every team that played on a given day is then sorted against every other team
+that played that day, using those numbers in order: did you win, then how good
+was your opponent, then how good were theirs. Finishing near the top of a day's
+field scores near 100; near the bottom, near 0. A team's rating is the average of
+its daily scores.</p>
+
+<p>Football buckets by week; basketball has to bucket by <em>day</em>, because teams
+play two or three times a week and the model holds one game per team per bucket.
+Weekly buckets would quietly throw away about 45% of the season. No team has played
+twice in a day in any season here.</p>
+
+<h3>Rankings change in hindsight</h3>
+
+<p>Because a game is graded by what happened afterwards, the value of a November
+result is not settled in November. It shifts every time one of the teams involved
+plays again. A win over a team that then collapses quietly loses value; a win over a
+team that goes on a run gains it. Early-season games get revised the most, because
+the most basketball happens after them.</p>
+
+<p>Move the date slider and you are not just adding games — you are watching the
+whole season get reinterpreted.</p>
+
+<h2>The victors gate</h2>
+
+<p>A pure record-based system has a known weakness: a team can go undefeated
+against opposition that never tested it, and the maths has no way to say so. An
+unbeaten record looks the same whoever produced it.</p>
+
+<p>The gate is a separate check applied after the ranking is computed:
+<strong>to be listed at all, you must have beaten somebody worth beating &mdash; and
+that team must qualify too.</strong> The rule is applied over and over until the set
+stops changing, so nobody holds a place on a win over a team the rule itself rejects.</p>
+
+<p>It tightens as the season fills in, because it needs cross&#8209;conference results
+to work. Early on, teams have mostly played inside their own conference and no chain
+of justification can close; run the rule in September and it returns nobody at all.</p>
+
+<ul>
+  <li><strong>The first fortnight</strong> &mdash; off. Nothing closes that early;
+  run the rule in mid&#8209;November and it returns nobody at all.</li>
+  <li><strong>From about day&nbsp;20</strong> (late November) &mdash; the top 300.</li>
+  <li><strong>From day&nbsp;30</strong> (early December) &mdash; the top 200.</li>
+  <li><strong>From day&nbsp;60</strong> (early January) &mdash; the top 100.</li>
+  <li><strong>From day&nbsp;100</strong> (mid&#8209;February) &mdash; the top 50.</li>
+</ul>
+
+<p>You can override all of this from the control at the top of the rankings, which
+starts on <em>automatic</em>. One pass is a looser version that reads the tier off the
+finished order once without re-checking, and the tier itself can be widened or
+narrowed.</p>
+
+<p>The gate never changes a rating or an order. It only decides who is shown, and
+excluded teams still count as opponents for everyone else. A team can lose its place
+because an opponent slipped, and get it back the week after &mdash; that is the rule
+working, not a glitch.</p>
+
+<h2>What it cannot do</h2>
+
+<p>Being honest about this matters more than the rankings do.</p>
+
+<ul>
+  <li><strong>It is a record of what happened, not a forecast.</strong> The voters'
+  preseason ballot encodes real information — returning players, recruiting,
+  coaching — that this system refuses on principle and pays for early. Through
+  November it knows very little, and says so by ranking almost nobody.</li>
+  <li><strong>Every game counts the same.</strong> A November exhibition against a
+  low&#8209;major is weighed equally with a February road game at a rival, so a team
+  that pads its non&#8209;conference schedule is marked down for it even though the
+  schedule says nothing about how good that team is. This is the system's largest
+  blind spot.</li>
+  <li><strong>No loss ever outranks a win.</strong> Quality of defeat <em>is</em>
+  measured &mdash; a loss to one of the best teams in the country scores far higher
+  than a loss to a bad one, a spread of tens of points. But the result comes first in the ordering, so every win outscores
+  every loss: the best loss of that entire season was worth 49.9 and the worst win
+  50.1. A team with two good losses therefore takes two trips into the bottom half
+  that an unbeaten team with a weak schedule never takes, which is why strong
+  two&#8209;loss teams can finish below weaker unbeaten ones.</li>
+  <li><strong>No home field, no injuries, no weather, no context.</strong></li>
+</ul>
+
+<h2>A note on the data</h2>
+
+<p>Five seasons are here, 2021&#8209;22 through 2025&#8209;26. Each covers the
+regular season and conference tournaments up to Selection Sunday. The NCAA
+tournament itself is not included: this ranks the season that earns a bid, not the
+tournament that follows.</p>
+
+<p>Teams outside Division&nbsp;I appear only as opponents. They are never ranked,
+but beating one still counts — and counts for very little, which is the point.</p>
+
+<h2>Prior work</h2>
+
+<p>Ranking teams from wins and losses alone is a well-worked problem. The
+<a href="https://www.colleyrankings.com/method.html">Colley Matrix</a>, one of the
+computer rankings used by college football's BCS, is built on the same refusal to
+use margin of victory, and the same ideas run through basketball's own RPI and the
+NET. Park and Newman's
+<a href="https://arxiv.org/abs/physics/0505169">network-based ranking</a> (2005)
+counts direct and indirect wins through the season's win graph, much as the levels
+here do. The idea that later results should revise earlier estimates is called
+smoothing, and has been applied to games at least since Glickman (1999) and in
+<a href="https://www.remi-coulom.fr/WHR/WHR.pdf">Whole-History Rating</a> (2008).</p>
+
+<p>What is unusual here is the presentation: keeping every intermediate state of the
+season rather than only the final answer, and the self-consistent gate.</p>
+
+<footer>
+Game results and polls from <a href="https://collegebasketballdata.com">collegebasketballdata.com</a>.
+Everything is recomputed in your browser from the raw results — nothing is precomputed or stored.
+</footer>
+</div>
+</body>
+</html>

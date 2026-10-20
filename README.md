@@ -3,16 +3,31 @@
 College football ranked only by who beat whom — no preseason expectation, no margin
 of victory, no votes. AP and Coaches polls are shown alongside for comparison.
 
+Two sports, one method. Football at the site root, basketball at `/basketball/`.
+
 ## What's here
 
 | Path | What it is |
 |---|---|
-| `docs/` | The public site. Static HTML, no build step, no dependencies. |
-| `docs/index.html` | Rankings, with the AP and Coaches polls alongside. |
+| `docs/engine.js` | The ranking engine, shared by both sports. Verified against the research build: 1,974 comparisons, zero differences. |
+| `docs/index.html` | Football rankings, with the AP and Coaches polls alongside. |
 | `docs/about.html` | How the method works, and what it can't do. |
-| `docs/season-20XX.json` | Game results and polls, one file per season (2014–2026). |
-| `recursive-rankings.html` | The research build — weekly slates, the draft triangle, per-game revision history, poll comparison, backtesting. Open it directly; it loads a season through its own file picker. |
-| `fetch_season.py` | Pulls a season from CollegeFootballData.com and writes the JSON both apps read. |
+| `docs/season-20XX.json` | Football results and polls, one file per season (2014–2026). |
+| `docs/basketball/` | The same, for men's college basketball (2021–22 through 2025–26). |
+| `recursive-rankings.html` | The research build — slates, the draft triangle, per-game revision history, poll comparison, backtesting. Open it directly; it loads a season through its own file picker. |
+| `fetch_season.py` | Pulls a football season from CollegeFootballData.com. |
+| `fetch_basketball.py` | Pulls a basketball season from CollegeBasketballData.com. The same API key works for both. |
+
+## Weeks and days
+
+The engine holds **one game per team per bucket**, and the sports differ in what a
+bucket has to be.
+
+Football buckets by week. Basketball cannot: teams play two or three times a week,
+and 45% of basketball team-weeks hold more than one game, so weekly buckets would
+silently discard nearly half the season. It buckets by **day** instead — no team
+played twice in a day in any season checked. Everything downstream is unchanged; a
+game's `week` field is just a bucket index.
 
 ## The victors gate
 
@@ -34,10 +49,14 @@ teams still count as opponents for everyone else.
 ```sh
 export COLLEGE_FOOTBALL_API_KEY='your-key'   # free at collegefootballdata.com/key
 python3 fetch_season.py --year 2026 --out docs/season-2026.json
+python3 fetch_basketball.py --season 2026 --out docs/basketball/season-2026.json
 ```
 
-About four API calls per run. `python3 fetch_season.py --selftest` verifies the
-transform without a key or a network connection (32 checks).
+A basketball season is named for the year it ends in: 2026 is the 2025–26 season.
+
+About four API calls per football run; basketball pages its games endpoint, which
+caps responses at 3,000 rows. Both have offline self-tests needing no key and no
+network: `--selftest` (34 checks for football, 15 for basketball).
 
 Weeks are renumbered from kickoff dates rather than trusting the feed's own week
 field, which folds Week 0 and Labor Day weekend into a single "week 1" — that would
@@ -60,6 +79,8 @@ drift apart.
 ## Deploying
 
 **GitHub Pages** — Settings → Pages → Source: `main`, folder: `/docs`. Nothing else.
+Both sports are served from the same deployment; the engine is an ES module, so the
+site must be served over http(s) rather than opened as a local file.
 
 **Netlify** — connect the repo; `netlify.toml` already sets `publish = "docs"` with
 no build command. Or drag the `docs/` folder onto app.netlify.com/drop.
