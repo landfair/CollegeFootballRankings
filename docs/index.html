@@ -355,10 +355,17 @@ function agreement(a,b){
     rho:spearman(common.map(r=>r.rank),common.map(r=>b.get(r.team)))};
 }
 
+/* The latest snapshot of this poll that reflects no more football than the
+   chosen week. Ties on throughWeek break to the later ballot, so a feed that
+   stamps two snapshots alike still yields the newer one rather than whichever
+   happens to come first in the file. */
 const pollAt=(season,name,h)=>{
   let best=null;
-  for(const p of season.polls)
-    if(p.poll===name&&p.throughWeek>=1&&p.throughWeek<=h&&(!best||p.throughWeek>best.throughWeek)) best=p;
+  for(const p of season.polls){
+    if(p.poll!==name||p.throughWeek<1||p.throughWeek>h) continue;
+    if(!best||p.throughWeek>best.throughWeek
+       ||(p.throughWeek===best.throughWeek&&p.week>best.week)) best=p;
+  }
   return best;
 };
 
@@ -410,7 +417,11 @@ function sparkHTML(pts){
 let SEASON=null, ENG=null, CACHE=new Map(), VIEW=null;
 async function load(year){
   if(CACHE.has(year)){ ({SEASON,ENG}=CACHE.get(year)); return; }
-  const res=await fetch('season-'+year+'.json');
+  /* Revalidate rather than trust the cached copy. These files are corrected in
+     place when the upstream feed is wrong, and a stale one fails silently — it
+     renders a plausible table built on the wrong poll. An unchanged file still
+     costs only a 304. */
+  const res=await fetch('season-'+year+'.json',{cache:'no-cache'});
   if(!res.ok) throw new Error('could not load season-'+year+'.json ('+res.status+')');
   SEASON=ingest(await res.json());
   ENG=engine(SEASON);
