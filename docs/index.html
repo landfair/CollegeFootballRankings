@@ -52,6 +52,41 @@
   .msg{padding:18px;color:var(--muted);font-size:14px}
   footer{margin-top:28px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--rule);padding-top:14px}
   footer a{color:var(--muted)}
+  /* help */
+  .help{width:21px;height:21px;border-radius:50%;border:1px solid var(--rule);
+    background:var(--panel);color:var(--muted);font:600 12px/1 inherit;cursor:pointer;padding:0}
+  .help:hover,.help[aria-expanded=true]{border-color:var(--mark);color:var(--mark)}
+  .help-panel{background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--mark);
+    border-radius:0 8px 8px 0;padding:14px 18px;margin:0 0 18px;max-width:72ch}
+  .help-panel p{margin:0 0 11px;font-size:14px;line-height:1.6}
+  .help-panel p:last-child{margin:0}
+  .help-panel a{color:var(--mark)}
+  /* clickable teams */
+  .tm{font-weight:600}
+  button.tm{background:none;border:0;padding:0;font:inherit;font-weight:600;
+    color:inherit;cursor:pointer;text-align:left}
+  button.tm:hover{color:var(--mark);text-decoration:underline}
+  /* team page */
+  .back{background:none;border:0;padding:0;font:inherit;font-size:13px;color:var(--muted);cursor:pointer}
+  .back:hover{color:var(--mark)}
+  .thead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:14px 0 4px}
+  .thead h2{font-size:22px;margin:0;letter-spacing:-.01em}
+  .thead .sub{color:var(--muted);font-size:14px}
+  .facts{display:flex;gap:26px;flex-wrap:wrap;margin:14px 0 20px;
+    border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:13px 0}
+  .fact b{display:block;font-family:var(--mono);font-size:21px;font-weight:600;letter-spacing:-.02em}
+  .fact span{font-size:11.5px;color:var(--muted);letter-spacing:.03em}
+  .g{border-bottom:1px solid var(--rule);padding:13px 0}
+  .g:last-child{border-bottom:0}
+  .grow{display:flex;gap:13px;align-items:baseline;flex-wrap:wrap}
+  .gw{font-family:var(--mono);font-size:12.5px;color:var(--muted);min-width:3.4em}
+  .res{font-size:12px;letter-spacing:.05em;text-transform:uppercase;font-weight:600}
+  .res.w{color:var(--win)} .res.l{color:var(--loss)}
+  .gsc{margin-left:auto;font-family:var(--mono);font-size:13px}
+  .spark{display:inline-flex;align-items:center;gap:8px;margin-top:7px}
+  .spark svg{display:block;overflow:visible}
+  .spark .lbl{font-size:11px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+  .spark .val{font-family:var(--mono);font-size:12px;white-space:nowrap;color:var(--muted)}
   @media (max-width:640px){ .cf{display:none} th:nth-child(3),td:nth-child(3){display:none} }
 </style>
 </head>
@@ -74,20 +109,34 @@ no margin of victory, no votes. The AP and Coaches polls are shown alongside for
   <label class="ctl">Through week
     <input type="range" id="wk" min="1" max="8" value="8"><span class="wk" id="wkv">8</span>
   </label>
-  <label class="ctl">Victors gate
-    <select id="gmode">
-      <option value="off">off</option>
-      <option value="one">one pass</option>
-      <option value="stable" selected>self&#8209;consistent</option>
-    </select>
-  </label>
-  <label class="ctl">over top
-    <select id="gn"><option>25</option><option>50</option><option>75</option><option selected>100</option></select>
-  </label>
+  <span class="ctl" id="gatelbl"></span>
+  <button class="help" id="helpbtn" aria-expanded="false" aria-controls="helppanel"
+          title="How this works">?</button>
 </div>
 <p class="status" id="status">Loading…</p>
 
+<div class="help-panel" id="helppanel" hidden>
+  <p><b>What this is.</b> Every game is graded by what happened next: your result,
+  then how your opponent did across the rest of its season with this game removed,
+  then how <i>their</i> opponents did in turn. Teams are ranked within each week,
+  that finish becomes a 0&ndash;100 score, and a team's rating is the average of its
+  weeks. No preseason poll, no margin of victory, no votes.</p>
+  <p><b>Why rankings move backwards.</b> A Week&nbsp;2 win is not settled in
+  Week&nbsp;2. It gains value if the team you beat keeps winning and loses value if
+  they collapse. Drag the week slider and you are watching the season reinterpret
+  itself. Click any team to see each of its games and how their worth has shifted.</p>
+  <p><b>The victors gate.</b> To be listed you must have beaten somebody worth
+  beating, and that team must qualify too &mdash; the rule is applied over and over
+  until the set stops changing. It needs enough cross&#8209;conference play to work,
+  so it stays off until week&nbsp;8 and tightens as the season fills in. It never
+  changes a rating or an order; it only decides who is shown.</p>
+  <p><a href="about.html">Fuller explanation, and what this cannot do &rarr;</a></p>
+</div>
+
+<div id="listview">
 <div class="scroll"><table id="tbl"><tbody><tr><td class="msg">Loading…</td></tr></tbody></table></div>
+</div>
+<div id="teamview" hidden></div>
 
 <footer>Game results and polls from
 <a href="https://collegefootballdata.com">collegefootballdata.com</a>.
@@ -95,7 +144,20 @@ Rankings recomputed in your browser. <a href="about.html">How this works</a>.</f
 </div>
 
 <script>
-const WIN=1,LOSS=0,NEUTRAL=.5,LEVELS=2,SHOW=100,GATE_FROM=8;
+const WIN=1,LOSS=0,NEUTRAL=.5,LEVELS=2,SHOW=100;
+
+/* The gate tightens as the season fills in, because a self-consistent rule needs
+   cross-conference results to close a chain and there are none in September.
+   Worst case over 2014-2025: tier 100 holds 69+ teams from week 10, tier 75 holds
+   39+, tier 50 bottoms out at 10 (2015, week 10). Edit here to change it. */
+const GATE_SCHEDULE=[
+  {from:10,mode:'stable',n:50},
+  {from:8, mode:'stable',n:100},
+  {from:1, mode:'off',   n:100},
+];
+const gateFor=h=>GATE_SCHEDULE.find(g=>h>=g.from);
+const GATE_STARTS=Math.min(...GATE_SCHEDULE.filter(g=>g.mode!=='off').map(g=>g.from));
+
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
@@ -127,42 +189,43 @@ function ingest(raw){
   return {teamInfo,games,polls,maxWeek:Math.max(...games.map(g=>g.week))};
 }
 
-/* Every game is graded by what happened next: your result, then your opponent's
-   record with this game removed, then how those opponents did in turn. Compared
-   lexicographically, ranked within each week, converted to 0-100, averaged. */
-function build(season,horizon){
-  const byWeek=[],gamesOf=new Map();
-  for(let w=0;w<=horizon;w++) byWeek.push(new Map());
+/* Indices are built once per season. Slates are computed per (week, horizon),
+   so the same machinery gives both the current table and a game's whole history:
+   the worth of a week-w result seen from week w, then w+1, then w+2, and so on. */
+function engine(season){
+  const byWeek=new Map(), gamesOf=new Map();
   season.games.forEach((g,i)=>{
-    if(g.week>horizon) return;
-    byWeek[g.week].set(g.winner,{opp:g.loser,res:WIN,id:i});
-    byWeek[g.week].set(g.loser,{opp:g.winner,res:LOSS,id:i});
+    if(!byWeek.has(g.week)) byWeek.set(g.week,new Map());
+    byWeek.get(g.week).set(g.winner,{opp:g.loser,res:WIN,id:i});
+    byWeek.get(g.week).set(g.loser,{opp:g.winner,res:LOSS,id:i});
     for(const [t,o,res] of [[g.winner,g.loser,WIN],[g.loser,g.winner,LOSS]]){
       if(!gamesOf.has(t)) gamesOf.set(t,[]);
       gamesOf.get(t).push({week:g.week,opp:o,res,id:i});
     }
   });
   const memo=new Map();
-  const recordOf=(x,excl)=>{
+  const recordOf=(x,excl,H)=>{
     const gs=gamesOf.get(x); if(!gs) return NEUTRAL;
     let n=0,won=0;
-    for(const g of gs){ if(g.id===excl) continue; n++; if(g.res===WIN) won++; }
+    for(const g of gs){ if(g.week>H||g.id===excl) continue; n++; if(g.res===WIN) won++; }
     return n?won/n:NEUTRAL;
   };
-  const levelVal=(x,excl,k)=>{
-    const key=x+'|'+excl+'|'+k, hit=memo.get(key);
+  const levelVal=(x,excl,k,H)=>{
+    const key=x+'|'+excl+'|'+k+'|'+H, hit=memo.get(key);
     if(hit!==undefined) return hit;
     let out;
-    if(k<=1) out=recordOf(x,excl);
+    if(k<=1) out=recordOf(x,excl,H);
     else{ let s=0,n=0;
-      for(const g of (gamesOf.get(x)||[])){ if(g.id===excl) continue; s+=levelVal(g.opp,g.id,k-1); n++; }
+      for(const g of (gamesOf.get(x)||[])){
+        if(g.week>H||g.id===excl) continue;
+        s+=levelVal(g.opp,g.id,k-1,H); n++; }
       out=n?s/n:NEUTRAL; }
     memo.set(key,out); return out;
   };
-  const bvalue=(t,w)=>{
-    const e=byWeek[w]&&byWeek[w].get(t); if(!e) return null;
+  const bvalue=(t,w,H)=>{
+    const e=byWeek.get(w)&&byWeek.get(w).get(t); if(!e) return null;
     const out=[e.res];
-    for(let k=1;k<=LEVELS;k++) out.push(levelVal(e.opp,e.id,k));
+    for(let k=1;k<=LEVELS;k++) out.push(levelVal(e.opp,e.id,k,H));
     return out;
   };
   const cmp=(a,b)=>{
@@ -174,9 +237,10 @@ function build(season,horizon){
   };
   const pctOf=(n,rank,tied)=> n<2?50:(n-(rank-1)-tied+(tied-1)/2)/(n-1)*100;
   const slateCache=new Map();
-  const slate=w=>{
-    const hit=slateCache.get(w); if(hit) return hit;
-    const rows=[...byWeek[w].keys()].map(t=>({team:t,val:bvalue(t,w)}));
+  const slate=(w,H)=>{
+    const key=w+'|'+H, hit=slateCache.get(key); if(hit) return hit;
+    const wk=byWeek.get(w)||new Map();
+    const rows=[...wk.keys()].map(t=>({team:t,val:bvalue(t,w,H)}));
     rows.sort((a,b)=>cmp(a.val,b.val)||a.team.localeCompare(b.team));
     const buckets=[];
     for(const r of rows){
@@ -187,35 +251,51 @@ function build(season,horizon){
     let rank=1;
     for(const b of buckets){ b.rank=rank; rank+=b.teams.length; }
     const pos=new Map();
-    for(const b of buckets) for(const t of b.teams) pos.set(t,pctOf(rows.length,b.rank,b.teams.length));
-    const out={pos}; slateCache.set(w,out); return out;
+    for(const b of buckets)
+      for(const t of b.teams) pos.set(t,{score:pctOf(rows.length,b.rank,b.teams.length),
+        rank:b.rank,n:rows.length,val:b.val});
+    const out={pos,n:rows.length};
+    slateCache.set(key,out); return out;
   };
+  return {byWeek,gamesOf,slate,games:season.games};
+}
+
+function rank(eng,season,horizon){
   const rows=[];
   for(const [t,info] of season.teamInfo){
     if(info.division!=='FBS') continue;
     const arr=[]; let wins=0,losses=0,pd=0;
     for(let w=1;w<=horizon;w++){
-      const e=byWeek[w].get(t); if(!e) continue;
-      arr.push(slate(w).pos.get(t));
+      const wk=eng.byWeek.get(w); if(!wk) continue;
+      const e=wk.get(t); if(!e) continue;
+      arr.push(eng.slate(w,horizon).pos.get(t).score);
       e.res===WIN?wins++:losses++;
-      pd+=(e.res===WIN?1:-1)*season.games[e.id].margin;
+      pd+=(e.res===WIN?1:-1)*eng.games[e.id].margin;
     }
     if(!arr.length) continue;
     rows.push({team:t,conference:info.conference,wins,losses,pd,games:arr.length,
       key:arr.reduce((s,x)=>s+x,0)/arr.length});
   }
   rows.sort((a,b)=>b.key-a.key||b.pd-a.pd||a.team.localeCompare(b.team));
-  rows.forEach((r,i)=>r.rank=i+1);
-  return {rows,gamesOf};
+  /* Teams level on rating share a rank, so a tie at a tier boundary lets both
+     through the gate rather than only the one sorted first. */
+  let rk=1;
+  rows.forEach((r,i)=>{
+    if(i>0 && Math.abs(r.key-rows[i-1].key)>1e-9) rk=i+1;
+    r.rank=rk;
+  });
+  return rows;
 }
 
-/* To be ranked you must have beaten somebody worth beating. One pass reads the
-   tier off the finished order once. Self-consistent also requires that opponent
-   to qualify, and iterates until the set stops changing. */
-function applyGate(built,mode,N){
-  const rankOf=new Map(built.rows.map(r=>[r.team,r.rank]));
-  const winsOf=t=>(built.gamesOf.get(t)||[]).filter(g=>g.res===WIN).map(g=>g.opp);
-  const all=built.rows.map(r=>{
+/* To be listed you must have beaten somebody worth beating. Self-consistent
+   also requires that opponent to qualify, and iterates until the set settles. */
+function applyGate(eng,rows,mode,N,horizon){
+  const rankOf=new Map(rows.map(r=>[r.team,r.rank]));
+  /* The engine holds the whole season, so wins after the chosen week have to be
+     filtered out here or the gate would judge a team on games not yet played. */
+  const winsOf=t=>(eng.gamesOf.get(t)||[])
+    .filter(g=>g.res===WIN&&g.week<=horizon).map(g=>g.opp);
+  const all=rows.map(r=>{
     let best=Infinity;
     for(const o of winsOf(r.team)){ const k=rankOf.get(o); if(k!=null&&k<best) best=k; }
     return {...r,bestWin:best};
@@ -241,49 +321,90 @@ const pollAt=(season,name,h)=>{
   return best;
 };
 
-let SEASON=null, CACHE=new Map();
+/* A game's worth, seen from every week after it was played. */
+function revision(eng,team,w,horizon){
+  const out=[];
+  for(let H=w;H<=horizon;H++){
+    const p=eng.slate(w,H).pos.get(team);
+    if(p) out.push({through:H,score:p.score});
+  }
+  return out;
+}
+function sparkHTML(pts){
+  if(pts.length<2) return '<span class="val">graded once, no later weeks yet</span>';
+  const W=150,H=32,P=4;
+  const vals=pts.map(p=>p.score);
+  const lo=Math.min(...vals), hi=Math.max(...vals), mid=(lo+hi)/2;
+  const span=Math.max(8,(hi-lo)*1.4), y0=mid-span/2, y1=mid+span/2;
+  const X=i=>P+i*(W-2*P)/(pts.length-1);
+  const Y=v=>H-P-((v-y0)/(y1-y0))*(H-2*P);
+  const net=vals[vals.length-1]-vals[0];
+  const col=net>0.05?'var(--win)':net<-0.05?'var(--loss)':'var(--muted)';
+  const d=pts.map((p,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(p.score).toFixed(1)).join(' ');
+  const dots=pts.map((p,i)=>'<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(p.score).toFixed(1)+
+    '" r="'+(i===pts.length-1?2.6:1.5)+'" fill="'+(i===pts.length-1?col:'var(--muted)')+'"/>').join('');
+  const tip=pts.map(p=>'through wk '+p.through+': '+p.score.toFixed(1)).join('\n');
+  return '<span class="spark" title="'+esc(tip)+'"><span class="lbl">week by week</span>'+
+    '<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" aria-hidden="true">'+
+    '<path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="1.6" '+
+    'stroke-linejoin="round" stroke-linecap="round"/>'+dots+'</svg>'+
+    '<span class="val">'+vals[0].toFixed(1)+' &rarr; '+vals[vals.length-1].toFixed(1)+
+    ' <b style="color:'+col+'">'+(net>0?'+':'')+net.toFixed(1)+'</b></span></span>';
+}
+
+let SEASON=null, ENG=null, CACHE=new Map(), VIEW=null;
 async function load(year){
-  if(CACHE.has(year)){ SEASON=CACHE.get(year); return; }
+  if(CACHE.has(year)){ ({SEASON,ENG}=CACHE.get(year)); return; }
   const res=await fetch('season-'+year+'.json');
   if(!res.ok) throw new Error('could not load season-'+year+'.json ('+res.status+')');
   SEASON=ingest(await res.json());
-  CACHE.set(year,SEASON);
+  ENG=engine(SEASON);
+  CACHE.set(year,{SEASON,ENG});
+}
+
+function current(){
+  const h=+$('wk').value;
+  const g=gateFor(h);
+  const rows=rank(ENG,SEASON,h);
+  return {h,g,rows,gated:applyGate(ENG,rows,g.mode,g.n,h)};
 }
 
 function render(){
   if(!SEASON) return;
-  const h=+$('wk').value;
+  const t=VIEW;
+  if(t) renderTeam(t); else renderList();
+}
+
+function renderList(){
+  $('listview').hidden=false; $('teamview').hidden=true;
+  const {h,g,rows,gated}=current();
   $('wkv').textContent=h;
-  const early=h<GATE_FROM;
-  $('gmode').disabled=early; $('gn').disabled=early;
-  const mode=early?'off':$('gmode').value, N=+$('gn').value;
-  const built=build(SEASON,h);
-  const g=applyGate(built,mode,N);
-  const rows=g.kept.slice(0,SHOW);
+  const shown=gated.kept.slice(0,SHOW);
   const ap=pollAt(SEASON,'AP Top 25',h), co=pollAt(SEASON,'Coaches Poll',h);
   const apR=new Map((ap?ap.ranks:[]).map(r=>[r.team,r.rank]));
   const coR=new Map((co?co.ranks:[]).map(r=>[r.team,r.rank]));
+  $('gatelbl').innerHTML = g.mode==='off'
+    ? 'Victors gate <b>off</b> until week '+GATE_STARTS
+    : 'Victors gate <b>top '+g.n+'</b>, self&#8209;consistent';
 
-  const bits=[`<b>${built.rows.length}</b> teams through week <b>${h}</b>`];
-  if(mode!=='off') bits.push(`gate removed <b>${g.all.length-g.kept.length}</b>`+
-    (mode==='stable'?` in ${g.passes} passes`:''));
-  else if(early) bits.push(`gate off before week ${GATE_FROM}`);
+  const bits=[`<b>${rows.length}</b> teams through week <b>${h}</b>`];
+  if(g.mode!=='off') bits.push(`gate removed <b>${gated.all.length-gated.kept.length}</b> in ${gated.passes} passes`);
   if(ap||co){
     const t=(ap||co).throughWeek;
-    bits.push(t<h?`polls are from week ${t}, one step behind`:`polls reflect the same games`);
+    bits.push(t<h?`polls are from week ${t}, one step behind`:'polls reflect the same games');
   } else bits.push('no poll published this early');
-  if(mode==='stable'&&!g.kept.length)
-    bits.push('<b>nothing qualifies</b> — too little cross-conference play for the chain to close');
   if($('season').value==='2020')
     bits.push('<b>2020 was shortened by the pandemic</b>; some teams played only a handful of games');
+  if(g.mode!=='off'&&gated.kept.length<25)
+    bits.push(`<b>only ${gated.kept.length} qualify</b> — too little cross-conference play yet for this tier`);
   $('status').innerHTML=bits.join(' · ');
 
-  if(!rows.length){
-    $('tbl').innerHTML='<tbody><tr><td class="msg">No teams qualify at this setting. '+
-      'Try a wider tier, one pass, or a later week.</td></tr></tbody>';
+  if(!shown.length){
+    $('tbl').innerHTML='<tbody><tr><td class="msg">No team has yet beaten anyone inside '+
+      'the top '+g.n+' who also qualifies. Move to a later week.</td></tr></tbody>';
     return;
   }
-  const cell=(v)=>v==null?'<td class="num nr">—</td>':`<td class="num">${v}</td>`;
+  const cell=v=>v==null?'<td class="num nr">—</td>':`<td class="num">${v}</td>`;
   const delta=(p,o)=>{
     if(p==null) return '<td class="num nr">—</td>';
     const d=p-o;
@@ -292,9 +413,10 @@ function render(){
   let html='<thead><tr><th class="rk">#</th><th>Team</th><th>Conference</th>'+
     '<th class="num">Rec</th><th class="num">Rating</th><th class="num">Best win</th>'+
     '<th class="num">AP</th><th class="num">Coaches</th><th class="num">vs AP</th></tr></thead><tbody>';
-  for(const r of rows){
+  for(const r of shown){
     const a=apR.get(r.team)??null, c=coR.get(r.team)??null;
-    html+=`<tr><td class="rk">${r.rank}</td><td class="tm">${esc(r.team)}</td>`+
+    html+=`<tr><td class="rk">${r.rank}</td>`+
+      `<td><button class="tm" data-t="${esc(r.team)}">${esc(r.team)}</button></td>`+
       `<td class="cf">${esc(r.conference||'')}</td>`+
       `<td class="num">${r.wins}‑${r.losses}</td>`+
       `<td class="num"><b>${r.key.toFixed(1)}</b></td>`+
@@ -302,7 +424,82 @@ function render(){
       cell(a)+cell(c)+delta(a,r.rank)+'</tr>';
   }
   $('tbl').innerHTML=html+'</tbody>';
+  wire($('tbl'));
 }
+
+function renderTeam(team){
+  const {h,g,rows,gated}=current();
+  $('wkv').textContent=h;
+  $('listview').hidden=true; $('teamview').hidden=false;
+  const me=rows.find(r=>r.team===team);
+  if(!me){
+    $('teamview').innerHTML='<p class="msg"><button class="back" id="back">&larr; All teams</button></p>'+
+      '<p class="msg">'+esc(team)+' has not played through week '+h+'.</p>';
+    $('back').onclick=()=>go(null);
+    return;
+  }
+  const info=SEASON.teamInfo.get(team)||{};
+  const inGate=gated.kept.some(r=>r.team===team);
+  const rankOf=new Map(rows.map(r=>[r.team,r.rank]));
+  const ap=pollAt(SEASON,'AP Top 25',h), co=pollAt(SEASON,'Coaches Poll',h);
+  const apR=ap?new Map(ap.ranks.map(r=>[r.team,r.rank])):new Map();
+  const coR=co?new Map(co.ranks.map(r=>[r.team,r.rank])):new Map();
+  const bw=gated.all.find(r=>r.team===team);
+
+  let html='<p><button class="back" id="back">&larr; All teams</button></p>'+
+    `<div class="thead"><h2>${esc(team)}</h2>`+
+    `<span class="sub">${esc(info.conference||'')}</span></div>`;
+  html+='<div class="facts">'+
+    `<div class="fact"><b>#${me.rank}</b><span>HERE</span></div>`+
+    `<div class="fact"><b>${me.wins}‑${me.losses}</b><span>RECORD</span></div>`+
+    `<div class="fact"><b>${me.key.toFixed(1)}</b><span>RATING</span></div>`+
+    `<div class="fact"><b>${apR.has(team)?'#'+apR.get(team):'NR'}</b><span>AP</span></div>`+
+    `<div class="fact"><b>${coR.has(team)?'#'+coR.get(team):'NR'}</b><span>COACHES</span></div>`+
+    `<div class="fact"><b>${bw&&Number.isFinite(bw.bestWin)?'#'+bw.bestWin:'—'}</b><span>BEST WIN</span></div>`+
+    '</div>';
+  if(g.mode!=='off'&&!inGate)
+    html+='<p class="status">Not listed at this week: the victors gate requires a win over a '+
+      'team inside the top '+g.n+' that also qualifies. Every game below still counts for '+
+      'everyone else.</p>';
+  html+='<div id="games">';
+  for(let w=1;w<=h;w++){
+    const wk=ENG.byWeek.get(w); if(!wk) continue;
+    const e=wk.get(team); if(!e) continue;
+    const p=ENG.slate(w,h).pos.get(team);
+    const oppRank=rankOf.get(e.opp);
+    const others=(ENG.gamesOf.get(e.opp)||[]).filter(x=>x.week<=h&&x.id!==e.id);
+    const ow=others.filter(x=>x.res===WIN).length;
+    html+='<div class="g"><div class="grow">'+
+      `<span class="gw">Week ${w}</span>`+
+      `<span class="res ${e.res===WIN?'w':'l'}">${e.res===WIN?'beat':'lost to'}</span>`+
+      `<button class="tm" data-t="${esc(e.opp)}">${esc(e.opp)}</button>`+
+      `<span class="cf">${oppRank?'#'+oppRank:'unranked'} · ${ow}‑${others.length-ow} in their other games</span>`+
+      `<span class="gsc">${p?p.score.toFixed(1):'—'}</span></div>`+
+      sparkHTML(revision(ENG,team,w,h))+'</div>';
+  }
+  html+='</div>';
+  $('teamview').innerHTML=html;
+  $('back').onclick=()=>go(null);
+  wire($('teamview'));
+  $('status').innerHTML=`Through week <b>${h}</b> · each line is what that game is worth now, `+
+    `and how that has moved since it was played`;
+}
+
+function wire(root){
+  root.querySelectorAll('button.tm').forEach(b=>b.onclick=()=>go(b.dataset.t));
+}
+function go(team){
+  VIEW=team;
+  if(team) location.hash='t='+encodeURIComponent(team);
+  else if(location.hash) location.hash='';
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+window.addEventListener('hashchange',()=>{
+  const m=/^#t=(.+)$/.exec(location.hash);
+  const t=m?decodeURIComponent(m[1]):null;
+  if(t!==VIEW){ VIEW=t; render(); }
+});
 
 async function pick(year){
   $('status').textContent='Loading '+year+'…';
@@ -318,10 +515,15 @@ async function pick(year){
       '<br>Serve this folder over http:// — opening the file directly blocks the data load.</td></tr></tbody>';
   }
 }
-$('season').onchange=e=>pick(e.target.value);
+$('season').onchange=e=>{ VIEW=null; location.hash=''; pick(e.target.value); };
 $('wk').oninput=render;
-$('gmode').onchange=render;
-$('gn').onchange=render;
+$('helpbtn').onclick=()=>{
+  const p=$('helppanel'), open=p.hidden;
+  p.hidden=!open;
+  $('helpbtn').setAttribute('aria-expanded',String(open));
+};
+const m0=/^#t=(.+)$/.exec(location.hash);
+if(m0) VIEW=decodeURIComponent(m0[1]);
 pick($('season').value);
 </script>
 </body>
