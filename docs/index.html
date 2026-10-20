@@ -56,11 +56,21 @@
   .help{width:21px;height:21px;border-radius:50%;border:1px solid var(--rule);
     background:var(--panel);color:var(--muted);font:600 12px/1 inherit;cursor:pointer;padding:0}
   .help:hover,.help[aria-expanded=true]{border-color:var(--mark);color:var(--mark)}
-  .help-panel{background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--mark);
-    border-radius:0 8px 8px 0;padding:14px 18px;margin:0 0 18px;max-width:72ch}
-  .help-panel p{margin:0 0 11px;font-size:14px;line-height:1.6}
-  .help-panel p:last-child{margin:0}
-  .help-panel a{color:var(--mark)}
+  dialog#helpmodal{
+    border:1px solid var(--rule);border-radius:10px;background:var(--panel);color:var(--ink);
+    padding:0;max-width:min(62ch,calc(100vw - 32px));width:100%;
+    box-shadow:0 18px 50px rgba(0,0,0,.22)}
+  dialog#helpmodal::backdrop{background:rgba(20,20,18,.45);backdrop-filter:blur(2px)}
+  .modal-head{display:flex;align-items:center;gap:12px;
+    padding:16px 20px 12px;border-bottom:1px solid var(--rule)}
+  .modal-head h2{font-size:17px;margin:0;letter-spacing:-.01em}
+  .modal-close{margin-left:auto;background:none;border:0;padding:2px 6px;cursor:pointer;
+    font:400 22px/1 inherit;color:var(--muted);border-radius:5px}
+  .modal-close:hover{color:var(--ink);background:var(--soft)}
+  .modal-body{padding:16px 20px 20px;max-height:min(68vh,620px);overflow-y:auto}
+  .modal-body p{margin:0 0 13px;font-size:14px;line-height:1.62}
+  .modal-body p:last-child{margin:0}
+  .modal-body a{color:var(--mark)}
   /* clickable teams */
   .tm{font-weight:600}
   button.tm{background:none;border:0;padding:0;font:inherit;font-weight:600;
@@ -121,12 +131,18 @@ no margin of victory, no votes. The AP and Coaches polls are shown alongside for
     <select id="gn"><option>25</option><option>50</option><option>75</option><option selected>100</option></select>
   </label>
   <span class="ctl" id="gatelbl"></span>
-  <button class="help" id="helpbtn" aria-expanded="false" aria-controls="helppanel"
-          title="How this works">?</button>
+  <button class="help" id="helpbtn" title="How this works"
+          aria-label="How this works">?</button>
 </div>
 <p class="status" id="status">Loading…</p>
 
-<div class="help-panel" id="helppanel" hidden>
+
+<dialog id="helpmodal" aria-labelledby="helptitle">
+  <div class="modal-head">
+    <h2 id="helptitle">How this works</h2>
+    <button class="modal-close" id="helpclose" aria-label="Close">&times;</button>
+  </div>
+  <div class="modal-body">
   <p><b>What this is.</b> Every game is graded by what happened next: your result,
   then how your opponent did across the rest of its season with this game removed,
   then how <i>their</i> opponents did in turn. Teams are ranked within each week,
@@ -144,7 +160,8 @@ no margin of victory, no votes. The AP and Coaches polls are shown alongside for
   so it stays off until week&nbsp;8 and tightens as the season fills in. It never
   changes a rating or an order; it only decides who is shown.</p>
   <p><a href="about.html">Fuller explanation, and what this cannot do &rarr;</a></p>
-</div>
+  </div>
+</dialog>
 
 <div id="listview">
 <div class="facts" id="pollfacts"></div>
@@ -607,11 +624,12 @@ $('season').onchange=e=>{ VIEW=null; location.hash=''; pick(e.target.value); };
 $('wk').oninput=render;
 $('gmode').onchange=render;
 $('gn').onchange=render;
-$('helpbtn').onclick=()=>{
-  const p=$('helppanel'), open=p.hidden;
-  p.hidden=!open;
-  $('helpbtn').setAttribute('aria-expanded',String(open));
-};
+/* A dialog rather than an inline panel: Escape and focus handling come free,
+   and opening it no longer pushes the table down the page. */
+const helpModal=$('helpmodal');
+$('helpbtn').onclick=()=>helpModal.showModal();
+$('helpclose').onclick=()=>helpModal.close();
+helpModal.onclick=e=>{ if(e.target===helpModal) helpModal.close(); };
 const m0=/^#t=(.+)$/.exec(location.hash);
 if(m0) VIEW=decodeURIComponent(m0[1]);
 pick($('season').value);
