@@ -1,0 +1,18 @@
+# Claude Code local settings — contains the CollegeFootballData API key.
+# Never commit this.
+.claude/
+
+# The published season data lives in docs/. These root-level copies are kept
+# locally for the research build's file picker but are not the source of truth,
+# so they stay out of the repo to avoid the two drifting apart.
+/season-2024.json
+/season-2025.json
+/season-2026.json
+/season.json
+
+# scratch
+*.bak
+*.prepatch.json
+*.prev.json
+__pycache__/
+.DS_Store

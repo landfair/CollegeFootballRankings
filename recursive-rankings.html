@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recursive Rankings</title>
+<style>
+  :root{
+    --paper:#eceee7;
+    --panel:#f7f8f4;
+    --rule:#d3d7cc;
+    --rule-soft:#e1e4dc;
+    --ink:#1c221e;
+    --muted:#6b7368;
+    --win:#1f5d3a;
+    --loss:#a8452b;
+    --dim:#9aa294;
+    --mark:#c98a1f;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, "Cascadia Mono", Menlo, Consolas, monospace;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  :focus-visible{outline:2px solid var(--mark);outline-offset:2px}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 24px 80px}
+
+  /* ---------- masthead ---------- */
+  .mast{padding:36px 0 20px;border-bottom:1px solid var(--rule)}
+  .mast h1{
+    font-family:var(--mono);
+    font-size:clamp(26px,4.4vw,44px);
+    font-weight:600;
+    letter-spacing:-0.035em;
+    margin:0 0 6px;
+    line-height:1.05;
+  }
+  .mast p{margin:0;max-width:64ch;color:var(--muted);font-size:14.5px}
+  .status{
+    margin-top:14px;font-family:var(--mono);font-size:12.5px;
+    color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 18px;
+  }
+  .status b{color:var(--ink);font-weight:600}
+
+  /* ---------- horizon control ---------- */
+  .horizon{
+    display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+    padding:14px 0;border-bottom:1px solid var(--rule);
+  }
+  .horizon label{font-size:13.5px;color:var(--muted);white-space:nowrap}
+  .horizon input[type=range]{flex:1;min-width:180px;accent-color:var(--mark)}
+  .horizon .val{font-family:var(--mono);font-size:20px;font-weight:600;min-width:2.2ch;text-align:right}
+
+  /* ---------- revision sparkline ---------- */
+  .revision{display:inline-flex;align-items:center;gap:9px}
+  .revision svg{display:block;overflow:visible}
+  .revlab{font-size:11.5px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+
+  /* ---------- tabs ---------- */
+  nav.tabs{display:flex;gap:2px;margin:0 0 22px;border-bottom:1px solid var(--rule);flex-wrap:wrap}
+  nav.tabs button{
+    font-family:var(--sans);font-size:14px;background:none;border:0;
+    border-bottom:2px solid transparent;padding:12px 14px;cursor:pointer;
+    color:var(--muted);margin-bottom:-1px;
+  }
+  nav.tabs button:hover{color:var(--ink)}
+  nav.tabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--mark);font-weight:600}
+
+  .view{display:none}
+  .view.on{display:block}
+
+  /* ---------- generic ---------- */
+  h2{font-family:var(--mono);font-size:17px;font-weight:600;letter-spacing:-0.02em;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:13.5px;margin:0 0 16px;max-width:70ch}
+  .cols{display:grid;grid-template-columns:minmax(300px,380px) 1fr;gap:34px;align-items:start}
+  @media(max-width:900px){.cols{grid-template-columns:1fr}}
+
+  button.btn{
+    font-family:var(--sans);font-size:13.5px;background:var(--panel);
+    border:1px solid var(--rule);color:var(--ink);padding:7px 13px;
+    border-radius:3px;cursor:pointer;
+  }
+  button.btn:hover{border-color:var(--muted)}
+  button.btn[aria-pressed=true]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  select,input[type=text],textarea{
+    font-family:var(--mono);font-size:13px;background:var(--panel);
+    border:1px solid var(--rule);color:var(--ink);padding:7px 9px;border-radius:3px;
+  }
+  textarea{width:100%;min-height:130px;line-height:1.5;resize:vertical}
+
+  /* ---------- triangle ---------- */
+  .tri-scroll{overflow-x:auto;border:1px solid var(--rule);background:var(--panel);padding:12px;border-radius:3px}
+  table.tri{border-collapse:collapse;font-family:var(--mono);font-size:11px}
+  table.tri th{font-weight:500;color:var(--muted);padding:2px 5px;text-align:center;font-size:10.5px}
+  table.tri th.rowh{text-align:right;padding-right:8px}
+  table.tri td{padding:0}
+  .cell{
+    width:22px;height:22px;border:1px solid var(--rule-soft);background:var(--paper);
+    cursor:pointer;display:block;padding:0;border-radius:2px;
+  }
+  .cell:hover{border-color:var(--muted)}
+  .cell.final{background:#dfe3d9}
+  .cell.sel{background:var(--mark);border-color:#a2701a}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--muted);align-items:center}
+  .swatch{display:inline-block;width:11px;height:11px;border-radius:2px;vertical-align:-1px;margin-right:5px;border:1px solid var(--rule)}
+
+  /* ---------- bits ---------- */
+  .bits{display:inline-flex;gap:2px;vertical-align:-2px}
+  .bit{width:9px;height:14px;border-radius:1.5px}
+  .bit.w{background:var(--win)}
+  .bit.l{background:var(--loss)}
+  .bit.n{background:transparent;border:1px dashed var(--dim)}
+
+  /* ---------- tables ---------- */
+  .tbl-scroll{overflow-x:auto}
+  table.data{border-collapse:collapse;width:100%;font-size:13.5px}
+  table.data th{
+    text-align:left;font-weight:600;font-size:12px;color:var(--muted);
+    padding:7px 10px;border-bottom:1px solid var(--rule);position:sticky;top:0;background:var(--paper);
+  }
+  table.data td{padding:7px 10px;border-bottom:1px solid var(--rule-soft);vertical-align:middle}
+  table.data tr:hover td{background:var(--panel)}
+  td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+  td.rank{font-family:var(--mono);color:var(--muted);width:1%;white-space:nowrap}
+  .tname{background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-align:left;border-bottom:1px solid transparent}
+  .tname:hover{border-bottom-color:var(--mark)}
+  .tag{font-family:var(--mono);font-size:11px;color:var(--muted);border:1px solid var(--rule);padding:0 5px;border-radius:2px;margin-left:7px}
+  .W{color:var(--win);font-weight:600}
+  .L{color:var(--loss);font-weight:600}
+
+  .bignum{font-family:var(--mono);font-size:30px;font-weight:600;letter-spacing:-0.03em;line-height:1.1}
+  .facts{display:flex;gap:28px;flex-wrap:wrap;margin:0 0 18px;padding:12px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+  .fact .k{font-size:12px;color:var(--muted)}
+
+  .chain{font-family:var(--mono);font-size:12.5px;color:var(--muted);line-height:1.75}
+  .chain b{color:var(--ink);font-weight:600}
+  .note{background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--mark);padding:12px 14px;border-radius:3px;font-size:13.5px;margin:16px 0}
+  .note p{margin:0 0 8px}
+  .note p:last-child{margin:0}
+  pre.spec{background:var(--panel);border:1px solid var(--rule);padding:12px;border-radius:3px;overflow-x:auto;font-family:var(--mono);font-size:12px;line-height:1.6;margin:10px 0}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
+  .msg{font-family:var(--mono);font-size:12.5px;padding:8px 0}
+  .msg.err{color:var(--loss)}
+  .msg.ok{color:var(--win)}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="mast">
+  <h1>Recursive rankings</h1>
+  <p>Every game is graded by what happened next. A Week&nbsp;1 result is scored by how your opponent did in Week&nbsp;2, which is scored by how <em>their</em> opponent did in Week&nbsp;3, and so on to the end of the season. Nothing is assumed. No preseason poll, no margin of victory, no human vote — only results, read backward from the last week played.</p>
+  <div class="status" id="status"></div>
+</header>
+
+<div class="horizon">
+  <label for="hz">Season through week</label>
+  <input type="range" id="hz" min="1" max="13" value="13">
+  <span class="val" id="hzval">13</span>
+  <button class="btn" id="hzplay">Play season</button>
+</div>
+
+<nav class="tabs" role="tablist">
+  <button role="tab" id="t-slates" aria-selected="true">Slates</button>
+  <button role="tab" id="t-national" aria-selected="false">National</button>
+  <button role="tab" id="t-team" aria-selected="false">Team</button>
+  <button role="tab" id="t-polls" aria-selected="false">Polls</button>
+  <button role="tab" id="t-backtest" aria-selected="false">Backtest</button>
+  <button role="tab" id="t-cost" aria-selected="false">Cost</button>
+  <button role="tab" id="t-data" aria-selected="false">Data</button>
+</nav>
+
+<!-- ================= SLATES ================= -->
+<section class="view on" id="v-slates">
+  <div class="cols">
+    <div>
+      <h2>How a game gets graded</h2>
+      <div class="row">
+        <button class="btn" id="m-chain" aria-pressed="false">Follow one chain</button>
+        <button class="btn" id="m-breadth" aria-pressed="true">Weigh every opponent</button>
+      </div>
+      <div class="row" id="levelrow" style="display:flex">
+        <label for="levels" style="font-size:13px;color:var(--muted)">Levels out</label>
+        <select id="levels"><option>1</option><option selected>2</option><option>3</option></select>
+      </div>
+      <p class="sub" id="modenote"></p>
+
+      <h2 style="margin-top:22px">The triangle</h2>
+      <p class="sub">Rows are slates of games. Columns are drafts. Week&nbsp;1 gets revised the most because it sits farthest from the anchor; the last week played is graded once and never revised. Pick a cell.</p>
+      <div class="tri-scroll" id="tri"></div>
+      <div class="legend">
+        <span><span class="swatch" style="background:#dfe3d9"></span>final draft for that week</span>
+        <span><span class="swatch" style="background:var(--mark);border-color:#a2701a"></span>showing now</span>
+      </div>
+      <div class="row">
+        <button class="btn" id="draftplay">Play drafts for this week</button>
+      </div>
+      <div class="note" id="refinenote"></div>
+    </div>
+    <div>
+      <h2 id="slate-h">Week 1, draft 1</h2>
+      <p class="sub" id="slate-sub"></p>
+      <div class="facts" id="slate-facts"></div>
+      <div class="tbl-scroll"><table class="data" id="slate-tbl"></table></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= NATIONAL ================= -->
+<section class="view" id="v-national">
+  <h2>National ranking</h2>
+  <p class="sub">The slates rank teams <em>within</em> a week. To get one national order, each team's weekly slate finish is converted to a 0–100 score and combined across the season.</p>
+  <div class="row">
+    <button class="btn" id="agg-sum" aria-pressed="true">Sum</button>
+    <button class="btn" id="agg-avg" aria-pressed="false">Average</button>
+    <label style="font-size:13px;color:var(--muted);margin-left:8px">
+      <input type="checkbox" id="fbsonly" checked> Top division only
+    </label>
+    <label style="font-size:13px;color:var(--muted);margin-left:8px">Victors gate
+      <select id="gatemode">
+        <option value="off" selected>off</option>
+        <option value="one">one pass</option>
+        <option value="stable">self&#8209;consistent</option>
+      </select></label>
+    <label style="font-size:13px;color:var(--muted)">over top
+      <select id="gaten"><option>25</option><option selected>50</option><option>75</option><option>100</option></select></label>
+  </div>
+  <div class="note" id="agg-note"></div>
+  <div class="facts" id="nat-facts"></div>
+  <div class="tbl-scroll"><table class="data" id="nat-tbl"></table></div>
+</section>
+
+<!-- ================= POLLS ================= -->
+<section class="view" id="v-polls">
+  <h2>Against the human polls</h2>
+  <p class="sub">This is the ranking, in its own order, with the voters alongside. The AP and Coaches polls carry preseason expectation, reputation, margin of victory and the eye test — none of which this system can see, so every disagreement is a place one of them knows something the other does not. Top&#8209;division only, and the poll shown is always the one published off the same games the slider is showing.</p>
+  <div class="row">
+    <button class="btn" id="p-sum" aria-pressed="true">Sum</button>
+    <button class="btn" id="p-avg" aria-pressed="false">Average</button>
+    <label style="font-size:13px;color:var(--muted);margin-left:8px">Victors gate
+      <select id="p-gatemode">
+        <option value="off" selected>off</option>
+        <option value="one">one pass</option>
+        <option value="stable">self&#8209;consistent</option>
+      </select></label>
+    <label style="font-size:13px;color:var(--muted)">over top
+      <select id="p-gaten"><option>25</option><option selected>50</option><option>75</option><option>100</option></select></label>
+  </div>
+  <div class="note" id="poll-note"></div>
+  <div class="facts" id="poll-facts"></div>
+  <div class="tbl-scroll"><table class="data" id="poll-tbl"></table></div>
+  <div id="poll-extra"></div>
+</section>
+
+<!-- ================= TEAM ================= -->
+<section class="view" id="v-team">
+  <h2>Team detail</h2>
+  <p class="sub" id="team-sub"></p>
+  <div class="row">
+    <select id="teamsel"></select>
+  </div>
+  <div class="facts" id="team-facts"></div>
+  <div id="team-body"></div>
+</section>
+
+<!-- ================= BACKTEST ================= -->
+<section class="view" id="v-backtest">
+  <h2>Does the ranking predict games it hasn't seen?</h2>
+  <p class="sub">Rank every team using weeks 1 through N, then look at week N+1 and check whether the higher-ranked team actually won. Repeat for every week of the season. This owes nothing to anyone's opinion — it asks only whether the ordering carries real information about what happens next.</p>
+  <div class="row">
+    <label for="bt-start" style="font-size:13px;color:var(--muted)">Start predicting after week</label>
+    <select id="bt-start"><option>3</option><option selected>4</option><option>5</option><option>6</option></select>
+    <label for="bt-end" style="font-size:13px;color:var(--muted)">and stop after week</label>
+    <input type="number" id="bt-end" min="2" style="width:5.5em">
+    <button class="btn" id="bt-run">Run backtest</button>
+  </div>
+  <div class="msg" id="bt-msg"></div>
+  <div class="tbl-scroll"><table class="data" id="bt-tbl"></table></div>
+  <div id="bt-detail"></div>
+  <div class="note">
+    <p>Coin flip is 50%. Home advantage alone is usually around 60%. A ranking that is doing real work should beat both, and should beat plain win percentage — otherwise the recursion is not earning its complexity.</p>
+    <p>Games where either team is unranked, or where the two are exactly tied, are skipped rather than guessed.</p>
+    <p>The significance column compares each method against plain win percentage on the games they both predicted. Only disagreements count: if two methods pick the same winner, that game tells you nothing about which is better. A gap can look large in the totals and still be noise.</p>
+  </div>
+</section>
+
+<!-- ================= COST ================= -->
+<section class="view" id="v-cost">
+  <h2>What did it cost to be this good?</h2>
+  <p class="sub" id="cost-sub">Estimated roster budgets — mostly NIL and revenue-share spend to assemble the current roster — set against each team's national ranking score. Budgets are published as ranges; the midpoint is used for the per-point figure. Coverage is limited to the schools estimates exist for.</p>
+  <div class="row">
+    <button class="btn" id="cost-sum" aria-pressed="true">Sum</button>
+    <button class="btn" id="cost-avg" aria-pressed="false">Average</button>
+    <label style="font-size:13px;color:var(--muted);margin-left:8px">
+      <input type="checkbox" id="cost-sort-eff" > Sort by $ / point
+    </label>
+  </div>
+  <div class="facts" id="cost-facts"></div>
+  <div class="tbl-scroll"><table class="data" id="cost-tbl"></table></div>
+  <div class="note">
+    <p><b>Source.</b> Budget figures are estimates of total roster cost (NIL collective plus revenue share, where applicable) gathered from public reporting, not official disclosures — treat the ranges as ballpark, not audited.</p>
+    <p><b>$ / point</b> divides the budget midpoint by the team's national score for the selected aggregation, so a lower number means more ranking value per dollar. It says nothing about causation — a team's rating already reflects last season's actual results, which spending helped produce, but plenty else did too.</p>
+  </div>
+</section>
+
+<!-- ================= DATA ================= -->
+<section class="view" id="v-data">
+  <h2>Season data</h2>
+  <p class="sub">The app is running on a generated season so you can smell-test the output. Replace it with real results in any of the three ways below.</p>
+
+  <div class="row">
+    <button class="btn" id="regen">Generate a new season</button>
+    <input type="file" id="file" accept=".json,application/json">
+  </div>
+
+  <div class="row" style="width:100%">
+    <input type="text" id="url" placeholder="https://…/season.json" style="flex:1;min-width:240px">
+    <button class="btn" id="fetchbtn">Fetch and load</button>
+  </div>
+
+  <textarea id="paste" placeholder='Paste season JSON here'></textarea>
+  <div class="row"><button class="btn" id="loadpaste">Load pasted JSON</button></div>
+  <div class="msg" id="datamsg"></div>
+
+  <h2 style="margin-top:28px">Format for your loader script</h2>
+  <p class="sub">This is the contract. Have your script emit exactly this and the app will pick it up. <code>teams</code> is optional — anything appearing in a game is registered automatically.</p>
+  <pre class="spec">{
+  "teams": [
+    { "name": "Alabama", "conference": "SEC",      "division": "FBS" },
+    { "name": "Mercer",  "conference": "Southern", "division": "FCS" }
+  ],
+  "games": [
+    { "week": 1, "home": "Alabama", "away": "Mercer",
+      "homePoints": 48, "awayPoints": 10 }
+  ]
+}</pre>
+  <p class="sub">A game may instead be written <code>{"week":1,"winner":"Alabama","loser":"Mercer"}</code>. Scores decide who won; point differential is used only to break ties in the national ranking. Games with equal scores, missing scores, or a team playing twice in one week are skipped and reported below.</p>
+
+  <h2 style="margin-top:28px">Division handling</h2>
+  <p class="sub">How games involving lower-division teams enter the math. The National tab separately controls whether they appear in the table.</p>
+  <div class="row">
+    <button class="btn" id="d-all" aria-pressed="true">Count every game</button>
+    <button class="btn" id="d-cross" aria-pressed="false">Only their games against the top division</button>
+    <button class="btn" id="d-none" aria-pressed="false">Drop them entirely</button>
+  </div>
+  <p class="sub" id="divnote"></p>
+
+  <h2 style="margin-top:28px">Connectivity</h2>
+  <p class="sub">The ranking compares teams through the games that link them. Where two groups barely play each other, the system cannot tell that one is stronger — it can only see how teams did inside their own group. Low numbers here mean the corresponding ranking should be read with suspicion.</p>
+  <div id="conn"></div>
+
+  <h2 style="margin-top:28px">Known limits</h2>
+  <div class="note">
+    <p><b>Weak groups get flattered.</b> In testing on generated seasons, teams in the weakest conference finished about 26 places higher than they deserved and the strongest conference about 19 places lower. The bias shrinks as non-conference play rises, which is the same connectivity effect measured above.</p>
+    <p><b>Easy opponents pay.</b> Teams that scheduled two lower-division opponents gained roughly 15 places. Two separate causes: the win itself counts nearly in full, and a lower-division team's record looks strong because it was earned against other lower-division teams. The division options above address the second; nothing in a pure win-loss system addresses the first.</p>
+    <p><b>Nothing here is a scoring bug.</b> Every game is one indistinguishable bit, so the only evidence about the gap between two groups is the count of games between them, and there is rarely enough. Margin of victory is the standard remedy, at the cost of the purity this system was built for.</p>
+  </div>
+  <div class="note">
+    <p><b>Byes — skip forward.</b> If the next team in a chain is idle that week, the chain advances to their next actual game rather than breaking. Every bit stays a real result.</p>
+    <p><b>Chains that run out.</b> A team whose season ends mid-chain contributes a neutral mark, which sorts between a win and a loss. It neither rewards nor punishes.</p>
+    <p><b>Ties are permanent.</b> Two chains that merge onto the same team share every remaining bit. If they were tied when they merged, no further draft separates them. The app reports how many teams are still tied.</p>
+    <p><b>Sum vs average</b> is the one place games-played is priced. Sum rewards playing more, which matches the instinct that a bye shouldn't be free. Average normalizes it. Both are one click apart.</p>
+  </div>
+</section>
+
+</div>
+<script>
+"use strict";
+/* =======================================================================
+   ENGINE
+   value(team, week, draft) = [result of team's week-w game,
+                               ...value(opponent, opponent's next game week, draft-1)]
+   Compared lexicographically, higher first. WIN=1, LOSS=0, NEUTRAL=0.5.
+   ===================================================================== */
+const WIN=1, LOSS=0, NEUTRAL=0.5;
+
+const S = {
+  teamInfo:new Map(),   // name -> {name, conference, division, truth}
+  games:[],             // {week, winner, loser}
+  maxWeek:1,
+  synthetic:true,
+  skipped:[]
+};
+
+/* Estimated roster-build budgets ($M), team name matched to teamInfo keys.
+   Ranges are published estimates; lo/hi in millions of dollars. */
+const BUDGETS = [
+  {"team":"Ohio State","lo":49,"hi":54},{"team":"Oregon","lo":48,"hi":54},
+  {"team":"Texas","lo":45,"hi":55},{"team":"LSU","lo":47,"hi":50},
+  {"team":"Texas A&M","lo":45,"hi":50},{"team":"Miami","lo":44,"hi":50},
+  {"team":"Notre Dame","lo":41,"hi":48},{"team":"Ole Miss","lo":39,"hi":45},
+  {"team":"Tennessee","lo":41,"hi":43},{"team":"Alabama","lo":38,"hi":42},
+  {"team":"Texas Tech","lo":38,"hi":42},{"team":"USC","lo":37,"hi":40},
+  {"team":"Indiana","lo":36,"hi":40},{"team":"Michigan","lo":36,"hi":40},
+  {"team":"Florida","lo":31,"hi":41},{"team":"South Carolina","lo":32,"hi":35},
+  {"team":"Auburn","lo":31,"hi":35},{"team":"Nebraska","lo":31,"hi":35},
+  {"team":"Georgia","lo":31,"hi":34},{"team":"Oklahoma","lo":28,"hi":34},
+  {"team":"Clemson","lo":29,"hi":32},{"team":"Penn State","lo":29,"hi":32},
+  {"team":"Wisconsin","lo":27,"hi":31},{"team":"Missouri","lo":27,"hi":30},
+  {"team":"UCLA","lo":26,"hi":30},{"team":"Mississippi State","lo":25,"hi":30},
+  {"team":"Virginia Tech","lo":25,"hi":30},{"team":"Florida State","lo":23,"hi":30},
+  {"team":"Vanderbilt","lo":25,"hi":28},{"team":"Georgia Tech","lo":23,"hi":26},
+  {"team":"Kentucky","lo":23,"hi":26},{"team":"NC State","lo":22,"hi":26},
+  {"team":"Arkansas","lo":22,"hi":25},{"team":"Louisville","lo":22,"hi":25},
+  {"team":"TCU","lo":22,"hi":25},{"team":"Maryland","lo":21,"hi":25},
+  {"team":"Michigan State","lo":21,"hi":25},{"team":"Northwestern","lo":21,"hi":25},
+  {"team":"Washington","lo":21,"hi":25},{"team":"BYU","lo":20,"hi":25},
+  {"team":"North Carolina","lo":20,"hi":25},{"team":"California","lo":20,"hi":24},
+  {"team":"Virginia","lo":20,"hi":24},{"team":"SMU","lo":21,"hi":23},
+  {"team":"Baylor","lo":20,"hi":23},{"team":"Rutgers","lo":20,"hi":23},
+  {"team":"Arizona State","lo":19,"hi":23},{"team":"Illinois","lo":19,"hi":23},
+  {"team":"Kansas State","lo":19,"hi":22},{"team":"Minnesota","lo":18,"hi":22},
+  {"team":"Utah","lo":18,"hi":22},{"team":"West Virginia","lo":18,"hi":22},
+  {"team":"Syracuse","lo":17,"hi":22},{"team":"Colorado","lo":18,"hi":21},
+  {"team":"Iowa","lo":17,"hi":21},{"team":"Pittsburgh","lo":16,"hi":20},
+  {"team":"Purdue","lo":16,"hi":20},{"team":"Stanford","lo":16,"hi":20},
+  {"team":"Wake Forest","lo":16,"hi":20},{"team":"UCF","lo":15,"hi":20},
+  {"team":"Houston","lo":15,"hi":19},{"team":"Oklahoma State","lo":15,"hi":19},
+  {"team":"Kansas","lo":15,"hi":17},{"team":"Arizona","lo":13,"hi":18},
+  {"team":"Iowa State","lo":13,"hi":17},{"team":"Cincinnati","lo":14,"hi":16},
+  {"team":"Duke","lo":12,"hi":15},{"team":"Boston College","lo":8,"hi":13}
+];
+const budgetOf = new Map(BUDGETS.map(b=>[b.team,b]));
+
+let horizon = 1;        // data visible through this week
+let byWeek = [];        // byWeek[w] = Map(team -> {opp,res,id})
+let weeksOf = new Map();// team -> sorted array of weeks played (<= horizon)
+let gamesOf = new Map();// team -> [{week,opp,res,id}]
+let memo = new Map();   // chain-mode memo
+let bmemo = new Map();  // breadth-mode memo
+let MODE = 'breadth';  // 'chain' | 'breadth'
+let LEVELS = 2;         // breadth depth
+let divMode = 'all';    // 'all' | 'crossover' | 'exclude'
+
+function divOf(t){ const i=S.teamInfo.get(t); return (i&&i.division)||'FBS'; }
+function gameAllowed(g){
+  if(divMode==='all') return true;
+  const a=divOf(g.winner)==='FBS', b=divOf(g.loser)==='FBS';
+  if(divMode==='exclude') return a&&b;
+  return a||b;                        // crossover: keep games touching the top division
+}
+
+function rebuild(){
+  memo.clear(); bmemo.clear();
+  byWeek = Array.from({length:horizon+1},()=>new Map());
+  weeksOf = new Map(); gamesOf = new Map();
+  const add=(t,rec)=>{ if(!gamesOf.has(t)) gamesOf.set(t,[]); gamesOf.get(t).push(rec); };
+  S.games.forEach((g,i)=>{
+    if(g.week>horizon || !gameAllowed(g)) return;
+    byWeek[g.week].set(g.winner,{opp:g.loser ,res:WIN ,id:i});
+    byWeek[g.week].set(g.loser ,{opp:g.winner,res:LOSS,id:i});
+    add(g.winner,{week:g.week,opp:g.loser ,res:WIN ,id:i});
+    add(g.loser ,{week:g.week,opp:g.winner,res:LOSS,id:i});
+  });
+  for(let w=1;w<=horizon;w++)
+    for(const t of byWeek[w].keys()){
+      if(!weeksOf.has(t)) weeksOf.set(t,[]);
+      weeksOf.get(t).push(w);
+    }
+  slateCache.clear(); scoreCache=null;
+}
+
+function nextWeekOf(team,after){
+  const ws = weeksOf.get(team); if(!ws) return null;
+  for(const w of ws) if(w>after) return w;
+  return null;
+}
+
+function value(team,week,draft){
+  const k = team+"|"+week+"|"+draft;
+  const hit = memo.get(k); if(hit) return hit;
+  const e = byWeek[week] && byWeek[week].get(team);
+  if(!e) return null;
+  let out;
+  if(draft<=1) out=[e.res];
+  else{
+    const nw = nextWeekOf(e.opp,week);
+    if(nw===null) out=[e.res].concat(new Array(draft-1).fill(NEUTRAL));
+    else out=[e.res].concat(value(e.opp,nw,draft-1));
+  }
+  memo.set(k,out); return out;
+}
+
+// the sequence of games a chain walks through
+function chainOf(team,week,draft){
+  const steps=[]; let t=team,w=week;
+  for(let i=0;i<draft;i++){
+    const e = byWeek[w] && byWeek[w].get(t);
+    if(!e){ steps.push({week:null,team:t,opp:null,res:NEUTRAL}); break; }
+    steps.push({week:w,team:t,opp:e.opp,res:e.res});
+    const nw = nextWeekOf(e.opp,w);
+    if(nw===null){ if(i<draft-1) steps.push({week:null,team:e.opp,opp:null,res:NEUTRAL}); break; }
+    t=e.opp; w=nw;
+  }
+  return steps;
+}
+
+/* ---------- breadth mode ----------
+   A team's week-w game is graded by:
+     [own result, opponent's record excluding this game,
+      mean record of opponent's other opponents excluding those games, ...]
+   Each level drops the game you arrived on, so no result is ever counted twice
+   against the team that produced it.
+   A "draft" here is a data horizon: draft d for week w sees weeks 1..w+d-1.  */
+function recordOf(x,exclId,H){
+  const gs=gamesOf.get(x); if(!gs) return NEUTRAL;
+  let n=0,won=0;
+  for(const g of gs){ if(g.week>H||g.id===exclId) continue; n++; if(g.res===WIN) won++; }
+  return n? won/n : NEUTRAL;
+}
+function levelVal(x,exclId,k,H){
+  const key=x+'|'+exclId+'|'+k+'|'+H;
+  const hit=bmemo.get(key); if(hit!==undefined) return hit;
+  let out;
+  if(k<=1) out=recordOf(x,exclId,H);
+  else{
+    const gs=gamesOf.get(x)||[]; let s=0,n=0;
+    for(const g of gs){ if(g.week>H||g.id===exclId) continue; s+=levelVal(g.opp,g.id,k-1,H); n++; }
+    out = n? s/n : NEUTRAL;
+  }
+  bmemo.set(key,out); return out;
+}
+function bvalue(t,w,d){
+  const e=byWeek[w]&&byWeek[w].get(t); if(!e) return null;
+  const H=Math.min(w+d-1,horizon);
+  const out=[e.res];
+  for(let k=1;k<=LEVELS;k++) out.push(levelVal(e.opp,e.id,k,H));
+  return out;
+}
+function valueFor(t,w,d){ return MODE==='chain'? value(t,w,d) : bvalue(t,w,d); }
+
+function cmpVal(a,b){
+  const n=Math.max(a.length,b.length);
+  for(let i=0;i<n;i++){
+    const x=a[i]===undefined?NEUTRAL:a[i], y=b[i]===undefined?NEUTRAL:b[i];
+    if(x!==y) return y-x;               // descending
+  }
+  return 0;
+}
+const maxDraft = w => horizon - w + 1;
+
+/* slate = ordered buckets of teams that played in week w, at a given draft */
+const slateCache = new Map();
+function slate(w,d){
+  const k=MODE+"|"+LEVELS+"|"+w+"|"+d; const hit=slateCache.get(k); if(hit) return hit;
+  const rows=[];
+  for(const t of byWeek[w].keys()) rows.push({team:t,val:valueFor(t,w,d)});
+  rows.sort((a,b)=> cmpVal(a.val,b.val) || a.team.localeCompare(b.team));
+  const buckets=[];
+  for(const r of rows){
+    const last=buckets[buckets.length-1];
+    if(last && cmpVal(last.val,r.val)===0) last.teams.push(r.team);
+    else buckets.push({val:r.val,teams:[r.team]});
+  }
+  let rank=1;
+  for(const b of buckets){ b.rank=rank; rank+=b.teams.length; }
+  const out={buckets,n:rows.length};
+  slateCache.set(k,out); return out;
+}
+
+/* weekly score: position in the fully-revised slate, mapped to 0..100.
+   pctOf is the one definition of that scale; the revision sparkline reads the
+   same slates at earlier drafts and must land on identical numbers. */
+const pctOf=(n,rank,tied)=> n<2 ? 50
+  : (n-(rank-1)-tied+(tied-1)/2)/(n-1)*100;
+
+function scoreIn(sl,team){
+  for(const b of sl.buckets)
+    if(b.teams.indexOf(team)>=0) return pctOf(sl.n,b.rank,b.teams.length);
+  return null;
+}
+
+let scoreCache=null;
+function scores(){
+  if(scoreCache) return scoreCache;
+  const m=new Map();  // team -> [{week,score,rank,n,bucketSize}]
+  for(let w=1;w<=horizon;w++){
+    const sl=slate(w,maxDraft(w));
+    for(const b of sl.buckets)
+      for(const t of b.teams){
+        if(!m.has(t)) m.set(t,[]);
+        m.get(t).push({week:w,score:pctOf(sl.n,b.rank,b.teams.length),
+                       rank:sl.n<2?1:b.rank,n:sl.n,tied:b.teams.length});
+      }
+  }
+  scoreCache=m; return m;
+}
+
+/* ---------- a game's revision history ----------
+   Draft d for a week-w game sees weeks 1..w+d-1, so walking d from 1 to its
+   last draft replays exactly what the system knew about that game as each
+   later week arrived. This is the number that moves when an opponent keeps
+   winning or starts losing. */
+function revisionPath(team,w){
+  const out=[];
+  for(let d=1,D=maxDraft(w);d<=D;d++){
+    const v=scoreIn(slate(w,d),team);
+    if(v!=null) out.push({through:Math.min(w+d-1,horizon),score:v});
+  }
+  return out;
+}
+
+function sparkHTML(pts){
+  if(pts.length<2)
+    return '<span style="color:var(--muted);font-size:12px">graded once, no later weeks to revise it</span>';
+  const W=150,H=34,P=4;
+  const vals=pts.map(p=>p.score);
+  const lo=Math.min(...vals), hi=Math.max(...vals), mid=(lo+hi)/2;
+  /* A floor on the span keeps a one-point wobble from being drawn as a cliff. */
+  const span=Math.max(8,(hi-lo)*1.4);
+  const y0=mid-span/2, y1=mid+span/2;
+  const X=i=>P+i*(W-2*P)/(pts.length-1);
+  const Y=v=>H-P-((v-y0)/(y1-y0))*(H-2*P);
+  const net=vals[vals.length-1]-vals[0];
+  const col=net>0.05?'var(--win)':net<-0.05?'var(--loss)':'var(--muted)';
+  const d=pts.map((p,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(p.score).toFixed(1)).join(' ');
+  const dots=pts.map((p,i)=>'<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(p.score).toFixed(1)+
+    '" r="'+(i===pts.length-1?2.6:1.5)+'" fill="'+(i===pts.length-1?col:'var(--muted)')+'"/>').join('');
+  const tip=pts.map(p=>'through wk '+p.through+': '+p.score.toFixed(1)).join('\n');
+  const sign=net>0?'+':'';
+  return '<span class="revision" title="'+esc(tip)+'">'+
+    '<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" aria-hidden="true">'+
+    '<path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="1.6" '+
+    'stroke-linejoin="round" stroke-linecap="round"/>'+dots+'</svg>'+
+    '<span style="font-family:var(--mono);font-size:12px;white-space:nowrap">'+
+    vals[0].toFixed(1)+' <span style="color:var(--muted)">&rarr;</span> '+
+    vals[vals.length-1].toFixed(1)+
+    ' <b style="color:'+col+'">'+sign+net.toFixed(1)+'</b></span></span>';
+}
+
+function national(mode,fbsOnly){
+  const m=scores(); const out=[];
+  for(const [t,arr] of m){
+    const info=S.teamInfo.get(t)||{};
+    if(fbsOnly && info.division && info.division!=='FBS') continue;
+    const tot=arr.reduce((s,x)=>s+x.score,0);
+    let wins=0,losses=0,pd=0;
+    for(let w=1;w<=horizon;w++){const e=byWeek[w].get(t); if(e){ e.res===WIN?wins++:losses++; const g=S.games[e.id]; pd+=(e.res===WIN?1:-1)*g.margin; }}
+    out.push({team:t,total:tot,avg:tot/arr.length,games:arr.length,wins,losses,pd,
+              key: mode==='sum'?tot:tot/arr.length});
+  }
+  out.sort((a,b)=> b.key-a.key || b.pd-a.pd || a.team.localeCompare(b.team));
+  let rank=1;
+  for(let i=0;i<out.length;i++){
+    if(i>0 && Math.abs(out[i].key-out[i-1].key)>1e-9) rank=i+1;
+    out[i].rank=rank;
+  }
+  return out;
+}
+
+/* =======================================================================
+   BACKTEST — rank on weeks 1..N, predict week N+1, score against what happened.
+   No poll, no opinion: only whether the ordering has predictive content.
+   ===================================================================== */
+function withState(mode,levels,fn){
+  const sH=horizon,sM=MODE,sL=LEVELS;
+  let out;
+  try{ MODE=mode; LEVELS=levels; out=fn(); }
+  finally{ horizon=sH; MODE=sM; LEVELS=sL; rebuild(); }
+  return out;
+}
+
+function scoreWeek(N,rankOf,log){
+  let h=0,t=0;
+  S.games.forEach((g,i)=>{
+    if(g.week!==N+1 || !gameAllowed(g)) return;
+    const a=rankOf(g.winner), b=rankOf(g.loser);
+    if(a==null||b==null||a===b) return;
+    const ok = a<b; t++; if(ok) h++;
+    if(log) log.set(i, ok?1:0);
+  });
+  return [h,t];
+}
+
+/* McNemar: compares two methods on the games they BOTH predicted.
+   Only the disagreements carry information, which is why the totals
+   alone cannot settle whether a gap is real. */
+function erf(x){
+  const s=x<0?-1:1; x=Math.abs(x);
+  const t=1/(1+0.3275911*x);
+  const y=1-((((1.061405429*t-1.453152027)*t+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);
+  return s*y;
+}
+const normCdf=x=>0.5*(1+erf(x/Math.SQRT2));
+function mcnemar(A,B){
+  let b=0,c=0;
+  for(const [k,va] of A){
+    if(!B.has(k)) continue;
+    const vb=B.get(k);
+    if(va&&!vb) b++; else if(!va&&vb) c++;
+  }
+  const n=b+c;
+  if(!n) return {b,c,n,z:0,p:1};
+  const z=(b-c)/Math.sqrt(n);
+  return {b,c,n,z,p:2*(1-normCdf(Math.abs(z)))};
+}
+
+function backtestRanking(mode,levels,agg,minWeek,maxWeek){
+  return withState(mode,levels,()=>{
+    let H=0,T=0; const rows=[], log=new Map();
+    for(let N=minWeek;N<maxWeek;N++){
+      horizon=N; rebuild();
+      const nat=national(agg,false);
+      const rk=new Map(nat.map((r,i)=>[r.team,i+1]));
+      const [h,t]=scoreWeek(N,x=>rk.has(x)?rk.get(x):null,log);
+      H+=h;T+=t; rows.push({week:N+1,h,t});
+    }
+    return {H,T,rows,log};
+  });
+}
+
+function backtestWinPct(minWeek,maxWeek){
+  let H=0,T=0; const rows=[], log=new Map();
+  for(let N=minWeek;N<maxWeek;N++){
+    const rec=new Map();
+    for(const g of S.games){
+      if(g.week>N || !gameAllowed(g)) continue;
+      for(const [x,w] of [[g.winner,1],[g.loser,0]]){
+        if(!rec.has(x)) rec.set(x,[0,0]);
+        const r=rec.get(x); r[0]+=w; r[1]++;
+      }
+    }
+    const ord=[...rec.keys()].sort((a,b)=>
+      (rec.get(b)[0]/rec.get(b)[1])-(rec.get(a)[0]/rec.get(a)[1]));
+    const rk=new Map(ord.map((x,i)=>[x,i+1]));
+    const [h,t]=scoreWeek(N,x=>rk.has(x)?rk.get(x):null,log);
+    H+=h;T+=t; rows.push({week:N+1,h,t});
+  }
+  return {H,T,rows,log};
+}
+
+function backtestHome(minWeek,maxWeek){
+  let H=0,T=0; const log=new Map();
+  for(let N=minWeek;N<maxWeek;N++)
+    S.games.forEach((g,i)=>{
+      if(g.week!==N+1 || !gameAllowed(g) || !g.home) return;
+      const ok = g.winner===g.home; T++; if(ok) H++;
+      log.set(i, ok?1:0);
+    });
+  return {H,T,rows:[],log};
+}
+
+/* =======================================================================
+   SYNTHETIC SEASON
+   ===================================================================== */
+function rngFactory(seed){let s=seed>>>0;return()=>{s^=s<<13;s>>>=0;s^=s>>17;s^=s<<5;s>>>=0;return s/4294967296;};}
+function makeSeason(seed){
+  const rnd=rngFactory(seed);
+  const confs=["Atlantic","Big Belt","Coastal","Frontier","Gulf","Heartland","Mountain West Rim","Northern","Pacific","Piedmont","Southern Cross"];
+  const lowConfs=["Bluegrass","Cascade","Delta","Granite","Prairie","Tidewater"];
+  const teamInfo=new Map(); const fbs=[]; const low=[];
+  confs.forEach((c,ci)=>{
+    const base = 0.9 - ci*0.11;
+    for(let i=1;i<=12;i++){
+      const n=c+" "+String.fromCharCode(64+i);
+      teamInfo.set(n,{name:n,conference:c,division:"FBS",truth:base+(rnd()-0.5)*1.5});
+      fbs.push(n);
+    }
+  });
+  lowConfs.forEach((c,ci)=>{
+    for(let i=1;i<=12;i++){
+      const n=c+" "+String.fromCharCode(64+i);
+      // roughly two and a half touchdowns below the top division, matching the
+      // real world's ~4 upsets per 126 cross-division games
+      teamInfo.set(n,{name:n,conference:c,division:"FCS",truth:-2.2-ci*0.10+(rnd()-0.5)*1.5});
+      low.push(n);
+    }
+  });
+  const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+  const games=[];
+  const play=(a,b,week)=>{
+    const d=teamInfo.get(a).truth-teamInfo.get(b).truth;
+    const aw=rnd()<1/(1+Math.exp(-1.35*d));
+    games.push({week,winner:aw?a:b,loser:aw?b:a});
+  };
+  const pairWithin=(pool,w,byeRate)=>{
+    const p=shuffle(pool.slice());
+    for(let i=0;i+1<p.length;i+=2){ if(rnd()<byeRate) continue; play(p[i],p[i+1],w); }
+  };
+  const queue=shuffle(low.slice());        // each lower-division team gets one payday game
+  for(let w=1;w<=13;w++){
+    if(w<=3){
+      const busy=new Set();
+      const F=shuffle(fbs.slice());
+      for(let i=0;i<24 && queue.length && F.length;i++){
+        const a=F.pop(), b=queue.pop();
+        play(a,b,w); busy.add(a); busy.add(b);
+      }
+      pairWithin(fbs.filter(t=>!busy.has(t)),w,0.06);
+      pairWithin(low.filter(t=>!busy.has(t)),w,0.06);
+    }else{
+      for(const c of confs)    pairWithin(fbs.filter(t=>teamInfo.get(t).conference===c),w,0.13);
+      for(const c of lowConfs) pairWithin(low.filter(t=>teamInfo.get(t).conference===c),w,0.13);
+    }
+  }
+  return {teamInfo,games,maxWeek:13,synthetic:true,skipped:[],polls:[]};
+}
+
+/* =======================================================================
+   LOADING
+   ===================================================================== */
+function ingest(raw){
+  if(!raw || !Array.isArray(raw.games)) throw new Error("No games array found.");
+  const teamInfo=new Map();
+  if(Array.isArray(raw.teams))
+    for(const t of raw.teams){
+      const n=typeof t==='string'?t:t.name;
+      if(!n) continue;
+      teamInfo.set(n,{name:n,conference:(t.conference)||"",division:(t.division)||"FBS"});
+    }
+  const games=[],skipped=[],seen=new Map();
+  raw.games.forEach((g,i)=>{
+    const w=Number(g.week);
+    if(!Number.isFinite(w)||w<1){skipped.push("game "+i+": bad week");return;}
+    let win,lose;
+    if(g.winner&&g.loser){win=g.winner;lose=g.loser;}
+    else{
+      const h=g.home,a=g.away,hp=Number(g.homePoints??g.homeScore),ap=Number(g.awayPoints??g.awayScore);
+      if(!h||!a){skipped.push("game "+i+": missing teams");return;}
+      if(!Number.isFinite(hp)||!Number.isFinite(ap)){skipped.push("game "+i+": "+h+" vs "+a+", no score");return;}
+      if(hp===ap){skipped.push("game "+i+": "+h+" vs "+a+", tie");return;}
+      win=hp>ap?h:a; lose=hp>ap?a:h;
+    }
+    if(win===lose){skipped.push("game "+i+": team plays itself");return;}
+    const kw=w+"|"+win, kl=w+"|"+lose;
+    if(seen.has(kw)||seen.has(kl)){skipped.push("week "+w+": "+win+" vs "+lose+", duplicate week for a team");return;}
+    seen.set(kw,1); seen.set(kl,1);
+    for(const n of [win,lose]) if(!teamInfo.has(n)) teamInfo.set(n,{name:n,conference:"",division:"FBS"});
+    let margin=0;
+    if(g.homePoints!=null||g.homeScore!=null){
+      const hp=Number(g.homePoints??g.homeScore),ap=Number(g.awayPoints??g.awayScore);
+      if(Number.isFinite(hp)&&Number.isFinite(ap)) margin=Math.abs(hp-ap);
+    }
+    games.push({week:w,winner:win,loser:lose,home:(g.home&&g.away)?g.home:null,margin});
+  });
+  if(!games.length) throw new Error("No usable games after validation.");
+  const maxWeek=Math.max(...games.map(g=>g.week));
+
+  /* Optional. Each snapshot carries throughWeek: the horizon it reflects, so a
+     poll is only ever compared against a ranking built from the same games. */
+  const polls=[];
+  if(Array.isArray(raw.polls))
+    for(const p of raw.polls){
+      if(!p||!Array.isArray(p.ranks)) continue;
+      const ranks=p.ranks
+        .filter(r=>r&&r.team&&Number.isFinite(Number(r.rank)))
+        .map(r=>({team:String(r.team),rank:Number(r.rank)}))
+        .sort((a,b)=>a.rank-b.rank);
+      if(!ranks.length) continue;
+      polls.push({poll:String(p.poll||'Poll'),week:Number(p.week)||0,
+                  throughWeek:Number(p.throughWeek)||0,ranks});
+    }
+  return {teamInfo,games,maxWeek,synthetic:false,skipped,polls};
+}
+
+function install(season){
+  S.teamInfo=season.teamInfo; S.games=season.games;
+  S.maxWeek=season.maxWeek; S.synthetic=season.synthetic; S.skipped=season.skipped;
+  S.polls=season.polls||[];
+  const hz=document.getElementById('hz');
+  hz.max=S.maxWeek; hz.value=S.maxWeek; horizon=S.maxWeek;
+  document.getElementById('hzval').textContent=horizon;
+  selWeek=1; selDraft=1;
+  const be=$('bt-end'); if(be){ be.max=S.maxWeek; be.value=S.maxWeek; }
+  rebuild(); fillTeamSelect(); renderAll();
+}
+
+/* =======================================================================
+   RENDER
+   ===================================================================== */
+const $=id=>document.getElementById(id);
+let selWeek=1, selDraft=1, aggMode='sum', selTeam=null;
+
+function bitsHTML(v){
+  return '<span class="bits">'+v.map(x=>
+    '<span class="bit '+(x===WIN?'w':x===LOSS?'l':'n')+'"></span>').join('')+'</span>';
+}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+function renderStatus(){
+  const nT=S.teamInfo.size, nG=S.games.filter(g=>g.week<=horizon).length;
+  $('status').innerHTML=
+    '<span>Source <b>'+(S.synthetic?'generated season':'loaded file')+'</b></span>'+
+    '<span>Teams <b>'+nT+'</b></span>'+
+    '<span>Games through week '+horizon+' <b>'+nG+'</b></span>'+
+    '<span>Weeks in season <b>'+S.maxWeek+'</b></span>'+
+    (S.skipped.length?'<span>Skipped rows <b>'+S.skipped.length+'</b></span>':'');
+}
+
+function renderTriangle(){
+  let h='<table class="tri"><tr><th></th>';
+  for(let d=1;d<=horizon;d++) h+='<th>'+d+'</th>';
+  h+='</tr>';
+  for(let w=1;w<=horizon;w++){
+    h+='<tr><th class="rowh">wk '+w+'</th>';
+    for(let d=1;d<=horizon;d++){
+      if(d>maxDraft(w)){h+='<td></td>';continue;}
+      const cls='cell'+(d===maxDraft(w)?' final':'')+(w===selWeek&&d===selDraft?' sel':'');
+      h+='<td><button class="'+cls+'" data-w="'+w+'" data-d="'+d+'" title="Week '+w+', draft '+d+
+         ' — '+Math.pow(2,d)+' possible buckets"></button></td>';
+    }
+    h+='</tr>';
+  }
+  $('tri').innerHTML=h+'</table>';
+  $('tri').querySelectorAll('.cell').forEach(b=>b.onclick=()=>{
+    selWeek=+b.dataset.w; selDraft=+b.dataset.d; renderTriangle(); renderSlate();
+  });
+}
+
+/* how many pairs get reordered as drafts advance for this week */
+function churnOf(w){
+  let flips=0;
+  for(let d=1;d<maxDraft(w);d++){
+    const A=slate(w,d),B=slate(w,d+1);
+    const ra=new Map(),rb=new Map();
+    A.buckets.forEach(b=>b.teams.forEach(t=>ra.set(t,b.rank)));
+    B.buckets.forEach(b=>b.teams.forEach(t=>rb.set(t,b.rank)));
+    const ts=[...ra.keys()];
+    for(let i=0;i<ts.length;i++)for(let j=i+1;j<ts.length;j++){
+      const a=ts[i],b=ts[j];
+      if(ra.get(a)<ra.get(b) && rb.get(a)>rb.get(b)) flips++;
+      else if(ra.get(a)>ra.get(b) && rb.get(a)<rb.get(b)) flips++;
+    }
+  }
+  return flips;
+}
+
+function renderSlate(){
+  if(selWeek>horizon) selWeek=horizon;
+  if(selDraft>maxDraft(selWeek)) selDraft=maxDraft(selWeek);
+  const chain = MODE==='chain';
+  const sl=slate(selWeek,selDraft);
+  const revisions=maxDraft(selWeek)-1;
+  $('slate-h').textContent='Week '+selWeek+', draft '+selDraft;
+  $('slate-sub').textContent = chain
+    ? (selDraft===1
+        ? 'Draft 1 knows only who won. Two buckets, nothing else.'
+        : 'Ranked by its own week-'+selWeek+' result, then by what its opponent did next, and so on '+selDraft+' links deep.')
+    : 'Ranked by its own week-'+selWeek+' result, then by opponent quality '+LEVELS+
+      ' level'+(LEVELS>1?'s':'')+' out, using every game played through week '+Math.min(selWeek+selDraft-1,horizon)+'.';
+
+  const tiedTeams=sl.buckets.reduce((s,b)=>s+(b.teams.length>1?b.teams.length:0),0);
+  $('slate-facts').innerHTML=
+    fact(sl.n,'teams played')+
+    (chain ? fact(sl.buckets.length+' / '+Math.pow(2,selDraft),'buckets used / possible')
+           : fact(sl.buckets.length,'distinct positions'))+
+    fact(tiedTeams,'teams still tied')+
+    fact(churnOf(selWeek),'pairs reordered across all drafts');
+
+  $('refinenote').innerHTML = chain
+    ? '<p>Each draft appends one bit to the <em>end</em> of every string. A later bit can only break ties among teams already tied, so it can never reorder two teams already separated.</p>'+
+      '<p>Drafts refine, they never churn. Buckets split and split again; nothing jumps.</p>'
+    : '<p>Here a draft is a wider view of the season, not a deeper one. Opponent records change as results come in, so teams genuinely do trade places — the reorder count above is real churn, not a bug.</p>'+
+      '<p>That is the price of breadth. You get a rating that reflects an opponent\'s whole season instead of one arbitrary thread, and you give up the guarantee that rankings only ever refine.</p>';
+
+  const colHead = chain ? '<th>Chain</th><th>Bucket</th>' : '<th>Own</th><th>Opponent quality, by level</th>';
+  let h='<thead><tr><th class="num">#</th><th>Team</th>'+colHead+'</tr></thead><tbody>';
+  for(const b of sl.buckets){
+    for(let i=0;i<b.teams.length;i++){
+      const t=b.teams[i];
+      const cells = chain
+        ? '<td>'+bitsHTML(b.val)+'</td><td class="num" style="color:var(--muted)">'+
+          (i===0?b.val.map(x=>x===WIN?1:x===LOSS?0:'·').join(''):'')+'</td>'
+        : '<td class="'+(b.val[0]===WIN?'W':'L')+'">'+(b.val[0]===WIN?'W':'L')+'</td>'+
+          '<td class="num" style="color:var(--muted)">'+b.val.slice(1).map(v=>v.toFixed(3)).join('&nbsp;&nbsp;')+'</td>';
+      h+='<tr><td class="rank">'+(i===0?b.rank:'')+'</td>'+
+         '<td><button class="tname" data-t="'+esc(t)+'">'+esc(t)+'</button>'+
+         (b.teams.length>1?'<span class="tag">tied '+b.teams.length+'</span>':'')+'</td>'+cells+'</tr>';
+    }
+  }
+  $('slate-tbl').innerHTML=h+'</tbody>';
+  wireTeamLinks($('slate-tbl'));
+}
+function fact(v,k){return '<div class="fact"><div class="bignum">'+v+'</div><div class="k">'+k+'</div></div>';}
+
+/* ---------- the victors gate ----------
+   A second stage, deliberately kept out of the maths. The order is computed
+   with every team in it; this then asks whether a team has beaten anybody
+   good enough to be worth beating. Excluded teams still count as opponents
+   for everyone else, so no score anywhere changes — it only decides who shows.
+
+   One pass reads the tier off the finished order and never revisits it. It is
+   stable and always returns a field, but it launders: a team can qualify on a
+   win over a team that is itself disqualified.
+
+   Self-consistent closes that hole — the win has to be over a team that also
+   qualifies — and iterates to a fixed point. The cost is that it needs enough
+   cross-conference play to sustain a chain of justification. Run on 2025 it
+   returns nothing until week 9, is usable by week 10 and settles from week 15
+   at 61 teams across nine conferences. Run mid-season it collapses, in 2026
+   to thirteen SEC teams propping each other up. Hence the choice. */
+let GATE_N=50;
+
+function winsOf(team){
+  const out=[];
+  for(const g of (gamesOf.get(team)||[]))
+    if(g.week<=horizon && g.res===WIN) out.push(g.opp);
+  return out;
+}
+
+function bestWinRank(team,rankOf){
+  let best=Infinity;
+  for(const o of winsOf(team)){
+    const r=rankOf.get(o);
+    if(r!=null && r<best) best=r;
+  }
+  return best;
+}
+
+function applyGate(rows){
+  const mode=$('gatemode').value;
+  const rankOf=new Map(rows.map(r=>[r.team,r.rank]));
+  const all=rows.map(r=>({...r,bestWin:bestWinRank(r.team,rankOf)}));
+  if(mode==='off')  return {kept:all,mode,passes:0,all};
+  if(mode==='one')  return {kept:all.filter(r=>r.bestWin<=GATE_N),mode,passes:1,all};
+
+  let live=new Set(all.map(r=>r.team)), passes=0;
+  for(;;){
+    passes++;
+    const next=new Set([...live].filter(t=>
+      winsOf(t).some(o=>live.has(o) && (rankOf.get(o)??Infinity)<=GATE_N)));
+    if(next.size===live.size){ live=next; break; }
+    live=next;
+    if(passes>200 || !live.size) break;      // empty is a real answer, not a hang
+  }
+  return {kept:all.filter(r=>live.has(r.team)),mode,passes,all};
+}
+
+function gateNote(g){
+  const head='<p>Gated. The order was built with every team in it, then '+
+    (g.mode==='one'
+      ? 'anyone whose best win falls outside the top&nbsp;'+GATE_N+' of that order was removed, once. '+
+        'Nothing was recomputed, so the numbers and the gaps in the rank column are the real ones. '+
+        'Note this does launder: a team can qualify on a win over a team that is itself removed.'
+      : 'the set was reduced until every survivor had beaten another survivor inside the '+
+        'top&nbsp;'+GATE_N+' — settled in '+g.passes+' pass'+(g.passes===1?'':'es')+'. '+
+        'No team stands on a win over a team this rule rejects.');
+  if(!g.kept.length)
+    return head+'</p><p><b>Nothing qualifies.</b> There is not yet enough cross&#8209;conference '+
+      'play for any chain of justification to close — every team\'s best win is over somebody '+
+      'whose own best win fails. That is a real answer about the season, not an error. '+
+      'Use one pass until about week&nbsp;10, or widen the tier.</p>';
+  if(g.mode==='stable' && g.kept.length<25)
+    return head+'</p><p>Only '+g.kept.length+' teams survive, too few to read as a ranking. '+
+      'The self&#8209;consistent rule needs a season with enough cross&#8209;conference results '+
+      'behind it; this early it tends to collapse onto whichever conference plays itself most.</p>';
+  return head+'</p>';
+}
+
+function renderNational(){
+  const fbsOnly=$('fbsonly').checked;
+  /* Best win is attached whichever mode is on: the column that explains the
+     gate is most useful when you can read it with the gate off and see who it
+     would take. */
+  const graded=applyGate(national(aggMode,fbsOnly));
+  const gateOn=graded.mode!=='off';
+  const beforeGate=graded.all.length;
+  const rows=graded.kept;
+  $('agg-note').innerHTML = aggMode==='sum'
+    ? '<p>Summing. A team that played more games has more chances to accumulate, so availability counts for something — this is where the bye question gets priced.</p>'
+    : '<p>Averaging. Games played is normalized away, so a 1&#8209;0 team and a 12&#8209;0 team are judged on the same scale. Early weeks look noisy as a result.</p>';
+
+  let corr='';
+  if(S.synthetic && rows.length>2){
+    const xs=rows.map(r=>S.teamInfo.get(r.team).truth), ys=rows.map(r=>r.key);
+    corr=spearman(xs,ys).toFixed(3);
+  }
+  const perm=rows.filter((r,i)=>i>0&&Math.abs(r.key-rows[i-1].key)<1e-9).length;
+  $('nat-facts').innerHTML=
+    fact(rows.length,'teams ranked')+
+    (gateOn?fact(beforeGate-rows.length,'removed for beating nobody in the top '+GATE_N):'')+
+    (graded.mode==='stable'?fact(graded.passes,'passes to settle'):'')+
+    fact(horizon,'weeks of data')+
+    fact(perm,'teams tied with the team above')+
+    (corr?fact(corr,'rank correlation with hidden true strength'):'');
+  if(gateOn) $('agg-note').innerHTML+=gateNote(graded);
+
+  let h='<thead><tr><th class="num">#</th><th>Team</th><th>Conference</th><th class="num">Record</th>'+
+        '<th class="num">'+(aggMode==='sum'?'Total':'Average')+'</th>'+
+        '<th class="num">Best win</th>'+
+        '<th class="num">PD</th><th class="num">Games</th></tr></thead><tbody>';
+  for(const r of rows){
+    const info=S.teamInfo.get(r.team)||{};
+    const pdStr=(r.pd>0?'+':'')+r.pd;
+    h+='<tr><td class="rank">'+r.rank+'</td>'+
+       '<td><button class="tname" data-t="'+esc(r.team)+'">'+esc(r.team)+'</button></td>'+
+       '<td style="color:var(--muted);font-size:12.5px">'+esc(info.conference||'')+'</td>'+
+       '<td class="num">'+r.wins+'&#8209;'+r.losses+'</td>'+
+       '<td class="num"><b>'+r.key.toFixed(1)+'</b></td>'+
+       '<td class="num" style="color:var(--muted)">'+
+         (Number.isFinite(r.bestWin)?'#'+r.bestWin:'&#8212;')+'</td>'+
+       '<td class="num" style="color:'+(r.pd>=0?'var(--win)':'var(--loss)')+'">'+pdStr+'</td>'+
+       '<td class="num" style="color:var(--muted)">'+r.games+'</td></tr>';
+  }
+  $('nat-tbl').innerHTML=h+'</tbody>';
+  wireTeamLinks($('nat-tbl'));
+}
+
+/* ---------- polls ----------
+   A poll is a vote taken at a moment, so it is only comparable against a ranking
+   built from the same games. Every snapshot carries throughWeek — the week of
+   data it reflects — and we show the latest one at or below the slider. Polls
+   cover the top division only, so the comparison is always FBS-only. */
+function pollAt(name){
+  let best=null;
+  for(const p of (S.polls||[]))
+    if(p.poll===name && p.throughWeek>=1 && p.throughWeek<=horizon
+       && (!best || p.throughWeek>best.throughWeek)) best=p;
+  return best;
+}
+function pollStats(mine,ranks){
+  const both=ranks.filter(r=>mine.has(r.team));
+  if(both.length<3) return null;
+  return {n:both.length,
+          rho:spearman(both.map(r=>r.rank),both.map(r=>mine.get(r.team))),
+          mad:both.reduce((s,r)=>s+Math.abs(r.rank-mine.get(r.team)),0)/both.length};
+}
+/* Positive means this system ranks the team higher than the voters do. */
+function deltaCell(poll,ours){
+  if(poll==null||ours==null) return '<td class="num" style="color:var(--muted)">—</td>';
+  const d=poll-ours, col=d>0?'var(--win)':d<0?'var(--loss)':'var(--muted)';
+  return '<td class="num" style="color:'+col+'">'+(d>0?'+':'')+d+'</td>';
+}
+function renderPolls(){
+  const note=$('poll-note'),facts=$('poll-facts'),tbl=$('poll-tbl'),extra=$('poll-extra');
+  const blank=()=>{facts.innerHTML='';tbl.innerHTML='';extra.innerHTML='';};
+  if(!(S.polls||[]).length){
+    note.innerHTML='<p>This season carries no poll data. Re-run the loader script — '+
+      '<code>fetch_season.py</code> writes a <code>polls</code> key next to '+
+      '<code>games</code> — and load the file again on the Data tab.</p>';
+    return blank();
+  }
+  const ap=pollAt('AP Top 25'), co=pollAt('Coaches Poll'), shown=ap||co;
+  if(!shown){
+    note.innerHTML='<p>No poll reflects this little football yet. The first one that '+
+      'grades real games lands once week&nbsp;1 is complete — move the slider forward.</p>';
+    return blank();
+  }
+  const graded=applyGate(national(aggMode,true));
+  const gateOn=graded.mode!=='off';
+  const rows=graded.kept;
+  if(gateOn && !rows.length){
+    note.innerHTML=gateNote(graded);
+    return blank();
+  }
+  const mine=new Map(rows.map(r=>[r.team,r.rank]));
+  const bestOf=new Map(graded.all.map(r=>[r.team,r.bestWin]));
+  const apR=new Map((ap?ap.ranks:[]).map(r=>[r.team,r.rank]));
+  const coR=new Map((co?co.ranks:[]).map(r=>[r.team,r.rank]));
+
+  /* The two polls do not always land together — AP and the coaches publish on
+     their own schedules, so one can be a week fresher than the other. Each
+     column is shown at its own latest snapshot and labelled when they differ,
+     rather than quietly pinning both to one date. */
+  const srcs=[]; if(ap) srcs.push(['AP',ap]); if(co) srcs.push(['Coaches',co]);
+  const through=[...new Set(srcs.map(s=>s[1].throughWeek))];
+  const split=through.length>1, newest=Math.max(...through), lag=horizon-newest;
+  const wkTag=p=>split?' <span style="color:var(--muted);font-weight:400">wk '+
+    p.throughWeek+'</span>':'';
+  const head=split
+    ? 'The two polls are a week apart right now — '+
+      srcs.map(s=>s[0]+' reflects games through week '+s[1].throughWeek).join(', and ')+
+      '. Each column is shown at its own date and labelled, so read the two gaps '+
+      'separately.'
+    : 'Polls published in week '+srcs[0][1].week+', off games through week '+through[0]+'.';
+  const tail = lag>0
+    ? ' The slider is on week '+horizon+', so '+(split?'even the fresher poll is':'these votes are')+
+      ' '+lag+' week'+(lag>1?'s':'')+' behind the ranking. The correlations below are '+
+      'measured against the order you are looking at, so part of the disagreement they '+
+      'report is just that gap — slide back to week '+newest+' to compare like for like.'
+    : (split?'':' Same games on both sides.');
+  note.innerHTML='<p>'+head+tail+
+    ' Ranking is '+(aggMode==='sum'?'summed':'averaged')+
+    ', which matters here: summing holds a team\'s games played against it, and the '+
+    'voters do no such thing.'+(gateOn
+      ? ' Gated ('+(graded.mode==='one'?'one pass':'self-consistent')+'): anyone whose best '+
+        'win falls outside the top '+GATE_N+' is removed from this side, and left out of the '+
+        'correlations — so the comparison runs against the teams this system is willing to '+
+        'rank at all. Expect agreement to fall, because the gate tends to remove teams the '+
+        'voters and this system already agreed on.'
+      : '')+'</p>';
+
+  const sAP=ap?pollStats(mine,ap.ranks):null, sCO=co?pollStats(mine,co.ranks):null;
+  let ref=null;
+  if(ap&&co) ref=pollStats(new Map(co.ranks.map(r=>[r.team,r.rank])),ap.ranks);
+
+  const cut=Math.max(apR.size,coR.size)||25;
+  const top=rows.filter(r=>r.rank<=cut);
+  const polled=new Set([...apR.keys(),...coR.keys()]);
+  const shared=top.filter(r=>polled.has(r.team)).length;
+
+  facts.innerHTML=
+    fact(shared+' of '+top.length,'also ranked by the voters')+
+    (sAP?fact(sAP.rho.toFixed(3),'rank correlation with AP'+
+        (split?' (through wk '+ap.throughWeek+')':'')):'')+
+    (sCO?fact(sCO.rho.toFixed(3),'rank correlation with Coaches'+
+        (split?' (through wk '+co.throughWeek+')':'')):'')+
+    (ref?fact(ref.rho.toFixed(3),'AP against Coaches — how much two votes agree'):'');
+
+  /* This table is the system's order. The polls are columns against it, not the
+     other way round: a team the voters leave out is still a row, marked NR. */
+  const rankCell=v=>v==null
+    ? '<td class="num" style="color:var(--muted)">NR</td>'
+    : '<td class="num" style="color:var(--muted)">'+v+'</td>';
+  let h='<thead><tr><th class="num">#</th><th>Team</th><th>Conference</th>'+
+        '<th class="num">Record</th><th class="num">'+(aggMode==='sum'?'Total':'Average')+'</th>'+
+        '<th class="num">AP'+(ap?wkTag(ap):'')+'</th>'+
+        '<th class="num">Coaches'+(co?wkTag(co):'')+'</th>'+
+        '<th class="num">vs AP</th><th class="num">vs Coaches</th></tr></thead><tbody>';
+  for(const r of top){
+    const info=S.teamInfo.get(r.team)||{};
+    const a=apR.get(r.team)??null, c=coR.get(r.team)??null;
+    h+='<tr><td class="rank">'+r.rank+'</td>'+
+       '<td><button class="tname" data-t="'+esc(r.team)+'">'+esc(r.team)+'</button></td>'+
+       '<td style="color:var(--muted);font-size:12.5px">'+esc(info.conference||'')+'</td>'+
+       '<td class="num">'+r.wins+'&#8209;'+r.losses+'</td>'+
+       '<td class="num"><b>'+r.key.toFixed(1)+'</b></td>'+
+       rankCell(a)+rankCell(c)+deltaCell(a,r.rank)+deltaCell(c,r.rank)+'</tr>';
+  }
+  tbl.innerHTML=h+'</tbody>';
+  wireTeamLinks(tbl);
+
+  let e='<p class="sub" style="margin-top:22px">The order above is this system\'s. '+
+    'A poll column is where the voters put that same team, and the last two columns '+
+    'are the gap — positive means the system is higher on them than the voters are. '+
+    '<b>NR</b> means the voters left the team out of their '+cut+' entirely.</p>';
+
+  const missing=[...polled].filter(t=>!mine.has(t)||mine.get(t)>cut)
+    .sort((a,b)=>(mine.has(b)?mine.get(b):1e9)-(mine.has(a)?mine.get(a):1e9));
+  if(missing.length){
+    e+='<h2 style="margin-top:26px">Ranked by the voters, missing from this top '+cut+'</h2>'+
+       '<p class="sub">The other side of the same disagreement. Each of these is a team '+
+       'the votes are carrying on something a win&#8209;loss graph cannot read — preseason '+
+       'standing, a conference\'s reputation, or how convincing the wins looked.</p>'+
+       '<div class="tbl-scroll"><table class="data"><thead><tr><th class="num">AP</th>'+
+       '<th class="num">Coaches</th><th>Team</th><th>Conference</th><th class="num">Record</th>'+
+       '<th class="num">Here</th><th class="num">Games</th></tr></thead><tbody>';
+    for(const t of missing){
+      const r=graded.all.find(x=>x.team===t), info=S.teamInfo.get(t)||{};
+      e+='<tr><td class="rank">'+(apR.get(t)??'—')+'</td>'+
+         '<td class="num" style="color:var(--muted)">'+(coR.get(t)??'—')+'</td>'+
+         '<td><button class="tname" data-t="'+esc(t)+'">'+esc(t)+'</button></td>'+
+         '<td style="color:var(--muted);font-size:12.5px">'+esc(info.conference||'')+'</td>'+
+         '<td class="num">'+(r?r.wins+'&#8209;'+r.losses:'—')+'</td>'+
+         '<td class="num"><b>'+(mine.has(t) ? mine.get(t)
+            : (gateOn&&bestOf.has(t) ? 'gated out' : 'unranked'))+'</b></td>'+
+         '<td class="num" style="color:var(--muted)">'+(r?r.games:'—')+'</td></tr>';
+    }
+    e+='</tbody></table></div>';
+  }
+  extra.innerHTML=e;
+  wireTeamLinks(extra);
+}
+let costAggMode='sum', costSortEff=false;
+function renderCost(){
+  const rows=national(costAggMode,true).filter(r=>budgetOf.has(r.team));
+  const withCost = rows.map(r=>{
+    const b=budgetOf.get(r.team);
+    const mid=(b.lo+b.hi)/2;
+    return {...r, lo:b.lo, hi:b.hi, mid, perPoint: r.key>0 ? mid*1e6/r.key : null};
+  });
+  const sorted = withCost.slice().sort((a,b)=>{
+    if(costSortEff){
+      if(a.perPoint==null) return 1;
+      if(b.perPoint==null) return -1;
+      return a.perPoint-b.perPoint;
+    }
+    return b.key-a.key;
+  });
+
+  const totalMid = withCost.reduce((s,r)=>s+r.mid,0);
+  const bestEff = withCost.filter(r=>r.perPoint!=null).sort((a,b)=>a.perPoint-b.perPoint)[0];
+  $('cost-facts').innerHTML=
+    fact(withCost.length,'schools with a budget estimate')+
+    fact('$'+totalMid.toFixed(0)+'M','combined est. budget (midpoints)')+
+    (bestEff?fact(esc(bestEff.team),'most points per dollar'):'')+
+    fact(costAggMode==='sum'?'Sum':'Average','national score basis');
+
+  let h='<thead><tr><th class="num">#</th><th>Team</th><th class="num">Est. budget</th>'+
+        '<th class="num">'+(costAggMode==='sum'?'Total':'Average')+' score</th>'+
+        '<th class="num">$ / point</th><th>Value</th></tr></thead><tbody>';
+  const maxPerPoint = Math.max(...withCost.filter(r=>r.perPoint!=null).map(r=>r.perPoint));
+  sorted.forEach((r,i)=>{
+    const perPointStr = r.perPoint!=null ? '$'+(r.perPoint/1000).toFixed(0)+'K' : '—';
+    const barPct = r.perPoint!=null ? Math.max(4, 100 - (r.perPoint/maxPerPoint*100)) : 0;
+    h+='<tr><td class="rank">'+(i+1)+'</td>'+
+       '<td><button class="tname" data-t="'+esc(r.team)+'">'+esc(r.team)+'</button></td>'+
+       '<td class="num">$'+r.lo+'&#8211;'+r.hi+'M</td>'+
+       '<td class="num">'+r.key.toFixed(1)+'</td>'+
+       '<td class="num"><b>'+perPointStr+'</b></td>'+
+       '<td><div style="background:var(--rule-soft);border-radius:2px;height:9px;width:120px">'+
+       '<div style="background:var(--mark);border-radius:2px;height:9px;width:'+barPct.toFixed(0)+'%"></div></div></td></tr>';
+  });
+  $('cost-tbl').innerHTML=h+'</tbody>';
+  wireTeamLinks($('cost-tbl'));
+}
+
+function spearman(x,y){
+  const rank=a=>{const idx=a.map((v,i)=>[v,i]).sort((p,q)=>p[0]-q[0]);const r=new Array(a.length);
+    idx.forEach((p,i)=>r[p[1]]=i+1);return r;};
+  const rx=rank(x),ry=rank(y),n=x.length;
+  const mx=(n+1)/2;let num=0,dx=0,dy=0;
+  for(let i=0;i<n;i++){const a=rx[i]-mx,b=ry[i]-mx;num+=a*b;dx+=a*a;dy+=b*b;}
+  return num/Math.sqrt(dx*dy);
+}
+
+function fillTeamSelect(){
+  const names=[...S.teamInfo.keys()].sort();
+  $('teamsel').innerHTML=names.map(n=>'<option>'+esc(n)+'</option>').join('');
+  if(!selTeam||!S.teamInfo.has(selTeam)) selTeam=names[0];
+  $('teamsel').value=selTeam;
+}
+
+function renderTeam(){
+  if(!selTeam) return;
+  $('team-sub').textContent = MODE==='breadth'
+    ? "Every week's game and what it was worth. Each one is judged by the opponent's full season with this game removed, then by how those opponents did in turn. The line beside each game is its revision history: what the win or loss was worth when it was first graded, and what every later week did to that number."
+    : "Every week's game and what it was worth. Chain mode follows a single thread: your opponent's next result, then that team's next result, and so on. It ignores the rest of each opponent's season. Switch to weighing every opponent on the Slates tab.";
+  $('teamsel').value=selTeam;
+  const arr=(scores().get(selTeam))||[];
+  const info=S.teamInfo.get(selTeam)||{};
+  let wins=0,losses=0;
+  for(let w=1;w<=horizon;w++){const e=byWeek[w].get(selTeam); if(e) e.res===WIN?wins++:losses++;}
+  const tot=arr.reduce((s,x)=>s+x.score,0);
+  $('team-facts').innerHTML=
+    fact(wins+'&#8209;'+losses,'record through week '+horizon)+
+    fact(tot.toFixed(1),'season total')+
+    fact(arr.length?(tot/arr.length).toFixed(1):'—','average per game')+
+    fact(esc(info.conference||'—'),'conference');
+
+  let h='';
+  for(let w=1;w<=horizon;w++){
+    const e=byWeek[w].get(selTeam);
+    if(!e){h+='<div style="padding:10px 0;border-bottom:1px solid var(--rule-soft);color:var(--muted);font-size:13px">Week '+w+' — bye</div>';continue;}
+    const d=maxDraft(w);
+    const sl=slate(w,d);
+    const rec=arr.find(x=>x.week===w)||{};
+    const evidence = MODE==='chain'
+      ? chainText(chainOf(selTeam,w,d))
+      : breadthText(selTeam,w,d);
+    const glyph = MODE==='chain' ? bitsHTML(value(selTeam,w,d))
+      : '<span style="font-family:var(--mono);font-size:12px;color:var(--muted)">'+
+        bvalue(selTeam,w,d).slice(1).map(v=>v.toFixed(3)).join('&nbsp;&nbsp;')+'</span>';
+    h+='<div style="padding:14px 0;border-bottom:1px solid var(--rule-soft)">'+
+       '<div style="display:flex;gap:16px;flex-wrap:wrap;align-items:baseline;margin-bottom:6px">'+
+       '<b style="font-family:var(--mono)">Week '+w+'</b>'+
+       '<span class="'+(e.res===WIN?'W':'L')+'">'+(e.res===WIN?'beat':'lost to')+'</span> '+
+       '<button class="tname" data-t="'+esc(e.opp)+'">'+esc(e.opp)+'</button>'+
+       '<span style="color:var(--muted);font-size:12.5px">slate rank '+(rec.rank||'—')+' of '+sl.n+
+       ' &nbsp;·&nbsp; score '+(rec.score!==undefined?rec.score.toFixed(1):'—')+'</span>'+
+       glyph+'</div>'+
+       '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:2px 0 8px">'+
+       '<span class="revlab">week by week</span>'+sparkHTML(revisionPath(selTeam,w))+'</div>'+
+       '<div class="chain">'+evidence+'</div></div>';
+  }
+  $('team-body').innerHTML=h;
+  wireTeamLinks($('team-body'));
+}
+function chainText(steps){
+  return steps.map((s,i)=>{
+    if(s.week===null) return '<span style="color:var(--dim)">'+esc(s.team)+' had no further games — neutral</span>';
+    return (i?'&nbsp;&nbsp;↳ ':'')+'wk '+s.week+' <b>'+esc(s.team)+'</b> '+
+      (s.res===WIN?'<span class="W">beat</span>':'<span class="L">lost to</span>')+' '+esc(s.opp);
+  }).join('<br>');
+}
+
+function breadthText(t,w,d){
+  const e=byWeek[w].get(t); const H=Math.min(w+d-1,horizon);
+  const gs=(gamesOf.get(e.opp)||[]).filter(g=>g.week<=H && g.id!==e.id)
+                                   .sort((a,b)=>a.week-b.week);
+  const won=gs.filter(g=>g.res===WIN).length;
+  let h='<b>'+esc(e.opp)+'</b> is '+won+'&#8209;'+(gs.length-won)+' in their other games'+
+        (gs.length?':':' so far — nothing to go on yet.')+'<br>';
+  h+=gs.map(g=>'&nbsp;&nbsp;wk '+g.week+' '+
+      (g.res===WIN?'<span class="W">beat</span>':'<span class="L">lost to</span>')+' '+esc(g.opp)).join('<br>');
+  for(let k=2;k<=LEVELS;k++)
+    h+='<br><span style="color:var(--dim)">level '+k+', opponents '+k+' steps out: '+
+       levelVal(e.opp,e.id,k,H).toFixed(3)+'</span>';
+  return h;
+}
+
+function wireTeamLinks(root){
+  root.querySelectorAll('.tname').forEach(b=>b.onclick=()=>{
+    selTeam=b.dataset.t; showTab('team'); renderTeam();
+  });
+}
+
+function renderAll(){renderStatus();renderTriangle();renderSlate();renderNational();renderPolls();renderTeam();renderConn();renderCost();}
+
+function runBacktest(){
+  const start=+$('bt-start').value;
+  let end=+$('bt-end').value; if(!Number.isFinite(end)||end<start+1) end=S.maxWeek;
+  const configs=[
+    ["Weigh every opponent, 2 levels, average", ()=>backtestRanking('breadth',2,'avg',start,end)],
+    ["Weigh every opponent, 2 levels, sum",     ()=>backtestRanking('breadth',2,'sum',start,end)],
+    ["Weigh every opponent, 1 level, average",  ()=>backtestRanking('breadth',1,'avg',start,end)],
+    ["Follow one chain, average",               ()=>backtestRanking('chain',2,'avg',start,end)],
+    ["Plain win percentage",                    ()=>backtestWinPct(start,end)],
+    ["Home team always",                        ()=>backtestHome(start,end)],
+  ];
+  const out=[];
+  for(const [name,fn] of configs){
+    try{ const r=fn(); if(r.T>0) out.push({name,...r}); }
+    catch(e){ console.error(name,e); }
+  }
+  out.sort((a,b)=>(b.H/b.T)-(a.H/a.T));
+  const base=out.find(r=>r.name==="Plain win percentage");
+
+  let h='<thead><tr><th>Method</th><th class="num">Correct</th><th class="num">Games</th>'+
+        '<th class="num">Hit rate</th><th class="num">vs win %</th><th>Is the gap real?</th></tr></thead><tbody>';
+  for(const r of out){
+    let cmp='<td class="num">—</td><td style="color:var(--muted);font-size:12.5px">reference</td>';
+    if(base && r!==base){
+      const m=mcnemar(r.log,base.log);
+      const sign=m.b>m.c?'+':'';
+      const verdict = m.n===0 ? 'never disagreed'
+        : m.p<0.01 ? 'yes, p &lt; 0.01'
+        : m.p<0.05 ? 'yes, p &lt; 0.05'
+        : 'not proven, p = '+m.p.toFixed(2);
+      const col = m.p<0.05 ? (m.b>m.c?'var(--win)':'var(--loss)') : 'var(--muted)';
+      cmp='<td class="num">'+sign+(m.b-m.c)+'</td>'+
+          '<td style="font-size:12.5px;color:'+col+'">'+verdict+
+          '<span style="color:var(--muted)"> ('+m.n+' disagreements)</span></td>';
+    }
+    h+='<tr><td>'+esc(r.name)+'</td><td class="num">'+r.H+'</td><td class="num">'+r.T+'</td>'+
+       '<td class="num"><b>'+(r.H/r.T*100).toFixed(1)+'%</b></td>'+cmp+'</tr>';
+  }
+  $('bt-tbl').innerHTML=h+'</tbody>';
+
+  const best=out.find(r=>r.rows.length);
+  if(best){
+    let d='<h2 style="margin-top:26px">Week by week — '+esc(best.name)+'</h2>'+
+          '<div class="tbl-scroll"><table class="data"><thead><tr><th class="num">Predicting week</th>'+
+          '<th class="num">Correct</th><th class="num">Games</th><th class="num">Hit rate</th></tr></thead><tbody>';
+    for(const w of best.rows){
+      if(!w.t) continue;
+      d+='<tr><td class="num">'+w.week+'</td><td class="num">'+w.h+'</td><td class="num">'+w.t+'</td>'+
+         '<td class="num">'+(w.h/w.t*100).toFixed(1)+'%</td></tr>';
+    }
+    $('bt-detail').innerHTML=d+'</tbody></table></div>';
+  }
+  $('bt-msg').className='msg ok';
+  $('bt-msg').textContent='Predicted weeks '+(start+1)+' through '+end+'.';
+}
+$('bt-run').onclick=()=>{
+  $('bt-msg').className='msg'; $('bt-msg').textContent='Running…';
+  $('bt-run').disabled=true;
+  setTimeout(()=>{ try{ runBacktest(); }catch(e){
+    $('bt-msg').className='msg err'; $('bt-msg').textContent='Backtest failed: '+e.message;
+  } $('bt-run').disabled=false; },30);
+};
+
+/* ---------- tabs ---------- */
+const TABS=['slates','national','polls','team','backtest','cost','data'];
+function showTab(name){
+  TABS.forEach(t=>{
+    $('t-'+t).setAttribute('aria-selected',String(t===name));
+    $('v-'+t).classList.toggle('on',t===name);
+  });
+}
+TABS.forEach(t=>$('t-'+t).onclick=()=>showTab(t));
+
+/* ---------- controls ---------- */
+$('hz').oninput=e=>{
+  horizon=+e.target.value; $('hzval').textContent=horizon;
+  if(selWeek>horizon) selWeek=horizon;
+  rebuild(); renderAll();
+};
+let hzTimer=null;
+$('hzplay').onclick=()=>{
+  if(hzTimer){clearInterval(hzTimer);hzTimer=null;$('hzplay').textContent='Play season';return;}
+  $('hzplay').textContent='Stop';
+  let w=1;
+  hzTimer=setInterval(()=>{
+    $('hz').value=w; horizon=w; $('hzval').textContent=w;
+    if(selWeek>horizon) selWeek=horizon;
+    rebuild(); renderAll();
+    if(++w>S.maxWeek){clearInterval(hzTimer);hzTimer=null;$('hzplay').textContent='Play season';}
+  },700);
+};
+let dTimer=null;
+$('draftplay').onclick=()=>{
+  if(dTimer){clearInterval(dTimer);dTimer=null;$('draftplay').textContent='Play drafts for this week';return;}
+  $('draftplay').textContent='Stop';
+  let d=1; const md=maxDraft(selWeek);
+  dTimer=setInterval(()=>{
+    selDraft=d; renderTriangle(); renderSlate();
+    if(++d>md){clearInterval(dTimer);dTimer=null;$('draftplay').textContent='Play drafts for this week';}
+  },650);
+};
+function renderConn(){
+  const rows=[];
+  const div=new Map(), conf=new Map();
+  let xDiv=0, nAll=0;
+  for(const g of S.games){
+    if(g.week>horizon) continue; nAll++;
+    const da=divOf(g.winner), db=divOf(g.loser);
+    if(da!==db) xDiv++;
+    for(const [t,o] of [[g.winner,g.loser],[g.loser,g.winner]]){
+      const c=(S.teamInfo.get(t)||{}).conference||'—';
+      const oc=(S.teamInfo.get(o)||{}).conference||'—';
+      if(!conf.has(c)) conf.set(c,[0,0]);
+      const r=conf.get(c); r[1]++; if(c!==oc) r[0]++;
+      if(!div.has(da)) div.set(da,0);
+    }
+  }
+  let h='<div class="facts">'+
+    fact(nAll?(xDiv/nAll*100).toFixed(1)+'%':'—','of games cross a division line')+
+    fact(xDiv,'cross-division games')+'</div>';
+  const list=[...conf.entries()].map(([c,r])=>({c,pct:r[1]?r[0]/r[1]*100:0,n:r[1]}))
+    .sort((a,b)=>a.pct-b.pct);
+  h+='<div class="tbl-scroll"><table class="data"><thead><tr><th>Conference</th>'+
+     '<th class="num">Games</th><th class="num">Played outside the conference</th><th></th></tr></thead><tbody>';
+  for(const r of list){
+    const weak = r.pct<20;
+    h+='<tr><td>'+esc(r.c)+'</td><td class="num">'+r.n+'</td>'+
+       '<td class="num">'+r.pct.toFixed(0)+'%</td>'+
+       '<td style="font-size:12px;color:'+(weak?'var(--loss)':'var(--muted)')+'">'+
+       (weak?'too few links to rank against others reliably':'')+'</td></tr>';
+  }
+  $('conn').innerHTML=h+'</tbody></table></div>';
+}
+
+function setDiv(m){
+  divMode=m;
+  $('d-all').setAttribute('aria-pressed',String(m==='all'));
+  $('d-cross').setAttribute('aria-pressed',String(m==='crossover'));
+  $('d-none').setAttribute('aria-pressed',String(m==='exclude'));
+  $('divnote').textContent = m==='all'
+    ? 'Every game counts. Lower-division teams are ranked on records built mostly against each other, so their positions run high.'
+    : m==='crossover'
+    ? 'Lower-division teams keep only their games against the top division, so their records reflect the one thing the system can actually measure. Beating them stops being worth much.'
+    : 'Lower-division teams and every game they played are removed. A top-division team that lost to one no longer carries that loss.';
+  rebuild(); renderAll();
+}
+$('d-all').onclick=()=>setDiv('all');
+$('d-cross').onclick=()=>setDiv('crossover');
+$('d-none').onclick=()=>setDiv('exclude');
+
+function setMode(m){
+  MODE=m;
+  $('m-chain').setAttribute('aria-pressed',String(m==='chain'));
+  $('m-breadth').setAttribute('aria-pressed',String(m==='breadth'));
+  $('levelrow').style.display = m==='breadth' ? 'flex' : 'none';
+  $('modenote').textContent = m==='chain'
+    ? 'Your result, then your opponent\'s next result, then that team\'s next result. One thread, followed as deep as the season allows. Exact powers of two.'
+    : 'Your result, then how your opponent did across all their other games, then how those opponents did, and so on. Every game counts, none counted twice.';
+  slateCache.clear(); scoreCache=null;
+  renderTriangle(); renderSlate(); renderNational(); renderTeam();
+}
+$('m-chain').onclick=()=>setMode('chain');
+$('m-breadth').onclick=()=>setMode('breadth');
+$('levels').onchange=e=>{ LEVELS=+e.target.value; slateCache.clear(); scoreCache=null;
+  renderSlate(); renderNational(); renderTeam(); };
+
+function setAgg(m){
+  aggMode=m;
+  for(const [id,on] of [['agg-sum',m==='sum'],['agg-avg',m==='avg'],
+                        ['p-sum',m==='sum'],['p-avg',m==='avg']])
+    $(id).setAttribute('aria-pressed',String(on));
+  renderNational(); renderPolls();
+}
+$('agg-sum').onclick=()=>setAgg('sum');
+$('agg-avg').onclick=()=>setAgg('avg');
+$('p-sum').onclick=()=>setAgg('sum');
+$('p-avg').onclick=()=>setAgg('avg');
+$('fbsonly').onchange=renderNational;
+function setGate(mode,n){
+  GATE_N=+n;
+  for(const id of ['gatemode','p-gatemode']) $(id).value=mode;
+  for(const id of ['gaten','p-gaten'])      $(id).value=String(n);
+  renderNational(); renderPolls();
+}
+$('gatemode').onchange  =e=>setGate(e.target.value,$('gaten').value);
+$('p-gatemode').onchange=e=>setGate(e.target.value,$('p-gaten').value);
+$('gaten').onchange     =e=>setGate($('gatemode').value,e.target.value);
+$('p-gaten').onchange   =e=>setGate($('p-gatemode').value,e.target.value);
+$('teamsel').onchange=e=>{selTeam=e.target.value;renderTeam();};
+
+$('cost-sum').onclick=()=>{costAggMode='sum';$('cost-sum').setAttribute('aria-pressed','true');$('cost-avg').setAttribute('aria-pressed','false');renderCost();};
+$('cost-avg').onclick=()=>{costAggMode='avg';$('cost-avg').setAttribute('aria-pressed','true');$('cost-sum').setAttribute('aria-pressed','false');renderCost();};
+$('cost-sort-eff').onchange=e=>{costSortEff=e.target.checked;renderCost();};
+
+/* ---------- data tab ---------- */
+function msg(text,kind){$('datamsg').className='msg '+(kind||'');$('datamsg').textContent=text;}
+function tryLoad(text){
+  try{
+    const season=ingest(JSON.parse(text));
+    install(season);
+    msg('Loaded '+season.games.length+' games across '+season.maxWeek+' weeks, '+season.teamInfo.size+' teams.'+
+        (season.skipped.length?' Skipped '+season.skipped.length+': '+season.skipped.slice(0,3).join('; ')+(season.skipped.length>3?' …':''):''),'ok');
+  }catch(err){ msg('Could not load. '+err.message,'err'); }
+}
+$('loadpaste').onclick=()=>{
+  const v=$('paste').value.trim();
+  if(!v){msg('Paste some JSON first.','err');return;}
+  tryLoad(v);
+};
+$('file').onchange=e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>tryLoad(r.result);
+  r.onerror=()=>msg('Could not read that file.','err');
+  r.readAsText(f);
+};
+$('fetchbtn').onclick=async()=>{
+  const u=$('url').value.trim();
+  if(!u){msg('Enter a URL first.','err');return;}
+  msg('Fetching…');
+  try{
+    const res=await fetch(u);
+    if(!res.ok) throw new Error('Server returned '+res.status+'.');
+    tryLoad(await res.text());
+  }catch(err){ msg('Fetch failed. '+err.message+' The host must allow cross-origin requests.','err'); }
+};
+let seed=7;
+$('regen').onclick=()=>{ seed=(seed*7919+13)>>>0; install(makeSeason(seed)); msg('Generated a new season.','ok'); };
+
+/* ---------- go ---------- */
+install(makeSeason(seed));
+setMode('breadth');
+setDiv('all');
+</script>
+</body>
+</html>

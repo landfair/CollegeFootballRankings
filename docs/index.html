@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Recursive Rankings</title>
+<meta name="description" content="College football rankings built only from who beat whom.">
+<style>
+  :root{
+    --bg:#faf9f6; --ink:#1a1a18; --muted:#6b6b63; --rule:#dedcd4; --soft:#edebe4;
+    --mark:#b8860b; --win:#2e7d4f; --loss:#b3443a; --panel:#fff;
+    --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme=light]){
+      --bg:#17171a; --ink:#ecebe6; --muted:#9a998f; --rule:#33332f;
+      --soft:#222226; --mark:#d9a62e; --win:#5fbd85; --loss:#e0756a; --panel:#1e1e22;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Helvetica,sans-serif}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 16px 64px}
+  header{border-bottom:1px solid var(--rule);margin-bottom:22px}
+  .bar{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;padding:20px 0 14px}
+  h1{font-size:21px;margin:0;letter-spacing:-.01em}
+  nav{margin-left:auto;display:flex;gap:16px}
+  nav a{color:var(--muted);text-decoration:none;font-size:14px}
+  nav a:hover,nav a[aria-current]{color:var(--ink)}
+  .lede{color:var(--muted);font-size:14px;margin:0 0 18px;max-width:62ch}
+  .controls{display:flex;gap:18px;flex-wrap:wrap;align-items:center;
+    background:var(--panel);border:1px solid var(--rule);border-radius:8px;padding:12px 14px;margin-bottom:6px}
+  .ctl{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted)}
+  select{font:inherit;font-size:13px;padding:3px 6px;border:1px solid var(--rule);
+    border-radius:5px;background:var(--panel);color:var(--ink)}
+  input[type=range]{accent-color:var(--mark);width:150px}
+  .wk{font-family:var(--mono);font-size:17px;font-weight:600;min-width:2.4ch;text-align:right}
+  .status{color:var(--muted);font-size:13px;margin:12px 0 16px;min-height:1.4em}
+  .status b{color:var(--ink);font-weight:600}
+  .scroll{overflow-x:auto;border:1px solid var(--rule);border-radius:8px;background:var(--panel)}
+  table{border-collapse:collapse;width:100%;font-size:13.5px}
+  th,td{padding:7px 11px;text-align:left;white-space:nowrap}
+  th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+    font-weight:600;border-bottom:1px solid var(--rule);position:sticky;top:0;background:var(--panel)}
+  tbody tr:nth-child(even){background:var(--soft)}
+  .num{text-align:right;font-family:var(--mono)}
+  .rk{text-align:right;font-family:var(--mono);color:var(--muted);width:3.5em}
+  .tm{font-weight:600}
+  .cf{color:var(--muted);font-size:12.5px}
+  .nr{color:var(--muted)}
+  .up{color:var(--win)} .dn{color:var(--loss)}
+  .msg{padding:18px;color:var(--muted);font-size:14px}
+  footer{margin-top:28px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--rule);padding-top:14px}
+  footer a{color:var(--muted)}
+  @media (max-width:640px){ .cf{display:none} th:nth-child(3),td:nth-child(3){display:none} }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="bar">
+    <h1>Recursive Rankings</h1>
+    <nav><a href="./" aria-current="page">Rankings</a><a href="about.html">About</a></nav>
+  </div>
+</header>
+
+<p class="lede">College football ranked only by who beat whom — no preseason expectation,
+no margin of victory, no votes. The AP and Coaches polls are shown alongside for comparison.</p>
+
+<div class="controls">
+  <label class="ctl">Season
+    <select id="season"><option>2026</option><option>2025</option><option>2024</option></select>
+  </label>
+  <label class="ctl">Through week
+    <input type="range" id="wk" min="1" max="8" value="8"><span class="wk" id="wkv">8</span>
+  </label>
+  <label class="ctl">Victors gate
+    <select id="gmode">
+      <option value="off">off</option>
+      <option value="one">one pass</option>
+      <option value="stable" selected>self&#8209;consistent</option>
+    </select>
+  </label>
+  <label class="ctl">over top
+    <select id="gn"><option>25</option><option>50</option><option>75</option><option selected>100</option></select>
+  </label>
+</div>
+<p class="status" id="status">Loading…</p>
+
+<div class="scroll"><table id="tbl"><tbody><tr><td class="msg">Loading…</td></tr></tbody></table></div>
+
+<footer>Game results and polls from
+<a href="https://collegefootballdata.com">collegefootballdata.com</a>.
+Rankings recomputed in your browser. <a href="about.html">How this works</a>.</footer>
+</div>
+
+<script>
+const WIN=1,LOSS=0,NEUTRAL=.5,LEVELS=2,SHOW=100,GATE_FROM=8;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function ingest(raw){
+  const teamInfo=new Map();
+  for(const t of (raw.teams||[])){
+    const n=typeof t==='string'?t:t.name;
+    if(n) teamInfo.set(n,{name:n,conference:t.conference||'',division:t.division||'FBS'});
+  }
+  const games=[],seen=new Set();
+  for(const g of raw.games){
+    const w=Number(g.week), hp=Number(g.homePoints), ap=Number(g.awayPoints);
+    if(!Number.isFinite(w)||w<1||!g.home||!g.away) continue;
+    if(!Number.isFinite(hp)||!Number.isFinite(ap)||hp===ap) continue;
+    const win=hp>ap?g.home:g.away, lose=hp>ap?g.away:g.home;
+    if(seen.has(w+'|'+win)||seen.has(w+'|'+lose)) continue;
+    seen.add(w+'|'+win); seen.add(w+'|'+lose);
+    for(const n of [win,lose]) if(!teamInfo.has(n)) teamInfo.set(n,{name:n,conference:'',division:'FBS'});
+    games.push({week:w,winner:win,loser:lose,margin:Math.abs(hp-ap)});
+  }
+  const polls=[];
+  for(const p of (raw.polls||[])){
+    if(!p||!Array.isArray(p.ranks)) continue;
+    const ranks=p.ranks.filter(r=>r&&r.team&&Number.isFinite(Number(r.rank)))
+      .map(r=>({team:String(r.team),rank:Number(r.rank)})).sort((a,b)=>a.rank-b.rank);
+    if(ranks.length) polls.push({poll:String(p.poll||'Poll'),week:Number(p.week)||0,
+      throughWeek:Number(p.throughWeek)||0,ranks});
+  }
+  return {teamInfo,games,polls,maxWeek:Math.max(...games.map(g=>g.week))};
+}
+
+/* Every game is graded by what happened next: your result, then your opponent's
+   record with this game removed, then how those opponents did in turn. Compared
+   lexicographically, ranked within each week, converted to 0-100, averaged. */
+function build(season,horizon){
+  const byWeek=[],gamesOf=new Map();
+  for(let w=0;w<=horizon;w++) byWeek.push(new Map());
+  season.games.forEach((g,i)=>{
+    if(g.week>horizon) return;
+    byWeek[g.week].set(g.winner,{opp:g.loser,res:WIN,id:i});
+    byWeek[g.week].set(g.loser,{opp:g.winner,res:LOSS,id:i});
+    for(const [t,o,res] of [[g.winner,g.loser,WIN],[g.loser,g.winner,LOSS]]){
+      if(!gamesOf.has(t)) gamesOf.set(t,[]);
+      gamesOf.get(t).push({week:g.week,opp:o,res,id:i});
+    }
+  });
+  const memo=new Map();
+  const recordOf=(x,excl)=>{
+    const gs=gamesOf.get(x); if(!gs) return NEUTRAL;
+    let n=0,won=0;
+    for(const g of gs){ if(g.id===excl) continue; n++; if(g.res===WIN) won++; }
+    return n?won/n:NEUTRAL;
+  };
+  const levelVal=(x,excl,k)=>{
+    const key=x+'|'+excl+'|'+k, hit=memo.get(key);
+    if(hit!==undefined) return hit;
+    let out;
+    if(k<=1) out=recordOf(x,excl);
+    else{ let s=0,n=0;
+      for(const g of (gamesOf.get(x)||[])){ if(g.id===excl) continue; s+=levelVal(g.opp,g.id,k-1); n++; }
+      out=n?s/n:NEUTRAL; }
+    memo.set(key,out); return out;
+  };
+  const bvalue=(t,w)=>{
+    const e=byWeek[w]&&byWeek[w].get(t); if(!e) return null;
+    const out=[e.res];
+    for(let k=1;k<=LEVELS;k++) out.push(levelVal(e.opp,e.id,k));
+    return out;
+  };
+  const cmp=(a,b)=>{
+    for(let i=0;i<Math.max(a.length,b.length);i++){
+      const x=a[i]===undefined?NEUTRAL:a[i], y=b[i]===undefined?NEUTRAL:b[i];
+      if(x!==y) return y-x;
+    }
+    return 0;
+  };
+  const pctOf=(n,rank,tied)=> n<2?50:(n-(rank-1)-tied+(tied-1)/2)/(n-1)*100;
+  const slateCache=new Map();
+  const slate=w=>{
+    const hit=slateCache.get(w); if(hit) return hit;
+    const rows=[...byWeek[w].keys()].map(t=>({team:t,val:bvalue(t,w)}));
+    rows.sort((a,b)=>cmp(a.val,b.val)||a.team.localeCompare(b.team));
+    const buckets=[];
+    for(const r of rows){
+      const last=buckets[buckets.length-1];
+      if(last&&cmp(last.val,r.val)===0) last.teams.push(r.team);
+      else buckets.push({val:r.val,teams:[r.team]});
+    }
+    let rank=1;
+    for(const b of buckets){ b.rank=rank; rank+=b.teams.length; }
+    const pos=new Map();
+    for(const b of buckets) for(const t of b.teams) pos.set(t,pctOf(rows.length,b.rank,b.teams.length));
+    const out={pos}; slateCache.set(w,out); return out;
+  };
+  const rows=[];
+  for(const [t,info] of season.teamInfo){
+    if(info.division!=='FBS') continue;
+    const arr=[]; let wins=0,losses=0,pd=0;
+    for(let w=1;w<=horizon;w++){
+      const e=byWeek[w].get(t); if(!e) continue;
+      arr.push(slate(w).pos.get(t));
+      e.res===WIN?wins++:losses++;
+      pd+=(e.res===WIN?1:-1)*season.games[e.id].margin;
+    }
+    if(!arr.length) continue;
+    rows.push({team:t,conference:info.conference,wins,losses,pd,games:arr.length,
+      key:arr.reduce((s,x)=>s+x,0)/arr.length});
+  }
+  rows.sort((a,b)=>b.key-a.key||b.pd-a.pd||a.team.localeCompare(b.team));
+  rows.forEach((r,i)=>r.rank=i+1);
+  return {rows,gamesOf};
+}
+
+/* To be ranked you must have beaten somebody worth beating. One pass reads the
+   tier off the finished order once. Self-consistent also requires that opponent
+   to qualify, and iterates until the set stops changing. */
+function applyGate(built,mode,N){
+  const rankOf=new Map(built.rows.map(r=>[r.team,r.rank]));
+  const winsOf=t=>(built.gamesOf.get(t)||[]).filter(g=>g.res===WIN).map(g=>g.opp);
+  const all=built.rows.map(r=>{
+    let best=Infinity;
+    for(const o of winsOf(r.team)){ const k=rankOf.get(o); if(k!=null&&k<best) best=k; }
+    return {...r,bestWin:best};
+  });
+  if(mode==='off') return {kept:all,all,passes:0};
+  if(mode==='one') return {kept:all.filter(r=>r.bestWin<=N),all,passes:1};
+  let live=new Set(all.map(r=>r.team)),passes=0;
+  for(;;){
+    passes++;
+    const next=new Set([...live].filter(t=>
+      winsOf(t).some(o=>live.has(o)&&(rankOf.get(o)??Infinity)<=N)));
+    if(next.size===live.size){ live=next; break; }
+    live=next;
+    if(passes>200||!live.size) break;
+  }
+  return {kept:all.filter(r=>live.has(r.team)),all,passes};
+}
+
+const pollAt=(season,name,h)=>{
+  let best=null;
+  for(const p of season.polls)
+    if(p.poll===name&&p.throughWeek>=1&&p.throughWeek<=h&&(!best||p.throughWeek>best.throughWeek)) best=p;
+  return best;
+};
+
+let SEASON=null, CACHE=new Map();
+async function load(year){
+  if(CACHE.has(year)){ SEASON=CACHE.get(year); return; }
+  const res=await fetch('season-'+year+'.json');
+  if(!res.ok) throw new Error('could not load season-'+year+'.json ('+res.status+')');
+  SEASON=ingest(await res.json());
+  CACHE.set(year,SEASON);
+}
+
+function render(){
+  if(!SEASON) return;
+  const h=+$('wk').value;
+  $('wkv').textContent=h;
+  const early=h<GATE_FROM;
+  $('gmode').disabled=early; $('gn').disabled=early;
+  const mode=early?'off':$('gmode').value, N=+$('gn').value;
+  const built=build(SEASON,h);
+  const g=applyGate(built,mode,N);
+  const rows=g.kept.slice(0,SHOW);
+  const ap=pollAt(SEASON,'AP Top 25',h), co=pollAt(SEASON,'Coaches Poll',h);
+  const apR=new Map((ap?ap.ranks:[]).map(r=>[r.team,r.rank]));
+  const coR=new Map((co?co.ranks:[]).map(r=>[r.team,r.rank]));
+
+  const bits=[`<b>${built.rows.length}</b> teams through week <b>${h}</b>`];
+  if(mode!=='off') bits.push(`gate removed <b>${g.all.length-g.kept.length}</b>`+
+    (mode==='stable'?` in ${g.passes} passes`:''));
+  else if(early) bits.push(`gate off before week ${GATE_FROM}`);
+  if(ap||co){
+    const t=(ap||co).throughWeek;
+    bits.push(t<h?`polls are from week ${t}, one step behind`:`polls reflect the same games`);
+  } else bits.push('no poll published this early');
+  if(mode==='stable'&&!g.kept.length)
+    bits.push('<b>nothing qualifies</b> — too little cross-conference play for the chain to close');
+  $('status').innerHTML=bits.join(' · ');
+
+  if(!rows.length){
+    $('tbl').innerHTML='<tbody><tr><td class="msg">No teams qualify at this setting. '+
+      'Try a wider tier, one pass, or a later week.</td></tr></tbody>';
+    return;
+  }
+  const cell=(v)=>v==null?'<td class="num nr">—</td>':`<td class="num">${v}</td>`;
+  const delta=(p,o)=>{
+    if(p==null) return '<td class="num nr">—</td>';
+    const d=p-o;
+    return `<td class="num ${d>0?'up':d<0?'dn':''}">${d>0?'+':''}${d}</td>`;
+  };
+  let html='<thead><tr><th class="rk">#</th><th>Team</th><th>Conference</th>'+
+    '<th class="num">Rec</th><th class="num">Rating</th><th class="num">Best win</th>'+
+    '<th class="num">AP</th><th class="num">Coaches</th><th class="num">vs AP</th></tr></thead><tbody>';
+  for(const r of rows){
+    const a=apR.get(r.team)??null, c=coR.get(r.team)??null;
+    html+=`<tr><td class="rk">${r.rank}</td><td class="tm">${esc(r.team)}</td>`+
+      `<td class="cf">${esc(r.conference||'')}</td>`+
+      `<td class="num">${r.wins}‑${r.losses}</td>`+
+      `<td class="num"><b>${r.key.toFixed(1)}</b></td>`+
+      `<td class="num nr">${Number.isFinite(r.bestWin)?'#'+r.bestWin:'—'}</td>`+
+      cell(a)+cell(c)+delta(a,r.rank)+'</tr>';
+  }
+  $('tbl').innerHTML=html+'</tbody>';
+}
+
+async function pick(year){
+  $('status').textContent='Loading '+year+'…';
+  try{
+    await load(year);
+    const s=$('wk');
+    s.max=SEASON.maxWeek;
+    s.value=SEASON.maxWeek;
+    render();
+  }catch(e){
+    $('status').textContent=e.message;
+    $('tbl').innerHTML='<tbody><tr><td class="msg">'+esc(e.message)+
+      '<br>Serve this folder over http:// — opening the file directly blocks the data load.</td></tr></tbody>';
+  }
+}
+$('season').onchange=e=>pick(e.target.value);
+$('wk').oninput=render;
+$('gmode').onchange=render;
+$('gn').onchange=render;
+pick($('season').value);
+</script>
+</body>
+</html>

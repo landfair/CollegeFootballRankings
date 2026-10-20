@@ -1,0 +1,9 @@
+# Static site, no build step. Everything is computed in the browser.
+[build]
+  publish = "docs"
+  command = ""
+
+[[headers]]
+  for = "/*.json"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
