@@ -159,10 +159,16 @@ const WIN=1,LOSS=0,NEUTRAL=.5,LEVELS=2,SHOW=100;
 
 /* The gate tightens as the season fills in, because a self-consistent rule needs
    cross-conference results to close a chain and there are none in September.
-   Worst case over 2014-2025: tier 100 holds 69+ teams from week 10, tier 75 holds
-   39+, tier 50 bottoms out at 10 (2015, week 10). Edit here to change it. */
+   The steps are set so no season collapses to a handful of teams. Worst case
+   over 2014-2025, at the week each tier takes over:
+       tier 100   wk8  24   wk9  35
+       tier  75   wk10 39   wk11 40   wk12 40   wk13 44   wk14 51
+       tier  50   wk15 29   wk16 33   wk17 36
+   Tightening earlier is tempting and costly: tier 50 from week 10 would bottom
+   out at 10 teams (2015), and 11 in 2024. Edit here to change it. */
 const GATE_SCHEDULE=[
-  {from:10,mode:'stable',n:50},
+  {from:15,mode:'stable',n:50},
+  {from:10,mode:'stable',n:75},
   {from:8, mode:'stable',n:100},
   {from:1, mode:'off',   n:100},
 ];
