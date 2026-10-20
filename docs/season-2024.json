@@ -3396,12 +3396,12 @@
    "division": "OTHER"
   },
   {
-   "name": "Jamestown",
+   "name": "Valley City State",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Valley City State",
+   "name": "Jamestown",
    "conference": "",
    "division": "OTHER"
   },
@@ -3471,12 +3471,12 @@
    "division": "OTHER"
   },
   {
-   "name": "Arkansas Baptist",
+   "name": "Langston",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Langston",
+   "name": "Arkansas Baptist",
    "conference": "",
    "division": "OTHER"
   },
@@ -3516,17 +3516,12 @@
    "division": "OTHER"
   },
   {
-   "name": "Oklahoma Panhandle",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
    "name": "Madonna University (Mich.)",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Keiser (Fl)",
+   "name": "Georgetown College Kentucky",
    "conference": "",
    "division": "OTHER"
   },
@@ -3536,7 +3531,7 @@
    "division": "OTHER"
   },
   {
-   "name": "Georgetown College Kentucky",
+   "name": "Keiser (Fl)",
    "conference": "",
    "division": "OTHER"
   },
@@ -3547,6 +3542,11 @@
   },
   {
    "name": "Louisiana Christian",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Oklahoma Panhandle",
    "conference": "",
    "division": "OTHER"
   },
@@ -26715,6 +26715,13 @@
   },
   {
    "week": 13,
+   "home": "Miles",
+   "away": "Clark Atlanta",
+   "homePoints": 53,
+   "awayPoints": 25
+  },
+  {
+   "week": 13,
    "home": "Millsaps",
    "away": "Trinity (TX)",
    "homePoints": 24,
@@ -27048,6 +27055,13 @@
    "away": "UMass Dartmouth",
    "homePoints": 42,
    "awayPoints": 47
+  },
+  {
+   "week": 13,
+   "home": "Pomona Pitzer",
+   "away": "Chapman",
+   "homePoints": 37,
+   "awayPoints": 34
   },
   {
    "week": 13,
@@ -27436,6 +27450,13 @@
   },
   {
    "week": 13,
+   "home": "Virginia State",
+   "away": "Virginia Union",
+   "homePoints": 13,
+   "awayPoints": 17
+  },
+  {
+   "week": 13,
    "home": "WPI",
    "away": "MIT",
    "homePoints": 34,
@@ -27695,6 +27716,13 @@
   },
   {
    "week": 14,
+   "home": "Angelo State",
+   "away": "Bemidji State",
+   "homePoints": 14,
+   "awayPoints": 24
+  },
+  {
+   "week": 14,
    "home": "App State",
    "away": "James Madison",
    "homePoints": 34,
@@ -27737,6 +27765,13 @@
   },
   {
    "week": 14,
+   "home": "Augustana (SD)",
+   "away": "Minnesota State",
+   "homePoints": 19,
+   "awayPoints": 20
+  },
+  {
+   "week": 14,
    "home": "Austin Peay",
    "away": "Chattanooga",
    "homePoints": 17,
@@ -27748,6 +27783,13 @@
    "away": "Bowling Green",
    "homePoints": 13,
    "awayPoints": 38
+  },
+  {
+   "week": 14,
+   "home": "Berry",
+   "away": "Maryville (TN)",
+   "homePoints": 16,
+   "awayPoints": 20
   },
   {
    "week": 14,
@@ -27786,6 +27828,13 @@
   },
   {
    "week": 14,
+   "home": "California (PA)",
+   "away": "East Stroudsburg",
+   "homePoints": 30,
+   "awayPoints": 27
+  },
+  {
+   "week": 14,
    "home": "Campbell",
    "away": "Towson",
    "homePoints": 23,
@@ -27807,6 +27856,20 @@
   },
   {
    "week": 14,
+   "home": "Central Oklahoma",
+   "away": "Ouachita Baptist",
+   "homePoints": 38,
+   "awayPoints": 31
+  },
+  {
+   "week": 14,
+   "home": "Charleston (WV)",
+   "away": "Ashland",
+   "homePoints": 38,
+   "awayPoints": 40
+  },
+  {
+   "week": 14,
    "home": "Clemson",
    "away": "The Citadel",
    "homePoints": 51,
@@ -27818,6 +27881,13 @@
    "away": "Georgia Southern",
    "homePoints": 6,
    "awayPoints": 26
+  },
+  {
+   "week": 14,
+   "home": "Coe",
+   "away": "Bethel (MN)",
+   "homePoints": 26,
+   "awayPoints": 31
   },
   {
    "week": 14,
@@ -27867,6 +27937,13 @@
    "away": "Buffalo",
    "homePoints": 20,
    "awayPoints": 37
+  },
+  {
+   "week": 14,
+   "home": "Endicott",
+   "away": "Alfred State",
+   "homePoints": 44,
+   "awayPoints": 0
   },
   {
    "week": 14,
@@ -27926,6 +28003,13 @@
   },
   {
    "week": 14,
+   "home": "Grand Valley State",
+   "away": "Indianapolis",
+   "homePoints": 24,
+   "awayPoints": 7
+  },
+  {
+   "week": 14,
    "home": "Harvard",
    "away": "Yale",
    "homePoints": 29,
@@ -27968,6 +28052,13 @@
   },
   {
    "week": 14,
+   "home": "John Carroll",
+   "away": "Mount St Joseph",
+   "homePoints": 52,
+   "awayPoints": 7
+  },
+  {
+   "week": 14,
    "home": "Kansas",
    "away": "Colorado",
    "homePoints": 37,
@@ -27993,6 +28084,13 @@
    "away": "Akron",
    "homePoints": 17,
    "awayPoints": 38
+  },
+  {
+   "week": 14,
+   "home": "King's",
+   "away": "Ursinus",
+   "homePoints": 32,
+   "awayPoints": 29
   },
   {
    "week": 14,
@@ -28098,6 +28196,13 @@
    "away": "New Mexico State",
    "homePoints": 21,
    "awayPoints": 36
+  },
+  {
+   "week": 14,
+   "home": "Miles",
+   "away": "Carson Newman",
+   "homePoints": 14,
+   "awayPoints": 13
   },
   {
    "week": 14,
@@ -28241,6 +28346,13 @@
   },
   {
    "week": 14,
+   "home": "Pittsburg State",
+   "away": "Harding",
+   "homePoints": 3,
+   "awayPoints": 48
+  },
+  {
+   "week": 14,
    "home": "Portland State",
    "away": "Northern Colorado",
    "homePoints": 45,
@@ -28301,6 +28413,13 @@
    "away": "UNLV",
    "homePoints": 16,
    "awayPoints": 27
+  },
+  {
+   "week": 14,
+   "home": "Slippery Rock",
+   "away": "New Haven",
+   "homePoints": 14,
+   "awayPoints": 7
   },
   {
    "week": 14,
@@ -28444,6 +28563,13 @@
   },
   {
    "week": 14,
+   "home": "Trinity (TX)",
+   "away": "Mary Hardin Baylor",
+   "homePoints": 22,
+   "awayPoints": 29
+  },
+  {
+   "week": 14,
    "home": "UAB",
    "away": "Rice",
    "homePoints": 40,
@@ -28535,9 +28661,23 @@
   },
   {
    "week": 14,
+   "home": "West Alabama",
+   "away": "Lenoir Rhyne",
+   "homePoints": 34,
+   "awayPoints": 37
+  },
+  {
+   "week": 14,
    "home": "West Virginia",
    "away": "UCF",
    "homePoints": 31,
+   "awayPoints": 21
+  },
+  {
+   "week": 14,
+   "home": "Western Colorado",
+   "away": "Central Washington",
+   "homePoints": 28,
    "awayPoints": 21
   },
   {
@@ -28549,10 +28689,38 @@
   },
   {
    "week": 14,
+   "home": "Whitworth",
+   "away": "Pomona Pitzer",
+   "homePoints": 21,
+   "awayPoints": 13
+  },
+  {
+   "week": 14,
+   "home": "Wingate",
+   "away": "Virginia Union",
+   "homePoints": 31,
+   "awayPoints": 34
+  },
+  {
+   "week": 14,
+   "home": "Wisconsin La Crosse",
+   "away": "Northwestern (MN)",
+   "homePoints": 59,
+   "awayPoints": 14
+  },
+  {
+   "week": 14,
    "home": "Wyoming",
    "away": "Boise State",
    "homePoints": 13,
    "awayPoints": 17
+  },
+  {
+   "week": 15,
+   "home": "Abilene Christian",
+   "away": "Northern Arizona",
+   "homePoints": 24,
+   "awayPoints": 0
   },
   {
    "week": 15,
@@ -28640,6 +28808,27 @@
   },
   {
    "week": 15,
+   "home": "CSU Pueblo",
+   "away": "Minnesota State",
+   "homePoints": 23,
+   "awayPoints": 26
+  },
+  {
+   "week": 15,
+   "home": "California (PA)",
+   "away": "Ashland",
+   "homePoints": 34,
+   "awayPoints": 33
+  },
+  {
+   "week": 15,
+   "home": "Carnegie Mellon",
+   "away": "Centre",
+   "homePoints": 24,
+   "awayPoints": 15
+  },
+  {
+   "week": 15,
    "home": "Charlotte",
    "away": "UAB",
    "homePoints": 29,
@@ -28675,10 +28864,24 @@
   },
   {
    "week": 15,
+   "home": "DePauw",
+   "away": "Maryville (TN)",
+   "homePoints": 45,
+   "awayPoints": 20
+  },
+  {
+   "week": 15,
    "home": "East Carolina",
    "away": "Navy",
    "homePoints": 20,
    "awayPoints": 34
+  },
+  {
+   "week": 15,
+   "home": "Ferris State",
+   "away": "Central Oklahoma",
+   "homePoints": 78,
+   "awayPoints": 17
   },
   {
    "week": 15,
@@ -28724,10 +28927,31 @@
   },
   {
    "week": 15,
+   "home": "Grand Valley State",
+   "away": "Harding",
+   "homePoints": 26,
+   "awayPoints": 44
+  },
+  {
+   "week": 15,
+   "home": "Hardin Simmons",
+   "away": "Mary Hardin Baylor",
+   "homePoints": 13,
+   "awayPoints": 17
+  },
+  {
+   "week": 15,
    "home": "Hawai'i",
    "away": "New Mexico",
    "homePoints": 38,
    "awayPoints": 30
+  },
+  {
+   "week": 15,
+   "home": "Hope",
+   "away": "Aurora",
+   "homePoints": 49,
+   "awayPoints": 21
   },
   {
    "week": 15,
@@ -28759,6 +28983,13 @@
   },
   {
    "week": 15,
+   "home": "Johns Hopkins",
+   "away": "Grove City",
+   "homePoints": 17,
+   "awayPoints": 14
+  },
+  {
+   "week": 15,
    "home": "Kentucky",
    "away": "Louisville",
    "homePoints": 14,
@@ -28766,10 +28997,31 @@
   },
   {
    "week": 15,
+   "home": "Kutztown",
+   "away": "Slippery Rock",
+   "homePoints": 24,
+   "awayPoints": 25
+  },
+  {
+   "week": 15,
    "home": "LSU",
    "away": "Oklahoma",
    "homePoints": 37,
    "awayPoints": 17
+  },
+  {
+   "week": 15,
+   "home": "Lake Forest",
+   "away": "Bethel (MN)",
+   "homePoints": 21,
+   "awayPoints": 48
+  },
+  {
+   "week": 15,
+   "home": "Linfield",
+   "away": "Texas Lutheran",
+   "homePoints": 65,
+   "awayPoints": 3
   },
   {
    "week": 15,
@@ -28801,6 +29053,27 @@
   },
   {
    "week": 15,
+   "home": "Montana",
+   "away": "Tennessee State",
+   "homePoints": 41,
+   "awayPoints": 27
+  },
+  {
+   "week": 15,
+   "home": "Mount Union",
+   "away": "John Carroll",
+   "homePoints": 42,
+   "awayPoints": 7
+  },
+  {
+   "week": 15,
+   "home": "New Hampshire",
+   "away": "UT Martin",
+   "homePoints": 10,
+   "awayPoints": 41
+  },
+  {
+   "week": 15,
    "home": "New Mexico State",
    "away": "UTEP",
    "homePoints": 35,
@@ -28812,6 +29085,13 @@
    "away": "NC State",
    "homePoints": 30,
    "awayPoints": 35
+  },
+  {
+   "week": 15,
+   "home": "North Central College",
+   "away": "Whitworth",
+   "homePoints": 42,
+   "awayPoints": 17
   },
   {
    "week": 15,
@@ -28864,6 +29144,20 @@
   },
   {
    "week": 15,
+   "home": "Randolph Macon",
+   "away": "Washington & Jefferson",
+   "homePoints": 38,
+   "awayPoints": 22
+  },
+  {
+   "week": 15,
+   "home": "Rhode Island",
+   "away": "Central Connecticut",
+   "homePoints": 21,
+   "awayPoints": 17
+  },
+  {
+   "week": 15,
    "home": "Rice",
    "away": "South Florida",
    "homePoints": 35,
@@ -28871,10 +29165,38 @@
   },
   {
    "week": 15,
+   "home": "Richmond",
+   "away": "Lehigh",
+   "homePoints": 16,
+   "awayPoints": 20
+  },
+  {
+   "week": 15,
    "home": "SMU",
    "away": "California",
    "homePoints": 38,
    "awayPoints": 6
+  },
+  {
+   "week": 15,
+   "home": "SUNY Cortland",
+   "away": "Endicott",
+   "homePoints": 17,
+   "awayPoints": 9
+  },
+  {
+   "week": 15,
+   "home": "Saint John's (MN)",
+   "away": "Wisconsin La Crosse",
+   "homePoints": 24,
+   "awayPoints": 13
+  },
+  {
+   "week": 15,
+   "home": "Salisbury",
+   "away": "King's",
+   "homePoints": 33,
+   "awayPoints": 13
   },
   {
    "week": 15,
@@ -28906,6 +29228,13 @@
   },
   {
    "week": 15,
+   "home": "Southeast Missouri State",
+   "away": "Illinois State",
+   "homePoints": 27,
+   "awayPoints": 35
+  },
+  {
+   "week": 15,
    "home": "Southern",
    "away": "Grambling",
    "homePoints": 24,
@@ -28913,10 +29242,31 @@
   },
   {
    "week": 15,
+   "home": "Springfield",
+   "away": "UMass Dartmouth",
+   "homePoints": 54,
+   "awayPoints": 27
+  },
+  {
+   "week": 15,
+   "home": "Susquehanna",
+   "away": "Hobart",
+   "homePoints": 42,
+   "awayPoints": 35
+  },
+  {
+   "week": 15,
    "home": "Syracuse",
    "away": "Miami",
    "homePoints": 42,
    "awayPoints": 38
+  },
+  {
+   "week": 15,
+   "home": "Tarleton State",
+   "away": "Drake",
+   "homePoints": 43,
+   "awayPoints": 29
   },
   {
    "week": 15,
@@ -28997,10 +29347,24 @@
   },
   {
    "week": 15,
+   "home": "Valdosta State",
+   "away": "Miles",
+   "homePoints": 33,
+   "awayPoints": 17
+  },
+  {
+   "week": 15,
    "home": "Vanderbilt",
    "away": "Tennessee",
    "homePoints": 23,
    "awayPoints": 36
+  },
+  {
+   "week": 15,
+   "home": "Villanova",
+   "away": "Eastern Kentucky",
+   "homePoints": 22,
+   "awayPoints": 17
   },
   {
    "week": 15,
@@ -29011,6 +29375,13 @@
   },
   {
    "week": 15,
+   "home": "Virginia Union",
+   "away": "Lenoir Rhyne",
+   "homePoints": 44,
+   "awayPoints": 12
+  },
+  {
+   "week": 15,
    "home": "Wake Forest",
    "away": "Duke",
    "homePoints": 17,
@@ -29018,10 +29389,24 @@
   },
   {
    "week": 15,
+   "home": "Wartburg",
+   "away": "Wisconsin Platteville",
+   "homePoints": 19,
+   "awayPoints": 14
+  },
+  {
+   "week": 15,
    "home": "Washington State",
    "away": "Wyoming",
    "homePoints": 14,
    "awayPoints": 15
+  },
+  {
+   "week": 15,
+   "home": "Western Colorado",
+   "away": "Bemidji State",
+   "homePoints": 19,
+   "awayPoints": 20
   },
   {
    "week": 15,
@@ -29046,10 +29431,290 @@
   },
   {
    "week": 16,
+   "home": "Arizona State",
+   "away": "Iowa State",
+   "homePoints": 45,
+   "awayPoints": 19
+  },
+  {
+   "week": 16,
+   "home": "Army",
+   "away": "Tulane",
+   "homePoints": 35,
+   "awayPoints": 14
+  },
+  {
+   "week": 16,
+   "home": "Boise State",
+   "away": "UNLV",
+   "homePoints": 21,
+   "awayPoints": 7
+  },
+  {
+   "week": 16,
+   "home": "California (PA)",
+   "away": "Slippery Rock",
+   "homePoints": 13,
+   "awayPoints": 31
+  },
+  {
+   "week": 16,
+   "home": "Carnegie Mellon",
+   "away": "Mount Union",
+   "homePoints": 19,
+   "awayPoints": 24
+  },
+  {
+   "week": 16,
+   "home": "Ferris State",
+   "away": "Harding",
+   "homePoints": 41,
+   "awayPoints": 7
+  },
+  {
+   "week": 16,
+   "home": "Hope",
+   "away": "North Central College",
+   "homePoints": 21,
+   "awayPoints": 41
+  },
+  {
+   "week": 16,
+   "home": "Idaho",
+   "away": "Lehigh",
+   "homePoints": 34,
+   "awayPoints": 13
+  },
+  {
+   "week": 16,
+   "home": "Incarnate Word",
+   "away": "Villanova",
+   "homePoints": 13,
+   "awayPoints": 6
+  },
+  {
+   "week": 16,
+   "home": "Jackson State",
+   "away": "Southern",
+   "homePoints": 41,
+   "awayPoints": 13
+  },
+  {
+   "week": 16,
+   "home": "Jacksonville State",
+   "away": "Western Kentucky",
+   "homePoints": 52,
+   "awayPoints": 12
+  },
+  {
+   "week": 16,
+   "home": "Johns Hopkins",
+   "away": "DePauw",
+   "homePoints": 14,
+   "awayPoints": 9
+  },
+  {
+   "week": 16,
+   "home": "Louisiana",
+   "away": "Marshall",
+   "homePoints": 3,
+   "awayPoints": 31
+  },
+  {
+   "week": 16,
+   "home": "Mary Hardin Baylor",
+   "away": "Linfield",
+   "homePoints": 28,
+   "awayPoints": 18
+  },
+  {
+   "week": 16,
+   "home": "Mercer",
+   "away": "Rhode Island",
+   "homePoints": 17,
+   "awayPoints": 10
+  },
+  {
+   "week": 16,
+   "home": "Miami (OH)",
+   "away": "Ohio",
+   "homePoints": 3,
+   "awayPoints": 38
+  },
+  {
+   "week": 16,
+   "home": "Minnesota State",
+   "away": "Bemidji State",
+   "homePoints": 27,
+   "awayPoints": 23
+  },
+  {
+   "week": 16,
+   "home": "Montana State",
+   "away": "UT Martin",
+   "homePoints": 49,
+   "awayPoints": 17
+  },
+  {
+   "week": 16,
+   "home": "North Dakota State",
+   "away": "Abilene Christian",
+   "homePoints": 51,
+   "awayPoints": 31
+  },
+  {
+   "week": 16,
+   "home": "Oregon",
+   "away": "Penn State",
+   "homePoints": 45,
+   "awayPoints": 37
+  },
+  {
+   "week": 16,
+   "home": "SMU",
+   "away": "Clemson",
+   "homePoints": 31,
+   "awayPoints": 34
+  },
+  {
+   "week": 16,
+   "home": "SUNY Cortland",
+   "away": "Springfield",
+   "homePoints": 28,
+   "awayPoints": 40
+  },
+  {
+   "week": 16,
+   "home": "Saint John's (MN)",
+   "away": "Susquehanna",
+   "homePoints": 38,
+   "awayPoints": 41
+  },
+  {
+   "week": 16,
+   "home": "Salisbury",
+   "away": "Randolph Macon",
+   "homePoints": 35,
+   "awayPoints": 14
+  },
+  {
+   "week": 16,
+   "home": "South Dakota",
+   "away": "Tarleton State",
+   "homePoints": 42,
+   "awayPoints": 31
+  },
+  {
+   "week": 16,
+   "home": "South Dakota State",
+   "away": "Montana",
+   "homePoints": 35,
+   "awayPoints": 18
+  },
+  {
+   "week": 16,
+   "home": "Texas",
+   "away": "Georgia",
+   "homePoints": 19,
+   "awayPoints": 22
+  },
+  {
+   "week": 16,
+   "home": "UC Davis",
+   "away": "Illinois State",
+   "homePoints": 42,
+   "awayPoints": 10
+  },
+  {
+   "week": 16,
+   "home": "Valdosta State",
+   "away": "Virginia Union",
+   "homePoints": 49,
+   "awayPoints": 14
+  },
+  {
+   "week": 16,
+   "home": "Wartburg",
+   "away": "Bethel (MN)",
+   "homePoints": 14,
+   "awayPoints": 24
+  },
+  {
+   "week": 17,
    "home": "Army",
    "away": "Navy",
    "homePoints": 13,
    "awayPoints": 31
+  },
+  {
+   "week": 17,
+   "home": "Ferris State",
+   "away": "Slippery Rock",
+   "homePoints": 48,
+   "awayPoints": 38
+  },
+  {
+   "week": 17,
+   "home": "Johns Hopkins",
+   "away": "Mary Hardin Baylor",
+   "homePoints": 17,
+   "awayPoints": 10
+  },
+  {
+   "week": 17,
+   "home": "Montana State",
+   "away": "Idaho",
+   "homePoints": 52,
+   "awayPoints": 19
+  },
+  {
+   "week": 17,
+   "home": "North Central College",
+   "away": "Springfield",
+   "homePoints": 27,
+   "awayPoints": 3
+  },
+  {
+   "week": 17,
+   "home": "North Dakota State",
+   "away": "Mercer",
+   "homePoints": 31,
+   "awayPoints": 7
+  },
+  {
+   "week": 17,
+   "home": "Salisbury",
+   "away": "Mount Union",
+   "homePoints": 17,
+   "awayPoints": 38
+  },
+  {
+   "week": 17,
+   "home": "South Dakota",
+   "away": "UC Davis",
+   "homePoints": 35,
+   "awayPoints": 21
+  },
+  {
+   "week": 17,
+   "home": "South Dakota State",
+   "away": "Incarnate Word",
+   "homePoints": 55,
+   "awayPoints": 14
+  },
+  {
+   "week": 17,
+   "home": "Susquehanna",
+   "away": "Bethel (MN)",
+   "homePoints": 24,
+   "awayPoints": 21
+  },
+  {
+   "week": 17,
+   "home": "Valdosta State",
+   "away": "Minnesota State",
+   "homePoints": 35,
+   "awayPoints": 21
   }
  ],
  "polls": [
@@ -32270,7 +32935,7 @@
   {
    "week": 16,
    "poll": "AP Top 25",
-   "throughWeek": 15,
+   "throughWeek": 16,
    "ranks": [
     {
      "rank": 1,
@@ -32377,7 +33042,7 @@
   {
    "week": 16,
    "poll": "Coaches Poll",
-   "throughWeek": 15,
+   "throughWeek": 16,
    "ranks": [
     {
      "rank": 1,

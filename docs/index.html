@@ -69,7 +69,7 @@ no margin of victory, no votes. The AP and Coaches polls are shown alongside for
 
 <div class="controls">
   <label class="ctl">Season
-    <select id="season"><option>2026</option><option>2025</option><option>2024</option></select>
+    <select id="season"><option>2026</option><option>2025</option><option>2024</option><option>2023</option><option>2022</option><option>2021</option><option>2020</option><option>2019</option><option>2018</option><option>2017</option><option>2016</option><option>2015</option><option>2014</option></select>
   </label>
   <label class="ctl">Through week
     <input type="range" id="wk" min="1" max="8" value="8"><span class="wk" id="wkv">8</span>
@@ -274,6 +274,8 @@ function render(){
   } else bits.push('no poll published this early');
   if(mode==='stable'&&!g.kept.length)
     bits.push('<b>nothing qualifies</b> — too little cross-conference play for the chain to close');
+  if($('season').value==='2020')
+    bits.push('<b>2020 was shortened by the pandemic</b>; some teams played only a handful of games');
   $('status').innerHTML=bits.join(' · ');
 
   if(!rows.length){

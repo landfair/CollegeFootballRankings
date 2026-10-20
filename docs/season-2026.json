@@ -3411,12 +3411,12 @@
    "division": "FCS"
   },
   {
-   "name": "Kentucky Christian",
+   "name": "Marian (IN)",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Marian (IN)",
+   "name": "Kentucky Christian",
    "conference": "",
    "division": "OTHER"
   },
@@ -3451,17 +3451,17 @@
    "division": "OTHER"
   },
   {
-   "name": "Monroe",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
    "name": "Georgetown College Kentucky",
    "conference": "",
    "division": "OTHER"
   },
   {
    "name": "Andrew",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Monroe",
    "conference": "",
    "division": "OTHER"
   },
@@ -3491,22 +3491,22 @@
    "division": "OTHER"
   },
   {
-   "name": "St. Francis (IL)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
    "name": "Central Methodist",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Wayland Baptist",
+   "name": "St. Francis (IL)",
    "conference": "",
    "division": "OTHER"
   },
   {
    "name": "Bethel University Tennessee",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Wayland Baptist",
    "conference": "",
    "division": "OTHER"
   },
@@ -3561,12 +3561,12 @@
    "division": "OTHER"
   },
   {
-   "name": "Simpson (CA)",
+   "name": "Phoenix",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Phoenix",
+   "name": "Simpson (CA)",
    "conference": "",
    "division": "OTHER"
   },

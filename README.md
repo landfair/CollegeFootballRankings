@@ -10,7 +10,7 @@ of victory, no votes. AP and Coaches polls are shown alongside for comparison.
 | `docs/` | The public site. Static HTML, no build step, no dependencies. |
 | `docs/index.html` | Rankings, with the AP and Coaches polls alongside. |
 | `docs/about.html` | How the method works, and what it can't do. |
-| `docs/season-20XX.json` | Game results and polls, one file per season (2024–2026). |
+| `docs/season-20XX.json` | Game results and polls, one file per season (2014–2026). |
 | `recursive-rankings.html` | The research build — weekly slates, the draft triangle, per-game revision history, poll comparison, backtesting. Open it directly; it loads a season through its own file picker. |
 | `fetch_season.py` | Pulls a season from CollegeFootballData.com and writes the JSON both apps read. |
 
@@ -42,6 +42,16 @@ transform without a key or a network connection (32 checks).
 Weeks are renumbered from kickoff dates rather than trusting the feed's own week
 field, which folds Week 0 and Labor Day weekend into a single "week 1" — that would
 otherwise cost the app one game for every team that played in both.
+
+Conference championship games are included (`--include-title-games`). The feed files
+them as regular season but tags them inconsistently, so without the flag they are
+dropped in some years and kept in others — which left 2023 Georgia showing 12-0 when
+they lost the SEC title game. They are ordinary games, and they are usually the ones
+that decide who plays in January. Bowls and the playoff are not included: this ranks
+the season that earns a place, not the tournament after it.
+
+2020 was shortened by the pandemic; some teams played three or four games. Its
+rankings are honest about what happened but rest on far less evidence.
 
 `docs/` holds the published data and is the source of truth. Root-level copies, if
 you keep any for the research build, are deliberately git-ignored so the two cannot
