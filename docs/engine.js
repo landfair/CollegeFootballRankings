@@ -145,10 +145,22 @@ export function applyGate(eng,rows,mode,N,horizon){
      filtered out here or the gate would judge a team on games not yet played. */
   const winsOf=t=>(eng.gamesOf.get(t)||[])
     .filter(g=>g.res===WIN&&g.week<=horizon).map(g=>g.opp);
+  /* bestWin counts only ranked opponents, because the gate is defined against
+     the ranking. The averages instead score an unranked opponent as one worse
+     than last: leaving them out would flatter a team that padded its schedule,
+     which is the opposite of what a strength-of-schedule figure is for. */
+  const UNRANKED=rows.length+1;
   const all=rows.map(r=>{
-    let best=Infinity;
-    for(const o of winsOf(r.team)){ const k=rankOf.get(o); if(k!=null&&k<best) best=k; }
-    return {...r,bestWin:best};
+    let best=Infinity, ws=0, wn=0, ls=0, ln=0;
+    for(const g of (eng.gamesOf.get(r.team)||[])){
+      if(g.week>horizon) continue;
+      const k=rankOf.get(g.opp);
+      if(g.res===WIN){
+        if(k!=null&&k<best) best=k;
+        ws+=(k??UNRANKED); wn++;
+      } else { ls+=(k??UNRANKED); ln++; }
+    }
+    return {...r,bestWin:best,avgWin:wn?ws/wn:null,avgLoss:ln?ls/ln:null};
   });
   if(mode==='off') return {kept:all,all,passes:0};
   if(mode==='one') return {kept:all.filter(r=>r.bestWin<=N),all,passes:1};

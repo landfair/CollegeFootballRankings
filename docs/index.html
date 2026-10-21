@@ -46,6 +46,11 @@
   th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
     font-weight:600;border-bottom:1px solid var(--rule);position:sticky;top:0;background:var(--panel)}
   tbody tr:nth-child(even){background:var(--soft)}
+  th.sortable{cursor:pointer;user-select:none;white-space:nowrap}
+  th.sortable:hover{color:var(--ink)}
+  th.sorted{color:var(--ink)}
+  th.sorted::after{content:'\2193';margin-left:4px;color:var(--mark)}
+  th.sorted.asc::after{content:'\2191'}
   .num{text-align:right;font-family:var(--mono)}
   .rk{text-align:right;font-family:var(--mono);color:var(--muted);width:3.5em}
   .tm{font-weight:600}
@@ -204,6 +209,7 @@ const GATE_STARTS=Math.min(...GATE_SCHEDULE.filter(g=>g.mode!=='off').map(g=>g.f
 const $=id=>document.getElementById(id);
 
 let SEASON=null, ENG=null, CACHE=new Map(), VIEW=null;
+let sortKey='rank', sortAsc=true;
 async function load(year){
   if(CACHE.has(year)){ ({SEASON,ENG}=CACHE.get(year)); return; }
   /* Revalidate rather than trust the cached copy. These files are corrected in
@@ -281,16 +287,52 @@ function renderList(){
       'the top '+g.n+' who also qualifies. Move to a later week.</td></tr></tbody>';
     return;
   }
+  /* The top SHOW teams are chosen by the ranking, then sorted for display, so
+     changing the sort reorders the same teams rather than pulling in new ones.
+     Blanks (no losses yet, unranked by a poll) always sink to the bottom. */
+  const rk1=r=>Number.isFinite(r.bestWin)?r.bestWin:null;
+  const COLS=[
+    {k:'rank',  h:'#',          cls:'rk',  lowBest:true,  v:r=>r.rank},
+    {k:'team',  h:'Team',       cls:'',    lowBest:true,  v:r=>r.team, text:true},
+    {k:'conf',  h:'Conference', cls:'cf',  lowBest:true,  v:r=>r.conference||'', text:true},
+    {k:'rec',   h:'Rec',        cls:'num', lowBest:false, v:r=>r.games?r.wins/r.games:0},
+    {k:'rate',  h:'Rating',     cls:'num', lowBest:false, v:r=>r.key},
+    {k:'best',  h:'Best win',   cls:'num', lowBest:true,  v:rk1,
+     tip:'Rank of the strongest team this one has beaten. Only ranked opponents count.'},
+    {k:'awin',  h:'Avg win',    cls:'num', lowBest:true,  v:r=>r.avgWin,
+     tip:'Average rank of the teams beaten. Lower is a better set of wins. An opponent outside the ranking counts as one place worse than last, so padding the schedule shows up here.'},
+    {k:'aloss', h:'Avg loss',   cls:'num', lowBest:true,  v:r=>r.avgLoss,
+     tip:'Average rank of the teams lost to. Lower means the defeats came against better opposition. Blank for an unbeaten team.'},
+    {k:'ap',    h:'AP',         cls:'num', lowBest:true,  v:r=>apR.get(r.team)??null},
+    {k:'co',    h:'Coaches',    cls:'num', lowBest:true,  v:r=>coR.get(r.team)??null},
+    {k:'vsap',  h:'vs AP',      cls:'num', lowBest:false,
+     v:r=>{const a=apR.get(r.team); return a==null?null:a-r.rank;},
+     tip:'How far above its AP place this ranking puts the team. Positive means this system is higher on them.'},
+  ];
+  const col=COLS.find(c=>c.k===sortKey)||COLS[0];
+  const dir=sortAsc?1:-1;
+  const sorted=[...shown].sort((x,y)=>{
+    const a=col.v(x), b=col.v(y);
+    if(a==null&&b==null) return x.rank-y.rank;
+    if(a==null) return 1;
+    if(b==null) return -1;
+    const c=col.text?String(a).localeCompare(String(b)):a-b;
+    return c*dir || x.rank-y.rank;
+  });
+
   const cell=v=>v==null?'<td class="num nr">—</td>':`<td class="num">${v}</td>`;
+  const avg=v=>v==null?'<td class="num nr">—</td>'
+    :`<td class="num nr">${v.toFixed(1)}</td>`;
   const delta=(p,o)=>{
     if(p==null) return '<td class="num nr">—</td>';
     const d=p-o;
     return `<td class="num ${d>0?'up':d<0?'dn':''}">${d>0?'+':''}${d}</td>`;
   };
-  let html='<thead><tr><th class="rk">#</th><th>Team</th><th>Conference</th>'+
-    '<th class="num">Rec</th><th class="num">Rating</th><th class="num">Best win</th>'+
-    '<th class="num">AP</th><th class="num">Coaches</th><th class="num">vs AP</th></tr></thead><tbody>';
-  for(const r of shown){
+  let html='<thead><tr>'+COLS.map(c=>
+    `<th class="${c.cls} sortable${c.k===sortKey?' sorted'+(sortAsc?' asc':''):''}"`+
+    ` data-k="${c.k}"${c.tip?` title="${esc(c.tip)}"`:''}>${c.h}</th>`).join('')+
+    '</tr></thead><tbody>';
+  for(const r of sorted){
     const a=apR.get(r.team)??null, c=coR.get(r.team)??null;
     html+=`<tr><td class="rk">${r.rank}</td>`+
       `<td><button class="tm" data-t="${esc(r.team)}">${esc(r.team)}</button></td>`+
@@ -298,9 +340,16 @@ function renderList(){
       `<td class="num">${r.wins}‑${r.losses}</td>`+
       `<td class="num"><b>${r.key.toFixed(1)}</b></td>`+
       `<td class="num nr">${Number.isFinite(r.bestWin)?'#'+r.bestWin:'—'}</td>`+
+      avg(r.avgWin)+avg(r.avgLoss)+
       cell(a)+cell(c)+delta(a,r.rank)+'</tr>';
   }
   $('tbl').innerHTML=html+'</tbody>';
+  $('tbl').querySelectorAll('th.sortable').forEach(th=>th.onclick=()=>{
+    const k=th.dataset.k, c=COLS.find(x=>x.k===k);
+    if(k===sortKey) sortAsc=!sortAsc;
+    else { sortKey=k; sortAsc=c.lowBest; }
+    renderList();
+  });
   wire($('tbl'));
 }
 
