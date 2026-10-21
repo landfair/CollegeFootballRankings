@@ -145,12 +145,6 @@ no margin of victory, no votes. The AP and Coaches polls are shown alongside for
       <option value="A">strong</option>
     </select>
   </label>
-  <label class="ctl">floor
-    <select id="wfloor"><option>0.1</option><option selected>0.2</option><option>0.35</option><option>0.5</option></select>
-  </label>
-  <label class="ctl">&gamma;
-    <select id="wgamma"><option>0.5</option><option selected>1</option><option>1.5</option><option>2</option></select>
-  </label>
   <span class="ctl" id="gatelbl"></span>
   <button class="help" id="helpbtn" title="How this works"
           aria-label="How this works">?</button>
@@ -245,12 +239,12 @@ function current(){
               :{mode:pick,n:+$('gn').value,auto:false};
   $('gn').disabled=auto||g.mode==='off';
   const wm=$('wmode').value;
-  for(const id of ['wfloor','wgamma']) $(id).disabled = wm==='off';
   /* Weighting rescales every game by how good the opponent proved to be, which
      feeds the ranking back into its own inputs, so it is solved iteratively.
-     The gate then runs on whichever ranking came out. */
-  const W = wm==='off' ? null
-    : weighted(ENG,SEASON,h,{mode:wm,floor:+$('wfloor').value,gamma:+$('wgamma').value});
+     The gate then runs on whichever ranking came out. The floor and the falloff
+     are fixed in the engine rather than exposed; they are tuning, not a reading
+     anyone should have to make. */
+  const W = wm==='off' ? null : weighted(ENG,SEASON,h,{mode:wm});
   const rows = W ? W.rows : rank(ENG,SEASON,h);
   return {h,g,rows,W,gated:applyGate(ENG,rows,g.mode,g.n,h)};
 }
@@ -470,8 +464,6 @@ $('season').onchange=e=>{ VIEW=null; location.hash=''; pick(e.target.value); };
 $('wk').oninput=render;
 $('gmode').onchange=render;
 $('wmode').onchange=render;
-$('wfloor').onchange=render;
-$('wgamma').onchange=render;
 $('gn').onchange=render;
 /* A dialog rather than an inline panel: Escape and focus handling come free,
    and opening it no longer pushes the table down the page. */
