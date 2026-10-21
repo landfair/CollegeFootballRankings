@@ -105,6 +105,49 @@ the most football happens after them.</p>
 <p>Move the week slider and you are not just adding games — you are watching the
 whole season get reinterpreted.</p>
 
+<h2>Weighing the opponent</h2>
+
+<p>The score so far says where a result finished among everyone who played that
+week. That already leans on opponent quality, but weakly. Beating a team that
+happens to be unbeaten counts enormously, whoever that team turns out to be
+— and an unbeaten record against poor opposition is still unbeaten.</p>
+
+<p>So each game is then scaled by how good the opponent actually proved to be.
+A win over the twelfth&#8209;best team keeps almost all its value; the same win
+over the hundred&#8209;and&#8209;twelfth keeps very little. The same scaling runs
+over defeats, which falls out rather pleasingly: losing to a good team costs you
+almost nothing, losing to a poor one is punished hard.</p>
+
+<div class="ex">
+A 7&#8209;0 team beat a 5&#8209;0 opponent, which scored <b>98.6</b> — among the
+very best results of that week. But that opponent's own five wins came against
+teams at 2&#8209;5, 2&#8209;4, 2&#8209;4, 2&#8209;3 and 1&#8209;4. Weighted, the
+win is worth <b>79.6</b>: still good, no longer extraordinary.
+</div>
+
+<p>There is a catch, and it is the interesting part. The weight depends on how
+good the opponent is, which is what the ranking is trying to work out. The
+ranking therefore feeds back into its own inputs, so it is not calculated once
+but solved: rank, re&#8209;weigh, rank again, until the numbers stop moving.
+That usually takes about a dozen passes. The page says how many it took, and
+says so plainly if it fails to settle.</p>
+
+<p>Two settings:</p>
+
+<ul>
+  <li><strong>Balanced</strong> (the default) scales how far a result sits from
+  the halfway mark, so every win still finishes above every loss. A soft win is
+  pulled back toward the middle rather than beneath a defeat.</li>
+  <li><strong>Strong</strong> scales the score itself. It bites harder, and it
+  breaks that rule: a good loss can finish above a poor win.</li>
+  <li><strong>Off</strong> leaves the raw figures alone.</li>
+</ul>
+
+<p>The <em>floor</em> sets what beating the very worst team is still worth, and
+cannot be zero — at zero a team earns nothing, which zeroes out everyone it
+played, and the whole thing unravels. <em>Gamma</em> sets how sharply the weight
+falls away as the opponent gets worse.</p>
+
 <h2>The victors gate</h2>
 
 <p>A pure record-based system has a known weakness: a team can go undefeated

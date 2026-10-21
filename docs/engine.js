@@ -139,6 +139,77 @@ export function rank(eng,season,horizon){
 
 /* To be listed you must have beaten somebody worth beating. Self-consistent
    also requires that opponent to qualify, and iterates until the set settles. */
+/* ---------- opponent weighting ----------
+   The percentile says where a result finished among everyone who played that
+   bucket. It already leans on opponent quality through L1 and L2, but weakly:
+   beating an unbeaten team counts enormously whoever that team turned out to
+   be. This scales each game by how good the opponent proved to be, which means
+   the ranking feeds back into its own inputs, so it is iterated to a fixed
+   point rather than computed in one pass.
+
+     mode 'A'  adjusted = score x f
+               Strongest. A win over a poor team can fall below a loss to a
+               good one, so the rule that every win outranks every loss no
+               longer holds.
+     mode 'B'  adjusted = 50 + (score - 50) x f
+               Scales the distance from the halfway line instead, so wins stay
+               above 50 and losses below it. A win over a poor team is pulled
+               back toward 50; a loss to a poor team pushed down toward 0.
+
+   f = floor + (1 - floor) * quality^gamma, quality being the opponent's own
+   rating scaled to 0..1. The floor is not optional: at zero a team can earn
+   nothing, which zeroes its opponents in turn and the iteration diverges.
+   Quality is fed back as the rating, not the rank — rank is a step function and
+   never settles — and damped, without which it reaches a two-cycle and swaps
+   the same handful of teams forever. */
+export function weighted(eng,season,horizon,opts={}){
+  const {mode='B',floor=.2,gamma=1,damp=.7,passes=300,tol=1e-4}=opts;
+  const meta=new Map(rank(eng,season,horizon).map(r=>[r.team,r]));
+  const ALL=[...eng.gamesOf.keys()];
+  const raw=new Map();
+  for(let w=1;w<=horizon;w++){
+    if(!eng.byWeek.get(w)) continue;
+    for(const [t,v] of eng.slate(w,horizon).pos) raw.set(t+'|'+w,v.score);
+  }
+  /* Quality covers every team, not just the top division: an opponent outside
+     the ranking still has to be worth something definite, or beating one looks
+     the same as beating nobody and the whole field is flattered. */
+  let q=new Map(ALL.map(t=>[t,.5]));
+  const fOf=qq=>t=>{const v=qq.get(t); return floor+(1-floor)*Math.pow(v==null?0:v,gamma);};
+  let agg=[],it=0,settled=false;
+  for(it=1;it<=passes;it++){
+    const f=fOf(q);
+    agg=[];
+    for(const t of ALL){
+      const arr=[];
+      for(let w=1;w<=horizon;w++){
+        const wk=eng.byWeek.get(w); if(!wk||!wk.has(t)) continue;
+        const sc=raw.get(t+'|'+w),k=f(wk.get(t).opp);
+        arr.push(mode==='A'?sc*k:50+(sc-50)*k);
+      }
+      if(arr.length) agg.push({team:t,key:arr.reduce((a,b)=>a+b,0)/arr.length});
+    }
+    agg.sort((a,b)=>b.key-a.key||a.team.localeCompare(b.team));
+    const lo=agg[agg.length-1].key,hi=agg[0].key,span=(hi-lo)||1;
+    let delta=0;const nq=new Map();
+    for(const r of agg){
+      const v=(r.key-lo)/span,old=q.get(r.team)??v;
+      delta=Math.max(delta,Math.abs(v-old));
+      nq.set(r.team,damp*v+(1-damp)*old);
+    }
+    q=nq;
+    if(delta<tol){settled=true;break;}
+  }
+  const f=fOf(q);
+  const rows=agg.filter(r=>meta.has(r.team)).map(r=>({...meta.get(r.team),key:r.key}));
+  rows.sort((a,b)=>b.key-a.key||b.pd-a.pd||a.team.localeCompare(b.team));
+  let rk=1;
+  rows.forEach((r,i)=>{ if(i>0&&Math.abs(r.key-rows[i-1].key)>1e-9) rk=i+1; r.rank=rk; });
+  return {rows,passes:it,settled,
+          factor:f,
+          adjust:(sc,opp)=>mode==='A'?sc*f(opp):50+(sc-50)*f(opp)};
+}
+
 export function applyGate(eng,rows,mode,N,horizon){
   const rankOf=new Map(rows.map(r=>[r.team,r.rank]));
   /* The engine holds the whole season, so wins after the chosen week have to be

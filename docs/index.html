@@ -138,6 +138,19 @@ no margin of victory, no votes. The AP and Coaches polls are shown alongside for
   <label class="ctl">over top
     <select id="gn"><option>25</option><option>50</option><option>75</option><option selected>100</option></select>
   </label>
+  <label class="ctl">Opponent weighting
+    <select id="wmode">
+      <option value="off">off</option>
+      <option value="B" selected>balanced</option>
+      <option value="A">strong</option>
+    </select>
+  </label>
+  <label class="ctl">floor
+    <select id="wfloor"><option>0.1</option><option selected>0.2</option><option>0.35</option><option>0.5</option></select>
+  </label>
+  <label class="ctl">&gamma;
+    <select id="wgamma"><option>0.5</option><option selected>1</option><option>1.5</option><option>2</option></select>
+  </label>
   <span class="ctl" id="gatelbl"></span>
   <button class="help" id="helpbtn" title="How this works"
           aria-label="How this works">?</button>
@@ -184,7 +197,7 @@ Rankings recomputed in your browser. <a href="about.html">How this works</a>.</f
 
 <script type="module">
 import {WIN, esc, ingest, engine, rank, applyGate, pollAt,
-        agreement, revision, sparkHTML} from './engine.js';
+        agreement, revision, sparkHTML, weighted} from './engine.js';
 
 const SHOW=100;
 
@@ -231,8 +244,15 @@ function current(){
   const g=auto?{...gateFor(h),auto:true}
               :{mode:pick,n:+$('gn').value,auto:false};
   $('gn').disabled=auto||g.mode==='off';
-  const rows=rank(ENG,SEASON,h);
-  return {h,g,rows,gated:applyGate(ENG,rows,g.mode,g.n,h)};
+  const wm=$('wmode').value;
+  for(const id of ['wfloor','wgamma']) $(id).disabled = wm==='off';
+  /* Weighting rescales every game by how good the opponent proved to be, which
+     feeds the ranking back into its own inputs, so it is solved iteratively.
+     The gate then runs on whichever ranking came out. */
+  const W = wm==='off' ? null
+    : weighted(ENG,SEASON,h,{mode:wm,floor:+$('wfloor').value,gamma:+$('wgamma').value});
+  const rows = W ? W.rows : rank(ENG,SEASON,h);
+  return {h,g,rows,W,gated:applyGate(ENG,rows,g.mode,g.n,h)};
 }
 
 function render(){
@@ -243,7 +263,7 @@ function render(){
 
 function renderList(){
   $('listview').hidden=false; $('teamview').hidden=true;
-  const {h,g,rows,gated}=current();
+  const {h,g,rows,W,gated}=current();
   $('wkv').textContent=h;
   const shown=gated.kept.slice(0,SHOW);
   const ap=pollAt(SEASON,'AP Top 25',h), co=pollAt(SEASON,'Coaches Poll',h);
@@ -256,6 +276,9 @@ function renderList(){
     : how+' <span class="nr">(manual)</span>';
 
   const bits=[`<b>${rows.length}</b> teams through week <b>${h}</b>`];
+  if(W) bits.push(W.settled
+    ? `weighted by opponent, settled in <b>${W.passes}</b> passes`
+    : `<b>weighting did not settle</b> in ${W.passes} passes — try a higher floor`);
   if(g.mode!=='off') bits.push(`gate removed <b>${gated.all.length-gated.kept.length}</b> in ${gated.passes} passes`);
   if(ap||co){
     const t=(ap||co).throughWeek;
@@ -354,7 +377,7 @@ function renderList(){
 }
 
 function renderTeam(team){
-  const {h,g,rows,gated}=current();
+  const {h,g,rows,W,gated}=current();
   $('wkv').textContent=h;
   $('listview').hidden=true; $('teamview').hidden=false;
   const me=rows.find(r=>r.team===team);
@@ -400,7 +423,9 @@ function renderTeam(team){
       `<span class="res ${e.res===WIN?'w':'l'}">${e.res===WIN?'beat':'lost to'}</span>`+
       `<button class="tm" data-t="${esc(e.opp)}">${esc(e.opp)}</button>`+
       `<span class="cf">${oppRank?'#'+oppRank:'unranked'} · ${ow}‑${others.length-ow} in their other games</span>`+
-      `<span class="gsc">${p?p.score.toFixed(1):'—'}</span></div>`+
+      `<span class="gsc">${p?(W?(W.adjust(p.score,e.opp)).toFixed(1):p.score.toFixed(1)):'—'}`+
+        (W&&p?`<span class="nr" style="font-weight:400"> &nbsp;${p.score.toFixed(1)}&times;${W.factor(e.opp).toFixed(2)}</span>`:'')+
+        `</span></div>`+
       sparkHTML(revision(ENG,team,w,h),{unit:'week',label:n=>'wk '+n})+'</div>';
   }
   html+='</div>';
@@ -444,6 +469,9 @@ async function pick(year){
 $('season').onchange=e=>{ VIEW=null; location.hash=''; pick(e.target.value); };
 $('wk').oninput=render;
 $('gmode').onchange=render;
+$('wmode').onchange=render;
+$('wfloor').onchange=render;
+$('wgamma').onchange=render;
 $('gn').onchange=render;
 /* A dialog rather than an inline panel: Escape and focus handling come free,
    and opening it no longer pushes the table down the page. */
