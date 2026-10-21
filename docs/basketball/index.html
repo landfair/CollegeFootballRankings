@@ -61,9 +61,19 @@
   footer{margin-top:28px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--rule);padding-top:14px}
   footer a{color:var(--muted)}
   /* help */
-  .help{width:21px;height:21px;border-radius:50%;border:1px solid var(--rule);
-    background:var(--panel);color:var(--muted);font:600 12px/1 inherit;cursor:pointer;padding:0}
-  .help:hover,.help[aria-expanded=true]{border-color:var(--mark);color:var(--mark)}
+  .iconbtn{width:25px;height:25px;border-radius:50%;border:1px solid var(--rule);
+    background:var(--panel);color:var(--muted);font:600 13px/1 inherit;cursor:pointer;padding:0;
+    display:inline-flex;align-items:center;justify-content:center;flex:none}
+  .iconbtn:hover{border-color:var(--mark);color:var(--mark)}
+  .bar .iconbtn{align-self:center}
+  /* settings modal */
+  .setting{padding:15px 0;border-bottom:1px solid var(--rule)}
+  .setting:first-child{padding-top:2px}
+  .setting:last-child{border-bottom:0;padding-bottom:2px}
+  .setting .row1{display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+    font-size:14px;font-weight:600}
+  .setting p{margin:8px 0 0;font-size:13.5px;color:var(--muted);line-height:1.55}
+  .setting .now{margin-top:7px;font-family:var(--mono);font-size:12.5px;color:var(--mark)}
   dialog#helpmodal{
     border:1px solid var(--rule);border-radius:10px;background:var(--panel);color:var(--ink);
     padding:0;max-width:min(62ch,calc(100vw - 32px));width:100%;
@@ -114,6 +124,8 @@
   <div class="bar">
     <h1>Recursive Rankings <span class="sport">basketball</span></h1>
     <nav><a href="./" aria-current="page">Rankings</a><a href="about.html">About</a><a href="../">Football</a></nav>
+    <button class="iconbtn" id="gearbtn" title="Settings" aria-label="Settings">&#9881;</button>
+    <button class="iconbtn" id="helpbtn" title="How this works" aria-label="How this works">?</button>
   </div>
 </header>
 
@@ -127,30 +139,53 @@ no margin of victory, no votes. The AP and Coaches polls are shown alongside for
   <label class="ctl">Through
     <input type="range" id="wk" min="1" max="131" value="131"><span class="wk" id="wkv">—</span>
   </label>
-  <label class="ctl">Victors gate
-    <select id="gmode">
-      <option value="auto" selected>automatic</option>
-      <option value="off">off</option>
-      <option value="one">one pass</option>
-      <option value="stable">self&#8209;consistent</option>
-    </select>
-  </label>
-  <label class="ctl">over top
-    <select id="gn"><option>50</option><option>100</option><option>200</option><option selected>300</option></select>
-  </label>
-  <label class="ctl">Opponent weighting
-    <select id="wmode">
-      <option value="off" selected>off</option>
-      <option value="B">balanced</option>
-      <option value="A">strong</option>
-    </select>
-  </label>
-  <span class="ctl" id="gatelbl"></span>
-  <button class="help" id="helpbtn" title="How this works"
-          aria-label="How this works">?</button>
 </div>
 <p class="status" id="status">Loading…</p>
 
+
+<dialog id="settings" aria-labelledby="settitle">
+  <div class="modal-head">
+    <h2 id="settitle">Settings</h2>
+    <button class="modal-close" id="setclose" aria-label="Close">&times;</button>
+  </div>
+  <div class="modal-body">
+
+    <div class="setting">
+      <div class="row1">Victors gate
+        <select id="gmode">
+          <option value="auto" selected>automatic</option>
+          <option value="off">off</option>
+          <option value="one">one pass</option>
+          <option value="stable">self&#8209;consistent</option>
+        </select>
+        over top
+        <select id="gn"><option>50</option><option>100</option><option>200</option><option selected>300</option></select>
+      </div>
+      <p>To be listed at all you must have beaten somebody worth beating, and that
+      team must qualify too &mdash; the rule repeats until the set stops changing.
+      It stays off through the opening fortnight and tightens as the season fills in,
+      because it needs cross&#8209;conference results to work. It never changes a
+      rating or an order; it only decides who is shown.</p>
+      <p class="now" id="gatelbl"></p>
+    </div>
+
+    <div class="setting">
+      <div class="row1">Opponent weighting
+        <select id="wmode">
+          <option value="off" selected>off</option>
+          <option value="B">balanced</option>
+          <option value="A">strong</option>
+        </select>
+      </div>
+      <p>Scales every game by how good the opponent turned out to be, so a win over
+      a poor team counts for less and a loss to a good one costs less.
+      <b>Balanced</b> keeps every win above every loss; <b>strong</b> bites harder
+      and drops that rule. Off by default: the ranking already weighs opponents
+      once, and this does it a second time.</p>
+    </div>
+
+  </div>
+</dialog>
 
 <dialog id="helpmodal" aria-labelledby="helptitle">
   <div class="modal-head">
@@ -478,10 +513,13 @@ $('wmode').onchange=render;
 $('gn').onchange=render;
 /* A dialog rather than an inline panel: Escape and focus handling come free,
    and opening it no longer pushes the table down the page. */
-const helpModal=$('helpmodal');
-$('helpbtn').onclick=()=>helpModal.showModal();
-$('helpclose').onclick=()=>helpModal.close();
-helpModal.onclick=e=>{ if(e.target===helpModal) helpModal.close(); };
+for(const [btn,dlg,close] of [['helpbtn','helpmodal','helpclose'],
+                              ['gearbtn','settings','setclose']]){
+  const d=$(dlg);
+  $(btn).onclick=()=>d.showModal();
+  $(close).onclick=()=>d.close();
+  d.onclick=e=>{ if(e.target===d) d.close(); };
+}
 const m0=/^#t=(.+)$/.exec(location.hash);
 if(m0) VIEW=decodeURIComponent(m0[1]);
 pick($('season').value);
