@@ -151,6 +151,22 @@ no margin of victory, no votes. The AP and Coaches polls are shown alongside for
   <div class="modal-body">
 
     <div class="setting">
+      <div class="row1">Compare each game against
+        <select id="smode">
+          <option value="pooled" selected>the season so far</option>
+          <option value="weekly">that day alone</option>
+        </select>
+      </div>
+      <p>Every game is graded first, then scored by where that grade places it
+      among other games &mdash; so the set it is compared against decides the
+      number. <b>The season so far</b> pools every game played up to the day you
+      are viewing, which lets a team&rsquo;s own results be ranked against each
+      other. <b>That day alone</b> compares a game only with the games played
+      beside it, so the same win scores lower on a crowded night than a quiet
+      one, and two of a team&rsquo;s wins can come out in the wrong order.</p>
+    </div>
+
+    <div class="setting">
       <div class="row1">Victors gate
         <select id="gmode">
           <option value="auto" selected>automatic</option>
@@ -195,9 +211,11 @@ no margin of victory, no votes. The AP and Coaches polls are shown alongside for
   <div class="modal-body">
   <p><b>What this is.</b> Every game is graded by what happened next: your result,
   then how your opponent did across the rest of its season with this game removed,
-  then how <i>their</i> opponents did in turn. Teams are ranked within each day,
-  that finish becomes a 0&ndash;100 score, and a team's rating is the average of its
-  days. No preseason poll, no margin of victory, no votes.</p>
+  then how <i>their</i> opponents did in turn. That grade is turned into a
+  0&ndash;100 score by where it places among every game played so far this season,
+  and a team's rating is the average of its games. No preseason poll, no margin of
+  victory, no votes. <span class="nr">(The gear icon can score each game against
+  its own day alone instead &mdash; the original method.)</span></p>
   <p><b>Why rankings move backwards.</b> A November win is not settled in
   November. It gains value if the team you beat keeps winning and loses value if
   they collapse. Drag the date slider and you are watching the season reinterpret
@@ -260,19 +278,28 @@ const GATE_STARTS=Math.min(...GATE_SCHEDULE.filter(g=>g.mode!=='off').map(g=>g.f
 
 const $=id=>document.getElementById(id);
 
-let SEASON=null, ENG=null, CACHE=new Map(), VIEW=null;
+let SEASON=null, ENG=null, CACHE=new Map(), VIEW=null, YEAR=null;
 let sortKey='rank', sortAsc=true;
+/* The two scoring modes are two different populations to place a game in, so
+   each needs its own engine. Both are kept once built — flipping between them
+   on the same season is the point of the setting. */
+function useScoring(){
+  const c=CACHE.get(YEAR); if(!c) return;
+  const m=$('smode').value;
+  if(!c.eng[m]) c.eng[m]=engine(c.season,{scoring:m});
+  SEASON=c.season; ENG=c.eng[m];
+}
 async function load(year){
-  if(CACHE.has(year)){ ({SEASON,ENG}=CACHE.get(year)); return; }
-  /* Revalidate rather than trust the cached copy. These files are corrected in
-     place when the upstream feed is wrong, and a stale one fails silently — it
-     renders a plausible table built on the wrong poll. An unchanged file still
-     costs only a 304. */
-  const res=await fetch('season-'+year+'.json',{cache:'no-cache'});
-  if(!res.ok) throw new Error('could not load season-'+year+'.json ('+res.status+')');
-  SEASON=ingest(await res.json());
-  ENG=engine(SEASON);
-  CACHE.set(year,{SEASON,ENG});
+  if(!CACHE.has(year)){
+    /* Revalidate rather than trust the cached copy. These files are corrected in
+       place when the upstream feed is wrong, and a stale one fails silently — it
+       renders a plausible table built on the wrong poll. An unchanged file still
+       costs only a 304. */
+    const res=await fetch('season-'+year+'.json',{cache:'no-cache'});
+    if(!res.ok) throw new Error('could not load season-'+year+'.json ('+res.status+')');
+    CACHE.set(year,{season:ingest(await res.json()),eng:{}});
+  }
+  YEAR=year; useScoring();
 }
 
 /* Automatic follows GATE_SCHEDULE; anything else is the reader overriding it. */
@@ -466,7 +493,7 @@ function renderTeam(team){
       `<span class="gsc">${p?(W?(W.adjust(p.score,e.opp)).toFixed(1):p.score.toFixed(1)):'—'}`+
         (W&&p?`<span class="nr" style="font-weight:400"> &nbsp;${p.score.toFixed(1)}&times;${W.factor(e.opp).toFixed(2)}</span>`:'')+
         `</span></div>`+
-      sparkHTML(revision(ENG,team,w,h),{unit:'day',label:n=>fmtDay(dayOf(n))})+'</div>';
+      sparkHTML(revision(ENG,team,w,h),{pool:ENG.scoring==='pooled',unit:'day',label:n=>fmtDay(dayOf(n))})+'</div>';
   }
   html+='</div>';
   $('teamview').innerHTML=html;
@@ -508,6 +535,7 @@ async function pick(year){
 }
 $('season').onchange=e=>{ VIEW=null; location.hash=''; pick(e.target.value); };
 $('wk').oninput=render;
+$('smode').onchange=()=>{ useScoring(); render(); };
 $('gmode').onchange=render;
 $('wmode').onchange=render;
 $('gn').onchange=render;

@@ -41,7 +41,7 @@ export function ingest(raw){
 /* Indices are built once per season. Slates are computed per (week, horizon),
    so the same machinery gives both the current table and a game's whole history:
    the worth of a week-w result seen from week w, then w+1, then w+2, and so on. */
-export function engine(season){
+export function engine(season,opts={}){
   const byWeek=new Map(), gamesOf=new Map();
   season.games.forEach((g,i)=>{
     if(!byWeek.has(g.week)) byWeek.set(g.week,new Map());
@@ -85,28 +85,57 @@ export function engine(season){
     return 0;
   };
   const pctOf=(n,rank,tied)=> n<2?50:(n-(rank-1)-tied+(tied-1)/2)/(n-1)*100;
+  /* Sort by the comparator, let equal vectors share a rank, and read the
+     position off as a percentile. The same grading serves one week's games or
+     the whole season's, which is the only difference between the two modes. */
+  const grade=rows=>{
+    rows.sort((a,b)=>cmp(a.val,b.val)||(a.key<b.key?-1:a.key>b.key?1:0));
+    const pos=new Map();
+    let rk=1;
+    for(let i=0;i<rows.length;){
+      let j=i; while(j<rows.length&&cmp(rows[i].val,rows[j].val)===0) j++;
+      const score=pctOf(rows.length,rk,j-i);
+      for(let k=i;k<j;k++)
+        pos.set(rows[k].key,{score,rank:rk,n:rows.length,val:rows[k].val});
+      rk+=j-i; i=j;
+    }
+    return {pos,n:rows.length};
+  };
+  /* One population per bucket. A game's percentile is its place among the games
+     played alongside it, so two of a team's own results sit in different
+     populations and their percentiles are not strictly comparable. */
+  const weeklySlate=(w,H)=>
+    grade([...(byWeek.get(w)||new Map()).keys()].map(t=>({key:t,val:bvalue(t,w,H)})));
+  /* One population for the season so far, growing as the horizon moves out. A
+     game's percentile is its place among every game played through week H,
+     including the team's own earlier games -- so a team's results become
+     comparable to each other, and a thin championship week no longer deflates
+     every result in it. */
+  const poolCache=new Map();
+  const pooledSlate=(w,H)=>{
+    let p=poolCache.get(H);
+    if(!p){
+      const rows=[];
+      for(const [ww,wk] of byWeek){
+        if(ww>H) continue;
+        for(const t of wk.keys()) rows.push({key:t+'\u0000'+ww,val:bvalue(t,ww,H)});
+      }
+      p=grade(rows); poolCache.set(H,p);
+    }
+    const pos=new Map();
+    for(const t of (byWeek.get(w)||new Map()).keys()){
+      const e=p.pos.get(t+'\u0000'+w); if(e) pos.set(t,e);
+    }
+    return {pos,n:p.n};
+  };
+  const scoring=opts.scoring==='weekly'?'weekly':'pooled';
+  const base=scoring==='weekly'?weeklySlate:pooledSlate;
   const slateCache=new Map();
   const slate=(w,H)=>{
     const key=w+'|'+H, hit=slateCache.get(key); if(hit) return hit;
-    const wk=byWeek.get(w)||new Map();
-    const rows=[...wk.keys()].map(t=>({team:t,val:bvalue(t,w,H)}));
-    rows.sort((a,b)=>cmp(a.val,b.val)||a.team.localeCompare(b.team));
-    const buckets=[];
-    for(const r of rows){
-      const last=buckets[buckets.length-1];
-      if(last&&cmp(last.val,r.val)===0) last.teams.push(r.team);
-      else buckets.push({val:r.val,teams:[r.team]});
-    }
-    let rank=1;
-    for(const b of buckets){ b.rank=rank; rank+=b.teams.length; }
-    const pos=new Map();
-    for(const b of buckets)
-      for(const t of b.teams) pos.set(t,{score:pctOf(rows.length,b.rank,b.teams.length),
-        rank:b.rank,n:rows.length,val:b.val});
-    const out={pos,n:rows.length};
-    slateCache.set(key,out); return out;
+    const out=base(w,H); slateCache.set(key,out); return out;
   };
-  return {byWeek,gamesOf,slate,games:season.games};
+  return {byWeek,gamesOf,slate,scoring,games:season.games};
 }
 
 export function rank(eng,season,horizon){
@@ -354,7 +383,7 @@ export function rankChart(series,{labelOf=n=>'wk '+n,width=720,height=235,maxGap
     `role="img" aria-label="Rank by week">${g}</svg><div class="legend">${key}</div></div>`;
 }
 
-export function sparkHTML(pts,{unit='week',label=n=>'wk '+n}={}){
+export function sparkHTML(pts,{unit='week',label=n=>'wk '+n,pool=false}={}){
   if(pts.length<2) return '<span class="val" title="This is the most recent game '+
     'played, so nothing has happened since to change what it is worth. From the '+
     'next '+unit+' it starts being re-graded.">graded once, nothing since</span>';
@@ -375,8 +404,9 @@ export function sparkHTML(pts,{unit='week',label=n=>'wk '+n}={}){
   const tip=
     'HOW TO READ THIS\n'+
     'The line is what this one game has been worth, re-graded after every '+unit+'\n'+
-    'since it was played. A game scores 0-100 by where the team finished among\n'+
-    'everyone who played that '+unit+', so 100 is the best result of the '+unit+'.\n\n'+
+    'since it was played. A game scores 0-100 by where it places among\n'+
+    (pool?'every game played so far this season, so 100 is the best result\nthe season has produced.'
+         :'the games played that same '+unit+', so 100 is the best result\nof that '+unit+'.')+'\n\n'+
     'It moves because the grade depends on what the opponent did next. Beat a\n'+
     'team that keeps winning and the line rises; beat one that collapses and it\n'+
     'falls. The last dot is where it stands now.\n\n'+

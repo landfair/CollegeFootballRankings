@@ -88,11 +88,46 @@ then your opponent's season, then their opponents' seasons.</p>
 opponents were a combined .667 in theirs. Both numbers travel with the win.
 </div>
 
-<p>Every team that played in a given week is then sorted against every other team
-that played that week, using those numbers in order: did you win, then how good
-was your opponent, then how good were theirs. Finishing near the top of a week's
-field scores near 100; near the bottom, near 0. A team's rating is the average of
-its weekly scores.</p>
+<p>Those grades are then sorted against each other, using the numbers in order:
+did you win, then how good was your opponent, then how good were theirs. Placing
+near the top scores near 100; near the bottom, near 0. A team's rating is the
+average of its games.</p>
+
+<h3>What a game is compared against</h3>
+
+<p>A grade on its own is not a number out of a hundred &mdash; it only becomes one
+once you say <i>among what</i>. By default that is <b>every game played so far this
+season</b>, up to whichever week you are viewing. The pool grows as the season
+does, and a game is re&#8209;scored against the larger pool each week.</p>
+
+<p>The original method compared a game only against the games played in the same
+week, and you can switch back to it under the gear icon. It has two problems the
+season&#8209;wide pool does not. The first is that an identical result is worth
+different amounts depending on what else happened to be on the schedule that
+week &mdash; which no team controls. Across 2025 that distortion was small in
+the ordinary weeks, about nine&#8209;tenths of a point, but championship weekend
+had only sixty&#8209;four games in it and deflated every result by nearly sixteen
+points, hitting exactly the games that decide a playoff field.</p>
+
+<p>The second problem is worse, because it is a contradiction rather than a
+calibration error. Two of a team's own results sit in different weeks, so their
+percentiles come from different populations &mdash; and they can therefore come
+out in the wrong order. Florida beat Auburn in Week&nbsp;4 and Texas in
+Week&nbsp;8; both were wins over teams that finished .800 in their other games,
+and Texas&rsquo;s opponents had the better seasons of the two, so the Texas win is
+strictly the better result. Yet
+week&#8209;by&#8209;week scoring put Auburn above it, 95.6 to 95.1. Pooled, the
+order is right: 95.3 for Texas, 95.2 for Auburn. Across all thirteen seasons here
+there are 284,676 pairs of a team's own games that the grader ranks strictly;
+week&#8209;by&#8209;week scoring reverses 7,762 of them &mdash; one pair in
+thirty&#8209;seven. Pooling reverses none, because a single population cannot
+disagree with the comparison that built it.</p>
+
+<p>Pooling is not free. It agrees with the final AP poll very slightly less often
+&mdash; a mean Spearman correlation of 0.78 against 0.79 across 2014&ndash;2026,
+which is well inside the year&#8209;to&#8209;year noise, better in five seasons and
+clearly worse in two. The rankings themselves barely move: about one place on
+average among the teams shown, and the same teams pass the gate.</p>
 
 <h3>Rankings change in hindsight</h3>
 
@@ -126,10 +161,10 @@ scaling runs over defeats, which falls out rather pleasingly: losing to a good
 team costs you almost nothing, losing to a poor one is punished hard.</p>
 
 <div class="ex">
-A 7&#8209;0 team beat a 5&#8209;0 opponent, which scored <b>98.6</b> — among the
-very best results of that week. But that opponent's own five wins came against
-teams at 2&#8209;5, 2&#8209;4, 2&#8209;4, 2&#8209;3 and 1&#8209;4. Weighted, the
-win is worth <b>79.6</b>: still good, no longer extraordinary.
+A 7&#8209;0 team beat a 5&#8209;0 opponent, which scored <b>98.3</b> &mdash; among the
+very best results the season has produced. But that opponent's own five wins came
+against teams at 2&#8209;5, 2&#8209;4, 2&#8209;4, 2&#8209;3 and 1&#8209;4. Weighted,
+the win is worth <b>79.8</b>: still good, no longer extraordinary.
 </div>
 
 <p><strong>It is switched off by default</strong>, and that is deliberate. The

@@ -89,11 +89,36 @@ then your opponent's season, then their opponents' seasons.</p>
 opponents were a combined .540 in theirs. Both numbers travel with the win.
 </div>
 
-<p>Every team that played on a given day is then sorted against every other team
-that played that day, using those numbers in order: did you win, then how good
-was your opponent, then how good were theirs. Finishing near the top of a day's
-field scores near 100; near the bottom, near 0. A team's rating is the average of
-its daily scores.</p>
+<p>Those grades are then sorted against each other, using the numbers in order:
+did you win, then how good was your opponent, then how good were theirs. Placing
+near the top scores near 100; near the bottom, near 0. A team's rating is the
+average of its games.</p>
+
+<h3>What a game is compared against</h3>
+
+<p>A grade on its own is not a number out of a hundred &mdash; it only becomes one
+once you say <i>among what</i>. By default that is <b>every game played so far this
+season</b>, up to whichever day you are viewing. The pool grows as the season does,
+and a game is re&#8209;scored against the larger pool each day.</p>
+
+<p>The original method compared a game only against the games played the same day,
+and you can switch back to it under the gear icon. It has two problems the
+season&#8209;wide pool does not. The first is that an identical result is worth
+different amounts depending on how busy the calendar happened to be that night
+&mdash; which no team controls. Basketball feels this harder than football does: a
+night with thirty games and a Saturday with two hundred are both &ldquo;a day&rdquo;,
+so the field a result is measured against swings enormously.</p>
+
+<p>The second problem is worse, because it is a contradiction rather than a
+calibration error. Two of a team's own results fall on different days, so their
+percentiles come from different populations &mdash; and they can therefore come out
+in the wrong order, with the grader saying one win was better and the score saying
+the other was. Across the five seasons here there are 901,439 pairs of a team's own
+games that the grader ranks strictly; day&#8209;by&#8209;day scoring reverses 36,994
+of them &mdash; one pair in twenty&#8209;four, noticeably worse than football's one
+in thirty&#8209;seven, because the buckets are smaller and vary more. Pooling
+reverses none, because a single population cannot disagree with the comparison that
+built it.</p>
 
 <p>Football buckets by week; basketball has to bucket by <em>day</em>, because teams
 play two or three times a week and the model holds one game per team per bucket.
