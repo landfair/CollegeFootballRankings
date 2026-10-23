@@ -155,7 +155,7 @@ export function engine(season,opts={}){
     const key=w+'|'+H, hit=slateCache.get(key); if(hit) return hit;
     const out=base(w,H); slateCache.set(key,out); return out;
   };
-  return {byWeek,gamesOf,slate,scoring,pool,isTop,topDivision:TOP,games:season.games};
+  return {byWeek,gamesOf,slate,cmp,scoring,pool,isTop,topDivision:TOP,games:season.games};
 }
 
 export function rank(eng,season,horizon){

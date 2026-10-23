@@ -587,41 +587,53 @@ function renderSlates(bucket){
   for(let w=1;w<=h;w++) if(ENG.byWeek.get(w)) buckets.push(w);
   if(!buckets.length){
     $('slatesview').innerHTML='<p class="msg">Nothing played yet.</p>'; return; }
+  /* The slate is the pool, not one bucket: every result from week 1 up to the
+     one chosen, ranked against each other. Moving the selector back hides later
+     weeks from the list without changing how anything was graded — the horizon
+     slider above still decides that. */
   const w=buckets.includes(bucket)?bucket:buckets[buckets.length-1];
   const i=buckets.indexOf(w);
-  const sl=ENG.slate(w,h);
-  const rows=[...sl.pos.entries()]
-    .map(([t,p])=>({team:t,score:p.score,rank:p.rank,val:p.val,e:ENG.byWeek.get(w).get(t)}))
-    .sort((a,b)=>a.rank-b.rank||a.team.localeCompare(b.team));
+  const rows=[]; let played=0;
+  for(const b of buckets){
+    if(b>w) break;
+    const wk=ENG.byWeek.get(b); played+=wk.size;
+    const pos=ENG.slate(b,h).pos;
+    for(const [t,p] of pos) rows.push({team:t,week:b,score:p.score,rank:p.rank,val:p.val,e:wk.get(t)});
+  }
+  rows.sort((a,b)=>ENG.cmp(a.val,b.val)||a.team.localeCompare(b.team)||a.week-b.week);
   const pooled=ENG.scoring==='pooled';
   const n=rows.length;
-  const excl=(ENG.byWeek.get(w)||new Map()).size-n;
+  const excl=played-n;
+  const poolN=pooled&&buckets.length?ENG.slate(buckets[0],h).n:0;
   $('status').innerHTML=`One slate &mdash; every result from a single bucket in the order `+
     `the grader puts them, scored ${pooled?'against the whole season so far':'against that bucket alone'}.`;
 
   let html='<p><button class="back" id="back">&larr; All teams</button></p>'+
-    `<div class="thead"><h2>${esc(String('Week '+w))}</h2>`+
+    `<div class="thead"><h2>${esc(String('through week '+w))}</h2>`+
     `<span class="sub">${n} scored result${n===1?'':'s'}${excl?` of ${n+excl} played`:''}, graded on everything through ${esc(String('week '+h))}</span></div>`;
 
   html+='<div class="slatenav">'+
     `<button class="wkbtn" id="slprev"${i===0?' disabled':''}>&lsaquo; previous</button>`+
     '<select id="slpick">'+buckets.map(x=>
-      `<option value="${x}"${x===w?' selected':''}>${esc(String('Week '+x))}</option>`).join('')+
+      `<option value="${x}"${x===w?' selected':''}>through ${esc(String('wk '+x))}</option>`).join('')+
     '</select>'+
     `<button class="wkbtn" id="slnext"${i===buckets.length-1?' disabled':''}>next &rsaquo;</button>`+
     '</div>';
 
-  html+='<p class="slateintro">Every result from this week, sorted against the others the '+
+  html+='<p class="slateintro">Every result up to this point in the season, sorted against the others the '+
     'way the grader sorts them: wins above losses, then by how good the opponent '+
     'was (<b>L1</b>, their record in their other games), then by how good '+
     '<i>their</i> opponents were (<b>L2</b>). The first of those three that '+
     'differs decides the order — nothing is added or averaged. '+
     (pooled
-      ? `The score is each result&rsquo;s place among all ${sl.n.toLocaleString()} games played `+
-        `through ${esc(String('week '+h))}, not among these ${n} alone, so a week&rsquo;s `+
-        `scores do not run the whole way from 0 to 100.`
-      : `The score is each result&rsquo;s place among these ${n} games alone, so they run `+
-        `from 100 at the top down to 0 at the bottom.`)+
+      ? `The score is each result&rsquo;s place among all ${poolN.toLocaleString()} in the `+
+        `season&rsquo;s pool through ${esc(String('week '+h))}. Pulling the selector back hides later `+
+        `weeks from the list but not from the pool, so the scores never change and the `+
+        `column stays in step with the order.`
+      : `Careful: each week is its own population in this mode, so these scores come from `+
+        `${i+1} different ones and the Score column will not descend cleanly. Two results `+
+        `can sit in the right order by vector and the wrong order by score &mdash; which is `+
+        `the reason the other setting exists.`)+
     '</p>';
   const TOPD=esc(ENG.topDivision);
   html+='<p class="slateintro">'+(excl
@@ -642,7 +654,7 @@ function renderSlates(bucket){
   html+='<div class="scroll"><table><thead><tr>'+
     '<th class="rk">#</th><th class="num">Score</th>'+
     `<th class="num">${pooled?'In pool':'In week'}</th>`+
-    '<th>Team</th><th></th><th>Opponent</th>'+
+    `<th class="rk">${pooled?'Wk':'Wk'}</th><th>Team</th><th></th><th>Opponent</th>`+
     '<th class="num">Their other games</th>'+
     '<th class="num">L1</th><th class="num">L2</th>'+
     '</tr></thead><tbody>';
@@ -654,6 +666,7 @@ function renderSlates(bucket){
       `<td class="rk">${k+1}</td>`+
       `<td class="num">${r.score.toFixed(1)}</td>`+
       `<td class="num nr">${r.rank}</td>`+
+      `<td class="rk nr">${esc(String(r.week))}</td>`+
       `<td><button class="tm" data-t="${esc(r.team)}">${esc(r.team)}</button></td>`+
       `<td><span class="res ${r.e.res===WIN?'w':'l'}">${r.e.res===WIN?'beat':'lost to'}</span></td>`+
       `<td><button class="tm" data-t="${esc(r.e.opp)}">${esc(r.e.opp)}</button></td>`+
