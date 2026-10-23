@@ -220,11 +220,16 @@ comparison, and the selection committee's ranking once it starts publishing.</p>
         over top
         <select id="gn"><option>25</option><option>50</option><option>75</option><option selected>100</option></select>
       </div>
-      <p>To be listed at all you must have beaten somebody worth beating, and that
-      team must qualify too &mdash; the rule repeats until the set stops changing.
-      It stays off until week&nbsp;8 and tightens as the season fills in,
-      because it needs cross&#8209;conference results to work. It never changes a
-      rating or an order; it only decides who is shown.</p>
+      <p>To be listed at all you must have beaten somebody worth beating. Through
+      the middle of the season that team must qualify too, the rule repeating until
+      the set stops changing. From week&nbsp;15 it narrows to the top&nbsp;25 and
+      stops repeating: at that point the question is who belongs in the playoff
+      conversation, and the answer is whoever beat somebody already in it. Run to
+      convergence over so tight a tier the rule eats itself &mdash; it drops 2023
+      Michigan, 13&#8209;0 and national champions, because the three ranked teams
+      they beat fall first. It stays off until week&nbsp;8, needing
+      cross&#8209;conference results to work, and it never changes a rating or an
+      order; it only decides who is shown.</p>
       <p class="now" id="gatelbl"></p>
     </div>
 
@@ -307,7 +312,16 @@ const SHOW=100;
    Tightening earlier is tempting and costly: tier 50 from week 10 would bottom
    out at 10 teams (2015), and 11 in 2024. Edit here to change it. */
 const GATE_SCHEDULE=[
-  {from:15,mode:'stable',n:50},
+  /* By the last stretch the question is who belongs in the playoff conversation,
+     and the answer is: whoever beat somebody already in it. One pass, not a fixed
+     point — iterating this at a tight tier eats itself. A self-consistent set
+     needs every member to have an edge into the set, which forces a cycle, and an
+     undefeated team cannot be in one. Run to convergence over 25 it drops 2023
+     Michigan, who went 13-0, beat the teams ranked 6th, 10th and 18th, and won the
+     national title: all three victims fall first, so Michigan's qualifying wins
+     vanish under it. It leaves seven teams, five of them Big 12 sides who beat
+     each other. One pass asks the same question and answers it honestly. */
+  {from:15,mode:'one',   n:25},
   {from:10,mode:'stable',n:75},
   {from:8, mode:'stable',n:100},
   {from:1, mode:'off',   n:100},
@@ -404,7 +418,7 @@ function renderList(){
   if(W) bits.push(W.settled
     ? `weighted by opponent, settled in <b>${W.passes}</b> passes`
     : `<b>weighting did not settle</b> in ${W.passes} passes — try a higher floor`);
-  if(g.mode!=='off') bits.push(`gate removed <b>${gated.all.length-gated.kept.length}</b> in ${gated.passes} passes`);
+  if(g.mode!=='off') bits.push(`gate removed <b>${gated.all.length-gated.kept.length}</b> in ${gated.passes} pass${gated.passes===1?'':'es'}`);
   if(ap||co){
     const t=(ap||co).throughWeek;
     bits.push(t<h?`polls are from week ${t}, one step behind`:'polls reflect the same games');

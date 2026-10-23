@@ -392,7 +392,7 @@ function renderList(){
   if(W) bits.push(W.settled
     ? `weighted by opponent, settled in <b>${W.passes}</b> passes`
     : `<b>weighting did not settle</b> in ${W.passes} passes — try a higher floor`);
-  if(g.mode!=='off') bits.push(`gate removed <b>${gated.all.length-gated.kept.length}</b> in ${gated.passes} passes`);
+  if(g.mode!=='off') bits.push(`gate removed <b>${gated.all.length-gated.kept.length}</b> in ${gated.passes} pass${gated.passes===1?'':'es'}`);
   if(ap||co){
     const t=(ap||co).throughWeek;
     bits.push(t<h?`poll published ${fmtDay(dayOf(t))}, ${h-t} day${h-t>1?'s':''} behind`
