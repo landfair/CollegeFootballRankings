@@ -139,9 +139,9 @@ games against outside opposition, and no games between two non&#8209;D1 teams, s
 Both are offered under the gear icon so they stay distinguishable if that ever
 changes.</p>
 
-<p>The default, <b>games between two D1 teams</b>, does bite: it stops the 8.8% of
-results that cross the line from counting toward a rating at all, which can leave a
-team rated on slightly fewer games. Either way the grading is untouched &mdash; an
+<p>The third option, <b>games between two D1 teams</b>, does bite: it stops the 8.8%
+of results that cross the line from counting toward a rating at all, which can leave
+a team rated on slightly fewer games. Either way the grading is untouched &mdash; an
 opponent&rsquo;s record is still its real record, taken from all of its games. Only
 the field a result is placed in changes. Football, where three&#8209;quarters of all
 results involve no top&#8209;division team, is affected far more; the
@@ -204,6 +204,31 @@ says so plainly if it fails to settle.</p>
   breaks that rule: a good loss can finish above a poor win.</li>
 </ul>
 
+
+
+<h3>How the defaults were chosen</h3>
+
+<p>Four of the settings have a default, and those four were picked by measurement
+rather than taste. Every combination &mdash; two ways of scoring, three fields,
+three weighting modes &mdash; was run against the AP and Coaches polls across all
+seasons here, at every week a poll was published, and the one that tracked the
+voters most closely won. That is <b>season&#8209;so&#8209;far scoring</b>, <b>games
+with a D1 team</b>, and <b>balanced weighting</b>, at a mean Spearman of 0.571.
+Because this feed holds no games between two non&#8209;D1 teams, every&#8209;game
+scoring is the same set and ties it exactly; the nearest different setting is
+games between two D1 teams, at 0.567. The same combination wins on the football
+side, measured separately.</p>
+
+<p>It is worth being honest about what that does and does not justify. The margins
+are narrow &mdash; a few thousandths separate the leading options, and the
+difference between any of them is far smaller than the swing from one season, or
+one week of a season, to the next. So the default is the best general guess, not a
+settled answer, and on any particular season another setting may well read better.
+There is also something a little circular about tuning a poll&#8209;free ranking to
+agree with polls; the measure is used here only to break ties between defensible
+options, never to decide what the system counts as evidence. Every option stays
+under the gear icon, and the correlation figures at the top of the page update as
+you change them, so you can check any of this yourself.</p>
 
 <h2>The victors gate</h2>
 
