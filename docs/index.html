@@ -183,8 +183,8 @@ no margin of victory, no votes. The AP and Coaches polls are shown alongside for
     <div class="setting">
       <div class="row1">Score against
         <select id="pmode">
-          <option value="any" selected>games with an FBS team</option>
-          <option value="both">games between FBS teams</option>
+          <option value="any">games with an FBS team</option>
+          <option value="both" selected>games between FBS teams</option>
           <option value="all">every game played</option>
         </select>
       </div>
@@ -192,15 +192,16 @@ no margin of victory, no votes. The AP and Coaches polls are shown alongside for
       team produces the same three numbers as Ohio State beating an unbeaten
       Indiana &mdash; but records only compare across teams with overlapping
       opponents, and a D3 team&rsquo;s two levels out reach no FBS team at all, so
-      the two are measured on different rulers. Through week&nbsp;8 of 2026, 77% of
-      all results involve no FBS team, and they hold 74 of the best 100 places.
-      <b>Games with an FBS team</b> keeps every game an FBS team actually played,
-      lower divisions included, and drops only the ones it had nothing to do with.
-      <b>Games between FBS teams</b> goes further and stops cross&#8209;division
-      results counting toward a rating at all, which can leave a team rated on very
-      few games. <b>Every game played</b> is the original behaviour. Excluded games
-      still count in their own teams&rsquo; records either way &mdash; only the
-      measuring stick changes.</p>
+      the two are measured on different rulers. <b>Games between FBS teams</b>, the
+      default, is the strictest reading: a cross&#8209;division result neither
+      scores a team nor sits in the field, so a 6&#8209;1 team is typically rated
+      on the five or six games that tested it. <b>Games with an FBS team</b> keeps
+      every game an FBS team actually played, lower divisions included, and drops
+      only the ones it had nothing to do with. <b>Every game played</b> is the
+      original behaviour &mdash; through week&nbsp;8 of 2026 that field is 77%
+      games with no FBS team in them, holding 74 of the best 100 places. Excluded
+      games still count in their own teams&rsquo; records in every case; what
+      changes is which results are scored and what they are measured against.</p>
     </div>
 
     <div class="setting">
@@ -225,16 +226,18 @@ no margin of victory, no votes. The AP and Coaches polls are shown alongside for
     <div class="setting">
       <div class="row1">Opponent weighting
         <select id="wmode">
-          <option value="off" selected>off</option>
-          <option value="B">balanced</option>
+          <option value="off">off</option>
+          <option value="B" selected>balanced</option>
           <option value="A">strong</option>
         </select>
       </div>
       <p>Scales every game by how good the opponent turned out to be, so a win over
       a poor team counts for less and a loss to a good one costs less.
-      <b>Balanced</b> keeps every win above every loss; <b>strong</b> bites harder
-      and drops that rule. Off by default: the ranking already weighs opponents
-      once, and this does it a second time.</p>
+      <b>Balanced</b>, the default, keeps every win above every loss; <b>strong</b>
+      bites harder and drops that rule. Because the weight depends on the ranking
+      it is solved rather than calculated, taking about a dozen passes. Turn it
+      <b>off</b> for the plainer figure, with nothing laid on top of what the
+      season says.</p>
     </div>
 
   </div>
