@@ -3361,12 +3361,12 @@
    "division": "OTHER"
   },
   {
-   "name": "Virginia Lynchburg",
+   "name": "Lawrence Tech",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Lawrence Tech",
+   "name": "Virginia Lynchburg",
    "conference": "",
    "division": "OTHER"
   },
@@ -3381,12 +3381,12 @@
    "division": "OTHER"
   },
   {
-   "name": "Indiana Wesleyan",
+   "name": "Warner",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Warner",
+   "name": "Indiana Wesleyan",
    "conference": "",
    "division": "OTHER"
   },
@@ -3416,12 +3416,12 @@
    "division": "OTHER"
   },
   {
-   "name": "Louisiana Christian",
+   "name": "Mayville State",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Mayville State",
+   "name": "Louisiana Christian",
    "conference": "",
    "division": "OTHER"
   },
@@ -22345,6 +22345,113 @@
   },
   {
    "week": 10,
+   "poll": "CFP Rankings",
+   "throughWeek": 10,
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "Georgia"
+    },
+    {
+     "rank": 2,
+     "team": "Alabama"
+    },
+    {
+     "rank": 3,
+     "team": "Michigan State"
+    },
+    {
+     "rank": 4,
+     "team": "Oregon"
+    },
+    {
+     "rank": 5,
+     "team": "Ohio State"
+    },
+    {
+     "rank": 6,
+     "team": "Cincinnati"
+    },
+    {
+     "rank": 7,
+     "team": "Michigan"
+    },
+    {
+     "rank": 8,
+     "team": "Oklahoma"
+    },
+    {
+     "rank": 9,
+     "team": "Wake Forest"
+    },
+    {
+     "rank": 10,
+     "team": "Notre Dame"
+    },
+    {
+     "rank": 11,
+     "team": "Oklahoma State"
+    },
+    {
+     "rank": 12,
+     "team": "Baylor"
+    },
+    {
+     "rank": 13,
+     "team": "Auburn"
+    },
+    {
+     "rank": 14,
+     "team": "Texas A&M"
+    },
+    {
+     "rank": 15,
+     "team": "BYU"
+    },
+    {
+     "rank": 16,
+     "team": "Ole Miss"
+    },
+    {
+     "rank": 17,
+     "team": "Mississippi State"
+    },
+    {
+     "rank": 18,
+     "team": "Kentucky"
+    },
+    {
+     "rank": 19,
+     "team": "NC State"
+    },
+    {
+     "rank": 20,
+     "team": "Minnesota"
+    },
+    {
+     "rank": 21,
+     "team": "Wisconsin"
+    },
+    {
+     "rank": 22,
+     "team": "Iowa"
+    },
+    {
+     "rank": 23,
+     "team": "Fresno State"
+    },
+    {
+     "rank": 24,
+     "team": "San Diego State"
+    },
+    {
+     "rank": 25,
+     "team": "Pittsburgh"
+    }
+   ]
+  },
+  {
+   "week": 10,
    "poll": "Coaches Poll",
    "throughWeek": 10,
    "ranks": [
@@ -22559,6 +22666,113 @@
   },
   {
    "week": 11,
+   "poll": "CFP Rankings",
+   "throughWeek": 11,
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "Georgia"
+    },
+    {
+     "rank": 2,
+     "team": "Alabama"
+    },
+    {
+     "rank": 3,
+     "team": "Oregon"
+    },
+    {
+     "rank": 4,
+     "team": "Ohio State"
+    },
+    {
+     "rank": 5,
+     "team": "Cincinnati"
+    },
+    {
+     "rank": 6,
+     "team": "Michigan"
+    },
+    {
+     "rank": 7,
+     "team": "Michigan State"
+    },
+    {
+     "rank": 8,
+     "team": "Oklahoma"
+    },
+    {
+     "rank": 9,
+     "team": "Notre Dame"
+    },
+    {
+     "rank": 10,
+     "team": "Oklahoma State"
+    },
+    {
+     "rank": 11,
+     "team": "Texas A&M"
+    },
+    {
+     "rank": 12,
+     "team": "Wake Forest"
+    },
+    {
+     "rank": 13,
+     "team": "Baylor"
+    },
+    {
+     "rank": 14,
+     "team": "BYU"
+    },
+    {
+     "rank": 15,
+     "team": "Ole Miss"
+    },
+    {
+     "rank": 16,
+     "team": "NC State"
+    },
+    {
+     "rank": 17,
+     "team": "Auburn"
+    },
+    {
+     "rank": 18,
+     "team": "Wisconsin"
+    },
+    {
+     "rank": 19,
+     "team": "Purdue"
+    },
+    {
+     "rank": 20,
+     "team": "Iowa"
+    },
+    {
+     "rank": 21,
+     "team": "Pittsburgh"
+    },
+    {
+     "rank": 22,
+     "team": "San Diego State"
+    },
+    {
+     "rank": 23,
+     "team": "UTSA"
+    },
+    {
+     "rank": 24,
+     "team": "Utah"
+    },
+    {
+     "rank": 25,
+     "team": "Arkansas"
+    }
+   ]
+  },
+  {
+   "week": 11,
    "poll": "Coaches Poll",
    "throughWeek": 11,
    "ranks": [
@@ -22773,6 +22987,113 @@
   },
   {
    "week": 12,
+   "poll": "CFP Rankings",
+   "throughWeek": 12,
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "Georgia"
+    },
+    {
+     "rank": 2,
+     "team": "Alabama"
+    },
+    {
+     "rank": 3,
+     "team": "Oregon"
+    },
+    {
+     "rank": 4,
+     "team": "Ohio State"
+    },
+    {
+     "rank": 5,
+     "team": "Cincinnati"
+    },
+    {
+     "rank": 6,
+     "team": "Michigan"
+    },
+    {
+     "rank": 7,
+     "team": "Michigan State"
+    },
+    {
+     "rank": 8,
+     "team": "Notre Dame"
+    },
+    {
+     "rank": 9,
+     "team": "Oklahoma State"
+    },
+    {
+     "rank": 10,
+     "team": "Wake Forest"
+    },
+    {
+     "rank": 11,
+     "team": "Baylor"
+    },
+    {
+     "rank": 12,
+     "team": "Ole Miss"
+    },
+    {
+     "rank": 13,
+     "team": "Oklahoma"
+    },
+    {
+     "rank": 14,
+     "team": "BYU"
+    },
+    {
+     "rank": 15,
+     "team": "Wisconsin"
+    },
+    {
+     "rank": 16,
+     "team": "Texas A&M"
+    },
+    {
+     "rank": 17,
+     "team": "Iowa"
+    },
+    {
+     "rank": 18,
+     "team": "Pittsburgh"
+    },
+    {
+     "rank": 19,
+     "team": "San Diego State"
+    },
+    {
+     "rank": 20,
+     "team": "NC State"
+    },
+    {
+     "rank": 21,
+     "team": "Arkansas"
+    },
+    {
+     "rank": 22,
+     "team": "UTSA"
+    },
+    {
+     "rank": 23,
+     "team": "Utah"
+    },
+    {
+     "rank": 24,
+     "team": "Houston"
+    },
+    {
+     "rank": 25,
+     "team": "Mississippi State"
+    }
+   ]
+  },
+  {
+   "week": 12,
    "poll": "Coaches Poll",
    "throughWeek": 12,
    "ranks": [
@@ -22987,6 +23308,113 @@
   },
   {
    "week": 13,
+   "poll": "CFP Rankings",
+   "throughWeek": 13,
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "Georgia"
+    },
+    {
+     "rank": 2,
+     "team": "Ohio State"
+    },
+    {
+     "rank": 3,
+     "team": "Alabama"
+    },
+    {
+     "rank": 4,
+     "team": "Cincinnati"
+    },
+    {
+     "rank": 5,
+     "team": "Michigan"
+    },
+    {
+     "rank": 6,
+     "team": "Notre Dame"
+    },
+    {
+     "rank": 7,
+     "team": "Oklahoma State"
+    },
+    {
+     "rank": 8,
+     "team": "Baylor"
+    },
+    {
+     "rank": 9,
+     "team": "Ole Miss"
+    },
+    {
+     "rank": 10,
+     "team": "Oklahoma"
+    },
+    {
+     "rank": 11,
+     "team": "Oregon"
+    },
+    {
+     "rank": 12,
+     "team": "Michigan State"
+    },
+    {
+     "rank": 13,
+     "team": "BYU"
+    },
+    {
+     "rank": 14,
+     "team": "Wisconsin"
+    },
+    {
+     "rank": 15,
+     "team": "Texas A&M"
+    },
+    {
+     "rank": 16,
+     "team": "Iowa"
+    },
+    {
+     "rank": 17,
+     "team": "Pittsburgh"
+    },
+    {
+     "rank": 18,
+     "team": "Wake Forest"
+    },
+    {
+     "rank": 19,
+     "team": "Utah"
+    },
+    {
+     "rank": 20,
+     "team": "NC State"
+    },
+    {
+     "rank": 21,
+     "team": "San Diego State"
+    },
+    {
+     "rank": 22,
+     "team": "UTSA"
+    },
+    {
+     "rank": 23,
+     "team": "Clemson"
+    },
+    {
+     "rank": 24,
+     "team": "Houston"
+    },
+    {
+     "rank": 25,
+     "team": "Arkansas"
+    }
+   ]
+  },
+  {
+   "week": 13,
    "poll": "Coaches Poll",
    "throughWeek": 13,
    "ranks": [
@@ -23201,6 +23629,113 @@
   },
   {
    "week": 14,
+   "poll": "CFP Rankings",
+   "throughWeek": 14,
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "Georgia"
+    },
+    {
+     "rank": 2,
+     "team": "Michigan"
+    },
+    {
+     "rank": 3,
+     "team": "Alabama"
+    },
+    {
+     "rank": 4,
+     "team": "Cincinnati"
+    },
+    {
+     "rank": 5,
+     "team": "Oklahoma State"
+    },
+    {
+     "rank": 6,
+     "team": "Notre Dame"
+    },
+    {
+     "rank": 7,
+     "team": "Ohio State"
+    },
+    {
+     "rank": 8,
+     "team": "Ole Miss"
+    },
+    {
+     "rank": 9,
+     "team": "Baylor"
+    },
+    {
+     "rank": 10,
+     "team": "Oregon"
+    },
+    {
+     "rank": 11,
+     "team": "Michigan State"
+    },
+    {
+     "rank": 12,
+     "team": "BYU"
+    },
+    {
+     "rank": 13,
+     "team": "Iowa"
+    },
+    {
+     "rank": 14,
+     "team": "Oklahoma"
+    },
+    {
+     "rank": 15,
+     "team": "Pittsburgh"
+    },
+    {
+     "rank": 16,
+     "team": "Wake Forest"
+    },
+    {
+     "rank": 17,
+     "team": "Utah"
+    },
+    {
+     "rank": 18,
+     "team": "NC State"
+    },
+    {
+     "rank": 19,
+     "team": "San Diego State"
+    },
+    {
+     "rank": 20,
+     "team": "Clemson"
+    },
+    {
+     "rank": 21,
+     "team": "Houston"
+    },
+    {
+     "rank": 22,
+     "team": "Arkansas"
+    },
+    {
+     "rank": 23,
+     "team": "Kentucky"
+    },
+    {
+     "rank": 24,
+     "team": "Louisiana"
+    },
+    {
+     "rank": 25,
+     "team": "Texas A&M"
+    }
+   ]
+  },
+  {
+   "week": 14,
    "poll": "Coaches Poll",
    "throughWeek": 14,
    "ranks": [
@@ -23410,6 +23945,113 @@
     {
      "rank": 25,
      "team": "Kentucky"
+    }
+   ]
+  },
+  {
+   "week": 15,
+   "poll": "CFP Rankings",
+   "throughWeek": 15,
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "Alabama"
+    },
+    {
+     "rank": 2,
+     "team": "Michigan"
+    },
+    {
+     "rank": 3,
+     "team": "Georgia"
+    },
+    {
+     "rank": 4,
+     "team": "Cincinnati"
+    },
+    {
+     "rank": 5,
+     "team": "Notre Dame"
+    },
+    {
+     "rank": 6,
+     "team": "Ohio State"
+    },
+    {
+     "rank": 7,
+     "team": "Baylor"
+    },
+    {
+     "rank": 8,
+     "team": "Ole Miss"
+    },
+    {
+     "rank": 9,
+     "team": "Oklahoma State"
+    },
+    {
+     "rank": 10,
+     "team": "Michigan State"
+    },
+    {
+     "rank": 11,
+     "team": "Utah"
+    },
+    {
+     "rank": 12,
+     "team": "Pittsburgh"
+    },
+    {
+     "rank": 13,
+     "team": "BYU"
+    },
+    {
+     "rank": 14,
+     "team": "Oregon"
+    },
+    {
+     "rank": 15,
+     "team": "Iowa"
+    },
+    {
+     "rank": 16,
+     "team": "Oklahoma"
+    },
+    {
+     "rank": 17,
+     "team": "Wake Forest"
+    },
+    {
+     "rank": 18,
+     "team": "NC State"
+    },
+    {
+     "rank": 19,
+     "team": "Clemson"
+    },
+    {
+     "rank": 20,
+     "team": "Houston"
+    },
+    {
+     "rank": 21,
+     "team": "Arkansas"
+    },
+    {
+     "rank": 22,
+     "team": "Kentucky"
+    },
+    {
+     "rank": 23,
+     "team": "Louisiana"
+    },
+    {
+     "rank": 24,
+     "team": "San Diego State"
+    },
+    {
+     "rank": 25,
+     "team": "Texas A&M"
     }
    ]
   },

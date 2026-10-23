@@ -3411,17 +3411,12 @@
    "division": "FCS"
   },
   {
-   "name": "Kentucky Christian",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
    "name": "Marian (IN)",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Texas Wesleyan",
+   "name": "Kentucky Christian",
    "conference": "",
    "division": "OTHER"
   },
@@ -3432,6 +3427,11 @@
   },
   {
    "name": "Northwestern (IA)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Texas Wesleyan",
    "conference": "",
    "division": "OTHER"
   },
@@ -3501,12 +3501,12 @@
    "division": "OTHER"
   },
   {
-   "name": "Wayland Baptist",
+   "name": "Bethel University Tennessee",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Bethel University Tennessee",
+   "name": "Wayland Baptist",
    "conference": "",
    "division": "OTHER"
   },
@@ -3576,7 +3576,7 @@
    "division": "OTHER"
   },
   {
-   "name": "Roanoke College",
+   "name": "Saint Xavier",
    "conference": "",
    "division": "OTHER"
   },
@@ -3586,7 +3586,7 @@
    "division": "OTHER"
   },
   {
-   "name": "Saint Xavier",
+   "name": "Roanoke College",
    "conference": "",
    "division": "OTHER"
   },
@@ -19155,6 +19155,62 @@
    "away": "Northern Iowa",
    "homePoints": 35,
    "awayPoints": 22
+  },
+  {
+   "week": 9,
+   "home": "App State",
+   "away": "James Madison",
+   "homePoints": 34,
+   "awayPoints": 31
+  },
+  {
+   "week": 9,
+   "home": "Delaware",
+   "away": "Missouri State",
+   "homePoints": 61,
+   "awayPoints": 38
+  },
+  {
+   "week": 9,
+   "home": "Florida International",
+   "away": "Middle Tennessee",
+   "homePoints": 23,
+   "awayPoints": 26
+  },
+  {
+   "week": 9,
+   "home": "Kennesaw State",
+   "away": "Liberty",
+   "homePoints": 6,
+   "awayPoints": 34
+  },
+  {
+   "week": 9,
+   "home": "Marshall",
+   "away": "South Alabama",
+   "homePoints": 20,
+   "awayPoints": 13
+  },
+  {
+   "week": 9,
+   "home": "Memphis",
+   "away": "East Carolina",
+   "homePoints": 41,
+   "awayPoints": 34
+  },
+  {
+   "week": 9,
+   "home": "Saint Anselm",
+   "away": "Assumption",
+   "homePoints": 7,
+   "awayPoints": 56
+  },
+  {
+   "week": 9,
+   "home": "Sam Houston",
+   "away": "New Mexico State",
+   "homePoints": 24,
+   "awayPoints": 30
   }
  ],
  "polls": [
