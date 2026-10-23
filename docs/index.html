@@ -409,6 +409,12 @@ function renderList(){
     const t=(ap||co).throughWeek;
     bits.push(t<h?`polls are from week ${t}, one step behind`:'polls reflect the same games');
   } else bits.push('no poll published this early');
+  /* Worth naming: otherwise a finished season opening short of its last week
+     reads as a bug rather than the point. */
+  if(h<SEASON.maxWeek&&h===selectionWeek($('season').value))
+    bits.push(cf&&cf.throughWeek===h
+      ? '<b>selection week</b> — the playoff field was set here'
+      : '<b>last week anyone voted</b> — the season runs on past this point');
   if($('season').value==='2020')
     bits.push('<b>2020 was shortened by the pandemic</b>; some teams played only a handful of games');
   if(g.auto){ $('gmode').value='auto'; if(g.mode!=='off') $('gn').value=String(g.n); }
@@ -732,13 +738,40 @@ window.addEventListener('hashchange',()=>{
   if(!sameView(v,VIEW)){ VIEW=v; render(); }
 });
 
+/* The week a finished season opens on.
+
+   The playoff field is chosen on selection day, which falls after the conference
+   championships but before the last stragglers of the regular season — Army-Navy
+   is played the following weekend, when the field is already set. So a past
+   season's last week shows a state that came after the question was settled.
+   Opening instead on the week the committee last ranked puts the table where the
+   argument actually was: who had earned a place.
+
+   Only for finished seasons; the current one opens on the newest data it has.
+   Without a committee ranking the last week anyone voted serves as the proxy,
+   since the final AP and Coaches ballots are cast at the same point — in 2025
+   that is week 16, while the season itself runs to a week 17 holding eleven
+   games and no poll at all. */
+function selectionWeek(year){
+  const latest=Math.max(...[...$('season').options].map(o=>+o.value));
+  if(+year>=latest) return SEASON.maxWeek;
+  const last=name=>{
+    let w=0;
+    for(const p of SEASON.polls)
+      if((!name||p.poll===name)&&p.throughWeek>w&&p.throughWeek<=SEASON.maxWeek)
+        w=p.throughWeek;
+    return w;
+  };
+  return last('CFP Rankings') || last(null) || SEASON.maxWeek;
+}
+
 async function pick(year){
   $('status').textContent='Loading '+year+'…';
   try{
     await load(year);
     const s=$('wk');
     s.max=SEASON.maxWeek;
-    s.value=SEASON.maxWeek;
+    s.value=selectionWeek(year);
     render();
   }catch(e){
     $('status').textContent=e.message;
