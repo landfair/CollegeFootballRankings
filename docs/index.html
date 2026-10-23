@@ -95,6 +95,13 @@
     color:inherit;cursor:pointer;text-align:left}
   button.tm:hover{color:var(--mark);text-decoration:underline}
   /* team page */
+  .slatenav{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0 14px}
+  .slatenav select{font:inherit;font-size:13px;padding:3px 6px}
+  .wkbtn{font:inherit;font-size:13px;padding:3px 10px;border:1px solid var(--rule);
+    border-radius:6px;background:var(--panel);color:var(--ink);cursor:pointer}
+  .wkbtn:hover:not(:disabled){border-color:var(--mark);color:var(--mark)}
+  .wkbtn:disabled{opacity:.4;cursor:default}
+  .slateintro{color:var(--muted);font-size:13.5px;line-height:1.55;margin:0 0 14px;max-width:62ch}
   .back{background:none;border:0;padding:0;font:inherit;font-size:13px;color:var(--muted);cursor:pointer}
   .back:hover{color:var(--mark)}
   .thead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:14px 0 4px}
@@ -130,7 +137,7 @@
 <header>
   <div class="bar">
     <h1>Recursive Rankings <span class="sport">football</span></h1>
-    <nav><a href="./" aria-current="page">Rankings</a><a href="about.html">About</a><a href="basketball/">Basketball</a></nav>
+    <nav><a href="./" aria-current="page">Rankings</a><a href="#slates">Slates</a><a href="about.html">About</a><a href="basketball/">Basketball</a></nav>
     <button class="iconbtn" id="gearbtn" title="Settings" aria-label="Settings">&#9881;</button>
     <button class="iconbtn" id="helpbtn" title="How this works" aria-label="How this works">?</button>
   </div>
@@ -230,6 +237,7 @@ no margin of victory, no votes. The AP and Coaches polls are shown alongside for
   polls alongside, and then each of its games and how their worth has shifted:
   the small line beside each game is that game alone, re&#8209;graded after every week
   since it was played. Hover it for the week&#8209;by&#8209;week figures.</p>
+  <p><b>Seeing the raw order.</b> <a href="#slates">Slates</a> lays out every result from a single week in exactly the order the grader puts them &mdash; wins above losses, then by opponent &mdash; with both opponent numbers and the score beside each one. The ranking is just those scores averaged per team, so this is the table everything else is built from.</p>
   <p><b>The victors gate.</b> To be listed you must have beaten somebody worth
   beating, and that team must qualify too &mdash; the rule is applied over and over
   until the set stops changing. It needs enough cross&#8209;conference play to work,
@@ -244,6 +252,7 @@ no margin of victory, no votes. The AP and Coaches polls are shown alongside for
 <div class="scroll"><table id="tbl"><tbody><tr><td class="msg">Loading…</td></tr></tbody></table></div>
 </div>
 <div id="teamview" hidden></div>
+<div id="slatesview" hidden></div>
 
 <footer>Game results and polls from
 <a href="https://collegefootballdata.com">collegefootballdata.com</a>.
@@ -277,7 +286,7 @@ const GATE_STARTS=Math.min(...GATE_SCHEDULE.filter(g=>g.mode!=='off').map(g=>g.f
 
 const $=id=>document.getElementById(id);
 
-let SEASON=null, ENG=null, CACHE=new Map(), VIEW=null, YEAR=null;
+let SEASON=null, ENG=null, CACHE=new Map(), VIEW={kind:'list'}, YEAR=null;
 let sortKey='rank', sortAsc=true;
 /* The two scoring modes are two different populations to place a game in, so
    each needs its own engine. Both are kept once built — flipping between them
@@ -320,14 +329,30 @@ function current(){
   return {h,g,rows,W,gated:applyGate(ENG,rows,g.mode,g.n,h)};
 }
 
+/* Three views share the page: the table, one team, and one bucket's slate.
+   The hash is the single source of truth for which is showing. */
+function parseHash(){
+  let m=/^#t=(.+)$/.exec(location.hash);
+  if(m) return {kind:'team',team:decodeURIComponent(m[1])};
+  m=/^#slates(?:=(\d+))?$/.exec(location.hash);
+  if(m) return {kind:'slates',bucket:m[1]?+m[1]:null};
+  return {kind:'list'};
+}
+const sameView=(a,b)=>a.kind===b.kind&&a.team===b.team&&a.bucket===b.bucket;
+function showView(which){
+  $('listview').hidden=which!=='list';
+  $('teamview').hidden=which!=='team';
+  $('slatesview').hidden=which!=='slates';
+}
 function render(){
   if(!SEASON) return;
-  const t=VIEW;
-  if(t) renderTeam(t); else renderList();
+  if(VIEW.kind==='team') renderTeam(VIEW.team);
+  else if(VIEW.kind==='slates') renderSlates(VIEW.bucket);
+  else renderList();
 }
 
 function renderList(){
-  $('listview').hidden=false; $('teamview').hidden=true;
+  showView('list');
   const {h,g,rows,W,gated}=current();
   $('wkv').textContent=h;
   const shown=gated.kept.slice(0,SHOW);
@@ -444,7 +469,7 @@ function renderList(){
 function renderTeam(team){
   const {h,g,rows,W,gated}=current();
   $('wkv').textContent=h;
-  $('listview').hidden=true; $('teamview').hidden=false;
+  showView('team');
   const me=rows.find(r=>r.team===team);
   if(!me){
     $('teamview').innerHTML='<p class="msg"><button class="back" id="back">&larr; All teams</button></p>'+
@@ -521,20 +546,114 @@ function renderTeam(team){
     `and how that has moved since it was played`;
 }
 
+/* ---------- the slate ----------
+   Every result in one bucket, in the order the comparator puts them. This is
+   the object the ranking is built from — the table of teams is only these
+   scores averaged — so it is worth being able to look at directly. Ordering is
+   always by the raw vector; opponent weighting rescales scores afterwards and
+   would reorder the list, so it is deliberately not applied here. */
+function renderSlates(bucket){
+  const h=+$('wk').value;
+  $('wkv').textContent=h;
+  showView('slates');
+  const buckets=[];
+  for(let w=1;w<=h;w++) if(ENG.byWeek.get(w)) buckets.push(w);
+  if(!buckets.length){
+    $('slatesview').innerHTML='<p class="msg">Nothing played yet.</p>'; return; }
+  const w=buckets.includes(bucket)?bucket:buckets[buckets.length-1];
+  const i=buckets.indexOf(w);
+  const sl=ENG.slate(w,h);
+  const rows=[...sl.pos.entries()]
+    .map(([t,p])=>({team:t,score:p.score,rank:p.rank,val:p.val,e:ENG.byWeek.get(w).get(t)}))
+    .sort((a,b)=>a.rank-b.rank||a.team.localeCompare(b.team));
+  const pooled=ENG.scoring==='pooled';
+  const n=rows.length;
+  $('status').innerHTML=`One slate &mdash; every result from a single bucket in the order `+
+    `the grader puts them, scored ${pooled?'against the whole season so far':'against that bucket alone'}.`;
+
+  let html='<p><button class="back" id="back">&larr; All teams</button></p>'+
+    `<div class="thead"><h2>${esc(String('Week '+w))}</h2>`+
+    `<span class="sub">${n} results, graded on everything through ${esc(String('week '+h))}</span></div>`;
+
+  html+='<div class="slatenav">'+
+    `<button class="wkbtn" id="slprev"${i===0?' disabled':''}>&lsaquo; previous</button>`+
+    '<select id="slpick">'+buckets.map(x=>
+      `<option value="${x}"${x===w?' selected':''}>${esc(String('Week '+x))}</option>`).join('')+
+    '</select>'+
+    `<button class="wkbtn" id="slnext"${i===buckets.length-1?' disabled':''}>next &rsaquo;</button>`+
+    '</div>';
+
+  html+='<p class="slateintro">Every result from this week, sorted against the others the '+
+    'way the grader sorts them: wins above losses, then by how good the opponent '+
+    'was (<b>L1</b>, their record in their other games), then by how good '+
+    '<i>their</i> opponents were (<b>L2</b>). The first of those three that '+
+    'differs decides the order — nothing is added or averaged. '+
+    (pooled
+      ? `The score is each result&rsquo;s place among all ${sl.n.toLocaleString()} games played `+
+        `through ${esc(String('week '+h))}, not among these ${n} alone, so a week&rsquo;s `+
+        `scores do not run the whole way from 0 to 100.`
+      : `The score is each result&rsquo;s place among these ${n} games alone, so they run `+
+        `from 100 at the top down to 0 at the bottom.`)+
+    '</p>';
+  html+=`<p class="slateintro">Every division is here, not only the top one. A `+
+    `lower&#8209;division game still sits in somebody&rsquo;s record, so it has to be `+
+    `graded alongside the rest; the ranking table then shows `+
+    `${esc(SEASON.topDivision||'FBS')} teams only. That is why unfamiliar names `+
+    `appear in this list.</p>`;
+  if($('wmode').value!=='off')
+    html+='<p class="slateintro"><b>Note.</b> Opponent weighting is on, but this view shows '+
+      'unweighted scores: weighting rescales a result after it has been placed, which would '+
+      'put the list out of the order it is sorted in.</p>';
+
+  html+='<div class="scroll"><table><thead><tr>'+
+    '<th class="rk">#</th><th class="num">Score</th>'+
+    `<th class="num">${pooled?'In pool':'In week'}</th>`+
+    '<th>Team</th><th></th><th>Opponent</th>'+
+    '<th class="num">Their other games</th>'+
+    '<th class="num">L1</th><th class="num">L2</th>'+
+    '</tr></thead><tbody>';
+  for(let k=0;k<n;k++){
+    const r=rows[k];
+    const others=(ENG.gamesOf.get(r.e.opp)||[]).filter(x=>x.week<=h&&x.id!==r.e.id);
+    const ow=others.filter(x=>x.res===WIN).length;
+    html+='<tr>'+
+      `<td class="rk">${k+1}</td>`+
+      `<td class="num">${r.score.toFixed(1)}</td>`+
+      `<td class="num nr">${r.rank}</td>`+
+      `<td><button class="tm" data-t="${esc(r.team)}">${esc(r.team)}</button></td>`+
+      `<td><span class="res ${r.e.res===WIN?'w':'l'}">${r.e.res===WIN?'beat':'lost to'}</span></td>`+
+      `<td><button class="tm" data-t="${esc(r.e.opp)}">${esc(r.e.opp)}</button></td>`+
+      `<td class="num cf">${ow}\u2011${others.length-ow}</td>`+
+      `<td class="num">${r.val[1].toFixed(3)}</td>`+
+      `<td class="num">${r.val[2].toFixed(3)}</td>`+
+      '</tr>';
+  }
+  html+='</tbody></table></div>';
+
+  $('slatesview').innerHTML=html;
+  $('back').onclick=()=>go(null);
+  $('slpick').onchange=e=>go({kind:'slates',bucket:+e.target.value});
+  $('slprev').onclick=()=>go({kind:'slates',bucket:buckets[i-1]});
+  $('slnext').onclick=()=>go({kind:'slates',bucket:buckets[i+1]});
+  wire($('slatesview'));
+}
+
 function wire(root){
   root.querySelectorAll('button.tm').forEach(b=>b.onclick=()=>go(b.dataset.t));
 }
-function go(team){
-  VIEW=team;
-  if(team) location.hash='t='+encodeURIComponent(team);
+function go(v){
+  VIEW = (typeof v==='string') ? {kind:'team',team:v} : (v||{kind:'list'});
+  const want = VIEW.kind==='team' ? 't='+encodeURIComponent(VIEW.team)
+             : VIEW.kind==='slates' ? 'slates'+(VIEW.bucket?'='+VIEW.bucket:'')
+             : '';
+  if(want) location.hash=want;
   else if(location.hash) location.hash='';
   render();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 window.addEventListener('hashchange',()=>{
-  const m=/^#t=(.+)$/.exec(location.hash);
-  const t=m?decodeURIComponent(m[1]):null;
-  if(t!==VIEW){ VIEW=t; render(); }
+  const v=parseHash();
+  if(!sameView(v,VIEW)){ VIEW=v; render(); }
 });
 
 async function pick(year){
@@ -551,7 +670,7 @@ async function pick(year){
       '<br>Serve this folder over http:// — opening the file directly blocks the data load.</td></tr></tbody>';
   }
 }
-$('season').onchange=e=>{ VIEW=null; location.hash=''; pick(e.target.value); };
+$('season').onchange=e=>{ VIEW={kind:'list'}; location.hash=''; pick(e.target.value); };
 $('wk').oninput=render;
 $('smode').onchange=()=>{ useScoring(); render(); };
 $('gmode').onchange=render;
@@ -564,10 +683,13 @@ for(const [btn,dlg,close] of [['helpbtn','helpmodal','helpclose'],
   const d=$(dlg);
   $(btn).onclick=()=>d.showModal();
   $(close).onclick=()=>d.close();
-  d.onclick=e=>{ if(e.target===d) d.close(); };
+  d.onclick=e=>{
+    if(e.target===d) d.close();
+    /* A hash link would otherwise switch the view behind an open modal. */
+    else if(e.target.closest('a[href^="#"]')) d.close();
+  };
 }
-const m0=/^#t=(.+)$/.exec(location.hash);
-if(m0) VIEW=decodeURIComponent(m0[1]);
+VIEW=parseHash();
 pick($('season').value);
 </script>
 </body>
