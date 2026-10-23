@@ -605,6 +605,10 @@ function renderSlates(bucket){
   const n=rows.length;
   const excl=played-n;
   const poolN=pooled&&buckets.length?ENG.slate(buckets[0],h).n:0;
+  /* Opponent ranks are the live ones, so a result's worth can be read against
+     what the opponent has since turned out to be. Teams outside the ranked
+     table — lower divisions — have no rank to show. */
+  const rankOf=new Map(current().rows.map(r=>[r.team,r.rank]));
   $('status').innerHTML=`The slate &mdash; every result of the season so far in the order `+
     `the grader puts them, scored ${pooled?'against the whole pool':`against its own ${'week'} alone`}.`;
 
@@ -654,7 +658,8 @@ function renderSlates(bucket){
   html+='<div class="scroll"><table><thead><tr>'+
     '<th class="rk">#</th><th class="num">Score</th>'+
     `<th class="num">${pooled?'In pool':'In week'}</th>`+
-    `<th class="rk">${pooled?'Wk':'Wk'}</th><th>Team</th><th></th><th>Opponent</th>`+
+    '<th class="rk">Wk</th><th>Team</th><th></th><th>Opponent</th>'+
+    '<th class="num">Opp now</th>'+
     '<th class="num">Their other games</th>'+
     '<th class="num">L1</th><th class="num">L2</th>'+
     '</tr></thead><tbody>';
@@ -670,6 +675,7 @@ function renderSlates(bucket){
       `<td><button class="tm" data-t="${esc(r.team)}">${esc(r.team)}</button></td>`+
       `<td><span class="res ${r.e.res===WIN?'w':'l'}">${r.e.res===WIN?'beat':'lost to'}</span></td>`+
       `<td><button class="tm" data-t="${esc(r.e.opp)}">${esc(r.e.opp)}</button></td>`+
+      `<td class="num nr">${rankOf.has(r.e.opp)?'#'+rankOf.get(r.e.opp):'&mdash;'}</td>`+
       `<td class="num cf">${ow}\u2011${others.length-ow}</td>`+
       `<td class="num">${r.val[1].toFixed(3)}</td>`+
       `<td class="num">${r.val[2].toFixed(3)}</td>`+
