@@ -295,6 +295,65 @@ export function revision(eng,team,w,horizon){
 
 /* `unit` and `label` let a sport name its own bucket: football grades a game
    again each later week, basketball each later day. */
+/* ---------- rank history ----------
+   Where a team stood after every week, recomputed from scratch at each horizon.
+   Cheap for football, which has a dozen-odd weeks; deliberately not offered for
+   basketball, where 131 day-buckets take eleven seconds. */
+export function rankHistory(eng,season,horizon,team,wopts){
+  const out=[];
+  for(let h=1;h<=horizon;h++){
+    const rows = wopts ? weighted(eng,season,h,wopts).rows : rank(eng,season,h);
+    const r=rows.find(x=>x.team===team);
+    if(r) out.push({x:h,rank:r.rank,n:rows.length});
+  }
+  return out;
+}
+
+/* A rank is better when it is smaller, so the y axis runs downward: 1 at the
+   top. A poll series breaks rather than bridging a week in which the team was
+   unranked, because drawing through would invent a position it never held. */
+export function rankChart(series,{labelOf=n=>'wk '+n,width=720,height=235,maxGap=1}={}){
+  const pts=series.flatMap(s=>s.pts);
+  if(pts.length<2) return '<p class="nr" style="font-size:13px">Not enough weeks yet to draw a history.</p>';
+  const L=38,Rr=10,T=12,B=28, W=width-L-Rr, Hh=height-T-B;
+  const xs=pts.map(p=>p.x), x0=Math.min(...xs), x1=Math.max(...xs);
+  const worst=Math.max(...pts.map(p=>p.rank));
+  const hi=Math.max(5,Math.ceil(worst*1.08));
+  const X=v=>L+(x1===x0?W/2:(v-x0)/(x1-x0)*W);
+  const Y=r=>T+(r-1)/(hi-1)*Hh;
+  let g='';
+  const ticks=[1];
+  for(const f of [.25,.5,.75,1]){ const v=Math.round(1+(hi-1)*f); if(!ticks.includes(v)) ticks.push(v); }
+  for(const t of ticks)
+    g+=`<line x1="${L}" y1="${Y(t).toFixed(1)}" x2="${L+W}" y2="${Y(t).toFixed(1)}" `+
+       `stroke="var(--rule)" stroke-width="1"/>`+
+       `<text x="${L-6}" y="${(Y(t)+3.5).toFixed(1)}" text-anchor="end" font-size="10" `+
+       `fill="var(--muted)">${t}</text>`;
+  const step=Math.max(1,Math.round((x1-x0)/6));
+  for(let v=x0; v<=x1; v+=step)
+    g+=`<text x="${X(v).toFixed(1)}" y="${height-9}" text-anchor="middle" font-size="10" `+
+       `fill="var(--muted)">${labelOf(v)}</text>`;
+  for(const s of series){
+    if(!s.pts.length) continue;
+    let d='', last=null;
+    for(const p of s.pts){
+      d += (last===null||p.x-last>maxGap ? 'M' : 'L')+X(p.x).toFixed(1)+' '+Y(p.rank).toFixed(1)+' ';
+      last=p.x;
+    }
+    g+=`<path d="${d.trim()}" fill="none" stroke="${s.color}" stroke-width="${s.w||1.4}" `+
+       `${s.dash?`stroke-dasharray="${s.dash}" `:''}stroke-linejoin="round" stroke-linecap="round"/>`;
+    if(s.dots!==false) for(const p of s.pts)
+      g+=`<circle cx="${X(p.x).toFixed(1)}" cy="${Y(p.rank).toFixed(1)}" r="${s.r||2}" fill="${s.color}"><title>${
+        labelOf(p.x)}: #${p.rank}</title></circle>`;
+  }
+  const key=series.filter(s=>s.pts.length).map(s=>
+    `<span class="k"><svg width="20" height="8" aria-hidden="true"><line x1="0" y1="4" x2="20" y2="4" `+
+    `stroke="${s.color}" stroke-width="${s.w||1.4}"${s.dash?` stroke-dasharray="${s.dash}"`:''}/></svg>${s.label}</span>`
+  ).join('');
+  return `<div class="chart"><svg viewBox="0 0 ${width} ${height}" width="100%" height="${height}" `+
+    `role="img" aria-label="Rank by week">${g}</svg><div class="legend">${key}</div></div>`;
+}
+
 export function sparkHTML(pts,{unit='week',label=n=>'wk '+n}={}){
   if(pts.length<2) return '<span class="val" title="This is the most recent game '+
     'played, so nothing has happened since to change what it is worth. From the '+

@@ -115,6 +115,13 @@
   .spark svg{display:block;overflow:visible}
   .spark .lbl{font-size:11px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
   .spark .val{font-family:var(--mono);font-size:12px;white-space:nowrap;color:var(--muted)}
+  .chart{margin:4px 0 22px}
+  .chart svg{display:block;max-width:760px}
+  .chart .legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:4px;
+    font-size:12px;color:var(--muted)}
+  .chart .legend .k{display:inline-flex;align-items:center;gap:6px}
+  .charth{font-size:11.5px;color:var(--muted);letter-spacing:.04em;
+    text-transform:uppercase;margin:16px 0 2px}
   @media (max-width:640px){ .cf{display:none} th:nth-child(3),td:nth-child(3){display:none} }
 </style>
 </head>
@@ -201,7 +208,8 @@ no margin of victory, no votes. The AP and Coaches polls are shown alongside for
   <p><b>Why rankings move backwards.</b> A Week&nbsp;2 win is not settled in
   Week&nbsp;2. It gains value if the team you beat keeps winning and loses value if
   they collapse. Drag the week slider and you are watching the season reinterpret
-  itself. Click any team to see each of its games and how their worth has shifted:
+  itself. Click any team to see where it has stood after every week, with the two
+  polls alongside, and then each of its games and how their worth has shifted:
   the small line beside each game is that game alone, re&#8209;graded after every week
   since it was played. Hover it for the week&#8209;by&#8209;week figures.</p>
   <p><b>The victors gate.</b> To be listed you must have beaten somebody worth
@@ -226,7 +234,8 @@ Rankings recomputed in your browser. <a href="about.html">How this works</a>.</f
 
 <script type="module">
 import {WIN, esc, ingest, engine, rank, applyGate, pollAt,
-        agreement, revision, sparkHTML, weighted} from './engine.js';
+        agreement, revision, sparkHTML, weighted,
+        rankHistory, rankChart} from './engine.js';
 
 const SHOW=100;
 
@@ -439,6 +448,26 @@ function renderTeam(team){
     html+='<p class="status">Not listed at this week: the victors gate requires a win over a '+
       'team inside the top '+g.n+' that also qualifies. Every game below still counts for '+
       'everyone else.</p>';
+  /* Where this team stood after each week, with the two polls for scale.
+     Recomputed at every horizon, which is affordable for a football season and
+     is why basketball has no equivalent. */
+  const hist=rankHistory(ENG,SEASON,h,team,
+    W?{mode:$('wmode').value}:null);
+  const pollSeries=(name,color,dash)=>{
+    const pts=[];
+    for(const p of SEASON.polls){
+      if(p.poll!==name||p.throughWeek<1||p.throughWeek>h) continue;
+      const hit=p.ranks.find(r=>r.team===team);
+      if(hit) pts.push({x:p.throughWeek,rank:hit.rank});
+    }
+    pts.sort((a,b)=>a.x-b.x);
+    return {label:name==='AP Top 25'?'AP':'Coaches',color,dash,pts,w:1.3,r:1.8};
+  };
+  html+='<div class="charth">rank by week</div>'+rankChart([
+    {label:'This ranking',color:'var(--mark)',pts:hist.map(p=>({x:p.x,rank:p.rank})),w:2,r:2.4},
+    pollSeries('AP Top 25','var(--ink)','5 3'),
+    pollSeries('Coaches Poll','var(--muted)','2 3'),
+  ],{labelOf:n=>'wk '+n});
   html+='<div id="games">';
   for(let w=1;w<=h;w++){
     const wk=ENG.byWeek.get(w); if(!wk) continue;
