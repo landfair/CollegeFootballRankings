@@ -584,8 +584,8 @@ function renderSlates(bucket){
   const n=rows.length;
   const excl=played-n;
   const poolN=pooled&&buckets.length?ENG.slate(buckets[0],h).n:0;
-  $('status').innerHTML=`One slate &mdash; every result from a single bucket in the order `+
-    `the grader puts them, scored ${pooled?'against the whole season so far':'against that bucket alone'}.`;
+  $('status').innerHTML=`The slate &mdash; every result of the season so far in the order `+
+    `the grader puts them, scored ${pooled?'against the whole pool':`against its own ${'day'} alone`}.`;
 
   let html='<p><button class="back" id="back">&larr; All teams</button></p>'+
     `<div class="thead"><h2>${esc(String('through '+fmtFull(dayOf(w))))}</h2>`+
@@ -616,8 +616,8 @@ function renderSlates(bucket){
     '</p>';
   const TOPD=esc(ENG.topDivision);
   html+='<p class="slateintro">'+(excl
-    ? `${excl} further result${excl===1?'':'s'} ${excl===1?'was':'were'} played in this `+
-      `day and ${excl===1?'is':'are'} not listed: the pool is set to games `+
+    ? `${excl} further result${excl===1?'':'s'} ${excl===1?'was':'were'} played over this `+
+      `stretch and ${excl===1?'is':'are'} not listed: the pool is set to games `+
       `${ENG.pool==='both'?`between ${TOPD} teams`:`with ${/^[AEFHILMNORSX]/.test(ENG.topDivision)?'an':'a'} ${TOPD} team in them`}. `+
       `They still count in their own teams&rsquo; records, which is how they reach the `+
       `numbers in this table &mdash; only the measuring stick leaves them out.`
