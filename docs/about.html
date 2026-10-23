@@ -31,6 +31,7 @@
   p{margin:0 0 14px}
   ul{margin:0 0 14px;padding-left:22px}
   li{margin-bottom:7px}
+  .v{font-family:var(--mono);font-size:.92em;white-space:nowrap}
   .ex{background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--mark);
     border-radius:0 6px 6px 0;padding:12px 15px;margin:18px 0;font-size:14.5px}
   .ex b{font-family:var(--mono);font-weight:600}
@@ -130,6 +131,38 @@ disagree with the comparison that built it.</p>
 which is well inside the year&#8209;to&#8209;year noise, better in five seasons and
 clearly worse in two. The rankings themselves barely move: about one place on
 average among the teams shown, and the same teams pass the gate.</p>
+
+<h3>Which games the field is drawn from</h3>
+
+<p>The grader has no notion of divisions. It sees wins, losses and who played
+whom &mdash; that is the point of it &mdash; but there is a consequence. In
+week&nbsp;8 of 2026 a D3 team, Maryville, beat an unbeaten Trinity&nbsp;(TX) and
+produced the vector <span class="v">1 &middot; 1.000 &middot; 0.660</span>. Ohio
+State beat an unbeaten Indiana and produced <span class="v">1 &middot; 1.000
+&middot; 0.672</span>. Near&#8209;identical, and the slate duly ranked them first
+and second.</p>
+
+<p>But they are not comparable. A record only means something relative to the
+teams it was earned against, and these two sets of teams never meet. Maryville&rsquo;s
+opponents, and its opponents&rsquo; opponents &mdash; the entire span the vector
+measures &mdash; contain no FBS team at all. Ohio State&rsquo;s contain thirty&#8209;one.
+The two 1.000s are measured on different rulers.</p>
+
+<p>That would be harmless if such results stayed out of the way, but they do not.
+Through week&nbsp;8 of 2026, 77% of all results involve no FBS team, and they hold
+74 of the best 100 places. A score is a <i>position</i>, so an FBS team&rsquo;s number
+was being set largely by where it fell among games it could never have played. The
+field is therefore drawn, by default, from <b>games with an FBS team in them</b>:
+every game an FBS team actually played, lower divisions included, and nothing else.
+The gear icon can widen it back to every game played, or narrow it to games between
+two FBS teams &mdash; which goes further and stops cross&#8209;division results
+counting toward a rating at all, leaving some teams rated on very few games.</p>
+
+<p>The grading itself is untouched by the choice. A lower&#8209;division opponent&rsquo;s
+record is still its real record, taken from all of its games; only the field a result
+is placed in changes. The effect is not small &mdash; narrowing it moves the 2026
+table by 2.5 places on average and as much as 12 &mdash; and it has nothing to do
+with pooling, which shows the same thing under week&#8209;by&#8209;week scoring.</p>
 
 <h3>Rankings change in hindsight</h3>
 

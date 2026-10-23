@@ -31,6 +31,7 @@
   p{margin:0 0 14px}
   ul{margin:0 0 14px;padding-left:22px}
   li{margin-bottom:7px}
+  .v{font-family:var(--mono);font-size:.92em;white-space:nowrap}
   .ex{background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--mark);
     border-radius:0 6px 6px 0;padding:12px 15px;margin:18px 0;font-size:14.5px}
   .ex b{font-family:var(--mono);font-weight:600}
@@ -126,6 +127,25 @@ built it.</p>
 play two or three times a week and the model holds one game per team per bucket.
 Weekly buckets would quietly throw away about 45% of the season. No team has played
 twice in a day in any season here.</p>
+
+<h3>Which games the field is drawn from</h3>
+
+<p>The grader has no notion of divisions, and a record only means something relative
+to the teams it was earned against. Where a corner of the schedule never meets D1,
+its records are measured on a different ruler and should not be sorted into one list
+with D1 results. Basketball is largely spared this: the feed carries D1 games and D1
+games against outside opposition, and no games between two non&#8209;D1 teams, so the
+default field &mdash; <b>games with a D1 team in them</b> &mdash; and every game
+played pick out the same set. Both are offered under the gear icon so they stay
+distinguishable if that ever changes.</p>
+
+<p>The third option, games between two D1 teams, does bite: it stops the 8.8% of
+results that cross the line from counting toward a rating at all, which can leave a
+team rated on very few games. Either way the grading is untouched &mdash; an
+opponent&rsquo;s record is still its real record, taken from all of its games. Only
+the field a result is placed in changes. Football, where three&#8209;quarters of all
+results involve no top&#8209;division team, is affected far more; the
+<a href="../about.html">football page</a> works through why.</p>
 
 <h3>Rankings change in hindsight</h3>
 

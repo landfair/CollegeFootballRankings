@@ -174,6 +174,26 @@ no margin of victory, no votes. The AP and Coaches polls are shown alongside for
     </div>
 
     <div class="setting">
+      <div class="row1">Score against
+        <select id="pmode">
+          <option value="any" selected>games with a D1 team</option>
+          <option value="both">games between D1 teams</option>
+          <option value="all">every game played</option>
+        </select>
+      </div>
+      <p>The grader has no notion of divisions, and records only compare across
+      teams with overlapping opponents, so a result from a corner of the schedule
+      that never meets D1 is measured on a different ruler. This feed carries only
+      D1 games and D1 games against outside opposition &mdash; no games between two
+      non&#8209;D1 teams &mdash; so <b>games with a D1 team</b> and <b>every game
+      played</b> currently pick out the same set; both are kept so they stay
+      distinguishable if that changes. <b>Games between D1 teams</b> stops the 8.8%
+      of results that cross the line from counting toward a rating at all, which can
+      leave a team rated on very few games. Excluded games still count in their own
+      teams&rsquo; records &mdash; only the measuring stick changes.</p>
+    </div>
+
+    <div class="setting">
       <div class="row1">Victors gate
         <select id="gmode">
           <option value="auto" selected>automatic</option>
@@ -294,9 +314,9 @@ let sortKey='rank', sortAsc=true;
    on the same season is the point of the setting. */
 function useScoring(){
   const c=CACHE.get(YEAR); if(!c) return;
-  const m=$('smode').value;
-  if(!c.eng[m]) c.eng[m]=engine(c.season,{scoring:m});
-  SEASON=c.season; ENG=c.eng[m];
+  const m=$('smode').value, pl=$('pmode').value, k=m+'|'+pl;
+  if(!c.eng[k]) c.eng[k]=engine(c.season,{scoring:m,pool:pl});
+  SEASON=c.season; ENG=c.eng[k];
 }
 async function load(year){
   if(!CACHE.has(year)){
@@ -474,8 +494,12 @@ function renderTeam(team){
   showView('team');
   const me=rows.find(r=>r.team===team);
   if(!me){
+    const outside=SEASON.teamInfo.has(team)&&!ENG.isTop(team);
     $('teamview').innerHTML='<p class="msg"><button class="back" id="back">&larr; All teams</button></p>'+
-      '<p class="msg">'+esc(team)+' had not played by '+fmtFull(dayOf(h))+'.</p>';
+      '<p class="msg">'+(outside
+        ? esc(team)+' is outside '+esc(ENG.topDivision)+', so it is graded but never ranked. '+
+          'Its results still count in its opponents&rsquo; records.'
+        : esc(team)+' had not played by '+fmtFull(dayOf(h))+'.')+'</p>';
     $('back').onclick=()=>go(null);
     return;
   }
@@ -550,12 +574,13 @@ function renderSlates(bucket){
     .sort((a,b)=>a.rank-b.rank||a.team.localeCompare(b.team));
   const pooled=ENG.scoring==='pooled';
   const n=rows.length;
+  const excl=(ENG.byWeek.get(w)||new Map()).size-n;
   $('status').innerHTML=`One slate &mdash; every result from a single bucket in the order `+
     `the grader puts them, scored ${pooled?'against the whole season so far':'against that bucket alone'}.`;
 
   let html='<p><button class="back" id="back">&larr; All teams</button></p>'+
     `<div class="thead"><h2>${esc(String(fmtFull(dayOf(w))))}</h2>`+
-    `<span class="sub">${n} results, graded on everything through ${esc(String(fmtFull(dayOf(h))))}</span></div>`;
+    `<span class="sub">${n} scored result${n===1?'':'s'}${excl?` of ${n+excl} played`:''}, graded on everything through ${esc(String(fmtFull(dayOf(h))))}</span></div>`;
 
   html+='<div class="slatenav">'+
     `<button class="wkbtn" id="slprev"${i===0?' disabled':''}>&lsaquo; previous</button>`+
@@ -577,11 +602,17 @@ function renderSlates(bucket){
       : `The score is each result&rsquo;s place among these ${n} games alone, so they run `+
         `from 100 at the top down to 0 at the bottom.`)+
     '</p>';
-  html+=`<p class="slateintro">Every division is here, not only the top one. A `+
-    `lower&#8209;division game still sits in somebody&rsquo;s record, so it has to be `+
-    `graded alongside the rest; the ranking table then shows `+
-    `${esc(SEASON.topDivision||'FBS')} teams only. That is why unfamiliar names `+
-    `appear in this list.</p>`;
+  const TOPD=esc(ENG.topDivision);
+  html+='<p class="slateintro">'+(excl
+    ? `${excl} further result${excl===1?'':'s'} ${excl===1?'was':'were'} played in this `+
+      `day and ${excl===1?'is':'are'} not listed: the pool is set to games `+
+      `${ENG.pool==='both'?`between ${TOPD} teams`:`with ${/^[AEFHILMNORSX]/.test(ENG.topDivision)?'an':'a'} ${TOPD} team in them`}. `+
+      `They still count in their own teams&rsquo; records, which is how they reach the `+
+      `numbers in this table &mdash; only the measuring stick leaves them out.`
+    : `Every division is here, not only the top one. A lower&#8209;division game still `+
+      `sits in somebody&rsquo;s record, so it is graded alongside the rest; the ranking `+
+      `table then shows ${TOPD} teams only. That is why unfamiliar names appear here.`)+
+    '</p>';
   if($('wmode').value!=='off')
     html+='<p class="slateintro"><b>Note.</b> Opponent weighting is on, but this view shows '+
       'unweighted scores: weighting rescales a result after it has been placed, which would '+
@@ -655,6 +686,7 @@ async function pick(year){
 $('season').onchange=e=>{ VIEW={kind:'list'}; location.hash=''; pick(e.target.value); };
 $('wk').oninput=render;
 $('smode').onchange=()=>{ useScoring(); render(); };
+$('pmode').onchange=()=>{ useScoring(); render(); };
 $('gmode').onchange=render;
 $('wmode').onchange=render;
 $('gn').onchange=render;

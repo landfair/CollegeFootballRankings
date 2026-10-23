@@ -101,11 +101,31 @@ export function engine(season,opts={}){
     }
     return {pos,n:rows.length};
   };
+  /* Which games a result is placed among. The grader has no notion of divisions,
+     and records are only comparable across teams with overlapping opposition —
+     a D3 team's two-level neighbourhood contains no FBS team at all, so its
+     1.000 and an FBS team's 1.000 are measured on different rulers and must not
+     be sorted into one list. 'any' keeps every game a top-division team played,
+     including against lower divisions, and drops only the games it had nothing
+     to do with; 'both' drops cross-division games from a rating altogether;
+     'all' is the original behaviour, which scored FBS teams against a field that
+     was three-quarters games they could never have played. */
+  const TOP=season.topDivision||'FBS';
+  const isTop=t=>((season.teamInfo&&season.teamInfo.get(t))||{}).division===TOP;
+  const pool=opts.pool==='all'||opts.pool==='both'?opts.pool:'any';
+  const inPop=(t,opp)=> pool==='all' ? true
+                      : pool==='both' ? (isTop(t)&&isTop(opp))
+                      : (isTop(t)||isTop(opp));
+  const sidesIn=(w,H)=>{
+    const wk=byWeek.get(w)||new Map(), out=[];
+    for(const [t,e] of wk) if(inPop(t,e.opp)) out.push({team:t,val:bvalue(t,w,H)});
+    return out;
+  };
   /* One population per bucket. A game's percentile is its place among the games
      played alongside it, so two of a team's own results sit in different
      populations and their percentiles are not strictly comparable. */
   const weeklySlate=(w,H)=>
-    grade([...(byWeek.get(w)||new Map()).keys()].map(t=>({key:t,val:bvalue(t,w,H)})));
+    grade(sidesIn(w,H).map(r=>({key:r.team,val:r.val})));
   /* One population for the season so far, growing as the horizon moves out. A
      game's percentile is its place among every game played through week H,
      including the team's own earlier games -- so a team's results become
@@ -116,9 +136,9 @@ export function engine(season,opts={}){
     let p=poolCache.get(H);
     if(!p){
       const rows=[];
-      for(const [ww,wk] of byWeek){
+      for(const ww of byWeek.keys()){
         if(ww>H) continue;
-        for(const t of wk.keys()) rows.push({key:t+'\u0000'+ww,val:bvalue(t,ww,H)});
+        for(const r of sidesIn(ww,H)) rows.push({key:r.team+'\u0000'+ww,val:r.val});
       }
       p=grade(rows); poolCache.set(H,p);
     }
@@ -135,7 +155,7 @@ export function engine(season,opts={}){
     const key=w+'|'+H, hit=slateCache.get(key); if(hit) return hit;
     const out=base(w,H); slateCache.set(key,out); return out;
   };
-  return {byWeek,gamesOf,slate,scoring,games:season.games};
+  return {byWeek,gamesOf,slate,scoring,pool,isTop,topDivision:TOP,games:season.games};
 }
 
 export function rank(eng,season,horizon){
@@ -147,12 +167,17 @@ export function rank(eng,season,horizon){
     for(let w=1;w<=horizon;w++){
       const wk=eng.byWeek.get(w); if(!wk) continue;
       const e=wk.get(t); if(!e) continue;
-      arr.push(eng.slate(w,horizon).pos.get(t).score);
+      /* The record counts every game; the rating averages only the games the
+         chosen population scores, which under 'both' excludes cross-division
+         ones. Keeping them apart stops a 10-1 team reading as 9-1. */
+      const p=eng.slate(w,horizon).pos.get(t);
+      if(p) arr.push(p.score);
       e.res===WIN?wins++:losses++;
       pd+=(e.res===WIN?1:-1)*eng.games[e.id].margin;
     }
     if(!arr.length) continue;
-    rows.push({team:t,conference:info.conference,wins,losses,pd,games:arr.length,
+    rows.push({team:t,conference:info.conference,wins,losses,pd,
+      games:wins+losses,scored:arr.length,
       key:arr.reduce((s,x)=>s+x,0)/arr.length});
   }
   rows.sort((a,b)=>b.key-a.key||b.pd-a.pd||a.team.localeCompare(b.team));
@@ -213,7 +238,8 @@ export function weighted(eng,season,horizon,opts={}){
       const arr=[];
       for(let w=1;w<=horizon;w++){
         const wk=eng.byWeek.get(w); if(!wk||!wk.has(t)) continue;
-        const sc=raw.get(t+'|'+w),k=f(wk.get(t).opp);
+        const sc=raw.get(t+'|'+w); if(sc===undefined) continue;
+        const k=f(wk.get(t).opp);
         arr.push(mode==='A'?sc*k:50+(sc-50)*k);
       }
       if(arr.length) agg.push({team:t,key:arr.reduce((a,b)=>a+b,0)/arr.length});
