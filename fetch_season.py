@@ -265,11 +265,40 @@ def build_games(raw_games, teams, week_offset=0, drop_titles=True, tag_cfbd=True
     return games, skipped, dropped
 
 
-POLLS_WANTED = ("AP Top 25", "Coaches Poll")
+# The feed's own label for the committee's ranking is not fixed across seasons or
+# documented reliably, so match it rather than hard-code it, and store one stable
+# name the app can ask for. Lower divisions run their own AP and coaches polls,
+# which must not be mistaken for these -- hence the explicit reject list.
+POLL_CANON = (
+    ("AP Top 25", ("ap top 25", "ap poll")),
+    ("Coaches Poll", ("coaches poll", "afca coaches poll", "usa today coaches poll")),
+    ("CFP Rankings", ("playoff committee rankings", "cfp rankings", "cfp",
+                      "college football playoff rankings", "playoff committee")),
+)
+POLL_REJECT = ("fcs", "division i-aa", "division ii", "division iii", "d2", "d3",
+               "naia", "junior college", "juco")
+
+
+def canon_poll(name):
+    """The app's name for a feed poll, or None if it is not one we carry."""
+    low = " ".join(str(name or "").lower().split())
+    if not low:
+        return None
+    for bad in POLL_REJECT:
+        if bad in low:
+            return None
+    for canon, forms in POLL_CANON:
+        if low in forms or low == canon.lower():
+            return canon
+    return None
 
 
 def build_polls(raw, through_of):
-    """[{week, poll, throughWeek, ranks:[{rank, team}]}] for the two human polls.
+    """[{week, poll, throughWeek, ranks:[{rank, team}]}] for the polls we carry.
+
+    The two human polls run all season; the committee's ranking only starts
+    around week 10 and only exists from 2014 on, so seasons before that simply
+    carry fewer poll names.
 
     CFBD files a poll under the week it precedes, so the poll labelled week N
     reflects games through CFBD week N-1. through_of converts that into the
@@ -282,8 +311,8 @@ def build_polls(raw, through_of):
         if wk is None:
             continue
         for p in (pick(row, "polls", default=[]) or []):
-            name = pick(p, "poll", default="")
-            if name not in POLLS_WANTED:
+            name = canon_poll(pick(p, "poll", default=""))
+            if name is None:
                 continue
             ranks = []
             for r in (pick(p, "ranks", default=[]) or []):
@@ -440,7 +469,11 @@ FIXTURE_RANKINGS = [
     {"week": 2, "polls": [
         {"poll": "AP Top 25", "ranks": [{"school": "Army", "rank": 2},
                                         {"school": "Florida", "rank": 1}]},
-        {"poll": "Coaches Poll", "ranks": [{"school": "Florida", "rank": 3}]}]},
+        {"poll": "Coaches Poll", "ranks": [{"school": "Florida", "rank": 3}]},
+        {"poll": "Playoff Committee Rankings",
+         "ranks": [{"school": "Army", "rank": 1}]},
+        {"poll": "AFCA Division II Coaches Poll",
+         "ranks": [{"school": "Ferris State", "rank": 1}]}]},
 ]
 
 
@@ -526,9 +559,23 @@ def selftest():
     sg2, _ = assign_weeks(sg2)
     polls = build_polls(FIXTURE_RANKINGS, through_week_map(sg2))
     ap2 = [p for p in polls if p["poll"] == "AP Top 25" and p["week"] == 2][0]
-    checks.append(("only the two FBS human polls are kept",
-                   {p["poll"] for p in polls} == {"AP Top 25", "Coaches Poll"}))
-    checks.append(("both snapshots of a week are kept", len(polls) == 3))
+    checks.append(("only top-division polls are kept, under canonical names",
+                   {p["poll"] for p in polls}
+                   == {"AP Top 25", "Coaches Poll", "CFP Rankings"}))
+    checks.append(("both snapshots of a week are kept", len(polls) == 4))
+    checks.append(("the committee ranking is filed under one stable name",
+                   [p for p in polls if p["poll"] == "CFP Rankings"][0]["ranks"][0]["team"]
+                   == "Army"))
+    checks.append(("every documented spelling of the committee poll is matched",
+                   all(canon_poll(n) == "CFP Rankings" for n in
+                       ("CFP", "cfp rankings", "Playoff Committee Rankings",
+                        "College Football Playoff Rankings", " Playoff  Committee "))))
+    checks.append(("lower-division polls are never mistaken for their FBS namesakes",
+                   all(canon_poll(n) is None for n in
+                       ("FCS Coaches Poll", "AFCA Division II Coaches Poll",
+                        "AP Division III Top 25", "NAIA Coaches Poll"))))
+    checks.append(("an unknown poll is dropped rather than guessed at",
+                   canon_poll("Some New Poll") is None and canon_poll("") is None))
     checks.append(("ranks parsed and sorted",
                    [r["rank"] for r in ap2["ranks"]] == [1, 2]
                    and ap2["ranks"][0]["team"] == "Florida"))
@@ -577,6 +624,9 @@ def main():
     p.add_argument("--include-title-games", action="store_true",
                    help="include conference championship games (excluded by default; "
                         "they are filed as regular season by CFBD)")
+    p.add_argument("--list-polls", action="store_true",
+                   help="print every poll name the feed returns for the year and exit, "
+                        "with the name this script would file each one under")
     p.add_argument("--selftest", action="store_true", help="verify logic without a key")
     a = p.parse_args()
 
@@ -588,6 +638,35 @@ def main():
         die(f"{KEY_ENV} is not set.\n"
             f"  Get a free key at https://collegefootballdata.com/key, then:\n"
             f"    export {KEY_ENV}='your-key-here'")
+
+    if a.list_polls:
+        # The committee ranking's label is not stable enough to trust from
+        # documentation, so this reads it straight out of the feed.
+        rows = get("/rankings", {"year": a.year, "seasonType": "regular"}, key)
+        seen = {}
+        for row in rows:
+            for poll in (pick(row, "polls", default=[]) or []):
+                nm = pick(poll, "poll", default="")
+                if not nm:
+                    continue
+                rec = seen.setdefault(nm, {"n": 0, "weeks": set(), "teams": 0})
+                rec["n"] += 1
+                rec["weeks"].add(pick(row, "week"))
+                rec["teams"] = max(rec["teams"], len(pick(poll, "ranks", default=[]) or []))
+        if not seen:
+            print(f"{a.year}: the feed returned no polls at all")
+            return
+        print(f"{a.year}: {len(seen)} poll name(s) in the feed\n")
+        width = max(len(n) for n in seen)
+        for nm in sorted(seen):
+            rec = seen[nm]
+            wk = sorted(w for w in rec["weeks"] if w is not None)
+            canon = canon_poll(nm)
+            span = f"weeks {wk[0]}-{wk[-1]}" if wk else "no weeks"
+            print(f"  {nm:<{width}}  {rec['n']:>3} snapshots, {span}, "
+                  f"up to {rec['teams']} teams  ->  "
+                  f"{canon if canon else 'not carried'}")
+        return
 
     print(f"fetching {a.year} season")
 

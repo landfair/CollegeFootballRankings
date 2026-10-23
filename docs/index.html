@@ -9,12 +9,16 @@
   :root{
     --bg:#faf9f6; --ink:#1a1a18; --muted:#6b6b63; --rule:#dedcd4; --soft:#edebe4;
     --mark:#b8860b; --win:#2e7d4f; --loss:#b3443a; --panel:#fff;
+    /* a fourth line colour for the chart: the committee's ranking, which has to
+       stay apart from the gold of this ranking and the ink and grey of the polls */
+    --poll3:#2f6f9f;
     --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
   }
   @media (prefers-color-scheme:dark){
     :root:not([data-theme=light]){
       --bg:#17171a; --ink:#ecebe6; --muted:#9a998f; --rule:#33332f;
       --soft:#222226; --mark:#d9a62e; --win:#5fbd85; --loss:#e0756a; --panel:#1e1e22;
+      --poll3:#6fb6e8;
     }
   }
   *{box-sizing:border-box}
@@ -144,7 +148,8 @@
 </header>
 
 <p class="lede">College football ranked only by who beat whom — no preseason expectation,
-no margin of victory, no votes. The AP and Coaches polls are shown alongside for comparison.</p>
+no margin of victory, no votes. The AP and Coaches polls are shown alongside for
+comparison, and the selection committee's ranking once it starts publishing.</p>
 
 <div class="controls">
   <label class="ctl">Season
@@ -383,8 +388,12 @@ function renderList(){
   $('wkv').textContent=h;
   const shown=gated.kept.slice(0,SHOW);
   const ap=pollAt(SEASON,'AP Top 25',h), co=pollAt(SEASON,'Coaches Poll',h);
+  /* The committee only publishes from about week 10, and only from 2014, so
+     everything downstream of this has to cope with it being absent. */
+  const cf=pollAt(SEASON,'CFP Rankings',h);
   const apR=new Map((ap?ap.ranks:[]).map(r=>[r.team,r.rank]));
   const coR=new Map((co?co.ranks:[]).map(r=>[r.team,r.rank]));
+  const cfR=new Map((cf?cf.ranks:[]).map(r=>[r.team,r.rank]));
   const how = g.mode==='off' ? '<b>off</b>'
     : '<b>top '+g.n+'</b>, '+(g.mode==='one'?'one pass':'self\u2011consistent');
   $('gatelbl').innerHTML = g.auto
@@ -410,13 +419,16 @@ function renderList(){
   const fullRank=new Map(rows.map(r=>[r.team,r.rank]));
   const sAP=ap?agreement(ap.ranks,fullRank):null;
   const sCO=co?agreement(co.ranks,fullRank):null;
+  const sCF=cf?agreement(cf.ranks,fullRank):null;
   const ref=(ap&&co)?agreement(ap.ranks,new Map(co.ranks.map(r=>[r.team,r.rank]))):null;
   const fact=(v,k,tip)=>`<div class="fact" title="${esc(tip)}"><b>${v}</b><span>${k}</span></div>`;
-  $('pollfacts').innerHTML = (sAP||sCO||ref)
+  $('pollfacts').innerHTML = (sAP||sCO||sCF||ref)
     ? (sAP?fact(sAP.rho.toFixed(3),'RANK CORRELATION WITH AP',
         `Spearman over the ${sAP.n} teams the AP ranks. +1 means the two orders agree exactly, 0 means no relation, −1 means they are reversed. Measured against the full ranking, so the victors gate does not move it.`):'')
       +(sCO?fact(sCO.rho.toFixed(3),'RANK CORRELATION WITH COACHES',
         `Spearman over the ${sCO.n} teams the Coaches poll ranks.`):'')
+      +(sCF?fact(sCF.rho.toFixed(3),'RANK CORRELATION WITH CFP',
+        `Spearman over the ${sCF.n} teams the selection committee ranks. The committee publishes from about week 10, so this is blank earlier in a season and absent before 2014, when the BCS standings it replaced were still running.`):'')
       +(ref?fact(ref.rho.toFixed(3),'AP AGAINST COACHES — HOW MUCH TWO VOTES AGREE',
         `The same measure applied to the two human polls against each other, over the ${ref.n} teams both rank. It is the yardstick: this is how closely two rooms of voters looking at the same season agree with one another.`):'')
     : '';
@@ -444,6 +456,8 @@ function renderList(){
      tip:'Average rank of the teams lost to. Lower means the defeats came against better opposition. Blank for an unbeaten team.'},
     {k:'ap',    h:'AP',         cls:'num', lowBest:true,  v:r=>apR.get(r.team)??null},
     {k:'co',    h:'Coaches',    cls:'num', lowBest:true,  v:r=>coR.get(r.team)??null},
+    ...(cf?[{k:'cfp', h:'CFP',      cls:'num', lowBest:true,  v:r=>cfR.get(r.team)??null,
+      tip:'The selection committee\u2019s ranking, which replaced the BCS standings in 2014. Published from about week 10, so this column appears only once it exists.'}]:[]),
     {k:'vsap',  h:'vs AP',      cls:'num', lowBest:false,
      v:r=>{const a=apR.get(r.team); return a==null?null:a-r.rank;},
      tip:'How far above its AP place this ranking puts the team. Positive means this system is higher on them.'},
@@ -473,6 +487,7 @@ function renderList(){
     '</tr></thead><tbody>';
   for(const r of sorted){
     const a=apR.get(r.team)??null, c=coR.get(r.team)??null;
+    const f=cf?(cfR.get(r.team)??null):null;
     html+=`<tr><td class="rk">${r.rank}</td>`+
       `<td><button class="tm" data-t="${esc(r.team)}">${esc(r.team)}</button></td>`+
       `<td class="cf">${esc(r.conference||'')}</td>`+
@@ -480,7 +495,7 @@ function renderList(){
       `<td class="num"><b>${r.key.toFixed(1)}</b></td>`+
       `<td class="num nr">${Number.isFinite(r.bestWin)?'#'+r.bestWin:'—'}</td>`+
       avg(r.avgWin)+avg(r.avgLoss)+
-      cell(a)+cell(c)+delta(a,r.rank)+'</tr>';
+      cell(a)+cell(c)+(cf?cell(f):'')+delta(a,r.rank)+'</tr>';
   }
   $('tbl').innerHTML=html+'</tbody>';
   $('tbl').querySelectorAll('th.sortable').forEach(th=>th.onclick=()=>{
@@ -511,8 +526,10 @@ function renderTeam(team){
   const inGate=gated.kept.some(r=>r.team===team);
   const rankOf=new Map(rows.map(r=>[r.team,r.rank]));
   const ap=pollAt(SEASON,'AP Top 25',h), co=pollAt(SEASON,'Coaches Poll',h);
+  const cf=pollAt(SEASON,'CFP Rankings',h);
   const apR=ap?new Map(ap.ranks.map(r=>[r.team,r.rank])):new Map();
   const coR=co?new Map(co.ranks.map(r=>[r.team,r.rank])):new Map();
+  const cfR=cf?new Map(cf.ranks.map(r=>[r.team,r.rank])):new Map();
   const bw=gated.all.find(r=>r.team===team);
 
   let html='<p><button class="back" id="back">&larr; All teams</button></p>'+
@@ -524,6 +541,7 @@ function renderTeam(team){
     `<div class="fact"><b>${me.key.toFixed(1)}</b><span>RATING</span></div>`+
     `<div class="fact"><b>${apR.has(team)?'#'+apR.get(team):'NR'}</b><span>AP</span></div>`+
     `<div class="fact"><b>${coR.has(team)?'#'+coR.get(team):'NR'}</b><span>COACHES</span></div>`+
+    (cf?`<div class="fact"><b>${cfR.has(team)?'#'+cfR.get(team):'NR'}</b><span>CFP</span></div>`:'')+
     `<div class="fact"><b>${bw&&Number.isFinite(bw.bestWin)?'#'+bw.bestWin:'—'}</b><span>BEST WIN</span></div>`+
     '</div>';
   if(g.mode!=='off'&&!inGate)
@@ -543,12 +561,14 @@ function renderTeam(team){
       if(hit) pts.push({x:p.throughWeek,rank:hit.rank});
     }
     pts.sort((a,b)=>a.x-b.x);
-    return {label:name==='AP Top 25'?'AP':'Coaches',color,dash,pts,w:1.3,r:1.8};
+    const short={'AP Top 25':'AP','Coaches Poll':'Coaches','CFP Rankings':'CFP'};
+    return {label:short[name]||name,color,dash,pts,w:1.3,r:1.8};
   };
   html+='<div class="charth">rank by week</div>'+rankChart([
     {label:'This ranking',color:'var(--mark)',pts:hist.map(p=>({x:p.x,rank:p.rank})),w:2,r:2.4},
     pollSeries('AP Top 25','var(--ink)','5 3'),
     pollSeries('Coaches Poll','var(--muted)','2 3'),
+    pollSeries('CFP Rankings','var(--poll3)','4 3'),
   ],{labelOf:n=>'wk '+n});
   html+='<div id="games">';
   for(let w=1;w<=h;w++){

@@ -48,15 +48,30 @@ teams still count as opponents for everyone else.
 
 ```sh
 export COLLEGE_FOOTBALL_API_KEY='your-key'   # free at collegefootballdata.com/key
-python3 fetch_season.py --year 2026 --out docs/season-2026.json
+python3 fetch_season.py --year 2026 --out docs/season-2026.json --include-title-games
 python3 fetch_basketball.py --season 2026 --out docs/basketball/season-2026.json
+```
+
+To see what the feed offers for a year without writing anything:
+
+```sh
+python3 fetch_season.py --year 2024 --list-polls
 ```
 
 A basketball season is named for the year it ends in: 2026 is the 2025–26 season.
 
 About four API calls per football run; basketball pages its games endpoint, which
 caps responses at 3,000 rows. Both have offline self-tests needing no key and no
-network: `--selftest` (34 checks for football, 15 for basketball).
+network: `--selftest` (37 checks for football, 14 for basketball).
+
+Three rankings ride along for comparison: the AP and Coaches polls, and the CFP
+selection committee's ranking, which only publishes from about week 10. Poll names
+are matched rather than hard-coded, because the feed's label for the committee is
+not stable, and each is stored under one canonical name — lower-division polls run
+under confusingly similar titles and are rejected explicitly. `--list-polls` prints
+every name a season offers and which one each would be filed under. The BCS
+standings that preceded the committee ran 1998–2013 and so fall outside every
+season here; the BCS and playoff eras do not overlap.
 
 Weeks are renumbered from kickoff dates rather than trusting the feed's own week
 field, which folds Week 0 and Labor Day weekend into a single "week 1" — that would
