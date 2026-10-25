@@ -243,10 +243,10 @@ comparison, and the selection committee's ranking once it starts publishing.</p>
         </select>
       </div>
       <p>Scales every game by how good the opponent turned out to be, so a win over
-      a poor team counts for less. It cuts the other way on defeats: pulling a
-      score toward the middle forgives a bad loss as readily as it discounts a
-      cheap win, so weighting narrows the gap between losing to a good team and
-      losing to a poor one. Hover any score on a team page for the arithmetic.
+      a poor team counts for less and a loss to a poor team costs more. Each half
+      is pulled toward its own worst end &mdash; a win toward the halfway mark, a
+      loss toward zero &mdash; so every win still finishes above every loss.
+      Hover any score on a team page for the arithmetic.
       <b>Balanced</b>, the default, keeps every win above every loss; <b>strong</b>
       bites harder and drops that rule. Because the weight depends on the ranking
       it is solved rather than calculated, taking about a dozen passes. Turn it
@@ -599,23 +599,28 @@ function renderTeam(team){
      same stroke, which is not what the feature is usually sold as. */
   const weightTip=(p,e)=>{
     if(!W||!p) return '';
-    const q=W.quality(e.opp), f=W.factor(e.opp), adj=W.adjust(p.score,e.opp);
-    const sum=W.mode==='A'
-      ? `${p.score.toFixed(1)} \u00d7 ${f.toFixed(2)} = ${adj.toFixed(1)}`
-      : `50 + (${p.score.toFixed(1)} \u2212 50) \u00d7 ${f.toFixed(2)} = ${adj.toFixed(1)}`;
+    const won=e.res===WIN;
+    const q=W.quality(e.opp), f=W.factor(e.opp), adj=W.adjust(p.score,e.opp,won);
+    /* two places on the raw score and three on the weight, so the sum
+       reconciles for anyone who checks it by hand */
+    const sum=(W.mode==='A'||!won)
+      ? `${p.score.toFixed(2)} \u00d7 ${f.toFixed(3)} = ${adj.toFixed(2)}`
+      : `50 + (${p.score.toFixed(2)} \u2212 50) \u00d7 ${f.toFixed(3)} = ${adj.toFixed(2)}`;
     return 'HOW THIS WAS WEIGHTED\n\n'+
-      `Raw ${p.score.toFixed(1)} \u2014 where this result placed among the `+
+      `Raw ${p.score.toFixed(2)} \u2014 where this result placed among the `+
       `${p.n.toLocaleString()} games\nit was scored against.\n\n`+
       `${e.opp} rates ${Math.round(q*100)}% of the way from the weakest team to the\n`+
       `strongest, which sets the weight:\n`+
-      `   ${W.floor} + ${(1-W.floor).toFixed(1)} \u00d7 ${q.toFixed(2)}`+
-      (W.gamma!==1?`^${W.gamma}`:'')+` = ${f.toFixed(2)}\n\n`+
+      `   ${W.floor} + ${(1-W.floor).toFixed(1)} \u00d7 ${q.toFixed(3)}`+
+      (W.gamma!==1?`^${W.gamma}`:'')+` = ${f.toFixed(3)}\n\n`+
       (W.mode==='A'
         ? `Strong mode scales the score itself:\n   ${sum}\n\n`
-        : `Balanced mode scales the distance from 50, so every win stays above\nevery loss:\n   ${sum}\n\n`)+
-      (e.res===WIN
-        ? `Beating a strong team keeps most of the raw figure; beating a weak one\nis pulled back toward 50. That is the point of it.`
-        : `Losing to a strong team keeps most of the raw figure \u2014 but a loss to a\nweak team gets pulled toward 50 as well, which forgives it. So for\ndefeats this narrows the gap between a bad loss and a good one, the\nopposite of what it does for wins. Turn weighting off for the raw figure.`)+
+        : won
+          ? `A win is pulled toward 50, the worst a win can be:\n   ${sum}\n\n`
+          : `A loss is pulled toward 0, the worst a loss can be:\n   ${sum}\n\n`)+
+      (won
+        ? `Beating a strong team keeps most of the raw figure; beating a weak one\nis pulled back toward 50, because it earned close to nothing.`
+        : `Losing to a strong team keeps most of the raw figure; losing to a weak\none is pushed down toward 0. Each half is pulled toward its own worst\nend, so a cheap win earns little and a cheap loss costs plenty \u2014 and\nevery win still finishes above every loss.`)+
       `\n\nThe weight depends on the ranking and the ranking depends on the weights,\nso the two are solved together \u2014 ${W.passes} passes this time.`;
   };
   html+='<div id="games">';
@@ -632,7 +637,7 @@ function renderTeam(team){
       `<button class="tm" data-t="${esc(e.opp)}">${esc(e.opp)}</button>`+
       `<span class="cf">${oppRank?'#'+oppRank:'unranked'} · ${ow}‑${others.length-ow} in their other games</span>`+
       `<span class="gsc${W&&p?' wtd':''}"${W&&p?` title="${esc(weightTip(p,e))}"`:''}>`+
-      `${p?(W?(W.adjust(p.score,e.opp)).toFixed(1):p.score.toFixed(1)):'—'}`+
+      `${p?(W?(W.adjust(p.score,e.opp,e.res===WIN)).toFixed(1):p.score.toFixed(1)):'—'}`+
         (W&&p?`<span class="nr" style="font-weight:400"> &nbsp;${p.score.toFixed(1)}&times;${W.factor(e.opp).toFixed(2)}</span>`:'')+
         `</span></div>`+
       sparkHTML(revision(ENG,team,w,h),{pool:ENG.scoring==='pooled',unit:'week',label:n=>'wk '+n})+'</div>';

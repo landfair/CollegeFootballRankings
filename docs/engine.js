@@ -228,6 +228,21 @@ export function weighted(eng,season,horizon,opts={}){
   /* Quality covers every team, not just the top division: an opponent outside
      the ranking still has to be worth something definite, or beating one looks
      the same as beating nobody and the whole field is flattered. */
+  /* Which end a game carrying little information is pulled toward.
+
+     The win/loss boundary sits at exactly 50, because every game puts one win
+     and one loss into the pool, so wins are always precisely half of it. That
+     makes 50 the FLOOR of the win range and the CEILING of the loss range, and
+     a scheme that shrinks everything toward 50 therefore discounts a cheap win
+     and forgives a cheap loss in the same stroke — the second being the
+     opposite of what is wanted.
+
+     So each half is pulled toward its own worst end: a win toward 50, a loss
+     toward 0. Beating nobody earns nothing; losing to nobody is the worst a
+     result gets. 'A' scales the score itself in both halves, which bites harder
+     and lets a poor win fall beneath a good loss. */
+  const adjustWith=(sc,k,won)=>
+    (mode==='A'||!won) ? sc*k : 50+(sc-50)*k;
   let q=new Map(ALL.map(t=>[t,.5]));
   const fOf=qq=>t=>{const v=qq.get(t); return floor+(1-floor)*Math.pow(v==null?0:v,gamma);};
   let agg=[],it=0,settled=false;
@@ -239,8 +254,8 @@ export function weighted(eng,season,horizon,opts={}){
       for(let w=1;w<=horizon;w++){
         const wk=eng.byWeek.get(w); if(!wk||!wk.has(t)) continue;
         const sc=raw.get(t+'|'+w); if(sc===undefined) continue;
-        const k=f(wk.get(t).opp);
-        arr.push(mode==='A'?sc*k:50+(sc-50)*k);
+        const k=f(wk.get(t).opp), won=wk.get(t).res===WIN;
+        arr.push(adjustWith(sc,k,won));
       }
       if(arr.length) agg.push({team:t,key:arr.reduce((a,b)=>a+b,0)/arr.length});
     }
@@ -266,7 +281,7 @@ export function weighted(eng,season,horizon,opts={}){
   return {rows,passes:it,settled,mode,floor,gamma,
           quality:t=>q.get(t)??0,
           factor:f,
-          adjust:(sc,opp)=>mode==='A'?sc*f(opp):50+(sc-50)*f(opp)};
+          adjust:(sc,opp,won)=>adjustWith(sc,f(opp),won!==undefined?won:sc>=50)};
 }
 
 export function applyGate(eng,rows,mode,N,horizon){

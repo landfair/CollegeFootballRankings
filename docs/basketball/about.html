@@ -168,15 +168,17 @@ happens to be unbeaten counts enormously, whoever that team turns out to be
 <p>So there is an option to scale each game by how good the opponent actually
 proved to be. A win over the twelfth&#8209;best team keeps almost all its value;
 the same win over the hundred&#8209;and&#8209;twelfth keeps very little. The same
-scaling runs over defeats, and there it cuts the wrong way. Pulling a score
-toward the halfway mark discounts a cheap win and <em>forgives</em> a cheap loss
-by the same stroke. Across 2026 a defeat by a top&#8209;25 team moves 0.6 points
-while a defeat by a team outside the top 100 moves 14.2, so the gap between a bad
-loss and a good one closes from 29 points to 16. For wins the same scaling widens
-the equivalent gap, from 27 to 30. Weighting therefore sharpens the reading of
-victories and blunts the reading of defeats, and the unweighted figures are the
-ones that punish a bad loss properly. Each game's score on a team page carries
-the full arithmetic on hover, including this caveat.</p>
+scaling runs over defeats, and there the anchor has to be mirrored. The
+win/loss line sits at exactly 50, because every game puts one win and one loss
+into the pool; 50 is therefore the <em>floor</em> of the win range and the
+<em>ceiling</em> of the loss range. Shrink everything toward 50 and you discount a
+cheap win and forgive a cheap loss in the same stroke. So each half is pulled
+toward its own worst end instead: a win toward 50, a loss toward 0. Beating nobody
+earns nearly nothing; losing to nobody is as bad as a result gets, and every win
+still finishes above every loss. Across basketball 2026 that widens the gap between
+beating a top&#8209;25 team and beating one outside the top 100 from 27 points to
+30, and the equivalent gap for defeats from 29 to 30 rather than collapsing it.
+Each game's score on a team page carries the full arithmetic on hover.</p>
 
 <div class="ex">
 A 7&#8209;0 team beat a 5&#8209;0 opponent, which scored <b>98.6</b> — among the
@@ -204,9 +206,10 @@ says so plainly if it fails to settle.</p>
 
 <ul>
   <li><strong>Off</strong> leaves the raw figures alone.</li>
-  <li><strong>Balanced</strong> (the default) scales how far a result sits from
-  the halfway mark, so every win still finishes above every loss. A soft win is
-  pulled back toward the middle rather than beneath a defeat.</li>
+  <li><strong>Balanced</strong> (the default) pulls each half toward its own worst
+  end: a win toward the halfway mark, a loss toward zero. A soft win is pulled back
+  toward the middle rather than beneath a defeat, and a soft loss is pushed down
+  rather than forgiven.</li>
   <li><strong>Strong</strong> scales the score itself. It bites harder, and it
   breaks that rule: a good loss can finish above a poor win.</li>
 </ul>
