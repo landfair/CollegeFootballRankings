@@ -122,6 +122,7 @@
   .res{font-size:12px;letter-spacing:.05em;text-transform:uppercase;font-weight:600}
   .res.w{color:var(--win)} .res.l{color:var(--loss)}
   .gsc{margin-left:auto;font-family:var(--mono);font-size:13px}
+  .gsc.wtd{cursor:help;border-bottom:1px dotted var(--rule)}
   .spark{display:inline-flex;align-items:center;gap:8px;margin-top:7px}
   .spark svg{display:block;overflow:visible}
   .spark .lbl{font-size:11px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
@@ -242,7 +243,10 @@ comparison, and the selection committee's ranking once it starts publishing.</p>
         </select>
       </div>
       <p>Scales every game by how good the opponent turned out to be, so a win over
-      a poor team counts for less and a loss to a good one costs less.
+      a poor team counts for less. It cuts the other way on defeats: pulling a
+      score toward the middle forgives a bad loss as readily as it discounts a
+      cheap win, so weighting narrows the gap between losing to a good team and
+      losing to a poor one. Hover any score on a team page for the arithmetic.
       <b>Balanced</b>, the default, keeps every win above every loss; <b>strong</b>
       bites harder and drops that rule. Because the weight depends on the ranking
       it is solved rather than calculated, taking about a dozen passes. Turn it
@@ -590,6 +594,30 @@ function renderTeam(team){
     pollSeries('Coaches Poll','var(--muted)','2 3'),
     pollSeries('CFP Rankings','var(--poll3)','4 3'),
   ],{labelOf:n=>'wk '+n});
+  /* Spell out the arithmetic, and be candid about the loss case: scaling a
+     score toward 50 discounts a cheap win and forgives a cheap loss by the
+     same stroke, which is not what the feature is usually sold as. */
+  const weightTip=(p,e)=>{
+    if(!W||!p) return '';
+    const q=W.quality(e.opp), f=W.factor(e.opp), adj=W.adjust(p.score,e.opp);
+    const sum=W.mode==='A'
+      ? `${p.score.toFixed(1)} \u00d7 ${f.toFixed(2)} = ${adj.toFixed(1)}`
+      : `50 + (${p.score.toFixed(1)} \u2212 50) \u00d7 ${f.toFixed(2)} = ${adj.toFixed(1)}`;
+    return 'HOW THIS WAS WEIGHTED\n\n'+
+      `Raw ${p.score.toFixed(1)} \u2014 where this result placed among the `+
+      `${p.n.toLocaleString()} games\nit was scored against.\n\n`+
+      `${e.opp} rates ${Math.round(q*100)}% of the way from the weakest team to the\n`+
+      `strongest, which sets the weight:\n`+
+      `   ${W.floor} + ${(1-W.floor).toFixed(1)} \u00d7 ${q.toFixed(2)}`+
+      (W.gamma!==1?`^${W.gamma}`:'')+` = ${f.toFixed(2)}\n\n`+
+      (W.mode==='A'
+        ? `Strong mode scales the score itself:\n   ${sum}\n\n`
+        : `Balanced mode scales the distance from 50, so every win stays above\nevery loss:\n   ${sum}\n\n`)+
+      (e.res===WIN
+        ? `Beating a strong team keeps most of the raw figure; beating a weak one\nis pulled back toward 50. That is the point of it.`
+        : `Losing to a strong team keeps most of the raw figure \u2014 but a loss to a\nweak team gets pulled toward 50 as well, which forgives it. So for\ndefeats this narrows the gap between a bad loss and a good one, the\nopposite of what it does for wins. Turn weighting off for the raw figure.`)+
+      `\n\nThe weight depends on the ranking and the ranking depends on the weights,\nso the two are solved together \u2014 ${W.passes} passes this time.`;
+  };
   html+='<div id="games">';
   for(let w=1;w<=h;w++){
     const wk=ENG.byWeek.get(w); if(!wk) continue;
@@ -603,7 +631,8 @@ function renderTeam(team){
       `<span class="res ${e.res===WIN?'w':'l'}">${e.res===WIN?'beat':'lost to'}</span>`+
       `<button class="tm" data-t="${esc(e.opp)}">${esc(e.opp)}</button>`+
       `<span class="cf">${oppRank?'#'+oppRank:'unranked'} · ${ow}‑${others.length-ow} in their other games</span>`+
-      `<span class="gsc">${p?(W?(W.adjust(p.score,e.opp)).toFixed(1):p.score.toFixed(1)):'—'}`+
+      `<span class="gsc${W&&p?' wtd':''}"${W&&p?` title="${esc(weightTip(p,e))}"`:''}>`+
+      `${p?(W?(W.adjust(p.score,e.opp)).toFixed(1):p.score.toFixed(1)):'—'}`+
         (W&&p?`<span class="nr" style="font-weight:400"> &nbsp;${p.score.toFixed(1)}&times;${W.factor(e.opp).toFixed(2)}</span>`:'')+
         `</span></div>`+
       sparkHTML(revision(ENG,team,w,h),{pool:ENG.scoring==='pooled',unit:'week',label:n=>'wk '+n})+'</div>';

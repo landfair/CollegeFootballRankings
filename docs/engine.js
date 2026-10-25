@@ -260,7 +260,11 @@ export function weighted(eng,season,horizon,opts={}){
   rows.sort((a,b)=>b.key-a.key||b.pd-a.pd||a.team.localeCompare(b.team));
   let rk=1;
   rows.forEach((r,i)=>{ if(i>0&&Math.abs(r.key-rows[i-1].key)>1e-9) rk=i+1; r.rank=rk; });
-  return {rows,passes:it,settled,
+  /* quality/floor/gamma are exposed so a page can show its working: the weight
+     is floor + (1-floor)*quality^gamma, and quality is where the opponent sits
+     between the weakest and strongest rating. */
+  return {rows,passes:it,settled,mode,floor,gamma,
+          quality:t=>q.get(t)??0,
           factor:f,
           adjust:(sc,opp)=>mode==='A'?sc*f(opp):50+(sc-50)*f(opp)};
 }
