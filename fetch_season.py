@@ -604,6 +604,20 @@ def selftest():
 
 
 # ----------------------------------------------------------------------------
+def ordered_teams(teams, top):
+    """Deterministic team order: top division first, then the rest, each by name.
+
+    The feed returns teams in no fixed order, and writing them out in insertion
+    order made every refetch produce a diff of shuffled names even when nothing
+    had changed. Games are already sorted; this gives the rest of the file the
+    same property, so a diff only ever shows real news.
+    """
+    return sorted(teams.values(),
+                  key=lambda t: (0 if t.get("division") == top else 1,
+                                 t.get("division") or "",
+                                 t.get("name") or ""))
+
+
 def main():
     default_year = dt.date.today().year
     if dt.date.today().month < 6:          # Jan–May belongs to the prior season
@@ -742,7 +756,7 @@ def main():
         g.pop("_date", None)
         g.pop("_cfbd", None)
     games.sort(key=lambda g: (g["week"], g["home"]))
-    payload = {"teams": list(teams.values()), "games": games}
+    payload = {"teams": ordered_teams(teams, 'FBS'), "games": games}
     if polls:
         payload["polls"] = polls
     with open(a.out, "w") as f:

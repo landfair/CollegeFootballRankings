@@ -51,6 +51,11 @@
    "division": "FBS"
   },
   {
+   "name": "BYU",
+   "conference": "FBS Independents",
+   "division": "FBS"
+  },
+  {
    "name": "Ball State",
    "conference": "Mid-American",
    "division": "FBS"
@@ -78,11 +83,6 @@
   {
    "name": "Buffalo",
    "conference": "Mid-American",
-   "division": "FBS"
-  },
-  {
-   "name": "BYU",
-   "conference": "FBS Independents",
    "division": "FBS"
   },
   {
@@ -241,6 +241,11 @@
    "division": "FBS"
   },
   {
+   "name": "LSU",
+   "conference": "SEC",
+   "division": "FBS"
+  },
+  {
    "name": "Liberty",
    "conference": "FBS Independents",
    "division": "FBS"
@@ -258,11 +263,6 @@
   {
    "name": "Louisville",
    "conference": "ACC",
-   "division": "FBS"
-  },
-  {
-   "name": "LSU",
-   "conference": "SEC",
    "division": "FBS"
   },
   {
@@ -326,13 +326,13 @@
    "division": "FBS"
   },
   {
-   "name": "Navy",
-   "conference": "American Athletic",
+   "name": "NC State",
+   "conference": "ACC",
    "division": "FBS"
   },
   {
-   "name": "NC State",
-   "conference": "ACC",
+   "name": "Navy",
+   "conference": "American Athletic",
    "division": "FBS"
   },
   {
@@ -361,13 +361,13 @@
    "division": "FBS"
   },
   {
-   "name": "Northern Illinois",
-   "conference": "Mid-American",
+   "name": "North Texas",
+   "conference": "Conference USA",
    "division": "FBS"
   },
   {
-   "name": "North Texas",
-   "conference": "Conference USA",
+   "name": "Northern Illinois",
+   "conference": "Mid-American",
    "division": "FBS"
   },
   {
@@ -446,6 +446,11 @@
    "division": "FBS"
   },
   {
+   "name": "SMU",
+   "conference": "American Athletic",
+   "division": "FBS"
+  },
+  {
    "name": "San Diego State",
    "conference": "Mountain West",
    "division": "FBS"
@@ -453,11 +458,6 @@
   {
    "name": "San Jos\u00e9 State",
    "conference": "Mountain West",
-   "division": "FBS"
-  },
-  {
-   "name": "SMU",
-   "conference": "American Athletic",
    "division": "FBS"
   },
   {
@@ -471,13 +471,13 @@
    "division": "FBS"
   },
   {
-   "name": "Southern Miss",
-   "conference": "Sun Belt",
+   "name": "South Florida",
+   "conference": "American Athletic",
    "division": "FBS"
   },
   {
-   "name": "South Florida",
-   "conference": "American Athletic",
+   "name": "Southern Miss",
+   "conference": "Sun Belt",
    "division": "FBS"
   },
   {
@@ -581,16 +581,6 @@
    "division": "FBS"
   },
   {
-   "name": "Utah",
-   "conference": "Pac-12",
-   "division": "FBS"
-  },
-  {
-   "name": "Utah State",
-   "conference": "Mountain West",
-   "division": "FBS"
-  },
-  {
    "name": "UTEP",
    "conference": "Conference USA",
    "division": "FBS"
@@ -598,6 +588,16 @@
   {
    "name": "UTSA",
    "conference": "Conference USA",
+   "division": "FBS"
+  },
+  {
+   "name": "Utah",
+   "conference": "Pac-12",
+   "division": "FBS"
+  },
+  {
+   "name": "Utah State",
+   "conference": "Mountain West",
    "division": "FBS"
   },
   {
@@ -631,6 +631,11 @@
    "division": "FBS"
   },
   {
+   "name": "West Virginia",
+   "conference": "Big 12",
+   "division": "FBS"
+  },
+  {
    "name": "Western Kentucky",
    "conference": "Conference USA",
    "division": "FBS"
@@ -638,11 +643,6 @@
   {
    "name": "Western Michigan",
    "conference": "Mid-American",
-   "division": "FBS"
-  },
-  {
-   "name": "West Virginia",
-   "conference": "Big 12",
    "division": "FBS"
   },
   {
@@ -756,6 +756,11 @@
    "division": "FCS"
   },
   {
+   "name": "Anna Maria College",
+   "conference": "ECFC",
+   "division": "FCS"
+  },
+  {
    "name": "Apprentice School",
    "conference": "Independent DIII",
    "division": "FCS"
@@ -766,13 +771,13 @@
    "division": "FCS"
   },
   {
-   "name": "Arkansas-Pine Bluff",
-   "conference": "SWAC",
+   "name": "Arkansas Tech",
+   "conference": "Great American",
    "division": "FCS"
   },
   {
-   "name": "Arkansas Tech",
-   "conference": "Great American",
+   "name": "Arkansas-Pine Bluff",
+   "conference": "SWAC",
    "division": "FCS"
   },
   {
@@ -971,8 +976,8 @@
    "division": "FCS"
   },
   {
-   "name": "California (PA)",
-   "conference": "Pennsylvania State Athletic",
+   "name": "CSU Pueblo",
+   "conference": "Rocky Mountain",
    "division": "FCS"
   },
   {
@@ -983,6 +988,11 @@
   {
    "name": "Cal Poly",
    "conference": "Big Sky",
+   "division": "FCS"
+  },
+  {
+   "name": "California (PA)",
+   "conference": "Pennsylvania State Athletic",
    "division": "FCS"
   },
   {
@@ -1086,13 +1096,13 @@
    "division": "FCS"
   },
   {
-   "name": "Charleston Southern",
-   "conference": "Big South",
+   "name": "Charleston (WV)",
+   "conference": "Mountain East",
    "division": "FCS"
   },
   {
-   "name": "Charleston (WV)",
-   "conference": "Mountain East",
+   "name": "Charleston Southern",
+   "conference": "Big South",
    "division": "FCS"
   },
   {
@@ -1176,23 +1186,23 @@
    "division": "FCS"
   },
   {
-   "name": "Concordia Chicago",
-   "conference": "NACC",
-   "division": "FCS"
-  },
-  {
    "name": "Concordia (MN)",
    "conference": "Minnesota",
    "division": "FCS"
   },
   {
-   "name": "Concordia St. Paul",
-   "conference": "Northern Sun",
+   "name": "Concordia (WI)",
+   "conference": "NACC",
    "division": "FCS"
   },
   {
-   "name": "Concordia (WI)",
+   "name": "Concordia Chicago",
    "conference": "NACC",
+   "division": "FCS"
+  },
+  {
+   "name": "Concordia St. Paul",
+   "conference": "Northern Sun",
    "division": "FCS"
   },
   {
@@ -1208,11 +1218,6 @@
   {
    "name": "Crown",
    "conference": "Upper Midwest",
-   "division": "FCS"
-  },
-  {
-   "name": "CSU Pueblo",
-   "conference": "Rocky Mountain",
    "division": "FCS"
   },
   {
@@ -1238,6 +1243,11 @@
   {
    "name": "Dayton",
    "conference": "Pioneer",
+   "division": "FCS"
+  },
+  {
+   "name": "DePauw",
+   "conference": "North Coast",
    "division": "FCS"
   },
   {
@@ -1276,11 +1286,6 @@
    "division": "FCS"
   },
   {
-   "name": "DePauw",
-   "conference": "North Coast",
-   "division": "FCS"
-  },
-  {
    "name": "Dickinson",
    "conference": "Centennial",
    "division": "FCS"
@@ -1306,26 +1311,6 @@
    "division": "FCS"
   },
   {
-   "name": "Eastern Illinois",
-   "conference": "OVC",
-   "division": "FCS"
-  },
-  {
-   "name": "Eastern Kentucky",
-   "conference": "Atlantic Sun",
-   "division": "FCS"
-  },
-  {
-   "name": "Eastern New Mexico",
-   "conference": "Lone Star",
-   "division": "FCS"
-  },
-  {
-   "name": "Eastern Washington",
-   "conference": "Big Sky",
-   "division": "FCS"
-  },
-  {
    "name": "East Stroudsburg",
    "conference": "Pennsylvania State Athletic",
    "division": "FCS"
@@ -1343,6 +1328,26 @@
   {
    "name": "East Texas Baptist",
    "conference": "American Southwest",
+   "division": "FCS"
+  },
+  {
+   "name": "Eastern Illinois",
+   "conference": "OVC",
+   "division": "FCS"
+  },
+  {
+   "name": "Eastern Kentucky",
+   "conference": "Atlantic Sun",
+   "division": "FCS"
+  },
+  {
+   "name": "Eastern New Mexico",
+   "conference": "Lone Star",
+   "division": "FCS"
+  },
+  {
+   "name": "Eastern Washington",
+   "conference": "Big Sky",
    "division": "FCS"
   },
   {
@@ -1396,6 +1401,11 @@
    "division": "FCS"
   },
   {
+   "name": "FDU Florham",
+   "conference": "Mid Atlantic",
+   "division": "FCS"
+  },
+  {
    "name": "Fairmont State",
    "conference": "Mountain East",
    "division": "FCS"
@@ -1403,11 +1413,6 @@
   {
    "name": "Fayetteville State",
    "conference": "CIAA",
-   "division": "FCS"
-  },
-  {
-   "name": "FDU Florham",
-   "conference": "Mid Atlantic",
    "division": "FCS"
   },
   {
@@ -1423,6 +1428,11 @@
   {
    "name": "Findlay",
    "conference": "Great Midwest Athletic",
+   "division": "FCS"
+  },
+  {
+   "name": "Finlandia University",
+   "conference": "Upper Midwest",
    "division": "FCS"
   },
   {
@@ -1591,13 +1601,13 @@
    "division": "FCS"
   },
   {
-   "name": "Harding",
-   "conference": "Great American",
+   "name": "Hardin Simmons",
+   "conference": "American Southwest",
    "division": "FCS"
   },
   {
-   "name": "Hardin Simmons",
-   "conference": "American Southwest",
+   "name": "Harding",
+   "conference": "Great American",
    "division": "FCS"
   },
   {
@@ -1681,6 +1691,11 @@
    "division": "FCS"
   },
   {
+   "name": "IU Pennsylvania",
+   "conference": "Pennsylvania State Athletic",
+   "division": "FCS"
+  },
+  {
    "name": "Idaho",
    "conference": "Big Sky",
    "division": "FCS"
@@ -1711,23 +1726,18 @@
    "division": "FCS"
   },
   {
-   "name": "Indianapolis",
-   "conference": "Great Lakes",
-   "division": "FCS"
-  },
-  {
    "name": "Indiana State",
    "conference": "MVFC",
    "division": "FCS"
   },
   {
-   "name": "Ithaca",
-   "conference": "Liberty League",
+   "name": "Indianapolis",
+   "conference": "Great Lakes",
    "division": "FCS"
   },
   {
-   "name": "IU Pennsylvania",
-   "conference": "Pennsylvania State Athletic",
+   "name": "Ithaca",
+   "conference": "Liberty League",
    "division": "FCS"
   },
   {
@@ -1811,13 +1821,18 @@
    "division": "FCS"
   },
   {
-   "name": "Lafayette",
-   "conference": "Patriot",
+   "name": "La Verne",
+   "conference": "So. Cal.",
    "division": "FCS"
   },
   {
    "name": "LaGrange",
    "conference": "USA South",
+   "division": "FCS"
+  },
+  {
+   "name": "Lafayette",
+   "conference": "Patriot",
    "division": "FCS"
   },
   {
@@ -1843,11 +1858,6 @@
   {
    "name": "Lane College",
    "conference": "SIAC",
-   "division": "FCS"
-  },
-  {
-   "name": "La Verne",
-   "conference": "So. Cal.",
    "division": "FCS"
   },
   {
@@ -1928,6 +1938,11 @@
   {
    "name": "Lycoming",
    "conference": "Mid Atlantic",
+   "division": "FCS"
+  },
+  {
+   "name": "MIT",
+   "conference": "NEWMAC",
    "division": "FCS"
   },
   {
@@ -2071,12 +2086,12 @@
    "division": "FCS"
   },
   {
-   "name": "Minnesota State",
+   "name": "Minnesota St Moorhead",
    "conference": "Northern Sun",
    "division": "FCS"
   },
   {
-   "name": "Minnesota St Moorhead",
+   "name": "Minnesota State",
    "conference": "Northern Sun",
    "division": "FCS"
   },
@@ -2101,13 +2116,13 @@
    "division": "FCS"
   },
   {
-   "name": "Missouri Southern State",
-   "conference": "Mid America",
+   "name": "Missouri S&T",
+   "conference": "Great Lakes",
    "division": "FCS"
   },
   {
-   "name": "Missouri S&T",
-   "conference": "Great Lakes",
+   "name": "Missouri Southern State",
+   "conference": "Mid America",
    "division": "FCS"
   },
   {
@@ -2118,11 +2133,6 @@
   {
    "name": "Missouri Western",
    "conference": "Mid America",
-   "division": "FCS"
-  },
-  {
-   "name": "MIT",
-   "conference": "NEWMAC",
    "division": "FCS"
   },
   {
@@ -2206,11 +2216,6 @@
    "division": "FCS"
   },
   {
-   "name": "Newberry",
-   "conference": "South Atlantic",
-   "division": "FCS"
-  },
-  {
    "name": "New England",
    "conference": "Commonwealth Coast",
    "division": "FCS"
@@ -2228,6 +2233,11 @@
   {
    "name": "New Mexico Highlands",
    "conference": "Rocky Mountain",
+   "division": "FCS"
+  },
+  {
+   "name": "Newberry",
+   "conference": "South Atlantic",
    "division": "FCS"
   },
   {
@@ -2281,6 +2291,16 @@
    "division": "FCS"
   },
   {
+   "name": "North Greenville",
+   "conference": "Gulf South",
+   "division": "FCS"
+  },
+  {
+   "name": "North Park",
+   "conference": "CCIW",
+   "division": "FCS"
+  },
+  {
    "name": "Northeastern State",
    "conference": "Mid America",
    "division": "FCS"
@@ -2311,13 +2331,8 @@
    "division": "FCS"
   },
   {
-   "name": "North Greenville",
-   "conference": "Gulf South",
-   "division": "FCS"
-  },
-  {
-   "name": "North Park",
-   "conference": "CCIW",
+   "name": "Northwest Missouri State",
+   "conference": "Mid America",
    "division": "FCS"
   },
   {
@@ -2333,11 +2348,6 @@
   {
    "name": "Northwestern State",
    "conference": "Southland",
-   "division": "FCS"
-  },
-  {
-   "name": "Northwest Missouri State",
-   "conference": "Mid America",
    "division": "FCS"
   },
   {
@@ -2406,12 +2416,12 @@
    "division": "FCS"
   },
   {
-   "name": "Pacific Lutheran",
+   "name": "Pacific (OR)",
    "conference": "Northwest",
    "division": "FCS"
   },
   {
-   "name": "Pacific (OR)",
+   "name": "Pacific Lutheran",
    "conference": "Northwest",
    "division": "FCS"
   },
@@ -2531,6 +2541,26 @@
    "division": "FCS"
   },
   {
+   "name": "SE Louisiana",
+   "conference": "Southland",
+   "division": "FCS"
+  },
+  {
+   "name": "SUNY Cortland",
+   "conference": "Empire 8",
+   "division": "FCS"
+  },
+  {
+   "name": "SUNY Maritime",
+   "conference": "ECFC",
+   "division": "FCS"
+  },
+  {
+   "name": "SUNY Morrisville",
+   "conference": "Empire 8",
+   "division": "FCS"
+  },
+  {
    "name": "Sacramento State",
    "conference": "Big Sky",
    "division": "FCS"
@@ -2576,13 +2606,13 @@
    "division": "FCS"
   },
   {
-   "name": "Samford",
-   "conference": "Southern",
+   "name": "Sam Houston",
+   "conference": "Western Athletic",
    "division": "FCS"
   },
   {
-   "name": "Sam Houston",
-   "conference": "Western Athletic",
+   "name": "Samford",
+   "conference": "Southern",
    "division": "FCS"
   },
   {
@@ -2593,11 +2623,6 @@
   {
    "name": "Savannah State",
    "conference": "SIAC",
-   "division": "FCS"
-  },
-  {
-   "name": "SE Louisiana",
-   "conference": "Southland",
    "division": "FCS"
   },
   {
@@ -2676,13 +2701,13 @@
    "division": "FCS"
   },
   {
-   "name": "Southeastern Oklahoma State",
-   "conference": "Great American",
+   "name": "Southeast Missouri State",
+   "conference": "OVC",
    "division": "FCS"
   },
   {
-   "name": "Southeast Missouri State",
-   "conference": "OVC",
+   "name": "Southeastern Oklahoma State",
+   "conference": "Great American",
    "division": "FCS"
   },
   {
@@ -2726,6 +2751,11 @@
    "division": "FCS"
   },
   {
+   "name": "Southwest Minnesota State",
+   "conference": "Northern Sun",
+   "division": "FCS"
+  },
+  {
    "name": "Southwestern Oklahoma State",
    "conference": "Great American",
    "division": "FCS"
@@ -2736,11 +2766,6 @@
    "division": "FCS"
   },
   {
-   "name": "Southwest Minnesota State",
-   "conference": "Northern Sun",
-   "division": "FCS"
-  },
-  {
    "name": "Springfield",
    "conference": "NEWMAC",
    "division": "FCS"
@@ -2748,21 +2773,6 @@
   {
    "name": "St. Augustine's",
    "conference": "CIAA",
-   "division": "FCS"
-  },
-  {
-   "name": "Stephen F. Austin",
-   "conference": "Western Athletic",
-   "division": "FCS"
-  },
-  {
-   "name": "Stetson",
-   "conference": "Pioneer",
-   "division": "FCS"
-  },
-  {
-   "name": "Stevenson",
-   "conference": "Mid Atlantic",
    "division": "FCS"
   },
   {
@@ -2791,16 +2801,6 @@
    "division": "FCS"
   },
   {
-   "name": "Stonehill",
-   "conference": "NEC",
-   "division": "FCS"
-  },
-  {
-   "name": "Stony Brook",
-   "conference": "CAA",
-   "division": "FCS"
-  },
-  {
    "name": "St. Scholastica",
    "conference": "Minnesota",
    "division": "FCS"
@@ -2811,23 +2811,33 @@
    "division": "FCS"
   },
   {
+   "name": "Stephen F. Austin",
+   "conference": "Western Athletic",
+   "division": "FCS"
+  },
+  {
+   "name": "Stetson",
+   "conference": "Pioneer",
+   "division": "FCS"
+  },
+  {
+   "name": "Stevenson",
+   "conference": "Mid Atlantic",
+   "division": "FCS"
+  },
+  {
+   "name": "Stonehill",
+   "conference": "NEC",
+   "division": "FCS"
+  },
+  {
+   "name": "Stony Brook",
+   "conference": "CAA",
+   "division": "FCS"
+  },
+  {
    "name": "Sul Ross State",
    "conference": "American Southwest",
-   "division": "FCS"
-  },
-  {
-   "name": "SUNY Cortland",
-   "conference": "Empire 8",
-   "division": "FCS"
-  },
-  {
-   "name": "SUNY Maritime",
-   "conference": "ECFC",
-   "division": "FCS"
-  },
-  {
-   "name": "SUNY Morrisville",
-   "conference": "Empire 8",
    "division": "FCS"
   },
   {
@@ -2951,6 +2961,21 @@
    "division": "FCS"
   },
   {
+   "name": "UT Martin",
+   "conference": "OVC",
+   "division": "FCS"
+  },
+  {
+   "name": "UT Permian Basin",
+   "conference": "Lone Star",
+   "division": "FCS"
+  },
+  {
+   "name": "UVA Wise",
+   "conference": "South Atlantic",
+   "division": "FCS"
+  },
+  {
    "name": "Union",
    "conference": "Liberty League",
    "division": "FCS"
@@ -2981,18 +3006,8 @@
    "division": "FCS"
   },
   {
-   "name": "UT Martin",
-   "conference": "OVC",
-   "division": "FCS"
-  },
-  {
-   "name": "UT Permian Basin",
-   "conference": "Lone Star",
-   "division": "FCS"
-  },
-  {
-   "name": "UVA Wise",
-   "conference": "South Atlantic",
+   "name": "VMI",
+   "conference": "Southern",
    "division": "FCS"
   },
   {
@@ -3026,8 +3041,8 @@
    "division": "FCS"
   },
   {
-   "name": "VMI",
-   "conference": "Southern",
+   "name": "WPI",
+   "conference": "NEWMAC",
    "division": "FCS"
   },
   {
@@ -3056,11 +3071,6 @@
    "division": "FCS"
   },
   {
-   "name": "Washington and Lee",
-   "conference": "Old Dominion",
-   "division": "FCS"
-  },
-  {
    "name": "Washington & Jefferson",
    "conference": "Presidents'",
    "division": "FCS"
@@ -3071,8 +3081,8 @@
    "division": "FCS"
   },
   {
-   "name": "Waynesburg",
-   "conference": "Presidents'",
+   "name": "Washington and Lee",
+   "conference": "Old Dominion",
    "division": "FCS"
   },
   {
@@ -3083,6 +3093,11 @@
   {
    "name": "Wayne State (NE)",
    "conference": "Northern Sun",
+   "division": "FCS"
+  },
+  {
+   "name": "Waynesburg",
+   "conference": "Presidents'",
    "division": "FCS"
   },
   {
@@ -3103,6 +3118,36 @@
   {
    "name": "West Chester",
    "conference": "Pennsylvania State Athletic",
+   "division": "FCS"
+  },
+  {
+   "name": "West Florida",
+   "conference": "Gulf South",
+   "division": "FCS"
+  },
+  {
+   "name": "West Georgia",
+   "conference": "Gulf South",
+   "division": "FCS"
+  },
+  {
+   "name": "West Liberty",
+   "conference": "Mountain East",
+   "division": "FCS"
+  },
+  {
+   "name": "West Texas",
+   "conference": "Lone Star",
+   "division": "FCS"
+  },
+  {
+   "name": "West Virginia State",
+   "conference": "Mountain East",
+   "division": "FCS"
+  },
+  {
+   "name": "West Virginia Wesleyan",
+   "conference": "Mountain East",
    "division": "FCS"
   },
   {
@@ -3146,21 +3191,6 @@
    "division": "FCS"
   },
   {
-   "name": "West Florida",
-   "conference": "Gulf South",
-   "division": "FCS"
-  },
-  {
-   "name": "West Georgia",
-   "conference": "Gulf South",
-   "division": "FCS"
-  },
-  {
-   "name": "West Liberty",
-   "conference": "Mountain East",
-   "division": "FCS"
-  },
-  {
    "name": "Westminster (MO)",
    "conference": "Upper Midwest",
    "division": "FCS"
@@ -3168,21 +3198,6 @@
   {
    "name": "Westminster (PA)",
    "conference": "Presidents'",
-   "division": "FCS"
-  },
-  {
-   "name": "West Texas",
-   "conference": "Lone Star",
-   "division": "FCS"
-  },
-  {
-   "name": "West Virginia State",
-   "conference": "Mountain East",
-   "division": "FCS"
-  },
-  {
-   "name": "West Virginia Wesleyan",
-   "conference": "Mountain East",
    "division": "FCS"
   },
   {
@@ -3221,13 +3236,13 @@
    "division": "FCS"
   },
   {
-   "name": "William Jewell",
-   "conference": "Great Lakes",
+   "name": "William & Mary",
+   "conference": "CAA",
    "division": "FCS"
   },
   {
-   "name": "William & Mary",
-   "conference": "CAA",
+   "name": "William Jewell",
+   "conference": "Great Lakes",
    "division": "FCS"
   },
   {
@@ -3326,11 +3341,6 @@
    "division": "FCS"
   },
   {
-   "name": "WPI",
-   "conference": "NEWMAC",
-   "division": "FCS"
-  },
-  {
    "name": "Yale",
    "conference": "Ivy",
    "division": "FCS"
@@ -3341,132 +3351,7 @@
    "division": "FCS"
   },
   {
-   "name": "Anna Maria College",
-   "conference": "ECFC",
-   "division": "FCS"
-  },
-  {
-   "name": "Finlandia University",
-   "conference": "Upper Midwest",
-   "division": "FCS"
-  },
-  {
-   "name": "Florida Memorial University",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Keiser University",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Virginia Lynchburg",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Lincoln (CA)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Dickinson State University",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Wayland Baptist",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "St. Thomas University (Fl)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "UFTL",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Presentation",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Dakota State University",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Concordia-Michigan",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Saint Xavier",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Mayville State",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Indiana Wesleyan",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Warner",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "North American",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Trinity International (IL)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Thomas More",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Madonna",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Iowa Wesleyan",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Phoenix",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Eastern Oregon",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Taylor",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Louisiana Christian",
+   "name": "Ave Maria University",
    "conference": "",
    "division": "OTHER"
   },
@@ -3476,7 +3361,47 @@
    "division": "OTHER"
   },
   {
-   "name": "Ave Maria University",
+   "name": "Concordia-Michigan",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Dakota State University",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Dickinson State University",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Eastern Oregon",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Faulkner University",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Florida Memorial University",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Indiana Wesleyan",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Iowa Wesleyan",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Keiser University",
    "conference": "",
    "division": "OTHER"
   },
@@ -3486,12 +3411,32 @@
    "division": "OTHER"
   },
   {
-   "name": "St. Andrews",
+   "name": "Lincoln (CA)",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Waldorf",
+   "name": "Louisiana Christian",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Madonna",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Mayville State",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "North American",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Phoenix",
    "conference": "",
    "division": "OTHER"
   },
@@ -3501,7 +3446,62 @@
    "division": "OTHER"
   },
   {
-   "name": "Faulkner University",
+   "name": "Presentation",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Saint Xavier",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "St. Andrews",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "St. Thomas University (Fl)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Taylor",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Thomas More",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Trinity International (IL)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "UFTL",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Virginia Lynchburg",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Waldorf",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Warner",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Wayland Baptist",
    "conference": "",
    "division": "OTHER"
   }

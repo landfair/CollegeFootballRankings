@@ -3,137 +3,52 @@
  "topDivision": "D1",
  "teams": [
   {
-   "name": "Siena",
-   "conference": "Metro",
+   "name": "Abilene Christian",
+   "conference": "UAC",
    "division": "D1"
   },
   {
-   "name": "Florida",
+   "name": "Air Force",
+   "conference": "Mountain West",
+   "division": "D1"
+  },
+  {
+   "name": "Akron",
+   "conference": "MAC",
+   "division": "D1"
+  },
+  {
+   "name": "Alabama",
    "conference": "SEC",
    "division": "D1"
   },
   {
-   "name": "Iowa",
-   "conference": "Big Ten",
+   "name": "Alabama A&M",
+   "conference": "SWAC",
    "division": "D1"
   },
   {
-   "name": "Louisiana",
+   "name": "Alabama State",
+   "conference": "SWAC",
+   "division": "D1"
+  },
+  {
+   "name": "Alcorn State",
+   "conference": "SWAC",
+   "division": "D1"
+  },
+  {
+   "name": "American University",
+   "conference": "Patriot",
+   "division": "D1"
+  },
+  {
+   "name": "App State",
    "conference": "Sun Belt",
    "division": "D1"
   },
   {
-   "name": "Purdue",
-   "conference": "Big Ten",
-   "division": "D1"
-  },
-  {
-   "name": "Bradley",
-   "conference": "MVC",
-   "division": "D1"
-  },
-  {
-   "name": "Iowa State",
-   "conference": "Big 12",
-   "division": "D1"
-  },
-  {
-   "name": "Nevada",
-   "conference": "Mountain West",
-   "division": "D1"
-  },
-  {
-   "name": "UC Irvine",
-   "conference": "Big West",
-   "division": "D1"
-  },
-  {
-   "name": "UC Santa Barbara",
-   "conference": "Big West",
-   "division": "D1"
-  },
-  {
-   "name": "Colorado State",
-   "conference": "Mountain West",
-   "division": "D1"
-  },
-  {
-   "name": "UCLA",
-   "conference": "Pac-12",
-   "division": "D1"
-  },
-  {
-   "name": "Saint Mary's",
-   "conference": "WCC",
-   "division": "D1"
-  },
-  {
-   "name": "California",
-   "conference": "Pac-12",
-   "division": "D1"
-  },
-  {
-   "name": "San Diego",
-   "conference": "WCC",
-   "division": "D1"
-  },
-  {
-   "name": "Oregon State",
-   "conference": "Pac-12",
-   "division": "D1"
-  },
-  {
-   "name": "Green Bay",
-   "conference": "Horizon",
-   "division": "D1"
-  },
-  {
-   "name": "Long Beach State",
-   "conference": "Big West",
-   "division": "D1"
-  },
-  {
-   "name": "Hawai'i",
-   "conference": "Big West",
-   "division": "D1"
-  },
-  {
-   "name": "Pacific",
-   "conference": "WCC",
-   "division": "D1"
-  },
-  {
-   "name": "LSU",
-   "conference": "SEC",
-   "division": "D1"
-  },
-  {
-   "name": "Cal State Northridge",
-   "conference": "Big West",
-   "division": "D1"
-  },
-  {
-   "name": "Purdue Fort Wayne",
-   "conference": "Horizon",
-   "division": "D1"
-  },
-  {
-   "name": "Washington",
-   "conference": "Pac-12",
-   "division": "D1"
-  },
-  {
-   "name": "San Francisco",
-   "conference": "WCC",
-   "division": "D1"
-  },
-  {
-   "name": "Cal Poly",
-   "conference": "Big West",
-   "division": "D1"
-  },
-  {
-   "name": "Stanford",
+   "name": "Arizona",
    "conference": "Pac-12",
    "division": "D1"
   },
@@ -143,93 +58,148 @@
    "division": "D1"
   },
   {
-   "name": "Denver",
-   "conference": "Summit",
+   "name": "Arkansas",
+   "conference": "SEC",
    "division": "D1"
   },
   {
-   "name": "Wisconsin",
-   "conference": "Big Ten",
+   "name": "Arkansas State",
+   "conference": "Sun Belt",
    "division": "D1"
   },
   {
-   "name": "Fresno State",
-   "conference": "Mountain West",
+   "name": "Arkansas-Pine Bluff",
+   "conference": "SWAC",
    "division": "D1"
   },
   {
-   "name": "NC State",
-   "conference": "ACC",
+   "name": "Army",
+   "conference": "Patriot",
    "division": "D1"
   },
   {
-   "name": "Pepperdine",
+   "name": "Auburn",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
+   "name": "Austin Peay",
+   "conference": "OVC",
+   "division": "D1"
+  },
+  {
+   "name": "BYU",
    "conference": "WCC",
    "division": "D1"
   },
   {
-   "name": "Arizona",
+   "name": "Ball State",
+   "conference": "MAC",
+   "division": "D1"
+  },
+  {
+   "name": "Baylor",
+   "conference": "Big 12",
+   "division": "D1"
+  },
+  {
+   "name": "Bellarmine",
+   "conference": "ASUN",
+   "division": "D1"
+  },
+  {
+   "name": "Belmont",
+   "conference": "OVC",
+   "division": "D1"
+  },
+  {
+   "name": "Bethune-Cookman",
+   "conference": "SWAC",
+   "division": "D1"
+  },
+  {
+   "name": "Binghamton",
+   "conference": "Am. East",
+   "division": "D1"
+  },
+  {
+   "name": "Boise State",
+   "conference": "Mountain West",
+   "division": "D1"
+  },
+  {
+   "name": "Boston College",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "Boston University",
+   "conference": "Patriot",
+   "division": "D1"
+  },
+  {
+   "name": "Bowling Green",
+   "conference": "MAC",
+   "division": "D1"
+  },
+  {
+   "name": "Bradley",
+   "conference": "MVC",
+   "division": "D1"
+  },
+  {
+   "name": "Brown",
+   "conference": "Ivy",
+   "division": "D1"
+  },
+  {
+   "name": "Bryant",
+   "conference": "NEC",
+   "division": "D1"
+  },
+  {
+   "name": "Bucknell",
+   "conference": "Patriot",
+   "division": "D1"
+  },
+  {
+   "name": "Buffalo",
+   "conference": "MAC",
+   "division": "D1"
+  },
+  {
+   "name": "Butler",
+   "conference": "Big East",
+   "division": "D1"
+  },
+  {
+   "name": "Cal Poly",
+   "conference": "Big West",
+   "division": "D1"
+  },
+  {
+   "name": "Cal State Bakersfield",
+   "conference": "Big West",
+   "division": "D1"
+  },
+  {
+   "name": "Cal State Fullerton",
+   "conference": "Big West",
+   "division": "D1"
+  },
+  {
+   "name": "Cal State Northridge",
+   "conference": "Big West",
+   "division": "D1"
+  },
+  {
+   "name": "California",
    "conference": "Pac-12",
    "division": "D1"
   },
   {
-   "name": "Northeastern",
-   "conference": "CAA",
-   "division": "D1"
-  },
-  {
-   "name": "Memphis",
-   "conference": "American",
-   "division": "D1"
-  },
-  {
-   "name": "Georgetown",
-   "conference": "Big East",
-   "division": "D1"
-  },
-  {
-   "name": "Seton Hall",
-   "conference": "Big East",
-   "division": "D1"
-  },
-  {
-   "name": "UIC",
-   "conference": "Horizon",
-   "division": "D1"
-  },
-  {
-   "name": "Lamar",
+   "name": "California Baptist",
    "conference": "UAC",
-   "division": "D1"
-  },
-  {
-   "name": "Middle Tennessee",
-   "conference": "CUSA",
-   "division": "D1"
-  },
-  {
-   "name": "Pennsylvania",
-   "conference": "Ivy",
-   "division": "D1"
-  },
-  {
-   "name": "Princeton",
-   "conference": "Ivy",
-   "division": "D1"
-  },
-  {
-   "name": "Radford",
-   "conference": "Big South",
-   "division": "D1"
-  },
-  {
-   "name": "Rice",
-   "conference": "CUSA",
-   "division": "D1"
-  },
-  {
-   "name": "Drexel",
-   "conference": "CAA",
    "division": "D1"
   },
   {
@@ -238,7 +208,7 @@
    "division": "D1"
   },
   {
-   "name": "Quinnipiac",
+   "name": "Canisius",
    "conference": "Metro",
    "division": "D1"
   },
@@ -248,188 +218,13 @@
    "division": "D1"
   },
   {
-   "name": "American University",
-   "conference": "Patriot",
-   "division": "D1"
-  },
-  {
-   "name": "Clemson",
-   "conference": "ACC",
-   "division": "D1"
-  },
-  {
-   "name": "Cornell",
-   "conference": "Ivy",
-   "division": "D1"
-  },
-  {
-   "name": "Duke",
-   "conference": "ACC",
-   "division": "D1"
-  },
-  {
-   "name": "Eastern Kentucky",
-   "conference": "ASUN",
-   "division": "D1"
-  },
-  {
-   "name": "Sacred Heart",
+   "name": "Central Connecticut",
    "conference": "NEC",
    "division": "D1"
   },
   {
-   "name": "Southeast Missouri State",
-   "conference": "OVC",
-   "division": "D1"
-  },
-  {
-   "name": "USC",
-   "conference": "Pac-12",
-   "division": "D1"
-  },
-  {
-   "name": "SIU Edwardsville",
-   "conference": "OVC",
-   "division": "D1"
-  },
-  {
-   "name": "Northern Kentucky",
-   "conference": "Horizon",
-   "division": "D1"
-  },
-  {
-   "name": "Winthrop",
-   "conference": "Big South",
-   "division": "D1"
-  },
-  {
-   "name": "Yale",
-   "conference": "Ivy",
-   "division": "D1"
-  },
-  {
-   "name": "Binghamton",
-   "conference": "Am. East",
-   "division": "D1"
-  },
-  {
-   "name": "Alabama",
-   "conference": "SEC",
-   "division": "D1"
-  },
-  {
-   "name": "New Orleans",
-   "conference": "Southland",
-   "division": "D1"
-  },
-  {
-   "name": "Virginia",
-   "conference": "ACC",
-   "division": "D1"
-  },
-  {
-   "name": "Grambling",
-   "conference": "SWAC",
-   "division": "D1"
-  },
-  {
-   "name": "Hartford",
-   "conference": "Am. East",
-   "division": "D1"
-  },
-  {
-   "name": "Idaho State",
-   "conference": "Big Sky",
-   "division": "D1"
-  },
-  {
-   "name": "Illinois State",
-   "conference": "MVC",
-   "division": "D1"
-  },
-  {
-   "name": "Loyola Chicago",
-   "conference": "MVC",
-   "division": "D1"
-  },
-  {
-   "name": "Marist",
-   "conference": "Metro",
-   "division": "D1"
-  },
-  {
-   "name": "Marshall",
-   "conference": "CUSA",
-   "division": "D1"
-  },
-  {
-   "name": "New Hampshire",
-   "conference": "Am. East",
-   "division": "D1"
-  },
-  {
-   "name": "New Mexico State",
-   "conference": "UAC",
-   "division": "D1"
-  },
-  {
-   "name": "North Texas",
-   "conference": "CUSA",
-   "division": "D1"
-  },
-  {
-   "name": "Northwestern State",
-   "conference": "Southland",
-   "division": "D1"
-  },
-  {
-   "name": "Old Dominion",
-   "conference": "CUSA",
-   "division": "D1"
-  },
-  {
-   "name": "Penn State",
-   "conference": "Big Ten",
-   "division": "D1"
-  },
-  {
-   "name": "Rider",
-   "conference": "Metro",
-   "division": "D1"
-  },
-  {
-   "name": "Jackson State",
-   "conference": "SWAC",
-   "division": "D1"
-  },
-  {
-   "name": "Saint Louis",
-   "conference": "A-10",
-   "division": "D1"
-  },
-  {
-   "name": "Northern Iowa",
-   "conference": "MVC",
-   "division": "D1"
-  },
-  {
-   "name": "North Dakota",
-   "conference": "Summit",
-   "division": "D1"
-  },
-  {
-   "name": "Chicago State",
-   "conference": "UAC",
-   "division": "D1"
-  },
-  {
-   "name": "Florida State",
-   "conference": "ACC",
-   "division": "D1"
-  },
-  {
-   "name": "Auburn",
-   "conference": "SEC",
+   "name": "Central Michigan",
+   "conference": "MAC",
    "division": "D1"
   },
   {
@@ -438,8 +233,103 @@
    "division": "D1"
   },
   {
-   "name": "UConn",
+   "name": "Charleston Southern",
+   "conference": "Big South",
+   "division": "D1"
+  },
+  {
+   "name": "Charlotte",
+   "conference": "CUSA",
+   "division": "D1"
+  },
+  {
+   "name": "Chattanooga",
+   "conference": "SoCon",
+   "division": "D1"
+  },
+  {
+   "name": "Chicago State",
+   "conference": "UAC",
+   "division": "D1"
+  },
+  {
+   "name": "Cincinnati",
+   "conference": "American",
+   "division": "D1"
+  },
+  {
+   "name": "Clemson",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "Cleveland State",
+   "conference": "Horizon",
+   "division": "D1"
+  },
+  {
+   "name": "Coastal Carolina",
+   "conference": "Sun Belt",
+   "division": "D1"
+  },
+  {
+   "name": "Colgate",
+   "conference": "Patriot",
+   "division": "D1"
+  },
+  {
+   "name": "Colorado",
+   "conference": "Pac-12",
+   "division": "D1"
+  },
+  {
+   "name": "Colorado State",
+   "conference": "Mountain West",
+   "division": "D1"
+  },
+  {
+   "name": "Columbia",
+   "conference": "Ivy",
+   "division": "D1"
+  },
+  {
+   "name": "Coppin State",
+   "conference": "MEAC",
+   "division": "D1"
+  },
+  {
+   "name": "Cornell",
+   "conference": "Ivy",
+   "division": "D1"
+  },
+  {
+   "name": "Creighton",
    "conference": "Big East",
+   "division": "D1"
+  },
+  {
+   "name": "Dartmouth",
+   "conference": "Ivy",
+   "division": "D1"
+  },
+  {
+   "name": "Davidson",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "Dayton",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "DePaul",
+   "conference": "Big East",
+   "division": "D1"
+  },
+  {
+   "name": "Delaware",
+   "conference": "CAA",
    "division": "D1"
   },
   {
@@ -448,8 +338,58 @@
    "division": "D1"
   },
   {
+   "name": "Denver",
+   "conference": "Summit",
+   "division": "D1"
+  },
+  {
+   "name": "Detroit Mercy",
+   "conference": "Horizon",
+   "division": "D1"
+  },
+  {
+   "name": "Drake",
+   "conference": "MVC",
+   "division": "D1"
+  },
+  {
+   "name": "Drexel",
+   "conference": "CAA",
+   "division": "D1"
+  },
+  {
+   "name": "Duke",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
    "name": "Duquesne",
    "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "East Carolina",
+   "conference": "American",
+   "division": "D1"
+  },
+  {
+   "name": "East Tennessee State",
+   "conference": "SoCon",
+   "division": "D1"
+  },
+  {
+   "name": "Eastern Illinois",
+   "conference": "OVC",
+   "division": "D1"
+  },
+  {
+   "name": "Eastern Kentucky",
+   "conference": "ASUN",
+   "division": "D1"
+  },
+  {
+   "name": "Eastern Michigan",
+   "conference": "MAC",
    "division": "D1"
   },
   {
@@ -458,83 +398,108 @@
    "division": "D1"
   },
   {
-   "name": "Southern Utah",
-   "conference": "Big Sky",
+   "name": "Elon",
+   "conference": "CAA",
    "division": "D1"
   },
   {
-   "name": "SMU",
-   "conference": "American",
-   "division": "D1"
-  },
-  {
-   "name": "South Carolina",
-   "conference": "SEC",
-   "division": "D1"
-  },
-  {
-   "name": "Saint Peter's",
-   "conference": "Metro",
-   "division": "D1"
-  },
-  {
-   "name": "Syracuse",
-   "conference": "ACC",
-   "division": "D1"
-  },
-  {
-   "name": "Seattle U",
-   "conference": "UAC",
-   "division": "D1"
-  },
-  {
-   "name": "Missouri State",
+   "name": "Evansville",
    "conference": "MVC",
    "division": "D1"
   },
   {
-   "name": "Villanova",
-   "conference": "Big East",
+   "name": "Fairfield",
+   "conference": "Metro",
    "division": "D1"
   },
   {
-   "name": "VMI",
-   "conference": "SoCon",
+   "name": "Fairleigh Dickinson",
+   "conference": "NEC",
    "division": "D1"
   },
   {
-   "name": "Western Kentucky",
+   "name": "Florida",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
+   "name": "Florida A&M",
+   "conference": "SWAC",
+   "division": "D1"
+  },
+  {
+   "name": "Florida Atlantic",
    "conference": "CUSA",
    "division": "D1"
   },
   {
-   "name": "Western Michigan",
-   "conference": "MAC",
+   "name": "Florida Gulf Coast",
+   "conference": "ASUN",
    "division": "D1"
   },
   {
-   "name": "Xavier",
-   "conference": "Big East",
+   "name": "Florida International",
+   "conference": "CUSA",
    "division": "D1"
   },
   {
-   "name": "Mercer",
+   "name": "Florida State",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "Fordham",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "Fresno State",
+   "conference": "Mountain West",
+   "division": "D1"
+  },
+  {
+   "name": "Furman",
    "conference": "SoCon",
    "division": "D1"
   },
   {
-   "name": "UAlbany",
-   "conference": "Am. East",
+   "name": "Gardner-Webb",
+   "conference": "Big South",
    "division": "D1"
   },
   {
-   "name": "Oregon",
-   "conference": "Pac-12",
+   "name": "George Mason",
+   "conference": "A-10",
    "division": "D1"
   },
   {
-   "name": "Howard",
-   "conference": "MEAC",
+   "name": "George Washington",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "Georgetown",
+   "conference": "Big East",
+   "division": "D1"
+  },
+  {
+   "name": "Georgia",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
+   "name": "Georgia Southern",
+   "conference": "Sun Belt",
+   "division": "D1"
+  },
+  {
+   "name": "Georgia State",
+   "conference": "Sun Belt",
+   "division": "D1"
+  },
+  {
+   "name": "Georgia Tech",
+   "conference": "ACC",
    "division": "D1"
   },
   {
@@ -543,13 +508,293 @@
    "division": "D1"
   },
   {
+   "name": "Grambling",
+   "conference": "SWAC",
+   "division": "D1"
+  },
+  {
+   "name": "Grand Canyon",
+   "conference": "UAC",
+   "division": "D1"
+  },
+  {
+   "name": "Green Bay",
+   "conference": "Horizon",
+   "division": "D1"
+  },
+  {
+   "name": "Hampton",
+   "conference": "Big South",
+   "division": "D1"
+  },
+  {
+   "name": "Hartford",
+   "conference": "Am. East",
+   "division": "D1"
+  },
+  {
+   "name": "Harvard",
+   "conference": "Ivy",
+   "division": "D1"
+  },
+  {
+   "name": "Hawai'i",
+   "conference": "Big West",
+   "division": "D1"
+  },
+  {
+   "name": "High Point",
+   "conference": "Big South",
+   "division": "D1"
+  },
+  {
+   "name": "Hofstra",
+   "conference": "CAA",
+   "division": "D1"
+  },
+  {
+   "name": "Holy Cross",
+   "conference": "Patriot",
+   "division": "D1"
+  },
+  {
+   "name": "Houston",
+   "conference": "American",
+   "division": "D1"
+  },
+  {
+   "name": "Houston Christian",
+   "conference": "Southland",
+   "division": "D1"
+  },
+  {
+   "name": "Howard",
+   "conference": "MEAC",
+   "division": "D1"
+  },
+  {
+   "name": "IU Indianapolis",
+   "conference": "Horizon",
+   "division": "D1"
+  },
+  {
+   "name": "Idaho",
+   "conference": "Big Sky",
+   "division": "D1"
+  },
+  {
+   "name": "Idaho State",
+   "conference": "Big Sky",
+   "division": "D1"
+  },
+  {
+   "name": "Illinois",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "Illinois State",
+   "conference": "MVC",
+   "division": "D1"
+  },
+  {
+   "name": "Incarnate Word",
+   "conference": "Southland",
+   "division": "D1"
+  },
+  {
+   "name": "Indiana",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "Indiana State",
+   "conference": "MVC",
+   "division": "D1"
+  },
+  {
+   "name": "Iona",
+   "conference": "Metro",
+   "division": "D1"
+  },
+  {
+   "name": "Iowa",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "Iowa State",
+   "conference": "Big 12",
+   "division": "D1"
+  },
+  {
+   "name": "Jackson State",
+   "conference": "SWAC",
+   "division": "D1"
+  },
+  {
+   "name": "Jacksonville",
+   "conference": "ASUN",
+   "division": "D1"
+  },
+  {
+   "name": "Jacksonville State",
+   "conference": "ASUN",
+   "division": "D1"
+  },
+  {
+   "name": "James Madison",
+   "conference": "CAA",
+   "division": "D1"
+  },
+  {
+   "name": "Kansas",
+   "conference": "Big 12",
+   "division": "D1"
+  },
+  {
+   "name": "Kansas City",
+   "conference": "Summit",
+   "division": "D1"
+  },
+  {
+   "name": "Kansas State",
+   "conference": "Big 12",
+   "division": "D1"
+  },
+  {
+   "name": "Kennesaw State",
+   "conference": "ASUN",
+   "division": "D1"
+  },
+  {
+   "name": "Kent State",
+   "conference": "MAC",
+   "division": "D1"
+  },
+  {
+   "name": "Kentucky",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
+   "name": "LSU",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
+   "name": "La Salle",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "Lafayette",
+   "conference": "Patriot",
+   "division": "D1"
+  },
+  {
+   "name": "Lamar",
+   "conference": "UAC",
+   "division": "D1"
+  },
+  {
+   "name": "Lehigh",
+   "conference": "Patriot",
+   "division": "D1"
+  },
+  {
+   "name": "Liberty",
+   "conference": "ASUN",
+   "division": "D1"
+  },
+  {
+   "name": "Lipscomb",
+   "conference": "ASUN",
+   "division": "D1"
+  },
+  {
+   "name": "Little Rock",
+   "conference": "Sun Belt",
+   "division": "D1"
+  },
+  {
+   "name": "Long Beach State",
+   "conference": "Big West",
+   "division": "D1"
+  },
+  {
+   "name": "Long Island University",
+   "conference": "NEC",
+   "division": "D1"
+  },
+  {
+   "name": "Longwood",
+   "conference": "Big South",
+   "division": "D1"
+  },
+  {
+   "name": "Louisiana",
+   "conference": "Sun Belt",
+   "division": "D1"
+  },
+  {
    "name": "Louisiana Tech",
    "conference": "CUSA",
    "division": "D1"
   },
   {
-   "name": "Milwaukee",
-   "conference": "Horizon",
+   "name": "Louisville",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "Loyola Chicago",
+   "conference": "MVC",
+   "division": "D1"
+  },
+  {
+   "name": "Loyola Maryland",
+   "conference": "Patriot",
+   "division": "D1"
+  },
+  {
+   "name": "Loyola Marymount",
+   "conference": "WCC",
+   "division": "D1"
+  },
+  {
+   "name": "Maine",
+   "conference": "Am. East",
+   "division": "D1"
+  },
+  {
+   "name": "Manhattan",
+   "conference": "Metro",
+   "division": "D1"
+  },
+  {
+   "name": "Marist",
+   "conference": "Metro",
+   "division": "D1"
+  },
+  {
+   "name": "Marquette",
+   "conference": "Big East",
+   "division": "D1"
+  },
+  {
+   "name": "Marshall",
+   "conference": "CUSA",
+   "division": "D1"
+  },
+  {
+   "name": "Maryland",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "Maryland Eastern Shore",
+   "conference": "MEAC",
    "division": "D1"
   },
   {
@@ -558,8 +803,33 @@
    "division": "D1"
   },
   {
+   "name": "McNeese",
+   "conference": "Southland",
+   "division": "D1"
+  },
+  {
+   "name": "Memphis",
+   "conference": "American",
+   "division": "D1"
+  },
+  {
+   "name": "Mercer",
+   "conference": "SoCon",
+   "division": "D1"
+  },
+  {
+   "name": "Merrimack",
+   "conference": "NEC",
+   "division": "D1"
+  },
+  {
    "name": "Miami",
    "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "Miami (OH)",
+   "conference": "MAC",
    "division": "D1"
   },
   {
@@ -573,8 +843,128 @@
    "division": "D1"
   },
   {
+   "name": "Middle Tennessee",
+   "conference": "CUSA",
+   "division": "D1"
+  },
+  {
+   "name": "Milwaukee",
+   "conference": "Horizon",
+   "division": "D1"
+  },
+  {
+   "name": "Minnesota",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "Mississippi State",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
    "name": "Mississippi Valley State",
    "conference": "SWAC",
+   "division": "D1"
+  },
+  {
+   "name": "Missouri",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
+   "name": "Missouri State",
+   "conference": "MVC",
+   "division": "D1"
+  },
+  {
+   "name": "Monmouth",
+   "conference": "Metro",
+   "division": "D1"
+  },
+  {
+   "name": "Montana",
+   "conference": "Big Sky",
+   "division": "D1"
+  },
+  {
+   "name": "Montana State",
+   "conference": "Big Sky",
+   "division": "D1"
+  },
+  {
+   "name": "Morehead State",
+   "conference": "OVC",
+   "division": "D1"
+  },
+  {
+   "name": "Morgan State",
+   "conference": "MEAC",
+   "division": "D1"
+  },
+  {
+   "name": "Mount St. Mary's",
+   "conference": "NEC",
+   "division": "D1"
+  },
+  {
+   "name": "Murray State",
+   "conference": "OVC",
+   "division": "D1"
+  },
+  {
+   "name": "NC State",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "NJIT",
+   "conference": "Am. East",
+   "division": "D1"
+  },
+  {
+   "name": "Navy",
+   "conference": "Patriot",
+   "division": "D1"
+  },
+  {
+   "name": "Nebraska",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "Nevada",
+   "conference": "Mountain West",
+   "division": "D1"
+  },
+  {
+   "name": "New Hampshire",
+   "conference": "Am. East",
+   "division": "D1"
+  },
+  {
+   "name": "New Mexico",
+   "conference": "Mountain West",
+   "division": "D1"
+  },
+  {
+   "name": "New Mexico State",
+   "conference": "UAC",
+   "division": "D1"
+  },
+  {
+   "name": "New Orleans",
+   "conference": "Southland",
+   "division": "D1"
+  },
+  {
+   "name": "Niagara",
+   "conference": "Metro",
+   "division": "D1"
+  },
+  {
+   "name": "Nicholls",
+   "conference": "Southland",
    "division": "D1"
   },
   {
@@ -583,7 +973,102 @@
    "division": "D1"
   },
   {
+   "name": "North Alabama",
+   "conference": "ASUN",
+   "division": "D1"
+  },
+  {
+   "name": "North Carolina",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "North Carolina A&T",
+   "conference": "Big South",
+   "division": "D1"
+  },
+  {
+   "name": "North Carolina Central",
+   "conference": "MEAC",
+   "division": "D1"
+  },
+  {
+   "name": "North Dakota",
+   "conference": "Summit",
+   "division": "D1"
+  },
+  {
+   "name": "North Dakota State",
+   "conference": "Summit",
+   "division": "D1"
+  },
+  {
+   "name": "North Florida",
+   "conference": "ASUN",
+   "division": "D1"
+  },
+  {
+   "name": "North Texas",
+   "conference": "CUSA",
+   "division": "D1"
+  },
+  {
+   "name": "Northeastern",
+   "conference": "CAA",
+   "division": "D1"
+  },
+  {
+   "name": "Northern Arizona",
+   "conference": "Big Sky",
+   "division": "D1"
+  },
+  {
+   "name": "Northern Colorado",
+   "conference": "Big Sky",
+   "division": "D1"
+  },
+  {
+   "name": "Northern Illinois",
+   "conference": "MAC",
+   "division": "D1"
+  },
+  {
+   "name": "Northern Iowa",
+   "conference": "MVC",
+   "division": "D1"
+  },
+  {
+   "name": "Northern Kentucky",
+   "conference": "Horizon",
+   "division": "D1"
+  },
+  {
    "name": "Northwestern",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "Northwestern State",
+   "conference": "Southland",
+   "division": "D1"
+  },
+  {
+   "name": "Notre Dame",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "Oakland",
+   "conference": "Horizon",
+   "division": "D1"
+  },
+  {
+   "name": "Ohio",
+   "conference": "MAC",
+   "division": "D1"
+  },
+  {
+   "name": "Ohio State",
    "conference": "Big Ten",
    "division": "D1"
   },
@@ -598,143 +1083,53 @@
    "division": "D1"
   },
   {
+   "name": "Old Dominion",
+   "conference": "CUSA",
+   "division": "D1"
+  },
+  {
+   "name": "Ole Miss",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
+   "name": "Omaha",
+   "conference": "Summit",
+   "division": "D1"
+  },
+  {
    "name": "Oral Roberts",
    "conference": "Summit",
    "division": "D1"
   },
   {
-   "name": "Jacksonville",
-   "conference": "ASUN",
+   "name": "Oregon",
+   "conference": "Pac-12",
    "division": "D1"
   },
   {
-   "name": "Montana",
-   "conference": "Big Sky",
+   "name": "Oregon State",
+   "conference": "Pac-12",
    "division": "D1"
   },
   {
-   "name": "Boston University",
-   "conference": "Patriot",
-   "division": "D1"
-  },
-  {
-   "name": "Iona",
-   "conference": "Metro",
-   "division": "D1"
-  },
-  {
-   "name": "Columbia",
-   "conference": "Ivy",
-   "division": "D1"
-  },
-  {
-   "name": "Cal State Fullerton",
-   "conference": "Big West",
-   "division": "D1"
-  },
-  {
-   "name": "Dartmouth",
-   "conference": "Ivy",
-   "division": "D1"
-  },
-  {
-   "name": "Detroit Mercy",
-   "conference": "Horizon",
-   "division": "D1"
-  },
-  {
-   "name": "Fordham",
-   "conference": "A-10",
-   "division": "D1"
-  },
-  {
-   "name": "Rutgers",
-   "conference": "Big Ten",
-   "division": "D1"
-  },
-  {
-   "name": "Southern Miss",
-   "conference": "CUSA",
-   "division": "D1"
-  },
-  {
-   "name": "Texas State",
-   "conference": "Sun Belt",
-   "division": "D1"
-  },
-  {
-   "name": "Holy Cross",
-   "conference": "Patriot",
-   "division": "D1"
-  },
-  {
-   "name": "Ohio State",
-   "conference": "Big Ten",
-   "division": "D1"
-  },
-  {
-   "name": "Santa Clara",
+   "name": "Pacific",
    "conference": "WCC",
    "division": "D1"
   },
   {
-   "name": "Temple",
-   "conference": "American",
+   "name": "Penn State",
+   "conference": "Big Ten",
    "division": "D1"
   },
   {
-   "name": "Houston Christian",
-   "conference": "Southland",
+   "name": "Pennsylvania",
+   "conference": "Ivy",
    "division": "D1"
   },
   {
-   "name": "Air Force",
-   "conference": "Mountain West",
-   "division": "D1"
-  },
-  {
-   "name": "Kennesaw State",
-   "conference": "ASUN",
-   "division": "D1"
-  },
-  {
-   "name": "Gardner-Webb",
-   "conference": "Big South",
-   "division": "D1"
-  },
-  {
-   "name": "Hampton",
-   "conference": "Big South",
-   "division": "D1"
-  },
-  {
-   "name": "St. John's",
-   "conference": "Big East",
-   "division": "D1"
-  },
-  {
-   "name": "Kent State",
-   "conference": "MAC",
-   "division": "D1"
-  },
-  {
-   "name": "Morgan State",
-   "conference": "MEAC",
-   "division": "D1"
-  },
-  {
-   "name": "Murray State",
-   "conference": "OVC",
-   "division": "D1"
-  },
-  {
-   "name": "Northern Arizona",
-   "conference": "Big Sky",
-   "division": "D1"
-  },
-  {
-   "name": "New Mexico",
-   "conference": "Mountain West",
+   "name": "Pepperdine",
+   "conference": "WCC",
    "division": "D1"
   },
   {
@@ -743,68 +1138,18 @@
    "division": "D1"
   },
   {
+   "name": "Portland",
+   "conference": "WCC",
+   "division": "D1"
+  },
+  {
+   "name": "Portland State",
+   "conference": "Big Sky",
+   "division": "D1"
+  },
+  {
    "name": "Prairie View A&M",
    "conference": "SWAC",
-   "division": "D1"
-  },
-  {
-   "name": "Boise State",
-   "conference": "Mountain West",
-   "division": "D1"
-  },
-  {
-   "name": "Louisville",
-   "conference": "ACC",
-   "division": "D1"
-  },
-  {
-   "name": "Butler",
-   "conference": "Big East",
-   "division": "D1"
-  },
-  {
-   "name": "Arkansas State",
-   "conference": "Sun Belt",
-   "division": "D1"
-  },
-  {
-   "name": "Brown",
-   "conference": "Ivy",
-   "division": "D1"
-  },
-  {
-   "name": "Canisius",
-   "conference": "Metro",
-   "division": "D1"
-  },
-  {
-   "name": "Lipscomb",
-   "conference": "ASUN",
-   "division": "D1"
-  },
-  {
-   "name": "Dayton",
-   "conference": "A-10",
-   "division": "D1"
-  },
-  {
-   "name": "SE Louisiana",
-   "conference": "Southland",
-   "division": "D1"
-  },
-  {
-   "name": "South Florida",
-   "conference": "American",
-   "division": "D1"
-  },
-  {
-   "name": "St. Bonaventure",
-   "conference": "A-10",
-   "division": "D1"
-  },
-  {
-   "name": "Tennessee",
-   "conference": "SEC",
    "division": "D1"
   },
   {
@@ -813,103 +1158,168 @@
    "division": "D1"
   },
   {
-   "name": "Texas Tech",
-   "conference": "Big 12",
+   "name": "Princeton",
+   "conference": "Ivy",
    "division": "D1"
   },
   {
-   "name": "Tulane",
-   "conference": "American",
+   "name": "Providence",
+   "conference": "Big East",
    "division": "D1"
   },
   {
-   "name": "Tulsa",
-   "conference": "American",
+   "name": "Purdue",
+   "conference": "Big Ten",
    "division": "D1"
   },
   {
-   "name": "VCU",
-   "conference": "A-10",
-   "division": "D1"
-  },
-  {
-   "name": "Washington State",
-   "conference": "Pac-12",
-   "division": "D1"
-  },
-  {
-   "name": "Wyoming",
-   "conference": "Mountain West",
-   "division": "D1"
-  },
-  {
-   "name": "Youngstown State",
+   "name": "Purdue Fort Wayne",
    "conference": "Horizon",
    "division": "D1"
   },
   {
-   "name": "Hofstra",
-   "conference": "CAA",
-   "division": "D1"
-  },
-  {
-   "name": "UL Monroe",
-   "conference": "Sun Belt",
-   "division": "D1"
-  },
-  {
-   "name": "Manhattan",
+   "name": "Quinnipiac",
    "conference": "Metro",
    "division": "D1"
   },
   {
-   "name": "Maryland Eastern Shore",
-   "conference": "MEAC",
-   "division": "D1"
-  },
-  {
-   "name": "Montana State",
-   "conference": "Big Sky",
-   "division": "D1"
-  },
-  {
-   "name": "North Carolina A&T",
+   "name": "Radford",
    "conference": "Big South",
    "division": "D1"
   },
   {
-   "name": "Nicholls",
+   "name": "Rhode Island",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "Rice",
+   "conference": "CUSA",
+   "division": "D1"
+  },
+  {
+   "name": "Richmond",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "Rider",
+   "conference": "Metro",
+   "division": "D1"
+  },
+  {
+   "name": "Robert Morris",
+   "conference": "Horizon",
+   "division": "D1"
+  },
+  {
+   "name": "Rutgers",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "SE Louisiana",
    "conference": "Southland",
    "division": "D1"
   },
   {
-   "name": "South Carolina Upstate",
-   "conference": "Big South",
+   "name": "SIU Edwardsville",
+   "conference": "OVC",
    "division": "D1"
   },
   {
-   "name": "Missouri",
-   "conference": "SEC",
+   "name": "SMU",
+   "conference": "American",
    "division": "D1"
   },
   {
-   "name": "Alcorn State",
-   "conference": "SWAC",
+   "name": "Sacramento State",
+   "conference": "Big Sky",
    "division": "D1"
   },
   {
-   "name": "Bethune-Cookman",
-   "conference": "SWAC",
-   "division": "D1"
-  },
-  {
-   "name": "Drake",
-   "conference": "MVC",
-   "division": "D1"
-  },
-  {
-   "name": "Fairleigh Dickinson",
+   "name": "Sacred Heart",
    "conference": "NEC",
+   "division": "D1"
+  },
+  {
+   "name": "Saint Joseph's",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "Saint Louis",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "Saint Mary's",
+   "conference": "WCC",
+   "division": "D1"
+  },
+  {
+   "name": "Saint Peter's",
+   "conference": "Metro",
+   "division": "D1"
+  },
+  {
+   "name": "Sam Houston",
+   "conference": "UAC",
+   "division": "D1"
+  },
+  {
+   "name": "Samford",
+   "conference": "SoCon",
+   "division": "D1"
+  },
+  {
+   "name": "San Diego",
+   "conference": "WCC",
+   "division": "D1"
+  },
+  {
+   "name": "San Diego State",
+   "conference": "Mountain West",
+   "division": "D1"
+  },
+  {
+   "name": "San Francisco",
+   "conference": "WCC",
+   "division": "D1"
+  },
+  {
+   "name": "San Jos\u00e9 State",
+   "conference": "Mountain West",
+   "division": "D1"
+  },
+  {
+   "name": "Santa Clara",
+   "conference": "WCC",
+   "division": "D1"
+  },
+  {
+   "name": "Seattle U",
+   "conference": "UAC",
+   "division": "D1"
+  },
+  {
+   "name": "Seton Hall",
+   "conference": "Big East",
+   "division": "D1"
+  },
+  {
+   "name": "Siena",
+   "conference": "Metro",
+   "division": "D1"
+  },
+  {
+   "name": "South Alabama",
+   "conference": "Sun Belt",
+   "division": "D1"
+  },
+  {
+   "name": "South Carolina",
+   "conference": "SEC",
    "division": "D1"
   },
   {
@@ -918,8 +1328,78 @@
    "division": "D1"
   },
   {
-   "name": "Sacramento State",
+   "name": "South Carolina Upstate",
+   "conference": "Big South",
+   "division": "D1"
+  },
+  {
+   "name": "South Dakota",
+   "conference": "Summit",
+   "division": "D1"
+  },
+  {
+   "name": "South Dakota State",
+   "conference": "Summit",
+   "division": "D1"
+  },
+  {
+   "name": "South Florida",
+   "conference": "American",
+   "division": "D1"
+  },
+  {
+   "name": "Southeast Missouri State",
+   "conference": "OVC",
+   "division": "D1"
+  },
+  {
+   "name": "Southern",
+   "conference": "SWAC",
+   "division": "D1"
+  },
+  {
+   "name": "Southern Illinois",
+   "conference": "MVC",
+   "division": "D1"
+  },
+  {
+   "name": "Southern Miss",
+   "conference": "CUSA",
+   "division": "D1"
+  },
+  {
+   "name": "Southern Utah",
    "conference": "Big Sky",
+   "division": "D1"
+  },
+  {
+   "name": "St. Bonaventure",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "St. Francis (PA)",
+   "conference": "NEC",
+   "division": "D1"
+  },
+  {
+   "name": "St. Francis Brooklyn",
+   "conference": "NEC",
+   "division": "D1"
+  },
+  {
+   "name": "St. John's",
+   "conference": "Big East",
+   "division": "D1"
+  },
+  {
+   "name": "St. Thomas-Minnesota",
+   "conference": "Summit",
+   "division": "D1"
+  },
+  {
+   "name": "Stanford",
+   "conference": "Pac-12",
    "division": "D1"
   },
   {
@@ -933,123 +1413,33 @@
    "division": "D1"
   },
   {
-   "name": "North Carolina Central",
-   "conference": "MEAC",
+   "name": "Stony Brook",
+   "conference": "Am. East",
    "division": "D1"
   },
   {
-   "name": "UC Riverside",
-   "conference": "Big West",
+   "name": "Syracuse",
+   "conference": "ACC",
    "division": "D1"
   },
   {
-   "name": "UNLV",
-   "conference": "Mountain West",
+   "name": "TCU",
+   "conference": "Big 12",
    "division": "D1"
   },
   {
-   "name": "Vanderbilt",
-   "conference": "SEC",
-   "division": "D1"
-  },
-  {
-   "name": "Wagner",
-   "conference": "NEC",
-   "division": "D1"
-  },
-  {
-   "name": "Wichita State",
-   "conference": "American",
-   "division": "D1"
-  },
-  {
-   "name": "Central Michigan",
-   "conference": "MAC",
-   "division": "D1"
-  },
-  {
-   "name": "Georgia",
-   "conference": "SEC",
-   "division": "D1"
-  },
-  {
-   "name": "Georgia Southern",
-   "conference": "Sun Belt",
-   "division": "D1"
-  },
-  {
-   "name": "Northern Illinois",
-   "conference": "MAC",
-   "division": "D1"
-  },
-  {
-   "name": "Utah Valley",
+   "name": "Tarleton State",
    "conference": "UAC",
    "division": "D1"
   },
   {
-   "name": "Indiana",
-   "conference": "Big Ten",
+   "name": "Temple",
+   "conference": "American",
    "division": "D1"
   },
   {
-   "name": "Loyola Maryland",
-   "conference": "Patriot",
-   "division": "D1"
-  },
-  {
-   "name": "Minnesota",
-   "conference": "Big Ten",
-   "division": "D1"
-  },
-  {
-   "name": "Mississippi State",
+   "name": "Tennessee",
    "conference": "SEC",
-   "division": "D1"
-  },
-  {
-   "name": "Belmont",
-   "conference": "OVC",
-   "division": "D1"
-  },
-  {
-   "name": "Florida Gulf Coast",
-   "conference": "ASUN",
-   "division": "D1"
-  },
-  {
-   "name": "Arkansas-Pine Bluff",
-   "conference": "SWAC",
-   "division": "D1"
-  },
-  {
-   "name": "Buffalo",
-   "conference": "MAC",
-   "division": "D1"
-  },
-  {
-   "name": "BYU",
-   "conference": "WCC",
-   "division": "D1"
-  },
-  {
-   "name": "Eastern Michigan",
-   "conference": "MAC",
-   "division": "D1"
-  },
-  {
-   "name": "Florida Atlantic",
-   "conference": "CUSA",
-   "division": "D1"
-  },
-  {
-   "name": "San Diego State",
-   "conference": "Mountain West",
-   "division": "D1"
-  },
-  {
-   "name": "Cal State Bakersfield",
-   "conference": "Big West",
    "division": "D1"
   },
   {
@@ -1058,13 +1448,43 @@
    "division": "D1"
   },
   {
+   "name": "Tennessee Tech",
+   "conference": "OVC",
+   "division": "D1"
+  },
+  {
+   "name": "Texas",
+   "conference": "Big 12",
+   "division": "D1"
+  },
+  {
    "name": "Texas A&M",
    "conference": "SEC",
    "division": "D1"
   },
   {
-   "name": "UTSA",
-   "conference": "CUSA",
+   "name": "Texas A&M-Corpus Christi",
+   "conference": "Southland",
+   "division": "D1"
+  },
+  {
+   "name": "Texas Southern",
+   "conference": "SWAC",
+   "division": "D1"
+  },
+  {
+   "name": "Texas State",
+   "conference": "Sun Belt",
+   "division": "D1"
+  },
+  {
+   "name": "Texas Tech",
+   "conference": "Big 12",
+   "division": "D1"
+  },
+  {
+   "name": "The Citadel",
+   "conference": "SoCon",
    "division": "D1"
   },
   {
@@ -1073,137 +1493,127 @@
    "division": "D1"
   },
   {
-   "name": "UTEP",
-   "conference": "CUSA",
+   "name": "Towson",
+   "conference": "CAA",
    "division": "D1"
   },
   {
-   "name": "Vermont",
-   "conference": "Am. East",
-   "division": "D1"
-  },
-  {
-   "name": "Virginia Tech",
-   "conference": "ACC",
-   "division": "D1"
-  },
-  {
-   "name": "Wake Forest",
-   "conference": "ACC",
-   "division": "D1"
-  },
-  {
-   "name": "North Florida",
-   "conference": "ASUN",
-   "division": "D1"
-  },
-  {
-   "name": "George Washington",
-   "conference": "A-10",
-   "division": "D1"
-  },
-  {
-   "name": "Houston",
-   "conference": "American",
-   "division": "D1"
-  },
-  {
-   "name": "Illinois",
-   "conference": "Big Ten",
-   "division": "D1"
-  },
-  {
-   "name": "Utah State",
-   "conference": "Mountain West",
-   "division": "D1"
-  },
-  {
-   "name": "Jacksonville State",
-   "conference": "ASUN",
-   "division": "D1"
-  },
-  {
-   "name": "Kansas State",
-   "conference": "Big 12",
-   "division": "D1"
-  },
-  {
-   "name": "Lafayette",
-   "conference": "Patriot",
-   "division": "D1"
-  },
-  {
-   "name": "Maryland",
-   "conference": "Big Ten",
-   "division": "D1"
-  },
-  {
-   "name": "Miami (OH)",
-   "conference": "MAC",
-   "division": "D1"
-  },
-  {
-   "name": "Ohio",
-   "conference": "MAC",
-   "division": "D1"
-  },
-  {
-   "name": "Portland",
-   "conference": "WCC",
-   "division": "D1"
-  },
-  {
-   "name": "App State",
+   "name": "Troy",
    "conference": "Sun Belt",
    "division": "D1"
   },
   {
-   "name": "Eastern Illinois",
-   "conference": "OVC",
+   "name": "Tulane",
+   "conference": "American",
    "division": "D1"
   },
   {
-   "name": "Long Island University",
-   "conference": "NEC",
+   "name": "Tulsa",
+   "conference": "American",
    "division": "D1"
   },
   {
-   "name": "Lehigh",
-   "conference": "Patriot",
+   "name": "UAB",
+   "conference": "CUSA",
    "division": "D1"
   },
   {
-   "name": "Arkansas",
-   "conference": "SEC",
+   "name": "UAlbany",
+   "conference": "Am. East",
    "division": "D1"
   },
   {
-   "name": "Cleveland State",
+   "name": "UC Davis",
+   "conference": "Big West",
+   "division": "D1"
+  },
+  {
+   "name": "UC Irvine",
+   "conference": "Big West",
+   "division": "D1"
+  },
+  {
+   "name": "UC Riverside",
+   "conference": "Big West",
+   "division": "D1"
+  },
+  {
+   "name": "UC San Diego",
+   "conference": "Big West",
+   "division": "D1"
+  },
+  {
+   "name": "UC Santa Barbara",
+   "conference": "Big West",
+   "division": "D1"
+  },
+  {
+   "name": "UCF",
+   "conference": "American",
+   "division": "D1"
+  },
+  {
+   "name": "UCLA",
+   "conference": "Pac-12",
+   "division": "D1"
+  },
+  {
+   "name": "UConn",
+   "conference": "Big East",
+   "division": "D1"
+  },
+  {
+   "name": "UIC",
    "conference": "Horizon",
    "division": "D1"
   },
   {
-   "name": "Central Connecticut",
-   "conference": "NEC",
+   "name": "UL Monroe",
+   "conference": "Sun Belt",
    "division": "D1"
   },
   {
-   "name": "Chattanooga",
+   "name": "UMBC",
+   "conference": "Am. East",
+   "division": "D1"
+  },
+  {
+   "name": "UMass Lowell",
+   "conference": "Am. East",
+   "division": "D1"
+  },
+  {
+   "name": "UNC Asheville",
+   "conference": "Big South",
+   "division": "D1"
+  },
+  {
+   "name": "UNC Greensboro",
    "conference": "SoCon",
    "division": "D1"
   },
   {
-   "name": "St. Francis (PA)",
-   "conference": "NEC",
+   "name": "UNC Wilmington",
+   "conference": "CAA",
    "division": "D1"
   },
   {
-   "name": "Saint Joseph's",
-   "conference": "A-10",
+   "name": "UNLV",
+   "conference": "Mountain West",
    "division": "D1"
   },
   {
-   "name": "Tennessee Tech",
+   "name": "USC",
+   "conference": "Pac-12",
+   "division": "D1"
+  },
+  {
+   "name": "UT Arlington",
+   "conference": "Sun Belt",
+   "division": "D1"
+  },
+  {
+   "name": "UT Martin",
    "conference": "OVC",
    "division": "D1"
   },
@@ -1213,18 +1623,43 @@
    "division": "D1"
   },
   {
-   "name": "The Citadel",
-   "conference": "SoCon",
-   "division": "D1"
-  },
-  {
-   "name": "UAB",
+   "name": "UTEP",
    "conference": "CUSA",
    "division": "D1"
   },
   {
-   "name": "UNC Wilmington",
-   "conference": "CAA",
+   "name": "UTSA",
+   "conference": "CUSA",
+   "division": "D1"
+  },
+  {
+   "name": "Utah",
+   "conference": "Pac-12",
+   "division": "D1"
+  },
+  {
+   "name": "Utah State",
+   "conference": "Mountain West",
+   "division": "D1"
+  },
+  {
+   "name": "Utah Tech",
+   "conference": "UAC",
+   "division": "D1"
+  },
+  {
+   "name": "Utah Valley",
+   "conference": "UAC",
+   "division": "D1"
+  },
+  {
+   "name": "VCU",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "VMI",
+   "conference": "SoCon",
    "division": "D1"
   },
   {
@@ -1233,117 +1668,47 @@
    "division": "D1"
   },
   {
-   "name": "Monmouth",
-   "conference": "Metro",
+   "name": "Vanderbilt",
+   "conference": "SEC",
    "division": "D1"
   },
   {
-   "name": "Coppin State",
-   "conference": "MEAC",
+   "name": "Vermont",
+   "conference": "Am. East",
    "division": "D1"
   },
   {
-   "name": "Texas Southern",
-   "conference": "SWAC",
+   "name": "Villanova",
+   "conference": "Big East",
    "division": "D1"
   },
   {
-   "name": "Furman",
-   "conference": "SoCon",
+   "name": "Virginia",
+   "conference": "ACC",
    "division": "D1"
   },
   {
-   "name": "George Mason",
-   "conference": "A-10",
+   "name": "Virginia Tech",
+   "conference": "ACC",
    "division": "D1"
   },
   {
-   "name": "Northern Colorado",
-   "conference": "Big Sky",
-   "division": "D1"
-  },
-  {
-   "name": "Indiana State",
-   "conference": "MVC",
-   "division": "D1"
-  },
-  {
-   "name": "Kansas",
-   "conference": "Big 12",
-   "division": "D1"
-  },
-  {
-   "name": "Loyola Marymount",
-   "conference": "WCC",
-   "division": "D1"
-  },
-  {
-   "name": "Morehead State",
-   "conference": "OVC",
-   "division": "D1"
-  },
-  {
-   "name": "Mount St. Mary's",
+   "name": "Wagner",
    "conference": "NEC",
    "division": "D1"
   },
   {
-   "name": "Navy",
-   "conference": "Patriot",
+   "name": "Wake Forest",
+   "conference": "ACC",
    "division": "D1"
   },
   {
-   "name": "Niagara",
-   "conference": "Metro",
+   "name": "Washington",
+   "conference": "Pac-12",
    "division": "D1"
   },
   {
-   "name": "Oakland",
-   "conference": "Horizon",
-   "division": "D1"
-  },
-  {
-   "name": "Rhode Island",
-   "conference": "A-10",
-   "division": "D1"
-  },
-  {
-   "name": "Little Rock",
-   "conference": "Sun Belt",
-   "division": "D1"
-  },
-  {
-   "name": "Bryant",
-   "conference": "NEC",
-   "division": "D1"
-  },
-  {
-   "name": "Army",
-   "conference": "Patriot",
-   "division": "D1"
-  },
-  {
-   "name": "Charleston Southern",
-   "conference": "Big South",
-   "division": "D1"
-  },
-  {
-   "name": "Colgate",
-   "conference": "Patriot",
-   "division": "D1"
-  },
-  {
-   "name": "South Alabama",
-   "conference": "Sun Belt",
-   "division": "D1"
-  },
-  {
-   "name": "TCU",
-   "conference": "Big 12",
-   "division": "D1"
-  },
-  {
-   "name": "Utah",
+   "name": "Washington State",
    "conference": "Pac-12",
    "division": "D1"
   },
@@ -1358,193 +1723,8 @@
    "division": "D1"
   },
   {
-   "name": "William & Mary",
-   "conference": "CAA",
-   "division": "D1"
-  },
-  {
-   "name": "East Carolina",
-   "conference": "American",
-   "division": "D1"
-  },
-  {
-   "name": "Akron",
-   "conference": "MAC",
-   "division": "D1"
-  },
-  {
-   "name": "Alabama State",
-   "conference": "SWAC",
-   "division": "D1"
-  },
-  {
-   "name": "Florida A&M",
-   "conference": "SWAC",
-   "division": "D1"
-  },
-  {
-   "name": "Georgia Tech",
-   "conference": "ACC",
-   "division": "D1"
-  },
-  {
-   "name": "Colorado",
-   "conference": "Pac-12",
-   "division": "D1"
-  },
-  {
-   "name": "Bucknell",
-   "conference": "Patriot",
-   "division": "D1"
-  },
-  {
-   "name": "Harvard",
-   "conference": "Ivy",
-   "division": "D1"
-  },
-  {
-   "name": "Southern",
-   "conference": "SWAC",
-   "division": "D1"
-  },
-  {
-   "name": "Texas A&M-Corpus Christi",
-   "conference": "Southland",
-   "division": "D1"
-  },
-  {
-   "name": "UC Davis",
-   "conference": "Big West",
-   "division": "D1"
-  },
-  {
-   "name": "Florida International",
-   "conference": "CUSA",
-   "division": "D1"
-  },
-  {
-   "name": "Bowling Green",
-   "conference": "MAC",
-   "division": "D1"
-  },
-  {
-   "name": "Stony Brook",
-   "conference": "Am. East",
-   "division": "D1"
-  },
-  {
-   "name": "Evansville",
-   "conference": "MVC",
-   "division": "D1"
-  },
-  {
-   "name": "UNC Asheville",
-   "conference": "Big South",
-   "division": "D1"
-  },
-  {
-   "name": "UT Arlington",
-   "conference": "Sun Belt",
-   "division": "D1"
-  },
-  {
-   "name": "Boston College",
-   "conference": "ACC",
-   "division": "D1"
-  },
-  {
-   "name": "Providence",
-   "conference": "Big East",
-   "division": "D1"
-  },
-  {
-   "name": "Wright State",
-   "conference": "Horizon",
-   "division": "D1"
-  },
-  {
-   "name": "Davidson",
-   "conference": "A-10",
-   "division": "D1"
-  },
-  {
-   "name": "Cincinnati",
-   "conference": "American",
-   "division": "D1"
-  },
-  {
-   "name": "North Carolina",
-   "conference": "ACC",
-   "division": "D1"
-  },
-  {
-   "name": "Charlotte",
-   "conference": "CUSA",
-   "division": "D1"
-  },
-  {
    "name": "Western Carolina",
    "conference": "SoCon",
-   "division": "D1"
-  },
-  {
-   "name": "Kentucky",
-   "conference": "SEC",
-   "division": "D1"
-  },
-  {
-   "name": "Notre Dame",
-   "conference": "ACC",
-   "division": "D1"
-  },
-  {
-   "name": "Ball State",
-   "conference": "MAC",
-   "division": "D1"
-  },
-  {
-   "name": "UNC Greensboro",
-   "conference": "SoCon",
-   "division": "D1"
-  },
-  {
-   "name": "Kansas City",
-   "conference": "Summit",
-   "division": "D1"
-  },
-  {
-   "name": "Incarnate Word",
-   "conference": "Southland",
-   "division": "D1"
-  },
-  {
-   "name": "Grand Canyon",
-   "conference": "UAC",
-   "division": "D1"
-  },
-  {
-   "name": "Creighton",
-   "conference": "Big East",
-   "division": "D1"
-  },
-  {
-   "name": "Delaware",
-   "conference": "CAA",
-   "division": "D1"
-  },
-  {
-   "name": "Southern Illinois",
-   "conference": "MVC",
-   "division": "D1"
-  },
-  {
-   "name": "Samford",
-   "conference": "SoCon",
-   "division": "D1"
-  },
-  {
-   "name": "San Jos\u00e9 State",
-   "conference": "Mountain West",
    "division": "D1"
   },
   {
@@ -1553,88 +1733,33 @@
    "division": "D1"
   },
   {
-   "name": "Coastal Carolina",
-   "conference": "Sun Belt",
+   "name": "Western Kentucky",
+   "conference": "CUSA",
    "division": "D1"
   },
   {
-   "name": "UCF",
+   "name": "Western Michigan",
+   "conference": "MAC",
+   "division": "D1"
+  },
+  {
+   "name": "Wichita State",
    "conference": "American",
    "division": "D1"
   },
   {
-   "name": "UMass Lowell",
-   "conference": "Am. East",
-   "division": "D1"
-  },
-  {
-   "name": "Richmond",
-   "conference": "A-10",
-   "division": "D1"
-  },
-  {
-   "name": "Troy",
-   "conference": "Sun Belt",
-   "division": "D1"
-  },
-  {
-   "name": "Abilene Christian",
-   "conference": "UAC",
-   "division": "D1"
-  },
-  {
-   "name": "California Baptist",
-   "conference": "UAC",
-   "division": "D1"
-  },
-  {
-   "name": "Nebraska",
-   "conference": "Big Ten",
-   "division": "D1"
-  },
-  {
-   "name": "Sam Houston",
-   "conference": "UAC",
-   "division": "D1"
-  },
-  {
-   "name": "Towson",
+   "name": "William & Mary",
    "conference": "CAA",
    "division": "D1"
   },
   {
-   "name": "Maine",
-   "conference": "Am. East",
+   "name": "Winthrop",
+   "conference": "Big South",
    "division": "D1"
   },
   {
-   "name": "East Tennessee State",
-   "conference": "SoCon",
-   "division": "D1"
-  },
-  {
-   "name": "St. Francis Brooklyn",
-   "conference": "NEC",
-   "division": "D1"
-  },
-  {
-   "name": "IU Indianapolis",
-   "conference": "Horizon",
-   "division": "D1"
-  },
-  {
-   "name": "Omaha",
-   "conference": "Summit",
-   "division": "D1"
-  },
-  {
-   "name": "Ole Miss",
-   "conference": "SEC",
-   "division": "D1"
-  },
-  {
-   "name": "NJIT",
-   "conference": "Am. East",
+   "name": "Wisconsin",
+   "conference": "Big Ten",
    "division": "D1"
   },
   {
@@ -1643,157 +1768,137 @@
    "division": "D1"
   },
   {
-   "name": "DePaul",
-   "conference": "Big East",
-   "division": "D1"
-  },
-  {
-   "name": "South Dakota",
-   "conference": "Summit",
-   "division": "D1"
-  },
-  {
-   "name": "North Dakota State",
-   "conference": "Summit",
-   "division": "D1"
-  },
-  {
-   "name": "Robert Morris",
+   "name": "Wright State",
    "conference": "Horizon",
    "division": "D1"
   },
   {
-   "name": "Elon",
-   "conference": "CAA",
+   "name": "Wyoming",
+   "conference": "Mountain West",
    "division": "D1"
   },
   {
-   "name": "Marquette",
+   "name": "Xavier",
    "conference": "Big East",
    "division": "D1"
   },
   {
-   "name": "North Alabama",
-   "conference": "ASUN",
+   "name": "Yale",
+   "conference": "Ivy",
    "division": "D1"
   },
   {
-   "name": "McNeese",
-   "conference": "Southland",
+   "name": "Youngstown State",
+   "conference": "Horizon",
    "division": "D1"
   },
   {
-   "name": "UMBC",
-   "conference": "Am. East",
-   "division": "D1"
+   "name": "Academy of Art",
+   "conference": "",
+   "division": "OTHER"
   },
   {
-   "name": "Portland State",
-   "conference": "Big Sky",
-   "division": "D1"
+   "name": "Alice Lloyd College",
+   "conference": "",
+   "division": "OTHER"
   },
   {
-   "name": "Merrimack",
-   "conference": "NEC",
-   "division": "D1"
+   "name": "Allen University",
+   "conference": "",
+   "division": "OTHER"
   },
   {
-   "name": "UC San Diego",
-   "conference": "Big West",
-   "division": "D1"
+   "name": "Alliance University",
+   "conference": "",
+   "division": "OTHER"
   },
   {
-   "name": "Bellarmine",
-   "conference": "ASUN",
-   "division": "D1"
+   "name": "American International",
+   "conference": "",
+   "division": "OTHER"
   },
   {
-   "name": "Tarleton State",
-   "conference": "UAC",
-   "division": "D1"
+   "name": "Antelope Valley",
+   "conference": "",
+   "division": "OTHER"
   },
   {
-   "name": "Utah Tech",
-   "conference": "UAC",
-   "division": "D1"
+   "name": "Apprentice School",
+   "conference": "",
+   "division": "OTHER"
   },
   {
-   "name": "James Madison",
-   "conference": "CAA",
-   "division": "D1"
+   "name": "Aquinas",
+   "conference": "",
+   "division": "OTHER"
   },
   {
-   "name": "High Point",
-   "conference": "Big South",
-   "division": "D1"
+   "name": "Arkansas Baptist",
+   "conference": "",
+   "division": "OTHER"
   },
   {
-   "name": "Liberty",
-   "conference": "ASUN",
-   "division": "D1"
+   "name": "Arlington Baptist",
+   "conference": "",
+   "division": "OTHER"
   },
   {
-   "name": "UT Martin",
-   "conference": "OVC",
-   "division": "D1"
+   "name": "Asbury",
+   "conference": "",
+   "division": "OTHER"
   },
   {
-   "name": "St. Thomas-Minnesota",
-   "conference": "Summit",
-   "division": "D1"
+   "name": "Ashland",
+   "conference": "",
+   "division": "OTHER"
   },
   {
-   "name": "Idaho",
-   "conference": "Big Sky",
-   "division": "D1"
+   "name": "Babson",
+   "conference": "",
+   "division": "OTHER"
   },
   {
-   "name": "Texas",
-   "conference": "Big 12",
-   "division": "D1"
+   "name": "Baptist Bible College (MO)",
+   "conference": "",
+   "division": "OTHER"
   },
   {
-   "name": "Georgia State",
-   "conference": "Sun Belt",
-   "division": "D1"
+   "name": "Barclay College",
+   "conference": "",
+   "division": "OTHER"
   },
   {
-   "name": "Fairfield",
-   "conference": "Metro",
-   "division": "D1"
+   "name": "Belhaven",
+   "conference": "",
+   "division": "OTHER"
   },
   {
-   "name": "Alabama A&M",
-   "conference": "SWAC",
-   "division": "D1"
+   "name": "Benedictine (AZ)",
+   "conference": "",
+   "division": "OTHER"
   },
   {
-   "name": "Austin Peay",
-   "conference": "OVC",
-   "division": "D1"
+   "name": "Bethel (IN)",
+   "conference": "",
+   "division": "OTHER"
   },
   {
-   "name": "Baylor",
-   "conference": "Big 12",
-   "division": "D1"
+   "name": "Bethesda University",
+   "conference": "",
+   "division": "OTHER"
   },
   {
-   "name": "Longwood",
-   "conference": "Big South",
-   "division": "D1"
+   "name": "Birmingham-Southern",
+   "conference": "",
+   "division": "OTHER"
   },
   {
-   "name": "South Dakota State",
-   "conference": "Summit",
-   "division": "D1"
+   "name": "Blue Mountain",
+   "conference": "",
+   "division": "OTHER"
   },
   {
-   "name": "La Salle",
-   "conference": "A-10",
-   "division": "D1"
-  },
-  {
-   "name": "Manhattanville",
+   "name": "Bluefield University",
    "conference": "",
    "division": "OTHER"
   },
@@ -1803,12 +1908,7 @@
    "division": "OTHER"
   },
   {
-   "name": "St. Mary's (MD)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Mary Baldwin",
+   "name": "Boyce",
    "conference": "",
    "division": "OTHER"
   },
@@ -1818,42 +1918,7 @@
    "division": "OTHER"
   },
   {
-   "name": "Emory & Henry",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Vassar",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Morehouse",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Salve Regina",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Trinity Baptist",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Regis",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "St. Josephs (ME)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Cairn University",
+   "name": "Brevard",
    "conference": "",
    "division": "OTHER"
   },
@@ -1863,37 +1928,57 @@
    "division": "OTHER"
   },
   {
-   "name": "North Greenville",
+   "name": "Bridgewater College (VA)",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Emerson",
+   "name": "Bryan (TN)",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "District Of Columbia",
+   "name": "Bryn Athyn",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Mid-Atlantic Christian",
+   "name": "Buffalo State",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Rivier",
+   "name": "Bushnell",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Georgetown College (KY)",
+   "name": "Cairn University",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Wheeling",
+   "name": "Cal Lutheran",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Caltech",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Calvary",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Campbellsville",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Campbellsville-Harrodsburg",
    "conference": "",
    "division": "OTHER"
   },
@@ -1903,22 +1988,257 @@
    "division": "OTHER"
   },
   {
-   "name": "Rutgers-Camden",
+   "name": "Carolina University",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "SUNY-New Paltz",
+   "name": "Carroll (MT)",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Lake Erie",
+   "name": "Carver College",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Johnson & Wales (NC)",
+   "name": "Centenary (LA)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Central Baptist College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Central Methodist",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Centre College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Chaminade",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Champion Christian",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Chowan",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Clarks Summit",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Clayton State",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Coastal Georgia",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Coe",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Colorado College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Columbia International",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Concordia Moorhead",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Concordia-Ann Arbor",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Concordia-Texas",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Converse University",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Covenant",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Crowley's Ridge",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Crown College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Culver-Stockton",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Cumberland (TN)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Dallas",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Dallas Christian",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Defiance",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Depauw",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Dickinson State (ND)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Dillard",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "District Of Columbia",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Dubuque",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Earlham College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "East Texas A&M",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "East-West University",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Eastern Mennonite",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Eastern Oregon",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Eastern University (PA)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Ecclesia",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Eckerd",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Edinboro",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Edward Waters",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Elizabethtown",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Embry-Riddle (AZ)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Emerson",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Emory & Henry",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Erskine",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Evangel",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Evergreen State",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Farmingdale State",
    "conference": "",
    "division": "OTHER"
   },
@@ -1933,22 +2253,7 @@
    "division": "OTHER"
   },
   {
-   "name": "LSU Alexandria",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "William Peace",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Earlham College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Florida National",
+   "name": "Fisk",
    "conference": "",
    "division": "OTHER"
   },
@@ -1958,1192 +2263,7 @@
    "division": "OTHER"
   },
   {
-   "name": "Birmingham-Southern",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Spring Hill",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Coe",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Concordia Moorhead",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Hastings",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Wiley",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Texas A&M-International",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "William Carey",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Shenandoah",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Tennessee Southern",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Maryville College (TN)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Cumberland (TN)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Bridgewater College (VA)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Texas Lutheran",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Neumann",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "West Florida",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Carver College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Oklahoma Christian",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Trinity (TX)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Western Colorado",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Bethesda University",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Regis (CO)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Western New Mexico",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Eastern Oregon",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Dickinson State (ND)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Harding",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Jessup University",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Westcliff",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Fresno Pacific",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "San Francisco State",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "La Verne",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Regent",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Virginia Wesleyan",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Hope",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "LeTourneau",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Harris-Stowe State",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Hawai'i Hilo",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Penn State-Alleghany",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Brevard",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Penn State - Wilkes-Barre",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Washington College (MD)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Mary Hardin-Baylor",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Ohio Valley",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Willamette",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Morris College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Western New England",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Gordon College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Maine-Farmington",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Randolph College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Guilford",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Virginia-Lynchburg",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Salisbury",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Trinity (FL)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Culver-Stockton",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Ohio Wesleyan",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Champion Christian",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Southwestern Christian",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Antelope Valley",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Ottawa (AZ)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Southeastern Baptist College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "George Fox",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Evergreen State",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Miami (OH)-Hamilton",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "University Of The Virgin Islands",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Warner University",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Bryn Athyn",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Phoenix",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Point Park",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Barclay College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Life Pacific",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Hanover",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Paul Quinn",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Bluefield University",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Rhodes",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Arkansas Baptist",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Piedmont",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Rocky Mountain",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "La Sierra",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Oakwood",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Peru State",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Dubuque",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "St. Andrews",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "LeMoyne-Owen",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Erskine",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Franciscan University",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Milligan",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Penn State-York",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Kentucky Christian",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Jarvis Christian",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Knox",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Benedictine (AZ)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Colorado College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "East Texas A&M",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Central Baptist College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Walla Walla",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "WPI",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Oberlin",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "NVU-Lyndon",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Iowa Wesleyan",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Life University",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Keystone",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Depauw",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Edinboro",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Johnson & Wales (RI)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Medgar Evers",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Concordia-Texas",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Trinity Christian (IL)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Fisk",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Missouri S&T",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Northern New Mexico",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Stanislaus State",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "San Diego Christian",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Kansas Christian",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Xavier (LA)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Greensboro College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "SUNY Poly",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Saginaw Valley State",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Transylvania",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Haskell",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Rockford",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Presentation College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Maine-Fort Kent",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Wells College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Heidelberg",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "MIT",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Mount Saint Vincent",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Webber International",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Mobile",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Central Methodist",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Eckerd",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Fredonia State",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Ecclesia",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Missouri Baptist",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Chaminade",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Covenant",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Spalding",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Defiance",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Warren Wilson",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Rogers State",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Pacific Lutheran",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Louisiana Christian",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Elizabethtown",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "University of Saint Katherine",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Molloy",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "NC Wesleyan",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Columbia International",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "New Mexico Highlands",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Whittier",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Concordia-Ann Arbor",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Chowan",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Apprentice School",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "St. Mary's (TX)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Bryan (TN)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Penn State-Behrend",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Lees-McRae",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Coastal Georgia",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Wisconsin-Superior",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "McMurry",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Purdue Northwest",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Hartwick",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Franklin",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Academy of Art",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Northwestern Ohio",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Schreiner",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Campbellsville",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Southwestern Adventist",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Carroll (MT)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Lancaster Bible College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Clarks Summit",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Mississippi College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Fort Valley State",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Boyce",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Our Lady Of The Lake",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Centenary (LA)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Lincoln University (CA)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Dallas",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Rust",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Edward Waters",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Saint Elizabeth",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Eastern Mennonite",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Crown College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Northland",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Waldorf College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Minnesota Morris",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Alliance University",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "LSU Shreveport",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Southwestern (TX)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Webster",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "North Park",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "UC Merced",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Lenoir-Rhyne",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Calvary",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Keuka",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Northwood (MI)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Cal Lutheran",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Millersville",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Babson",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Voorhees",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Purchase",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "East-West University",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Dallas Christian",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Roosevelt",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Palm Beach Atlantic",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Southwestern Assemblies of God",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Hawai'i Pacific",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Asbury",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Lindsey Wilson College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Yellowstone Christian College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Moravian",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Midway University",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Massachusetts College of Liberal Arts",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "St. John Fisher",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "SUNY-Oneonta",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Philander Smith",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Buffalo State",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Indiana-Kokomo",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "John Jay College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Alice Lloyd College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Tennessee Wesleyan",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Millsaps",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "LaGrange",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Blue Mountain",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Johnson University Florida",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Keene St",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Merchant Marine Academy",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Nelson",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Carolina University",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Allen University",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "North Central (MN)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Quincy",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Centre College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Methodist",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Mount Olive",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Multnomah University",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Minnesota Duluth",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Montreat",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Immaculata",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Menlo",
+   "name": "Florida National",
    "conference": "",
    "division": "OTHER"
   },
@@ -3153,242 +2273,27 @@
    "division": "OTHER"
   },
   {
-   "name": "Aquinas",
+   "name": "Fort Valley State",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Converse University",
+   "name": "Franciscan University",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Redlands",
+   "name": "Franklin",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "Westminster (PA)",
+   "name": "Fredonia State",
    "conference": "",
    "division": "OTHER"
   },
   {
-   "name": "University of New England",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Ashland",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Bethel (IN)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Hardin-Simmons",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Maryville University (MO)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Toccoa Falls",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Caltech",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "William Woods",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Howard Payne",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Montana Tech",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Hendrix College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Oakland City",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Illinois-Springfield",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Gwynedd-Mercy",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Texas Permian Basin",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Campbellsville-Harrodsburg",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Lyon",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Kean",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Crowley's Ridge",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Northwest University",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "St. Xavier  (IL)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Westmont",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Mount Marty College",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Farmingdale State",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Eastern University (PA)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Westminster (UT)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Evangel",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Point",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Truett-McConnell",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Sul Ross State",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Belhaven",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "St. Thomas (FL)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "American International",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Pfeiffer",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Goucher",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Embry-Riddle (AZ)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Ohio Christian",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Dillard",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Baptist Bible College (MO)",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Arlington Baptist",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Tougaloo",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Michigan-Dearborn",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Clayton State",
-   "conference": "",
-   "division": "OTHER"
-  },
-  {
-   "name": "Spurgeon College",
+   "name": "Fresno Pacific",
    "conference": "",
    "division": "OTHER"
   },
@@ -3398,7 +2303,1102 @@
    "division": "OTHER"
   },
   {
-   "name": "Bushnell",
+   "name": "George Fox",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Georgetown College (KY)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Gordon College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Goucher",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Greensboro College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Guilford",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Gwynedd-Mercy",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Hanover",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Hardin-Simmons",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Harding",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Harris-Stowe State",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Hartwick",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Haskell",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Hastings",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Hawai'i Hilo",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Hawai'i Pacific",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Heidelberg",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Hendrix College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Hope",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Howard Payne",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Illinois-Springfield",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Immaculata",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Indiana-Kokomo",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Iowa Wesleyan",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Jarvis Christian",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Jessup University",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "John Jay College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Johnson & Wales (NC)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Johnson & Wales (RI)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Johnson University Florida",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Kansas Christian",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Kean",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Keene St",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Kentucky Christian",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Keuka",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Keystone",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Knox",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "LSU Alexandria",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "LSU Shreveport",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "La Sierra",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "La Verne",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "LaGrange",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Lake Erie",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Lancaster Bible College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "LeMoyne-Owen",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "LeTourneau",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Lees-McRae",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Lenoir-Rhyne",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Life Pacific",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Life University",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Lincoln University (CA)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Lindsey Wilson College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Louisiana Christian",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Lyon",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "MIT",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Maine-Farmington",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Maine-Fort Kent",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Manhattanville",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Mary Baldwin",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Mary Hardin-Baylor",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Maryville College (TN)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Maryville University (MO)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Massachusetts College of Liberal Arts",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "McMurry",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Medgar Evers",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Menlo",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Merchant Marine Academy",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Methodist",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Miami (OH)-Hamilton",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Michigan-Dearborn",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Mid-Atlantic Christian",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Midway University",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Millersville",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Milligan",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Millsaps",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Minnesota Duluth",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Minnesota Morris",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Mississippi College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Missouri Baptist",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Missouri S&T",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Mobile",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Molloy",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Montana Tech",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Montreat",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Moravian",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Morehouse",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Morris College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Mount Marty College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Mount Olive",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Mount Saint Vincent",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Multnomah University",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "NC Wesleyan",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "NVU-Lyndon",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Nelson",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Neumann",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "New Mexico Highlands",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "North Central (MN)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "North Greenville",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "North Park",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Northern New Mexico",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Northland",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Northwest University",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Northwestern Ohio",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Northwood (MI)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Oakland City",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Oakwood",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Oberlin",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Ohio Christian",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Ohio Valley",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Ohio Wesleyan",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Oklahoma Christian",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Ottawa (AZ)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Our Lady Of The Lake",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Pacific Lutheran",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Palm Beach Atlantic",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Paul Quinn",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Penn State - Wilkes-Barre",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Penn State-Alleghany",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Penn State-Behrend",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Penn State-York",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Peru State",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Pfeiffer",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Philander Smith",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Phoenix",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Piedmont",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Point",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Point Park",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Presentation College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Purchase",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Purdue Northwest",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Quincy",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Randolph College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Redlands",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Regent",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Regis",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Regis (CO)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Rhodes",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Rivier",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Rockford",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Rocky Mountain",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Rogers State",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Roosevelt",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Rust",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Rutgers-Camden",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "SUNY Poly",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "SUNY-New Paltz",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "SUNY-Oneonta",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Saginaw Valley State",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Saint Elizabeth",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Salisbury",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Salve Regina",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "San Diego Christian",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "San Francisco State",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Schreiner",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Shenandoah",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Southeastern Baptist College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Southwestern (TX)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Southwestern Adventist",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Southwestern Assemblies of God",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Southwestern Christian",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Spalding",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Spring Hill",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Spurgeon College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "St. Andrews",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "St. John Fisher",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "St. Josephs (ME)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "St. Mary's (MD)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "St. Mary's (TX)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "St. Thomas (FL)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "St. Xavier  (IL)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Stanislaus State",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Sul Ross State",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Tennessee Southern",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Tennessee Wesleyan",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Texas A&M-International",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Texas Lutheran",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Texas Permian Basin",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Toccoa Falls",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Tougaloo",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Transylvania",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Trinity (FL)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Trinity (TX)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Trinity Baptist",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Trinity Christian (IL)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Truett-McConnell",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "UC Merced",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "University Of The Virgin Islands",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "University of New England",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "University of Saint Katherine",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Vassar",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Virginia Wesleyan",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Virginia-Lynchburg",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Voorhees",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "WPI",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Waldorf College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Walla Walla",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Warner University",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Warren Wilson",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Washington College (MD)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Webber International",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Webster",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Wells College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "West Florida",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Westcliff",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Western Colorado",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Western New England",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Western New Mexico",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Westminster (PA)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Westminster (UT)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Westmont",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Wheeling",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Whittier",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Wiley",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Willamette",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "William Carey",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "William Peace",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "William Woods",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Wisconsin-Superior",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Xavier (LA)",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Yellowstone Christian College",
    "conference": "",
    "division": "OTHER"
   }
