@@ -322,6 +322,41 @@ excluded teams still count as opponents for everyone else. A team can lose its p
 because an opponent slipped, and get it back the week after &mdash; that is the rule
 working, not a glitch.</p>
 
+<h2>Does it predict?</h2>
+
+<p>The <a href="index.html#backtest">backtest</a> asks a question the ranking was
+never built to answer. Rank the teams on weeks 1 to N, predict every week&nbsp;N+1
+game between two FBS sides by taking the higher&#8209;ranked team, and score it
+against what happened. Over all thirteen seasons that is about seven thousand
+games, none of which the ranking had seen when it made the call.</p>
+
+<p>It is a fair test because the ordering at week&nbsp;N genuinely uses nothing
+after week&nbsp;N. That is worth checking rather than assuming, given the whole
+system is built on hindsight: engines built on seasons truncated at week&nbsp;N
+produce identical orderings to the full-season engine evaluated at N, across ten
+thousand comparisons without exception.</p>
+
+<p>It does carry predictive content. It beats plain win percentage on the games
+the two disagree about, and it beats its own unweighted self, both at better than
+one&#8209;in&#8209;twenty odds of being chance. It beats picking the home team by a
+distance.</p>
+
+<p><strong>It also loses to the AP poll</strong>, 70&#8209;38 of the 108 games the
+two both called and disagreed about. That is a real result and it belongs on the
+page. Voters are allowed to know things a record does not contain &mdash; an injured
+quarterback, a side that has stopped trying, a result everyone could see was a
+fluke &mdash; and this has only ever looked at who beat whom. The sample is small,
+because a comparison needs both to rank both teams.</p>
+
+<p>Two cautions on reading that table. The hit rates sit on <em>different sets of
+games</em> and cannot be compared straight down the column: each method declines any
+game it cannot call, and the AP, ranking twenty&#8209;five teams, is tested almost
+entirely on games between ranked sides, which are the close ones. The
+head&#8209;to&#8209;head column is the honest comparison. And none of this is the
+job the ranking is for &mdash; ordering teams by what they have earned is a
+different question from forecasting what they will do next, and a modest score here
+is not by itself a fault.</p>
+
 <h2>What it cannot do</h2>
 
 <p>Being honest about this matters more than the rankings do.</p>

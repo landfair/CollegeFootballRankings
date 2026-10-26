@@ -23,7 +23,10 @@ export function ingest(raw){
     if(seen.has(w+'|'+win)||seen.has(w+'|'+lose)) continue;
     seen.add(w+'|'+win); seen.add(w+'|'+lose);
     for(const n of [win,lose]) if(!teamInfo.has(n)) teamInfo.set(n,{name:n,conference:'',division:'FBS'});
-    games.push({week:w,winner:win,loser:lose,margin:Math.abs(hp-ap)});
+    /* home is kept for the backtest's home-field baseline. The feed carries no
+       neutral-site flag, so a championship at a neutral venue still reads as
+       someone's home game; that baseline is slightly flattered as a result. */
+    games.push({week:w,winner:win,loser:lose,margin:Math.abs(hp-ap),home:g.home});
   }
   const polls=[];
   for(const p of (raw.polls||[])){
@@ -463,4 +466,129 @@ export function sparkHTML(pts,{unit='week',label=n=>'wk '+n,pool=false}={}){
     'stroke-linejoin="round" stroke-linecap="round"/>'+dots+'</svg>'+
     '<span class="val">'+vals[0].toFixed(1)+' &rarr; '+vals[vals.length-1].toFixed(1)+
     ' <b style="color:'+col+'">'+(net>0?'+':'')+net.toFixed(1)+'</b></span></span>';
+}
+
+/* ---------- backtest ----------
+   Rank on weeks 1..N, predict week N+1, score against what happened. No poll
+   and no opinion enter it: the only question is whether the ordering carries
+   predictive content it was not given.
+
+   It is honest because rank(eng, season, N) demonstrably uses nothing past week
+   N — building an engine on a season truncated at N produces an identical
+   ordering, over ten thousand comparisons with no exception.
+
+   Worth saying plainly: this is a resume ranking being asked to do a different
+   job. Ordering teams by what they have earned is not the same as forecasting,
+   and a modest hit rate here is not by itself a fault. */
+
+const erf=x=>{
+  const sign=x<0?-1:1; x=Math.abs(x);
+  const t=1/(1+0.3275911*x);
+  const y=1-((((1.061405429*t-1.453152027)*t+1.421413741)*t-0.284496736)*t
+            +0.254829592)*t*Math.exp(-x*x);
+  return sign*y;
+};
+const normCdf=x=>0.5*(1+erf(x/Math.SQRT2));
+
+/* Compares two methods on the games they BOTH predicted. Agreements carry no
+   information about which is better, so only the disagreements are counted —
+   which is why a wide gap in the totals can still be noise. */
+export function mcnemar(A,B){
+  let b=0,c=0;
+  for(const [k,va] of A){
+    if(!B.has(k)) continue;
+    const vb=B.get(k);
+    if(va&&!vb) b++; else if(!va&&vb) c++;
+  }
+  const n=b+c;
+  if(!n) return {b,c,n,z:0,p:1};
+  const z=(b-c)/Math.sqrt(n);
+  return {b,c,n,z,p:2*(1-normCdf(Math.abs(z)))};
+}
+
+/* Teams ordered by win rate, ties sharing a rank so a coin flip is never
+   recorded as a prediction. */
+function winPctRanks(eng,through,eligible){
+  const rec=new Map();
+  for(let w=1;w<=through;w++){
+    const wk=eng.byWeek.get(w); if(!wk) continue;
+    for(const [t,g] of wk){
+      if(!eligible.has(t)) continue;
+      if(!rec.has(t)) rec.set(t,[0,0]);
+      const r=rec.get(t); if(g.res===WIN) r[0]++; r[1]++;
+    }
+  }
+  const rows=[...rec.entries()].map(([t,[w,n]])=>({t,v:n?w/n:0}))
+    .sort((a,b)=>b.v-a.v||a.t.localeCompare(b.t));
+  const out=new Map(); let rk=1;
+  rows.forEach((r,i)=>{ if(i>0&&Math.abs(r.v-rows[i-1].v)>1e-12) rk=i+1; out.set(r.t,rk); });
+  return out;
+}
+
+export const BACKTEST_METHODS=[
+  {key:'ranking',    label:'This ranking, weighted'},
+  {key:'unweighted', label:'This ranking, unweighted'},
+  {key:'winpct',     label:'Win percentage'},
+  {key:'ap',         label:'AP Top 25'},
+  {key:'cfp',        label:'CFP committee'},
+  {key:'home',       label:'Home team always'},
+];
+
+/* entries: [{year, season, eng}] — the caller supplies engines so a page can
+   reuse whatever it has already built. onSeason() is called after each one so
+   a long run can yield to the browser. */
+export function backtest(entries,opts={}){
+  const {start=4,wmode='B',onSeason=null}=opts;
+  const keys=BACKTEST_METHODS.map(m=>m.key);
+  const logs=Object.fromEntries(keys.map(k=>[k,new Map()]));
+  const tally=Object.fromEntries(keys.map(k=>[k,{h:0,t:0}]));
+  const weeks=Object.fromEntries(keys.map(k=>[k,[]]));
+
+  for(const {year,season,eng} of entries){
+    const top=season.topDivision||'FBS';
+    const eligible=new Set();
+    for(const [t,info] of season.teamInfo) if(info.division===top) eligible.add(t);
+    for(let N=start;N<season.maxWeek;N++){
+      const next=eng.byWeek.get(N+1); if(!next) continue;
+      const order={
+        ranking:new Map(weighted(eng,season,N,{mode:wmode}).rows.map(r=>[r.team,r.rank])),
+        unweighted:new Map(rank(eng,season,N).map(r=>[r.team,r.rank])),
+        winpct:winPctRanks(eng,N,eligible),
+        ap:new Map((pollAt(season,'AP Top 25',N)?.ranks||[]).map(r=>[r.team,r.rank])),
+        cfp:new Map((pollAt(season,'CFP Rankings',N)?.ranks||[]).map(r=>[r.team,r.rank])),
+      };
+      const wk=Object.fromEntries(keys.map(k=>[k,{h:0,t:0}]));
+      const seen=new Set();
+      for(const [t,g] of next){
+        if(seen.has(g.id)) continue;
+        seen.add(g.id);
+        const won=g.res===WIN, win=won?t:g.opp, lose=won?g.opp:t;
+        /* Both sides must be rankable, or the test rewards beating nobody. */
+        if(!eligible.has(win)||!eligible.has(lose)) continue;
+        const id=year+'|'+g.id;
+        for(const k of keys){
+          let ok;
+          if(k==='home'){
+            const hm=eng.games[g.id]&&eng.games[g.id].home;
+            if(!hm||(hm!==win&&hm!==lose)) continue;
+            ok=hm===win?1:0;
+          } else {
+            const a=order[k].get(win), b=order[k].get(lose);
+            if(a==null||b==null||a===b) continue;   // declines to predict
+            ok=a<b?1:0;
+          }
+          tally[k].h+=ok; tally[k].t++; wk[k].h+=ok; wk[k].t++;
+          logs[k].set(id,ok);
+        }
+      }
+      for(const k of keys) if(wk[k].t) weeks[k].push({year,week:N+1,...wk[k]});
+    }
+    if(onSeason) onSeason(year);
+  }
+  const methods=BACKTEST_METHODS.map(m=>({
+    ...m, hits:tally[m.key].h, games:tally[m.key].t,
+    rate:tally[m.key].t?tally[m.key].h/tally[m.key].t:null,
+    weeks:weeks[m.key],
+  })).filter(m=>m.games>0);
+  return {methods,logs};
 }

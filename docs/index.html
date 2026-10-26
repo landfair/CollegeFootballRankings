@@ -142,7 +142,7 @@
 <header>
   <div class="bar">
     <h1>Recursive Rankings <span class="sport">football</span></h1>
-    <nav><a href="./" aria-current="page">Rankings</a><a href="#slates">Slates</a><a href="about.html">About</a><a href="basketball/">Basketball</a></nav>
+    <nav><a href="./" aria-current="page">Rankings</a><a href="#slates">Slates</a><a href="#backtest">Backtest</a><a href="about.html">About</a><a href="basketball/">Basketball</a></nav>
     <button class="iconbtn" id="gearbtn" title="Settings" aria-label="Settings">&#9881;</button>
     <button class="iconbtn" id="helpbtn" title="How this works" aria-label="How this works">?</button>
   </div>
@@ -293,6 +293,7 @@ comparison, and the selection committee's ranking once it starts publishing.</p>
 </div>
 <div id="teamview" hidden></div>
 <div id="slatesview" hidden></div>
+<div id="btview" hidden></div>
 
 <footer>Game results and polls from
 <a href="https://collegefootballdata.com">collegefootballdata.com</a>.
@@ -302,7 +303,8 @@ Rankings recomputed in your browser. <a href="about.html">How this works</a>.</f
 <script type="module">
 import {WIN, esc, ingest, engine, rank, applyGate, pollAt,
         agreement, revision, sparkHTML, weighted,
-        rankHistory, rankChart} from './engine.js';
+        rankHistory, rankChart,
+        backtest, mcnemar} from './engine.js';
 
 const SHOW=100;
 
@@ -385,6 +387,7 @@ function parseHash(){
   if(m) return {kind:'team',team:decodeURIComponent(m[1])};
   m=/^#slates(?:=(\d+))?$/.exec(location.hash);
   if(m) return {kind:'slates',bucket:m[1]?+m[1]:null};
+  if(/^#backtest$/.test(location.hash)) return {kind:'backtest'};
   return {kind:'list'};
 }
 const sameView=(a,b)=>a.kind===b.kind&&a.team===b.team&&a.bucket===b.bucket;
@@ -392,11 +395,13 @@ function showView(which){
   $('listview').hidden=which!=='list';
   $('teamview').hidden=which!=='team';
   $('slatesview').hidden=which!=='slates';
+  $('btview').hidden=which!=='backtest';
 }
 function render(){
   if(!SEASON) return;
   if(VIEW.kind==='team') renderTeam(VIEW.team);
   else if(VIEW.kind==='slates') renderSlates(VIEW.bucket);
+  else if(VIEW.kind==='backtest') renderBacktest();
   else renderList();
 }
 
@@ -768,6 +773,143 @@ function renderSlates(bucket){
   wire($('slatesview'));
 }
 
+/* ---------- backtest ----------
+   Rank on weeks 1..N, predict week N+1, score against what happened. Every
+   season on the site, which is around seven thousand games — enough that a
+   one-point gap means something and a half-point gap does not.
+
+   The raw hit rates are NOT comparable with one another, and the page has to
+   keep saying so: each method declines to predict different games. Win
+   percentage says nothing about two 5-2 teams; the AP ranks only 25 sides, so
+   it is judged purely on games between ranked teams, which are the close ones.
+   The head-to-head column is the honest comparison, because it looks only at
+   games both methods called and disagreed about. */
+let BT=null, BTBUSY=false;
+
+async function allSeasons(note){
+  const years=[...$('season').options].map(o=>o.value);
+  const m=$('smode').value, pl=$('pmode').value, k=m+'|'+pl;
+  const out=[];
+  for(const y of years){
+    if(!CACHE.has(y)){
+      note('loading '+y+'…');
+      const res=await fetch('season-'+y+'.json',{cache:'no-cache'});
+      if(!res.ok) throw new Error('could not load season-'+y+'.json ('+res.status+')');
+      CACHE.set(y,{season:ingest(await res.json()),eng:{}});
+    }
+    const c=CACHE.get(y);
+    if(!c.eng[k]){ note('preparing '+y+'…'); c.eng[k]=engine(c.season,{scoring:m,pool:pl}); }
+    out.push({year:+y,season:c.season,eng:c.eng[k]});
+    await new Promise(r=>setTimeout(r,0));     /* let the note paint */
+  }
+  return out;
+}
+
+function renderBacktest(){
+  showView('backtest');
+  $('status').innerHTML='Does the ordering predict games it has not seen?';
+  const start=BT?BT.start:4;
+  let html='<p><button class="back" id="back">&larr; All teams</button></p>'+
+    '<div class="thead"><h2>Backtest</h2>'+
+    '<span class="sub">rank on weeks 1 to N, predict week N+1</span></div>'+
+    '<div class="slatenav">'+
+      '<label class="ctl" style="font-size:13px">Start predicting after week '+
+      '<select id="btstart">'+[3,4,5,6,8].map(v=>
+        `<option value="${v}"${v===start?' selected':''}>${v}</option>`).join('')+'</select></label>'+
+      `<button class="wkbtn" id="btrun"${BTBUSY?' disabled':''}>`+
+        (BT?'Run again':'Run backtest')+'</button>'+
+      '<span class="nr" id="btnote" style="font-size:13px"></span>'+
+    '</div>'+
+    '<p class="slateintro">Each method ranks the teams on everything through week&nbsp;N, '+
+    'then picks the higher&#8209;ranked side in every week&nbsp;N+1 game between two '+
+    `${esc(SEASON?SEASON.topDivision||'FBS':'FBS')} teams. Nothing it has seen is being `+
+    'scored, and the ranking at week&nbsp;N provably uses nothing after week&nbsp;N. '+
+    'It runs over all thirteen seasons. Scoring and field follow whatever you have '+
+    'set under the gear, so the test also answers whether those settings earn their '+
+    'place; weighting is shown both ways regardless, since comparing the two is half '+
+    'the point.</p>';
+
+  if(BT){
+    const {methods,logs}=BT;
+    const best=methods.find(m=>m.key==='winpct');
+    html+='<div class="scroll"><table><thead><tr>'+
+      '<th>Method</th><th class="num">Correct</th><th class="num">Games</th>'+
+      '<th class="num">Hit rate</th><th>Against win percentage</th><th>Is the gap real?</th>'+
+      '</tr></thead><tbody>';
+    for(const m of methods){
+      let cmp='&mdash;', verdict='&mdash;';
+      if(best&&m.key!=='winpct'){
+        const r=mcnemar(logs[m.key],logs.winpct);
+        if(r.n){
+          const pv=r.p<0.001?'p&nbsp;&lt;&nbsp;0.001'
+                 :`p&nbsp;=&nbsp;${r.p<0.05?r.p.toFixed(3):r.p.toFixed(2)}`;
+          cmp=`${r.b}–${r.c} of ${r.n} <span class="nr">disagreements</span>`;
+          verdict = r.p>=0.05 ? `<span class="nr">no, ${pv}</span>`
+            : r.b>r.c ? `<b>${r.p<0.01?'yes':'probably'}</b> <span class="nr">${pv}</span>`
+            : `<b style="color:var(--loss)">worse</b> <span class="nr">${pv}</span>`;
+        } else cmp='<span class="nr">never both predicted</span>';
+      }
+      html+='<tr>'+
+        `<td class="tm">${esc(m.label)}</td>`+
+        `<td class="num">${m.hits.toLocaleString()}</td>`+
+        `<td class="num nr">${m.games.toLocaleString()}</td>`+
+        `<td class="num"><b>${(m.rate*100).toFixed(2)}%</b></td>`+
+        `<td class="cf">${cmp}</td><td class="cf">${verdict}</td></tr>`;
+    }
+    html+='</tbody></table></div>';
+
+    html+='<p class="slateintro"><b>Read the game count, not just the rate.</b> '+
+      'The rates sit on different sets of games, so the column cannot be compared '+
+      'straight down. A method skips any game it cannot call: win percentage has '+
+      'nothing to say about two teams on identical records, and the AP ranks only '+
+      'twenty&#8209;five sides, so it is tested almost entirely on games between '+
+      'ranked teams &mdash; the close ones. That is why the head&#8209;to&#8209;head '+
+      'column exists. It counts only games both methods predicted <i>and disagreed '+
+      'about</i>, since a game they both call the same way says nothing about which '+
+      'is better.</p>';
+
+    const r=mcnemar(logs.ranking,logs.ap);
+    if(r.n) html+='<p class="slateintro"><b>The AP beats this ranking</b> on the games '+
+      `they both call and disagree about, ${r.c}–${r.b} of ${r.n}`+
+      (r.p<0.05?` (p&nbsp;=&nbsp;${r.p.toFixed(3)})`:'')+'. Worth saying plainly rather '+
+      'than leaving out. Voters are allowed to know things the record does not show '+
+      '&mdash; an injured quarterback, a team that has stopped trying &mdash; and this '+
+      'has only ever looked at who beat whom. The sample is small, because both must '+
+      'rank both teams.</p>';
+
+    html+='<p class="slateintro">A caution on the last line: the feed records no '+
+      'neutral&#8209;site flag, so a title game at a neutral venue still counts as '+
+      'somebody&rsquo;s home game. The home&#8209;field figure is flattered slightly '+
+      'as a result.</p>';
+  } else {
+    html+='<p class="msg">Press the button. It takes a few seconds, and holds the '+
+      'page still while it works.</p>';
+  }
+  $('btview').innerHTML=html;
+  $('back').onclick=()=>go(null);
+  $('btstart').onchange=()=>{ if(BT){ BT.start=+$('btstart').value; } };
+  $('btrun').onclick=async()=>{
+    if(BTBUSY) return;
+    BTBUSY=true;
+    const note=t=>{ const n=$('btnote'); if(n) n.textContent=t; };
+    $('btrun').disabled=true; note('loading seasons…');
+    try{
+      const st=+$('btstart').value;
+      const entries=await allSeasons(note);
+      note('predicting…');
+      await new Promise(r=>setTimeout(r,30));
+      const t0=performance.now();
+      const res=backtest(entries,{start:st,wmode:$('wmode').value==='off'?'B':$('wmode').value});
+      BT={...res,start:st,ms:Math.round(performance.now()-t0)};
+      BTBUSY=false;
+      renderBacktest();
+      $('btnote').textContent=`${BT.ms} ms over ${entries.length} seasons`;
+    }catch(err){
+      BTBUSY=false; note(err.message); $('btrun').disabled=false;
+    }
+  };
+}
+
 function wire(root){
   root.querySelectorAll('button.tm').forEach(b=>b.onclick=()=>go(b.dataset.t));
 }
@@ -775,6 +917,7 @@ function go(v){
   VIEW = (typeof v==='string') ? {kind:'team',team:v} : (v||{kind:'list'});
   const want = VIEW.kind==='team' ? 't='+encodeURIComponent(VIEW.team)
              : VIEW.kind==='slates' ? 'slates'+(VIEW.bucket?'='+VIEW.bucket:'')
+             : VIEW.kind==='backtest' ? 'backtest'
              : '';
   if(want) location.hash=want;
   else if(location.hash) location.hash='';
