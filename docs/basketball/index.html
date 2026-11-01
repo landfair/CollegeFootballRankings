@@ -384,20 +384,29 @@ function render(){
 /* Shared by the table and the team pages so a schedule figure reads the same in
    both: one ordering over the whole field, and the same two bracketing games. */
 function sosInfo(S,rows){
-  const order=new Map([...rows].filter(r=>S.has(r.team))
-    .sort((a,b)=>S.get(b.team).sos-S.get(a.team).sos)
-    .map((r,i)=>[r.team,i+1]));
-  const ord=n=>n+(n%100>=11&&n%100<=13?'th':['th','st','nd','rd'][n%10]||'th');
+  const sorted=[...rows].filter(r=>S.has(r.team))
+    .sort((a,b)=>S.get(b.team).sos-S.get(a.team).sos);
+  /* Teams level on schedule share a place, the way the ranking itself does.
+     The early weeks need it: before anyone has played twice, every unbeaten
+     team has met exactly one 0-1 side and the entire field ties. */
+  const order=new Map();
+  let rk=1;
+  sorted.forEach((r,i)=>{
+    if(i>0&&Math.abs(S.get(r.team).sos-S.get(sorted[i-1].team).sos)>1e-9) rk=i+1;
+    order.set(r.team,rk);
+  });
+  /* Shown as a place rather than the bare average, because 58.7 carries no
+     direction: beside it sit Avg win and Avg loss, which average RANKS, where
+     low is the good end. As a place it points the same way they do. The
+     average itself follows in parentheses, and the tip names the scale. */
   const tip=t=>{
     const s=S.get(t); if(!s) return '';
     const say=o=>`${o.opp} ${o.rating.toFixed(1)}`;
-    const n=order.get(t);
-    const place = n===1 ? `The hardest of the ${order.size}`
-                : n===order.size ? `The easiest of the ${order.size}`
-                : `${ord(n)} hardest of ${order.size}`;
-    return `Strength of schedule: the average rating of the ${s.n} `+
-      `opponent${s.n===1?'':'s'} this rating was earned against, on the rating `+
-      `scale. ${place}. `+
+    return `Strength of schedule: #${order.get(t)} of ${order.size} for difficulty, `+
+      `where #1 is the hardest season played. The figure in brackets is the mean `+
+      `rating of the ${s.n} opponent${s.n===1?'':'s'} this rating was earned `+
+      `against \u2014 the same 0\u2013100 scale as the Rating column, so a higher `+
+      `one means better opposition. `+
       `Hardest: ${say(s.opps[0])}. Easiest: ${say(s.opps[s.opps.length-1])}.`+
       (s.unrated?` ${s.unrated} lower-division opponent${s.unrated===1?'':'s'} `+
         `counted at the floor, ${s.floor.toFixed(1)}, there being no rating to use.`:'');
@@ -476,7 +485,7 @@ function renderList(){
     {k:'rec',   h:'Rec',        cls:'num', lowBest:false, v:r=>r.games?r.wins/r.games:0},
     {k:'rate',  h:'Rating',     cls:'num', lowBest:false, v:r=>r.key},
     {k:'sos',   h:'SOS',        cls:'num', lowBest:false, v:r=>S.get(r.team)?.sos??null,
-     tip:'Strength of schedule: the average rating of the teams played, over the same games the rating itself counts. Higher means a harder season. It is on the rating scale, so read it straight against the Rating column \u2014 a team rated well above its schedule has beaten what it was given. A lower-division opponent has no rating and counts as the weakest rated team in the field. Hover a figure for the hardest and easiest game in it.'},
+     tip:'Strength of schedule, as a place in the field: #1 played the hardest season. In brackets is what that place is based on \u2014 the average rating of the teams played, over the same games the rating itself counts. That average is on the same scale as the Rating column, so a higher one means better opposition, and a team rated well above its schedule has beaten what it was given. Note the two columns to the right run the other way: they average RANKS, where low is the good end. A lower-division opponent has no rating and counts as the weakest rated team in the field. Hover a figure for the hardest and easiest game in it.'},
     {k:'best',  h:'Best win',   cls:'num', lowBest:true,  v:rk1,
      tip:'Rank of the strongest team this one has beaten. Only ranked opponents count.'},
     {k:'awin',  h:'Avg win',    cls:'num', lowBest:true,  v:r=>r.avgWin,
@@ -506,7 +515,8 @@ function renderList(){
   const sosCell=r=>{
     const s=S.get(r.team);
     if(!s) return '<td class="num nr">—</td>';
-    return `<td class="num" title="${esc(SI.tip(r.team))}">${s.sos.toFixed(1)}</td>`;
+    return `<td class="num" title="${esc(SI.tip(r.team))}">#${SI.order.get(r.team)}`+
+      ` <span class="nr">(${s.sos.toFixed(1)})</span></td>`;
   };
   const avg=v=>v==null?'<td class="num nr">—</td>'
     :`<td class="num nr">${v.toFixed(1)}</td>`;
@@ -572,8 +582,9 @@ function renderTeam(team){
     `<div class="fact"><b>#${me.rank}</b><span>HERE</span></div>`+
     `<div class="fact"><b>${me.wins}‑${me.losses}</b><span>RECORD</span></div>`+
     `<div class="fact"><b>${me.key.toFixed(1)}</b><span>RATING</span></div>`+
-    (ST?`<div class="fact" title="${esc(SI.tip(team))}"><b>${ST.sos.toFixed(1)}</b>`+
-        `<span>SCHEDULE</span></div>`:'')+
+    (ST?`<div class="fact" title="${esc(SI.tip(team))}"><b>#${SI.order.get(team)}`+
+        `<span class="nr" style="font-size:14px;font-weight:400"> (${ST.sos.toFixed(1)})</span>`+
+        `</b><span>SCHEDULE</span></div>`:'')+
     `<div class="fact"><b>${apR.has(team)?'#'+apR.get(team):'NR'}</b><span>AP</span></div>`+
     `<div class="fact"><b>${coR.has(team)?'#'+coR.get(team):'NR'}</b><span>COACHES</span></div>`+
     `<div class="fact"><b>${bw&&Number.isFinite(bw.bestWin)?'#'+bw.bestWin:'—'}</b><span>BEST WIN</span></div>`+
