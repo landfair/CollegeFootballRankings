@@ -100,6 +100,22 @@ site must be served over http(s) rather than opened as a local file.
 **Netlify** — connect the repo; `netlify.toml` already sets `publish = "docs"` with
 no build command. Or drag the `docs/` folder onto app.netlify.com/drop.
 
+**After editing `docs/engine.js`, run this before committing:**
+
+```
+python3 stamp_engine.py
+```
+
+It writes a hash of the engine's bytes into the `?v=` on each page's import.
+The pages and the engine are separate files cached separately — Pages serves
+both with `max-age=600` — so without it a returning visitor can hold a fresh
+`index.html` and a ten-minute-old `engine.js`. If the new page imports something
+the old engine lacks, the module never parses and the page is dead, not
+degraded: `does not provide an export named 'schedule'`. Pinning the import to
+the engine's hash means a page can only ask for the engine it was built against,
+and that URL was never in anybody's cache. `--check` exits non-zero when a page
+is stamped stale, and `--selftest` runs 16 offline checks.
+
 ## Data
 
 Game results and polls from [collegefootballdata.com](https://collegefootballdata.com).
