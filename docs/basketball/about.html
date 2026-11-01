@@ -240,6 +240,43 @@ options, never to decide what the system counts as evidence. Every option stays
 under the gear icon, and the correlation figures at the top of the page update as
 you change them, so you can check any of this yourself.</p>
 
+<h3>Strength of schedule</h3>
+
+<p>The <b>SOS</b> column is the average rating of the teams a side has played,
+taken over exactly the games its own rating counts. The two numbers are on one
+scale and are meant to be read against each other: a team rated well above its
+schedule has beaten what it was given, and one rated near it has not yet been
+tested. Hover any figure for the hardest and easiest game inside it.</p>
+
+<p>It averages ratings rather than ranks, which is the one real choice here. Rank
+is ordinal &mdash; the step from 1st to 2nd and the step from 60th to 61st are
+the same single place but nothing like the same distance &mdash; and in a
+365&#8209;team Division&nbsp;I field that flattening is severe: the <b>Avg win</b>
+and <b>Avg loss</b> columns beside it, which do average ranks, routinely read in
+the hundreds and are best taken as a report on who a team played in the basement.
+In practice the two orderings agree closely, at a Spearman of about 0.99 with
+teams moving four or five places, so this is a sharper instrument and not a
+correction. What it buys is that the opponent figures are the very numbers in the
+table: the hardest game in a schedule reads at the rating on that
+opponent&rsquo;s own row. Because the column is handed the ranking rather than
+rebuilding one, it follows the field and the weighting you have chosen without
+being told.</p>
+
+<p>Two smaller decisions, both settled by measurement rather than argument. An
+opponent&rsquo;s rating is taken whole, not recomputed with this game left out.
+Leaving it out is what the engine does everywhere else &mdash; both levels of the
+grade exclude the game being graded &mdash; and it was tried here, since beating
+a team drags its rating down a little and so quietly docks the winner some
+schedule strength. Averaged over a season of opponents that bias turns out to be
+about a tenth of a point and not to track win percentage at all, with the sign
+unstable from season to season. It corrected nothing and made every opponent
+figure disagree with the one on display, so it is not done. Second, an opponent
+outside the ranking has no rating to average, and counts as the weakest rated
+team in the field &mdash; already what the <b>Avg win</b> and <b>Avg loss</b>
+columns assume. Its own figure cannot stand in, because only its one or two games
+against the field are ever scored, so the occasional one that wins such a game
+would read as the best team in the country off a sample of one.</p>
+
 <h2>The victors gate</h2>
 
 <p>A pure record-based system has a known weakness: a team can go undefeated

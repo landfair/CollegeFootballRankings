@@ -279,7 +279,7 @@ Rankings recomputed in your browser. <a href="about.html">How this works</a>.</f
 
 <script type="module">
 import {WIN, esc, ingest, engine, rank, applyGate, pollAt,
-        agreement, revision, sparkHTML, weighted} from '../engine.js';
+        agreement, revision, sparkHTML, weighted, schedule} from '../engine.js';
 
 const SHOW=100;
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -353,7 +353,10 @@ function current(){
      anyone should have to make. */
   const W = wm==='off' ? null : weighted(ENG,SEASON,h,{mode:wm});
   const rows = W ? W.rows : rank(ENG,SEASON,h);
-  return {h,g,rows,W,gated:applyGate(ENG,rows,g.mode,g.n,h)};
+  /* Handed the ranking it sits beside, so a schedule figure averages the very
+     ratings in the table and follows the pool and the weighting for free. */
+  return {h,g,rows,W,S:schedule(ENG,h,rows),
+          gated:applyGate(ENG,rows,g.mode,g.n,h)};
 }
 
 /* Three views share the page: the table, one team, and one bucket's slate.
@@ -378,9 +381,33 @@ function render(){
   else renderList();
 }
 
+/* Shared by the table and the team pages so a schedule figure reads the same in
+   both: one ordering over the whole field, and the same two bracketing games. */
+function sosInfo(S,rows){
+  const order=new Map([...rows].filter(r=>S.has(r.team))
+    .sort((a,b)=>S.get(b.team).sos-S.get(a.team).sos)
+    .map((r,i)=>[r.team,i+1]));
+  const ord=n=>n+(n%100>=11&&n%100<=13?'th':['th','st','nd','rd'][n%10]||'th');
+  const tip=t=>{
+    const s=S.get(t); if(!s) return '';
+    const say=o=>`${o.opp} ${o.rating.toFixed(1)}`;
+    const n=order.get(t);
+    const place = n===1 ? `The hardest of the ${order.size}`
+                : n===order.size ? `The easiest of the ${order.size}`
+                : `${ord(n)} hardest of ${order.size}`;
+    return `Strength of schedule: the average rating of the ${s.n} `+
+      `opponent${s.n===1?'':'s'} this rating was earned against, on the rating `+
+      `scale. ${place}. `+
+      `Hardest: ${say(s.opps[0])}. Easiest: ${say(s.opps[s.opps.length-1])}.`+
+      (s.unrated?` ${s.unrated} lower-division opponent${s.unrated===1?'':'s'} `+
+        `counted at the floor, ${s.floor.toFixed(1)}, there being no rating to use.`:'');
+  };
+  return {order,tip};
+}
+
 function renderList(){
   showView('list');
-  const {h,g,rows,W,gated}=current();
+  const {h,g,rows,W,S,gated}=current();
   $('wkv').textContent=fmtDay(dayOf(h));
   const shown=gated.kept.slice(0,SHOW);
   const ap=pollAt(SEASON,'AP Top 25',h), co=pollAt(SEASON,'Coaches Poll',h);
@@ -424,20 +451,32 @@ function renderList(){
     : '';
 
   if(!shown.length){
-    $('tbl').innerHTML='<tbody><tr><td class="msg">No team has yet beaten anyone inside '+
-      'the top '+g.n+' who also qualifies. Move to a later date.</td></tr></tbody>';
+    /* Two different emptinesses. Nothing scored at all -- the first bucket of
+       some seasons holds only games the chosen field does not draw from -- or a
+       gate nobody has cleared yet. Blaming the gate for the first is wrong, and
+       wrong in a way that reads as a broken page. */
+    $('tbl').innerHTML='<tbody><tr><td class="msg">'+(rows.length
+      ? 'No team has yet beaten anyone inside the top '+g.n+' who also qualifies. Move to a later date.'
+      : 'Nothing is scored this early: date '+h+' holds no game the chosen field is '+
+        'drawn from. Move to a later date, or widen <b>Score against</b> in settings.')+
+      '</td></tr></tbody>';
     return;
   }
   /* The top SHOW teams are chosen by the ranking, then sorted for display, so
      changing the sort reorders the same teams rather than pulling in new ones.
      Blanks (no losses yet, unranked by a poll) always sink to the bottom. */
   const rk1=r=>Number.isFinite(r.bestWin)?r.bestWin:null;
+  /* Ranked over the whole field rather than the gated view, so 'hardest of 138'
+     does not shift about as the gate opens and shuts. */
+  const SI=sosInfo(S,rows);
   const COLS=[
     {k:'rank',  h:'#',          cls:'rk',  lowBest:true,  v:r=>r.rank},
     {k:'team',  h:'Team',       cls:'',    lowBest:true,  v:r=>r.team, text:true},
     {k:'conf',  h:'Conference', cls:'cf',  lowBest:true,  v:r=>r.conference||'', text:true},
     {k:'rec',   h:'Rec',        cls:'num', lowBest:false, v:r=>r.games?r.wins/r.games:0},
     {k:'rate',  h:'Rating',     cls:'num', lowBest:false, v:r=>r.key},
+    {k:'sos',   h:'SOS',        cls:'num', lowBest:false, v:r=>S.get(r.team)?.sos??null,
+     tip:'Strength of schedule: the average rating of the teams played, over the same games the rating itself counts. Higher means a harder season. It is on the rating scale, so read it straight against the Rating column \u2014 a team rated well above its schedule has beaten what it was given. A lower-division opponent has no rating and counts as the weakest rated team in the field. Hover a figure for the hardest and easiest game in it.'},
     {k:'best',  h:'Best win',   cls:'num', lowBest:true,  v:rk1,
      tip:'Rank of the strongest team this one has beaten. Only ranked opponents count.'},
     {k:'awin',  h:'Avg win',    cls:'num', lowBest:true,  v:r=>r.avgWin,
@@ -462,6 +501,13 @@ function renderList(){
   });
 
   const cell=v=>v==null?'<td class="num nr">—</td>':`<td class="num">${v}</td>`;
+  /* The schedule figure is a bare average, so the cell carries the two games
+     that bracket it: without them 54.1 says nothing about which season it was. */
+  const sosCell=r=>{
+    const s=S.get(r.team);
+    if(!s) return '<td class="num nr">—</td>';
+    return `<td class="num" title="${esc(SI.tip(r.team))}">${s.sos.toFixed(1)}</td>`;
+  };
   const avg=v=>v==null?'<td class="num nr">—</td>'
     :`<td class="num nr">${v.toFixed(1)}</td>`;
   const delta=(p,o)=>{
@@ -480,6 +526,7 @@ function renderList(){
       `<td class="cf">${esc(r.conference||'')}</td>`+
       `<td class="num">${r.wins}‑${r.losses}</td>`+
       `<td class="num"><b>${r.key.toFixed(1)}</b></td>`+
+      sosCell(r)+
       `<td class="num nr">${Number.isFinite(r.bestWin)?'#'+r.bestWin:'—'}</td>`+
       avg(r.avgWin)+avg(r.avgLoss)+
       cell(a)+cell(c)+delta(a,r.rank)+'</tr>';
@@ -495,7 +542,8 @@ function renderList(){
 }
 
 function renderTeam(team){
-  const {h,g,rows,W,gated}=current();
+  const {h,g,rows,W,S,gated}=current();
+  const SI=sosInfo(S,rows), ST=S.get(team);
   $('wkv').textContent=fmtDay(dayOf(h));
   showView('team');
   const me=rows.find(r=>r.team===team);
@@ -524,6 +572,8 @@ function renderTeam(team){
     `<div class="fact"><b>#${me.rank}</b><span>HERE</span></div>`+
     `<div class="fact"><b>${me.wins}‑${me.losses}</b><span>RECORD</span></div>`+
     `<div class="fact"><b>${me.key.toFixed(1)}</b><span>RATING</span></div>`+
+    (ST?`<div class="fact" title="${esc(SI.tip(team))}"><b>${ST.sos.toFixed(1)}</b>`+
+        `<span>SCHEDULE</span></div>`:'')+
     `<div class="fact"><b>${apR.has(team)?'#'+apR.get(team):'NR'}</b><span>AP</span></div>`+
     `<div class="fact"><b>${coR.has(team)?'#'+coR.get(team):'NR'}</b><span>COACHES</span></div>`+
     `<div class="fact"><b>${bw&&Number.isFinite(bw.bestWin)?'#'+bw.bestWin:'—'}</b><span>BEST WIN</span></div>`+

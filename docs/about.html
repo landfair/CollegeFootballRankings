@@ -266,6 +266,49 @@ options, never to decide what the system counts as evidence. Every option stays
 under the gear icon, and the correlation figures at the top of the page update as
 you change them, so you can check any of this yourself.</p>
 
+<h3>Strength of schedule</h3>
+
+<p>The <b>SOS</b> column is the average rating of the teams a side has played,
+taken over exactly the games its own rating counts. The two numbers are on one
+scale and are meant to be read against each other: through week&nbsp;10 of 2026,
+Miami rates <b>73.2</b> off a schedule of <b>46.3</b>, while Texas rates
+<b>69.4</b> off a schedule of <b>58.7</b> &mdash; the hardest in the country, and
+the reason a 6&#8209;2 team sits fourth. Sort by the column and the top of it is
+Texas followed by three 4&#8209;4 teams, Oklahoma, Mississippi State and Auburn:
+the sides whose records understate them. Hover any figure for the hardest and
+easiest game inside it.</p>
+
+<p>It averages ratings rather than ranks, which is the one real choice here. Rank
+is ordinal &mdash; the step from 1st to 2nd and the step from 60th to 61st are
+the same single place but nothing like the same distance &mdash; so an average
+rank over a 136&#8209;team field is largely a report on who you played in the
+basement, and the <b>Avg win</b> and <b>Avg loss</b> columns beside it, which do
+average ranks, are best read as exactly that. In practice the two orderings agree
+closely, at a Spearman of about 0.99 with teams moving four or five places, so
+this is a sharper instrument and not a correction. What it buys is that the
+opponent figures are the very numbers in the table: hover Alabama&rsquo;s
+schedule and the hardest game reads Kentucky 72.6, which is Kentucky&rsquo;s own
+row. Because the column is handed the ranking rather than rebuilding one, it
+follows the field and the weighting you have chosen without being told.</p>
+
+<p>Two smaller decisions, both settled by measurement rather than argument. An
+opponent&rsquo;s rating is taken whole, not recomputed with this game left out.
+Leaving it out is what the engine does everywhere else &mdash; both levels of the
+grade exclude the game being graded &mdash; and it was tried here, since beating
+a team drags its rating down a little and so quietly docks the winner some
+schedule strength. Averaged over a season of opponents that bias turns out to be
+about a tenth of a point and not to track win percentage at all, the correlation
+running from &minus;0.08 to +0.22 across the thirteen seasons with the sign
+unstable. It corrected nothing and made every opponent figure disagree with the
+one on display, so it is not done. Second, an opponent outside the ranking has no
+rating to average, and counts as the weakest rated team in the field. That is
+already what the <b>Avg win</b> and <b>Avg loss</b> columns assume, and it holds
+up: across all thirteen seasons the median lower&#8209;division team that played
+an FBS side rates below every team in the FBS. Its own figure cannot stand in,
+because only its one or two crossover games are ever scored, so the occasional
+one that wins its crossover would read as the best team in the country off a
+sample of one.</p>
+
 <h2>The victors gate</h2>
 
 <p>A pure record-based system has a known weakness: a team can go undefeated

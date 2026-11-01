@@ -263,6 +263,12 @@ export function weighted(eng,season,horizon,opts={}){
       if(arr.length) agg.push({team:t,key:arr.reduce((a,b)=>a+b,0)/arr.length});
     }
     agg.sort((a,b)=>b.key-a.key||a.team.localeCompare(b.team));
+    /* Nothing scored at this horizon. 2014, 2015 and 2020 each open with a lone
+       game between two lower-division teams, so under a pool that requires a
+       top-division side the field is empty and there is no span to normalise
+       against. Settle on nothing, and the caller shows the same empty table the
+       unweighted path already shows rather than dying on the slider. */
+    if(!agg.length){settled=true;break;}
     const lo=agg[agg.length-1].key,hi=agg[0].key,span=(hi-lo)||1;
     let delta=0;const nq=new Map();
     for(const r of agg){
@@ -285,6 +291,72 @@ export function weighted(eng,season,horizon,opts={}){
           quality:t=>q.get(t)??0,
           factor:f,
           adjust:(sc,opp,won)=>adjustWith(sc,f(opp),won!==undefined?won:sc>=50)};
+}
+
+/* ---------- strength of schedule ----------
+   The mean rating of the teams played, over exactly the games the rating itself
+   counts, so the two numbers describe one set of results and can be read side
+   by side: this is the rating, this is what it was earned against. It is handed
+   the ranking rather than rebuilding one, so the opponent ratings behind a
+   schedule figure are the very numbers in the table -- it follows the weighting
+   and the pool for free, and cannot drift from what is on display.
+
+   Ratings rather than ranks. Rank is ordinal: the step from 1st to 2nd and the
+   step from 60th to 61st are not the same size, so an average rank over a
+   136-team field is largely a report on who a team played in the basement, and
+   over a 365-team basketball field it is barely readable at all. The two
+   orderings agree closely in practice -- rho about 0.99, teams moving four or
+   five places -- so this is a sharper instrument, not a correction.
+
+   The opponent's rating is taken whole, not with this game left out. Leaving it
+   out is the engine's habit everywhere else, L1 and L2 both doing it, and it
+   was tried here: beating a team does drag its rating down a little and so
+   docks the winner a little schedule strength. But averaged over a season of
+   opponents that bias comes to about a tenth of a point and does not track win
+   percentage at all -- rho from -0.08 to +0.22 across thirteen seasons, the
+   sign unstable. It corrected nothing, and it made every opponent rating
+   disagree with the one on display, so it is not done.
+
+   An opponent outside the ranking -- lower division, or with no game the pool
+   scored -- counts as the weakest rated team in the field. That is the
+   assumption the avgWin/avgLoss columns already make, and the measured one:
+   across thirteen seasons the median lower-division team that played a
+   top-division side rates below every team in it. Its own figure cannot stand
+   in, because under any pool only its one or two crossover games are scored, so
+   the one that won its crossover rates as the best team in the country off a
+   sample of one. */
+export function schedule(eng,horizon,rows){
+  const ratingOf=new Map(rows.map(r=>[r.team,r.key]));
+  let floor=Infinity;
+  for(const r of rows) if(r.key<floor) floor=r.key;
+  if(!Number.isFinite(floor)) floor=0;
+  /* A team appears in a bucket's slate exactly when that game is in the scoring
+     pool, and the model keeps one game per team per bucket, so the set of weeks
+     names the set of scored games. */
+  const scored=new Map();
+  for(let w=1;w<=horizon;w++){
+    const wk=eng.byWeek.get(w); if(!wk) continue;
+    const pos=eng.slate(w,horizon).pos;
+    for(const t of wk.keys()){
+      if(!pos.has(t)) continue;
+      let ws=scored.get(t); if(!ws){ws=new Set();scored.set(t,ws);}
+      ws.add(w);
+    }
+  }
+  const out=new Map();
+  for(const [t,ws] of scored){
+    const opps=[];
+    for(const g of (eng.gamesOf.get(t)||[])){
+      if(g.week>horizon||!ws.has(g.week)) continue;
+      const v=ratingOf.has(g.opp)?ratingOf.get(g.opp):null;
+      opps.push({week:g.week,opp:g.opp,res:g.res,rated:v!=null,rating:v==null?floor:v});
+    }
+    if(!opps.length) continue;
+    opps.sort((a,b)=>b.rating-a.rating||(a.opp<b.opp?-1:a.opp>b.opp?1:0));
+    out.set(t,{sos:opps.reduce((a,b)=>a+b.rating,0)/opps.length,
+               n:opps.length,unrated:opps.filter(x=>!x.rated).length,opps,floor});
+  }
+  return out;
 }
 
 export function applyGate(eng,rows,mode,N,horizon){
