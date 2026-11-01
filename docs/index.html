@@ -494,9 +494,21 @@ function renderList(){
     ? `weighted by opponent, settled in <b>${W.passes}</b> passes`
     : `<b>weighting did not settle</b> in ${W.passes} passes — try a higher floor`);
   if(g.mode!=='off') bits.push(`gate removed <b>${gated.all.length-gated.kept.length}</b> in ${gated.passes} pass${gated.passes===1?'':'es'}`);
-  if(ap||co){
-    const t=(ap||co).throughWeek;
-    bits.push(t<h?`polls are from week ${t}, one step behind`:'polls reflect the same games');
+  /* The polls do not all publish together -- the committee lands on a Tuesday,
+     and in week 10 of 2026 the Coaches poll was current while the AP was still
+     a week back. Reporting only the first of them would call the whole set
+     behind when half of it is not, and the correlations above would read as
+     like-for-like when one of them is not. */
+  const haveP=[['AP',ap],['Coaches',co],['CFP',cf]].filter(([,p])=>p);
+  if(haveP.length){
+    const now=haveP.filter(([,p])=>p.throughWeek>=h).map(([n])=>n);
+    const back=haveP.filter(([,p])=>p.throughWeek<h);
+    if(!back.length) bits.push('polls reflect the same games');
+    else if(!now.length){
+      const t=Math.max(...back.map(([,p])=>p.throughWeek));
+      bits.push(`polls are from week ${t}, ${h-t===1?'one step':(h-t)+' weeks'} behind`);
+    } else bits.push(`${now.join(' and ')} reflect${now.length===1?'s':''} the same games, `+
+      back.map(([n,p])=>`${n} is from week ${p.throughWeek}`).join(' and '));
   } else bits.push('no poll published this early');
   /* Worth naming: otherwise a finished season opening short of its last week
      reads as a bug rather than the point. */
@@ -515,7 +527,15 @@ function renderList(){
   const sAP=ap?agreement(ap.ranks,fullRank):null;
   const sCO=co?agreement(co.ranks,fullRank):null;
   const sCF=cf?agreement(cf.ranks,fullRank):null;
-  const ref=(ap&&co)?agreement(ap.ranks,new Map(co.ranks.map(r=>[r.team,r.rank]))):null;
+  /* The two polls need not publish together. Setting AP's week 9 against the
+     Coaches' week 10 would measure the gap between two weeks as well as the gap
+     between two rooms, dragging the yardstick down and flattering everything
+     measured against it. Step both back to the last bucket they both cover. */
+  const refB=(ap&&co)?Math.min(ap.throughWeek,co.throughWeek):0;
+  const refAP=refB?pollAt(SEASON,'AP Top 25',refB):null;
+  const refCO=refB?pollAt(SEASON,'Coaches Poll',refB):null;
+  const ref=(refAP&&refCO)
+    ?agreement(refAP.ranks,new Map(refCO.ranks.map(r=>[r.team,r.rank]))):null;
   const fact=(v,k,tip)=>`<div class="fact" title="${esc(tip)}"><b>${v}</b><span>${k}</span></div>`;
   $('pollfacts').innerHTML = (sAP||sCO||sCF||ref)
     ? (sAP?fact(sAP.rho.toFixed(3),'RANK CORRELATION WITH AP',
@@ -525,7 +545,8 @@ function renderList(){
       +(sCF?fact(sCF.rho.toFixed(3),'RANK CORRELATION WITH CFP',
         `Spearman over the ${sCF.n} teams the selection committee ranks. The committee publishes from about week 10, so this is blank earlier in a season and absent before 2014, when the BCS standings it replaced were still running.`):'')
       +(ref?fact(ref.rho.toFixed(3),'AP AGAINST COACHES — HOW MUCH TWO VOTES AGREE',
-        `The same measure applied to the two human polls against each other, over the ${ref.n} teams both rank. It is the yardstick: this is how closely two rooms of voters looking at the same season agree with one another.`):'')
+        `The same measure applied to the two human polls against each other, over the ${ref.n} teams both rank. It is the yardstick: this is how closely two rooms of voters looking at the same season agree with one another.`+
+        (refB<h?` Both are taken from week ${refB}, the last one they both cover, so this compares two rooms rather than two weeks.`:'')):'')
     : '';
 
   if(!shown.length){

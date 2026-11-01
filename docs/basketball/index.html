@@ -463,10 +463,18 @@ function renderList(){
     ? `weighted by opponent, settled in <b>${W.passes}</b> passes`
     : `<b>weighting did not settle</b> in ${W.passes} passes — try a higher floor`);
   if(g.mode!=='off') bits.push(`gate removed <b>${gated.all.length-gated.kept.length}</b> in ${gated.passes} pass${gated.passes===1?'':'es'}`);
-  if(ap||co){
-    const t=(ap||co).throughWeek;
-    bits.push(t<h?`poll published ${fmtDay(dayOf(t))}, ${h-t} day${h-t>1?'s':''} behind`
-                        :'poll reflects the same games');
+  /* The two polls need not publish together, so reporting only the first would
+     call the pair behind when one of them is current. */
+  const haveP=[['AP',ap],['Coaches',co]].filter(([,p])=>p);
+  if(haveP.length){
+    const now=haveP.filter(([,p])=>p.throughWeek>=h).map(([n])=>n);
+    const back=haveP.filter(([,p])=>p.throughWeek<h);
+    if(!back.length) bits.push(`poll${haveP.length===1?'':'s'} reflect${haveP.length===1?'s':''} the same games`);
+    else if(!now.length){
+      const t=Math.max(...back.map(([,p])=>p.throughWeek));
+      bits.push(`poll published ${fmtDay(dayOf(t))}, ${h-t} day${h-t>1?'s':''} behind`);
+    } else bits.push(`${now.join(' and ')} reflect${now.length===1?'s':''} the same games, `+
+      back.map(([n,p])=>`${n} is from ${fmtDay(dayOf(p.throughWeek))}`).join(' and '));
   } else bits.push('no poll published this early');
   if($('season').value==='2021')
     bits.push('<b>2020&#8209;21 was disrupted by the pandemic</b>; schedules were uneven');
@@ -478,7 +486,15 @@ function renderList(){
   const fullRank=new Map(rows.map(r=>[r.team,r.rank]));
   const sAP=ap?agreement(ap.ranks,fullRank):null;
   const sCO=co?agreement(co.ranks,fullRank):null;
-  const ref=(ap&&co)?agreement(ap.ranks,new Map(co.ranks.map(r=>[r.team,r.rank]))):null;
+  /* The two polls need not publish together. Setting AP's week 9 against the
+     Coaches' week 10 would measure the gap between two weeks as well as the gap
+     between two rooms, dragging the yardstick down and flattering everything
+     measured against it. Step both back to the last bucket they both cover. */
+  const refB=(ap&&co)?Math.min(ap.throughWeek,co.throughWeek):0;
+  const refAP=refB?pollAt(SEASON,'AP Top 25',refB):null;
+  const refCO=refB?pollAt(SEASON,'Coaches Poll',refB):null;
+  const ref=(refAP&&refCO)
+    ?agreement(refAP.ranks,new Map(refCO.ranks.map(r=>[r.team,r.rank]))):null;
   const fact=(v,k,tip)=>`<div class="fact" title="${esc(tip)}"><b>${v}</b><span>${k}</span></div>`;
   $('pollfacts').innerHTML = (sAP||sCO||ref)
     ? (sAP?fact(sAP.rho.toFixed(3),'RANK CORRELATION WITH AP',
@@ -486,7 +502,8 @@ function renderList(){
       +(sCO?fact(sCO.rho.toFixed(3),'RANK CORRELATION WITH COACHES',
         `Spearman over the ${sCO.n} teams the Coaches poll ranks.`):'')
       +(ref?fact(ref.rho.toFixed(3),'AP AGAINST COACHES — HOW MUCH TWO VOTES AGREE',
-        `The same measure applied to the two human polls against each other, over the ${ref.n} teams both rank. It is the yardstick: this is how closely two rooms of voters looking at the same season agree with one another.`):'')
+        `The same measure applied to the two human polls against each other, over the ${ref.n} teams both rank. It is the yardstick: this is how closely two rooms of voters looking at the same season agree with one another.`+
+        (refB<h?` Both are taken from ${fmtDay(dayOf(refB))}, the last day they both cover, so this compares two rooms rather than two dates.`:'')):'')
     : '';
 
   if(!shown.length){

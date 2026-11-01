@@ -21307,6 +21307,13 @@
   },
   {
    "week": 10,
+   "home": "Alfred",
+   "away": "Brockport",
+   "homePoints": 3,
+   "awayPoints": 28
+  },
+  {
+   "week": 10,
    "home": "Allen",
    "away": "Morehouse",
    "homePoints": 26,
@@ -21384,6 +21391,13 @@
   },
   {
    "week": 10,
+   "home": "Austin",
+   "away": "Texas Lutheran",
+   "homePoints": 0,
+   "awayPoints": 23
+  },
+  {
+   "week": 10,
    "home": "Azusa Pacific",
    "away": "La Verne",
    "homePoints": 23,
@@ -21409,6 +21423,13 @@
    "away": "Minnesota St Moorhead",
    "homePoints": 37,
    "awayPoints": 34
+  },
+  {
+   "week": 10,
+   "home": "Benedict",
+   "away": "Savannah State",
+   "homePoints": 23,
+   "awayPoints": 0
   },
   {
    "week": 10,
@@ -21440,10 +21461,24 @@
   },
   {
    "week": 10,
+   "home": "Bowdoin",
+   "away": "Wesleyan (CT)",
+   "homePoints": 0,
+   "awayPoints": 28
+  },
+  {
+   "week": 10,
    "home": "Brevard",
    "away": "Greensboro",
    "homePoints": 30,
    "awayPoints": 28
+  },
+  {
+   "week": 10,
+   "home": "Bridgewater State",
+   "away": "Fitchburg State",
+   "homePoints": 45,
+   "awayPoints": 22
   },
   {
    "week": 10,
@@ -21472,6 +21507,13 @@
    "away": "Black Hills State",
    "homePoints": 38,
    "awayPoints": 31
+  },
+  {
+   "week": 10,
+   "home": "Carnegie Mellon",
+   "away": "Dickinson",
+   "homePoints": 51,
+   "awayPoints": 54
   },
   {
    "week": 10,
@@ -21587,6 +21629,13 @@
   },
   {
    "week": 10,
+   "home": "Christopher Newport",
+   "away": "Rowan",
+   "homePoints": 13,
+   "awayPoints": 12
+  },
+  {
+   "week": 10,
    "home": "Cincinnati",
    "away": "Utah",
    "homePoints": 25,
@@ -21682,6 +21731,13 @@
    "away": "Northwestern (MN)",
    "homePoints": 0,
    "awayPoints": 42
+  },
+  {
+   "week": 10,
+   "home": "Curry",
+   "away": "Husson",
+   "homePoints": 7,
+   "awayPoints": 17
   },
   {
    "week": 10,
@@ -21829,6 +21885,13 @@
    "away": "Clemson",
    "homePoints": 24,
    "awayPoints": 36
+  },
+  {
+   "week": 10,
+   "home": "Framingham State",
+   "away": "Plymouth State",
+   "homePoints": 14,
+   "awayPoints": 0
   },
   {
    "week": 10,
@@ -21997,6 +22060,13 @@
    "away": "Hardin Simmons",
    "homePoints": 17,
    "awayPoints": 23
+  },
+  {
+   "week": 10,
+   "home": "Huntingdon",
+   "away": "LaGrange",
+   "homePoints": 15,
+   "awayPoints": 11
   },
   {
    "week": 10,
@@ -22221,6 +22291,13 @@
    "away": "Illinois",
    "homePoints": 17,
    "awayPoints": 20
+  },
+  {
+   "week": 10,
+   "home": "Mass Maritime",
+   "away": "Westfield State",
+   "homePoints": 21,
+   "awayPoints": 7
   },
   {
    "week": 10,
@@ -22567,6 +22644,13 @@
   },
   {
    "week": 10,
+   "home": "Olivet",
+   "away": "Adrian",
+   "homePoints": 6,
+   "awayPoints": 76
+  },
+  {
+   "week": 10,
    "home": "Oregon",
    "away": "Northwestern",
    "homePoints": 34,
@@ -22637,6 +22721,13 @@
   },
   {
    "week": 10,
+   "home": "Redlands",
+   "away": "Claremont Mudd Scripps",
+   "homePoints": 14,
+   "awayPoints": 35
+  },
+  {
+   "week": 10,
    "home": "Rensselaer",
    "away": "St. Lawrence",
    "homePoints": 54,
@@ -22669,6 +22760,13 @@
    "away": "Benedictine (IL)",
    "homePoints": 20,
    "awayPoints": 56
+  },
+  {
+   "week": 10,
+   "home": "Roosevelt",
+   "away": "Grand Valley State",
+   "homePoints": 22,
+   "awayPoints": 45
   },
   {
    "week": 10,
@@ -22725,6 +22823,20 @@
    "away": "Gustavus Adolphus",
    "homePoints": 27,
    "awayPoints": 3
+  },
+  {
+   "week": 10,
+   "home": "Saint Vincent",
+   "away": "Westminster (PA)",
+   "homePoints": 18,
+   "awayPoints": 40
+  },
+  {
+   "week": 10,
+   "home": "Salve Regina",
+   "away": "Norwich",
+   "homePoints": 34,
+   "awayPoints": 6
   },
   {
    "week": 10,
@@ -22868,6 +22980,13 @@
   },
   {
    "week": 10,
+   "home": "St. John Fisher",
+   "away": "Utica",
+   "homePoints": 14,
+   "awayPoints": 35
+  },
+  {
+   "week": 10,
    "home": "St. Olaf",
    "away": "Macalester",
    "homePoints": 35,
@@ -22907,6 +23026,13 @@
    "away": "Sacred Heart",
    "homePoints": 31,
    "awayPoints": 32
+  },
+  {
+   "week": 10,
+   "home": "Sul Ross State",
+   "away": "West Texas",
+   "homePoints": 33,
+   "awayPoints": 62
   },
   {
    "week": 10,
@@ -22970,6 +23096,13 @@
    "away": "Findlay",
    "homePoints": 0,
    "awayPoints": 49
+  },
+  {
+   "week": 10,
+   "home": "Tiffin",
+   "away": "Lake Erie",
+   "homePoints": 14,
+   "awayPoints": 21
   },
   {
    "week": 10,
@@ -23103,6 +23236,13 @@
    "away": "Kean",
    "homePoints": 19,
    "awayPoints": 45
+  },
+  {
+   "week": 10,
+   "home": "WPI",
+   "away": "Merchant Marine",
+   "homePoints": 26,
+   "awayPoints": 40
   },
   {
    "week": 10,
@@ -25236,6 +25376,113 @@
     {
      "rank": 25,
      "team": "USC"
+    }
+   ]
+  },
+  {
+   "week": 10,
+   "poll": "Coaches Poll",
+   "throughWeek": 10,
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "Miami"
+    },
+    {
+     "rank": 2,
+     "team": "Georgia"
+    },
+    {
+     "rank": 3,
+     "team": "Indiana"
+    },
+    {
+     "rank": 4,
+     "team": "Utah"
+    },
+    {
+     "rank": 5,
+     "team": "UCLA"
+    },
+    {
+     "rank": 6,
+     "team": "Notre Dame"
+    },
+    {
+     "rank": 7,
+     "team": "Kentucky"
+    },
+    {
+     "rank": 8,
+     "team": "BYU"
+    },
+    {
+     "rank": 9,
+     "team": "Alabama"
+    },
+    {
+     "rank": 10,
+     "team": "Ohio State"
+    },
+    {
+     "rank": 11,
+     "team": "Texas"
+    },
+    {
+     "rank": 12,
+     "team": "Ole Miss"
+    },
+    {
+     "rank": 13,
+     "team": "Texas Tech"
+    },
+    {
+     "rank": 14,
+     "team": "Wake Forest"
+    },
+    {
+     "rank": 15,
+     "team": "LSU"
+    },
+    {
+     "rank": 16,
+     "team": "Tennessee"
+    },
+    {
+     "rank": 17,
+     "team": "USC"
+    },
+    {
+     "rank": 18,
+     "team": "Houston"
+    },
+    {
+     "rank": 19,
+     "team": "Missouri"
+    },
+    {
+     "rank": 20,
+     "team": "Iowa"
+    },
+    {
+     "rank": 21,
+     "team": "Boise State"
+    },
+    {
+     "rank": 22,
+     "team": "Arizona"
+    },
+    {
+     "rank": 23,
+     "team": "Northwestern"
+    },
+    {
+     "rank": 24,
+     "team": "SMU"
+    },
+    {
+     "rank": 25,
+     "team": "New Mexico"
     }
    ]
   }
