@@ -218,9 +218,23 @@ export function rank(eng,season,horizon){
    nothing, which zeroes its opponents in turn and the iteration diverges.
    Quality is fed back as the rating, not the rank — rank is a step function and
    never settles — and damped, without which it reaches a two-cycle and swaps
-   the same handful of teams forever. */
+   the same handful of teams forever.
+
+   gamma is the falloff: how fast the weight drops as an opponent gets worse.
+   It sat at 1 from the start, never swept, on the grounds that floor and gamma
+   were tuning rather than a reading anyone should have to make. Swept at last
+   over thirteen seasons it turns out 1 was too generous to weak opposition.
+   Agreement with the AP and Coaches polls rises to a genuine interior peak
+   around 2 to 2.5 and falls away past it, so the shape of the curve is right
+   and only the setting was off. 1.5 is taken rather than the peak because it
+   is the point that costs nothing: prediction is identical to gamma 1 to the
+   game (McNemar p = 1.000 over 7,280 predicted games) while poll agreement
+   rises 0.624 -> 0.632, better in 241 poll-weeks against 112 worse, p < 0.001.
+   Past 1.5 the poll figure keeps climbing but prediction starts to slide, and
+   that is a trade rather than a free gain. Stability is unaffected: 59 of 2,448
+   configurations fail to settle at 1.5 against 57 at 1. */
 export function weighted(eng,season,horizon,opts={}){
-  const {mode='B',floor=.2,gamma=1,damp=.7,passes=300,tol=1e-4}=opts;
+  const {mode='B',floor=.2,gamma=1.5,damp=.7,passes=300,tol=1e-4}=opts;
   const meta=new Map(rank(eng,season,horizon).map(r=>[r.team,r]));
   const ALL=[...eng.gamesOf.keys()];
   const raw=new Map();

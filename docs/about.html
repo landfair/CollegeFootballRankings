@@ -192,7 +192,18 @@ happens to be unbeaten counts enormously, whoever that team turns out to be
 
 <p>So there is an option to scale each game by how good the opponent actually
 proved to be. A win over the twelfth&#8209;best team keeps almost all its value;
-the same win over the hundred&#8209;and&#8209;twelfth keeps very little. The same
+the same win over the hundred&#8209;and&#8209;twelfth keeps very little. How
+sharply the one falls away into the other is a single number, the falloff, and
+it was left at its mildest setting for a long time on the grounds that it was
+tuning rather than a reading anyone should have to make. Swept properly across
+thirteen seasons it was plainly too generous to weak opposition: agreement with
+the polls climbs to a peak around twice that setting before falling away again,
+so the shape was right and only the number was wrong. It now sits at the point
+that costs nothing &mdash; prediction identical to the old setting game for game
+over 7,280 predicted games, poll agreement up from 0.624 to 0.632, better in 241
+poll&#8209;weeks against 112 worse. Pushing it to the peak would buy a little
+more agreement at the cost of prediction, which is a trade rather than a gain,
+so it stops short. The same
 scaling runs over defeats, and there the anchor has to be mirrored. The
 win/loss line sits at exactly 50, because every game puts one win and one loss
 into the pool; 50 is therefore the <em>floor</em> of the win range and the
@@ -245,23 +256,34 @@ says so plainly if it fails to settle.</p>
 <h3>How the defaults were chosen</h3>
 
 <p>Four of the settings have a default, and those four were picked by measurement
-rather than taste. Every combination &mdash; two ways of scoring, three fields,
-three weighting modes &mdash; was run against the AP and Coaches polls across all
-thirteen seasons here, at every week a poll was published &mdash; 358 paired
-measurements &mdash; and the one that tracked the voters most closely won. That is
+rather than taste. All eighteen combinations &mdash; two ways of scoring, three
+fields, three weighting modes &mdash; were run against the AP and Coaches polls
+across all thirteen seasons here, at every week a poll was published, 386 paired
+measurements in all, and the one that tracked the voters most closely won. That is
 <b>season&#8209;so&#8209;far scoring</b>, <b>games with an FBS team</b>, and
-<b>balanced weighting</b>, at a mean Spearman of 0.605 against 0.601 for the next
-best and 0.593 for the field it replaced. It leads at most weeks of the season,
+<b>balanced weighting</b>, at a mean Spearman of 0.632, against 0.628 for the next
+best and 0.623 for the field it replaced. It leads at most weeks of the season,
 early and late alike, so the choice is not an artefact of when it was measured.
 The same combination wins on the basketball side, measured separately.</p>
 
 <p>It is worth being honest about what that does and does not justify. The margins
-are narrow: the top six settings sit within 0.012 of each other, while agreement
-swings from 0.30 in 2020 to 0.73 in 2022 between seasons, and six different combinations each
-win at least one season outright. So the default is the best general guess, not a
-settled answer, and on any particular season another setting may well read better.
-There is also something a little circular about tuning a poll&#8209;free ranking to
-agree with polls; the measure is used here only to break ties between defensible
+are narrow: the top six settings sit within 0.013 of each other, while agreement
+swings from 0.33 in 2020 to 0.76 in 2022 between seasons, and six different
+combinations each win at least one season outright. So the default is the best
+general guess, not a settled answer, and on any particular season another setting
+may well read better &mdash; sometimes by a lot. In 2026 through week&nbsp;10,
+<b>games between FBS teams</b> beats the default by 0.082 over weeks 8 to 10,
+where across the twelve seasons before it that same swap <i>cost</i> 0.023 on
+average. That is four and a half standard deviations the wrong way, and the
+largest such gap in the record. It has not moved the default, for two reasons:
+one season is one season, and the gain shows up only against the polls. On the
+poll&#8209;free measure &mdash; ranking on weeks 1 to N and predicting
+week&nbsp;N+1 &mdash; the two fields are indistinguishable, in 2026 and overall.
+Whatever dropping the cross&#8209;division games does that year, it is making the
+ranking more poll&#8209;like rather than more right.</p>
+
+<p>There is also something a little circular about tuning a poll&#8209;free ranking
+to agree with polls; the measure is used here only to break ties between defensible
 options, never to decide what the system counts as evidence. Every option stays
 under the gear icon, and the correlation figures at the top of the page update as
 you change them, so you can check any of this yourself.</p>
