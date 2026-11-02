@@ -1,0 +1,2061 @@
+{
+ "sport": "basketball",
+ "topDivision": "D1",
+ "teams": [
+  {
+   "name": "Abilene Christian",
+   "conference": "UAC",
+   "division": "D1"
+  },
+  {
+   "name": "Air Force",
+   "conference": "Mountain West",
+   "division": "D1"
+  },
+  {
+   "name": "Akron",
+   "conference": "MAC",
+   "division": "D1"
+  },
+  {
+   "name": "Alabama",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
+   "name": "Alabama A&M",
+   "conference": "SWAC",
+   "division": "D1"
+  },
+  {
+   "name": "Alabama State",
+   "conference": "SWAC",
+   "division": "D1"
+  },
+  {
+   "name": "Alcorn State",
+   "conference": "SWAC",
+   "division": "D1"
+  },
+  {
+   "name": "American University",
+   "conference": "Patriot",
+   "division": "D1"
+  },
+  {
+   "name": "App State",
+   "conference": "Sun Belt",
+   "division": "D1"
+  },
+  {
+   "name": "Arizona",
+   "conference": "Big 12",
+   "division": "D1"
+  },
+  {
+   "name": "Arizona State",
+   "conference": "Big 12",
+   "division": "D1"
+  },
+  {
+   "name": "Arkansas",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
+   "name": "Arkansas State",
+   "conference": "Sun Belt",
+   "division": "D1"
+  },
+  {
+   "name": "Arkansas-Pine Bluff",
+   "conference": "SWAC",
+   "division": "D1"
+  },
+  {
+   "name": "Army",
+   "conference": "Patriot",
+   "division": "D1"
+  },
+  {
+   "name": "Auburn",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
+   "name": "Austin Peay",
+   "conference": "UAC",
+   "division": "D1"
+  },
+  {
+   "name": "BYU",
+   "conference": "Big 12",
+   "division": "D1"
+  },
+  {
+   "name": "Ball State",
+   "conference": "MAC",
+   "division": "D1"
+  },
+  {
+   "name": "Baylor",
+   "conference": "Big 12",
+   "division": "D1"
+  },
+  {
+   "name": "Bellarmine",
+   "conference": "ASUN",
+   "division": "D1"
+  },
+  {
+   "name": "Belmont",
+   "conference": "MVC",
+   "division": "D1"
+  },
+  {
+   "name": "Bethune-Cookman",
+   "conference": "SWAC",
+   "division": "D1"
+  },
+  {
+   "name": "Binghamton",
+   "conference": "Am. East",
+   "division": "D1"
+  },
+  {
+   "name": "Boise State",
+   "conference": "Pac-12",
+   "division": "D1"
+  },
+  {
+   "name": "Boston College",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "Boston University",
+   "conference": "Patriot",
+   "division": "D1"
+  },
+  {
+   "name": "Bowling Green",
+   "conference": "MAC",
+   "division": "D1"
+  },
+  {
+   "name": "Bradley",
+   "conference": "MVC",
+   "division": "D1"
+  },
+  {
+   "name": "Brown",
+   "conference": "Ivy",
+   "division": "D1"
+  },
+  {
+   "name": "Bryant",
+   "conference": "Am. East",
+   "division": "D1"
+  },
+  {
+   "name": "Bucknell",
+   "conference": "Patriot",
+   "division": "D1"
+  },
+  {
+   "name": "Buffalo",
+   "conference": "MAC",
+   "division": "D1"
+  },
+  {
+   "name": "Butler",
+   "conference": "Big East",
+   "division": "D1"
+  },
+  {
+   "name": "Cal Poly",
+   "conference": "Big West",
+   "division": "D1"
+  },
+  {
+   "name": "Cal State Bakersfield",
+   "conference": "Big West",
+   "division": "D1"
+  },
+  {
+   "name": "Cal State Fullerton",
+   "conference": "Big West",
+   "division": "D1"
+  },
+  {
+   "name": "Cal State Northridge",
+   "conference": "Big West",
+   "division": "D1"
+  },
+  {
+   "name": "California",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "California Baptist",
+   "conference": "Big West",
+   "division": "D1"
+  },
+  {
+   "name": "Campbell",
+   "conference": "CAA",
+   "division": "D1"
+  },
+  {
+   "name": "Canisius",
+   "conference": "Metro",
+   "division": "D1"
+  },
+  {
+   "name": "Central Arkansas",
+   "conference": "UAC",
+   "division": "D1"
+  },
+  {
+   "name": "Central Connecticut",
+   "conference": "NEC",
+   "division": "D1"
+  },
+  {
+   "name": "Central Michigan",
+   "conference": "MAC",
+   "division": "D1"
+  },
+  {
+   "name": "Charleston",
+   "conference": "CAA",
+   "division": "D1"
+  },
+  {
+   "name": "Charleston Southern",
+   "conference": "Big South",
+   "division": "D1"
+  },
+  {
+   "name": "Charlotte",
+   "conference": "American",
+   "division": "D1"
+  },
+  {
+   "name": "Chattanooga",
+   "conference": "SoCon",
+   "division": "D1"
+  },
+  {
+   "name": "Chicago State",
+   "conference": "NEC",
+   "division": "D1"
+  },
+  {
+   "name": "Cincinnati",
+   "conference": "Big 12",
+   "division": "D1"
+  },
+  {
+   "name": "Clemson",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "Cleveland State",
+   "conference": "Horizon",
+   "division": "D1"
+  },
+  {
+   "name": "Coastal Carolina",
+   "conference": "Sun Belt",
+   "division": "D1"
+  },
+  {
+   "name": "Colgate",
+   "conference": "Patriot",
+   "division": "D1"
+  },
+  {
+   "name": "Colorado",
+   "conference": "Big 12",
+   "division": "D1"
+  },
+  {
+   "name": "Colorado State",
+   "conference": "Pac-12",
+   "division": "D1"
+  },
+  {
+   "name": "Columbia",
+   "conference": "Ivy",
+   "division": "D1"
+  },
+  {
+   "name": "Coppin State",
+   "conference": "MEAC",
+   "division": "D1"
+  },
+  {
+   "name": "Cornell",
+   "conference": "Ivy",
+   "division": "D1"
+  },
+  {
+   "name": "Creighton",
+   "conference": "Big East",
+   "division": "D1"
+  },
+  {
+   "name": "Dartmouth",
+   "conference": "Ivy",
+   "division": "D1"
+  },
+  {
+   "name": "Davidson",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "Dayton",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "DePaul",
+   "conference": "Big East",
+   "division": "D1"
+  },
+  {
+   "name": "Delaware",
+   "conference": "CUSA",
+   "division": "D1"
+  },
+  {
+   "name": "Delaware State",
+   "conference": "MEAC",
+   "division": "D1"
+  },
+  {
+   "name": "Denver",
+   "conference": "WCC",
+   "division": "D1"
+  },
+  {
+   "name": "Detroit Mercy",
+   "conference": "Horizon",
+   "division": "D1"
+  },
+  {
+   "name": "Drake",
+   "conference": "MVC",
+   "division": "D1"
+  },
+  {
+   "name": "Drexel",
+   "conference": "CAA",
+   "division": "D1"
+  },
+  {
+   "name": "Duke",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "Duquesne",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "East Carolina",
+   "conference": "American",
+   "division": "D1"
+  },
+  {
+   "name": "East Tennessee State",
+   "conference": "SoCon",
+   "division": "D1"
+  },
+  {
+   "name": "East Texas A&M",
+   "conference": "Southland",
+   "division": "D1"
+  },
+  {
+   "name": "Eastern Illinois",
+   "conference": "OVC",
+   "division": "D1"
+  },
+  {
+   "name": "Eastern Kentucky",
+   "conference": "UAC",
+   "division": "D1"
+  },
+  {
+   "name": "Eastern Michigan",
+   "conference": "MAC",
+   "division": "D1"
+  },
+  {
+   "name": "Eastern Washington",
+   "conference": "Big Sky",
+   "division": "D1"
+  },
+  {
+   "name": "Elon",
+   "conference": "CAA",
+   "division": "D1"
+  },
+  {
+   "name": "Evansville",
+   "conference": "MVC",
+   "division": "D1"
+  },
+  {
+   "name": "Fairfield",
+   "conference": "Metro",
+   "division": "D1"
+  },
+  {
+   "name": "Fairleigh Dickinson",
+   "conference": "NEC",
+   "division": "D1"
+  },
+  {
+   "name": "Florida",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
+   "name": "Florida A&M",
+   "conference": "SWAC",
+   "division": "D1"
+  },
+  {
+   "name": "Florida Atlantic",
+   "conference": "American",
+   "division": "D1"
+  },
+  {
+   "name": "Florida Gulf Coast",
+   "conference": "ASUN",
+   "division": "D1"
+  },
+  {
+   "name": "Florida International",
+   "conference": "CUSA",
+   "division": "D1"
+  },
+  {
+   "name": "Florida State",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "Fordham",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "Fresno State",
+   "conference": "Pac-12",
+   "division": "D1"
+  },
+  {
+   "name": "Furman",
+   "conference": "SoCon",
+   "division": "D1"
+  },
+  {
+   "name": "Gardner-Webb",
+   "conference": "Big South",
+   "division": "D1"
+  },
+  {
+   "name": "George Mason",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "George Washington",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "Georgetown",
+   "conference": "Big East",
+   "division": "D1"
+  },
+  {
+   "name": "Georgia",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
+   "name": "Georgia Southern",
+   "conference": "Sun Belt",
+   "division": "D1"
+  },
+  {
+   "name": "Georgia State",
+   "conference": "Sun Belt",
+   "division": "D1"
+  },
+  {
+   "name": "Georgia Tech",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "Gonzaga",
+   "conference": "Pac-12",
+   "division": "D1"
+  },
+  {
+   "name": "Grambling",
+   "conference": "SWAC",
+   "division": "D1"
+  },
+  {
+   "name": "Grand Canyon",
+   "conference": "Mountain West",
+   "division": "D1"
+  },
+  {
+   "name": "Green Bay",
+   "conference": "Horizon",
+   "division": "D1"
+  },
+  {
+   "name": "Hampton",
+   "conference": "CAA",
+   "division": "D1"
+  },
+  {
+   "name": "Harvard",
+   "conference": "Ivy",
+   "division": "D1"
+  },
+  {
+   "name": "Hawai'i",
+   "conference": "Mountain West",
+   "division": "D1"
+  },
+  {
+   "name": "High Point",
+   "conference": "Big South",
+   "division": "D1"
+  },
+  {
+   "name": "Hofstra",
+   "conference": "CAA",
+   "division": "D1"
+  },
+  {
+   "name": "Holy Cross",
+   "conference": "Patriot",
+   "division": "D1"
+  },
+  {
+   "name": "Houston",
+   "conference": "Big 12",
+   "division": "D1"
+  },
+  {
+   "name": "Houston Christian",
+   "conference": "Southland",
+   "division": "D1"
+  },
+  {
+   "name": "Howard",
+   "conference": "MEAC",
+   "division": "D1"
+  },
+  {
+   "name": "IU Indianapolis",
+   "conference": "Horizon",
+   "division": "D1"
+  },
+  {
+   "name": "Idaho",
+   "conference": "Big Sky",
+   "division": "D1"
+  },
+  {
+   "name": "Idaho State",
+   "conference": "Big Sky",
+   "division": "D1"
+  },
+  {
+   "name": "Illinois",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "Illinois State",
+   "conference": "MVC",
+   "division": "D1"
+  },
+  {
+   "name": "Incarnate Word",
+   "conference": "Southland",
+   "division": "D1"
+  },
+  {
+   "name": "Indiana",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "Indiana State",
+   "conference": "MVC",
+   "division": "D1"
+  },
+  {
+   "name": "Iona",
+   "conference": "Metro",
+   "division": "D1"
+  },
+  {
+   "name": "Iowa",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "Iowa State",
+   "conference": "Big 12",
+   "division": "D1"
+  },
+  {
+   "name": "Jackson State",
+   "conference": "SWAC",
+   "division": "D1"
+  },
+  {
+   "name": "Jacksonville",
+   "conference": "ASUN",
+   "division": "D1"
+  },
+  {
+   "name": "Jacksonville State",
+   "conference": "CUSA",
+   "division": "D1"
+  },
+  {
+   "name": "James Madison",
+   "conference": "Sun Belt",
+   "division": "D1"
+  },
+  {
+   "name": "Kansas",
+   "conference": "Big 12",
+   "division": "D1"
+  },
+  {
+   "name": "Kansas City",
+   "conference": "Summit",
+   "division": "D1"
+  },
+  {
+   "name": "Kansas State",
+   "conference": "Big 12",
+   "division": "D1"
+  },
+  {
+   "name": "Kennesaw State",
+   "conference": "CUSA",
+   "division": "D1"
+  },
+  {
+   "name": "Kent State",
+   "conference": "MAC",
+   "division": "D1"
+  },
+  {
+   "name": "Kentucky",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
+   "name": "LSU",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
+   "name": "La Salle",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "Lafayette",
+   "conference": "Patriot",
+   "division": "D1"
+  },
+  {
+   "name": "Lamar",
+   "conference": "Southland",
+   "division": "D1"
+  },
+  {
+   "name": "Le Moyne",
+   "conference": "NEC",
+   "division": "D1"
+  },
+  {
+   "name": "Lehigh",
+   "conference": "Patriot",
+   "division": "D1"
+  },
+  {
+   "name": "Liberty",
+   "conference": "CUSA",
+   "division": "D1"
+  },
+  {
+   "name": "Lindenwood",
+   "conference": "OVC",
+   "division": "D1"
+  },
+  {
+   "name": "Lipscomb",
+   "conference": "ASUN",
+   "division": "D1"
+  },
+  {
+   "name": "Little Rock",
+   "conference": "UAC",
+   "division": "D1"
+  },
+  {
+   "name": "Long Beach State",
+   "conference": "Big West",
+   "division": "D1"
+  },
+  {
+   "name": "Long Island University",
+   "conference": "NEC",
+   "division": "D1"
+  },
+  {
+   "name": "Longwood",
+   "conference": "Big South",
+   "division": "D1"
+  },
+  {
+   "name": "Louisiana",
+   "conference": "Sun Belt",
+   "division": "D1"
+  },
+  {
+   "name": "Louisiana Tech",
+   "conference": "Sun Belt",
+   "division": "D1"
+  },
+  {
+   "name": "Louisville",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "Loyola Chicago",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "Loyola Maryland",
+   "conference": "Patriot",
+   "division": "D1"
+  },
+  {
+   "name": "Loyola Marymount",
+   "conference": "WCC",
+   "division": "D1"
+  },
+  {
+   "name": "Maine",
+   "conference": "Am. East",
+   "division": "D1"
+  },
+  {
+   "name": "Manhattan",
+   "conference": "Metro",
+   "division": "D1"
+  },
+  {
+   "name": "Marist",
+   "conference": "Metro",
+   "division": "D1"
+  },
+  {
+   "name": "Marquette",
+   "conference": "Big East",
+   "division": "D1"
+  },
+  {
+   "name": "Marshall",
+   "conference": "Sun Belt",
+   "division": "D1"
+  },
+  {
+   "name": "Maryland",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "Maryland Eastern Shore",
+   "conference": "MEAC",
+   "division": "D1"
+  },
+  {
+   "name": "Massachusetts",
+   "conference": "MAC",
+   "division": "D1"
+  },
+  {
+   "name": "McNeese",
+   "conference": "Southland",
+   "division": "D1"
+  },
+  {
+   "name": "Memphis",
+   "conference": "American",
+   "division": "D1"
+  },
+  {
+   "name": "Mercer",
+   "conference": "SoCon",
+   "division": "D1"
+  },
+  {
+   "name": "Mercyhurst",
+   "conference": "NEC",
+   "division": "D1"
+  },
+  {
+   "name": "Merrimack",
+   "conference": "Metro",
+   "division": "D1"
+  },
+  {
+   "name": "Miami",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "Miami (OH)",
+   "conference": "MAC",
+   "division": "D1"
+  },
+  {
+   "name": "Michigan",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "Michigan State",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "Middle Tennessee",
+   "conference": "CUSA",
+   "division": "D1"
+  },
+  {
+   "name": "Milwaukee",
+   "conference": "Horizon",
+   "division": "D1"
+  },
+  {
+   "name": "Minnesota",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "Mississippi State",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
+   "name": "Mississippi Valley State",
+   "conference": "SWAC",
+   "division": "D1"
+  },
+  {
+   "name": "Missouri",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
+   "name": "Missouri State",
+   "conference": "CUSA",
+   "division": "D1"
+  },
+  {
+   "name": "Monmouth",
+   "conference": "CAA",
+   "division": "D1"
+  },
+  {
+   "name": "Montana",
+   "conference": "Big Sky",
+   "division": "D1"
+  },
+  {
+   "name": "Montana State",
+   "conference": "Big Sky",
+   "division": "D1"
+  },
+  {
+   "name": "Morehead State",
+   "conference": "OVC",
+   "division": "D1"
+  },
+  {
+   "name": "Morgan State",
+   "conference": "MEAC",
+   "division": "D1"
+  },
+  {
+   "name": "Mount St. Mary's",
+   "conference": "Metro",
+   "division": "D1"
+  },
+  {
+   "name": "Murray State",
+   "conference": "MVC",
+   "division": "D1"
+  },
+  {
+   "name": "NC State",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "NJIT",
+   "conference": "Am. East",
+   "division": "D1"
+  },
+  {
+   "name": "Navy",
+   "conference": "Patriot",
+   "division": "D1"
+  },
+  {
+   "name": "Nebraska",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "Nevada",
+   "conference": "Mountain West",
+   "division": "D1"
+  },
+  {
+   "name": "New Hampshire",
+   "conference": "Am. East",
+   "division": "D1"
+  },
+  {
+   "name": "New Haven",
+   "conference": "NEC",
+   "division": "D1"
+  },
+  {
+   "name": "New Mexico",
+   "conference": "Mountain West",
+   "division": "D1"
+  },
+  {
+   "name": "New Mexico State",
+   "conference": "CUSA",
+   "division": "D1"
+  },
+  {
+   "name": "New Orleans",
+   "conference": "Southland",
+   "division": "D1"
+  },
+  {
+   "name": "Niagara",
+   "conference": "Metro",
+   "division": "D1"
+  },
+  {
+   "name": "Nicholls",
+   "conference": "Southland",
+   "division": "D1"
+  },
+  {
+   "name": "Norfolk State",
+   "conference": "MEAC",
+   "division": "D1"
+  },
+  {
+   "name": "North Alabama",
+   "conference": "UAC",
+   "division": "D1"
+  },
+  {
+   "name": "North Carolina",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "North Carolina A&T",
+   "conference": "CAA",
+   "division": "D1"
+  },
+  {
+   "name": "North Carolina Central",
+   "conference": "MEAC",
+   "division": "D1"
+  },
+  {
+   "name": "North Dakota",
+   "conference": "Summit",
+   "division": "D1"
+  },
+  {
+   "name": "North Dakota State",
+   "conference": "Summit",
+   "division": "D1"
+  },
+  {
+   "name": "North Florida",
+   "conference": "ASUN",
+   "division": "D1"
+  },
+  {
+   "name": "North Texas",
+   "conference": "American",
+   "division": "D1"
+  },
+  {
+   "name": "Northeastern",
+   "conference": "CAA",
+   "division": "D1"
+  },
+  {
+   "name": "Northern Arizona",
+   "conference": "Big Sky",
+   "division": "D1"
+  },
+  {
+   "name": "Northern Colorado",
+   "conference": "Big Sky",
+   "division": "D1"
+  },
+  {
+   "name": "Northern Illinois",
+   "conference": "Horizon",
+   "division": "D1"
+  },
+  {
+   "name": "Northern Iowa",
+   "conference": "MVC",
+   "division": "D1"
+  },
+  {
+   "name": "Northern Kentucky",
+   "conference": "Horizon",
+   "division": "D1"
+  },
+  {
+   "name": "Northwestern",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "Northwestern State",
+   "conference": "Southland",
+   "division": "D1"
+  },
+  {
+   "name": "Notre Dame",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "Oakland",
+   "conference": "Horizon",
+   "division": "D1"
+  },
+  {
+   "name": "Ohio",
+   "conference": "MAC",
+   "division": "D1"
+  },
+  {
+   "name": "Ohio State",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "Oklahoma",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
+   "name": "Oklahoma State",
+   "conference": "Big 12",
+   "division": "D1"
+  },
+  {
+   "name": "Old Dominion",
+   "conference": "Sun Belt",
+   "division": "D1"
+  },
+  {
+   "name": "Ole Miss",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
+   "name": "Omaha",
+   "conference": "Summit",
+   "division": "D1"
+  },
+  {
+   "name": "Oral Roberts",
+   "conference": "Summit",
+   "division": "D1"
+  },
+  {
+   "name": "Oregon",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "Oregon State",
+   "conference": "Pac-12",
+   "division": "D1"
+  },
+  {
+   "name": "Pacific",
+   "conference": "WCC",
+   "division": "D1"
+  },
+  {
+   "name": "Penn State",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "Pennsylvania",
+   "conference": "Ivy",
+   "division": "D1"
+  },
+  {
+   "name": "Pepperdine",
+   "conference": "WCC",
+   "division": "D1"
+  },
+  {
+   "name": "Pittsburgh",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "Portland",
+   "conference": "WCC",
+   "division": "D1"
+  },
+  {
+   "name": "Portland State",
+   "conference": "Big Sky",
+   "division": "D1"
+  },
+  {
+   "name": "Prairie View A&M",
+   "conference": "SWAC",
+   "division": "D1"
+  },
+  {
+   "name": "Presbyterian",
+   "conference": "Big South",
+   "division": "D1"
+  },
+  {
+   "name": "Princeton",
+   "conference": "Ivy",
+   "division": "D1"
+  },
+  {
+   "name": "Providence",
+   "conference": "Big East",
+   "division": "D1"
+  },
+  {
+   "name": "Purdue",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "Purdue Fort Wayne",
+   "conference": "Horizon",
+   "division": "D1"
+  },
+  {
+   "name": "Queens University",
+   "conference": "ASUN",
+   "division": "D1"
+  },
+  {
+   "name": "Quinnipiac",
+   "conference": "Metro",
+   "division": "D1"
+  },
+  {
+   "name": "Radford",
+   "conference": "Big South",
+   "division": "D1"
+  },
+  {
+   "name": "Rhode Island",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "Rice",
+   "conference": "American",
+   "division": "D1"
+  },
+  {
+   "name": "Richmond",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "Rider",
+   "conference": "Metro",
+   "division": "D1"
+  },
+  {
+   "name": "Robert Morris",
+   "conference": "Horizon",
+   "division": "D1"
+  },
+  {
+   "name": "Rutgers",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "SE Louisiana",
+   "conference": "Southland",
+   "division": "D1"
+  },
+  {
+   "name": "SIU Edwardsville",
+   "conference": "OVC",
+   "division": "D1"
+  },
+  {
+   "name": "SMU",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "Sacramento State",
+   "conference": "Big West",
+   "division": "D1"
+  },
+  {
+   "name": "Sacred Heart",
+   "conference": "Metro",
+   "division": "D1"
+  },
+  {
+   "name": "Saint Joseph's",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "Saint Louis",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "Saint Mary's",
+   "conference": "WCC",
+   "division": "D1"
+  },
+  {
+   "name": "Saint Peter's",
+   "conference": "Metro",
+   "division": "D1"
+  },
+  {
+   "name": "Sam Houston",
+   "conference": "CUSA",
+   "division": "D1"
+  },
+  {
+   "name": "Samford",
+   "conference": "SoCon",
+   "division": "D1"
+  },
+  {
+   "name": "San Diego",
+   "conference": "WCC",
+   "division": "D1"
+  },
+  {
+   "name": "San Diego State",
+   "conference": "Pac-12",
+   "division": "D1"
+  },
+  {
+   "name": "San Francisco",
+   "conference": "WCC",
+   "division": "D1"
+  },
+  {
+   "name": "San Jos\u00e9 State",
+   "conference": "Mountain West",
+   "division": "D1"
+  },
+  {
+   "name": "Santa Clara",
+   "conference": "WCC",
+   "division": "D1"
+  },
+  {
+   "name": "Seattle U",
+   "conference": "WCC",
+   "division": "D1"
+  },
+  {
+   "name": "Seton Hall",
+   "conference": "Big East",
+   "division": "D1"
+  },
+  {
+   "name": "Siena",
+   "conference": "Metro",
+   "division": "D1"
+  },
+  {
+   "name": "South Alabama",
+   "conference": "Sun Belt",
+   "division": "D1"
+  },
+  {
+   "name": "South Carolina",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
+   "name": "South Carolina State",
+   "conference": "MEAC",
+   "division": "D1"
+  },
+  {
+   "name": "South Carolina Upstate",
+   "conference": "Big South",
+   "division": "D1"
+  },
+  {
+   "name": "South Dakota",
+   "conference": "Summit",
+   "division": "D1"
+  },
+  {
+   "name": "South Dakota State",
+   "conference": "Summit",
+   "division": "D1"
+  },
+  {
+   "name": "South Florida",
+   "conference": "American",
+   "division": "D1"
+  },
+  {
+   "name": "Southeast Missouri State",
+   "conference": "OVC",
+   "division": "D1"
+  },
+  {
+   "name": "Southern",
+   "conference": "SWAC",
+   "division": "D1"
+  },
+  {
+   "name": "Southern Illinois",
+   "conference": "MVC",
+   "division": "D1"
+  },
+  {
+   "name": "Southern Indiana",
+   "conference": "OVC",
+   "division": "D1"
+  },
+  {
+   "name": "Southern Miss",
+   "conference": "Sun Belt",
+   "division": "D1"
+  },
+  {
+   "name": "Southern Utah",
+   "conference": "Big Sky",
+   "division": "D1"
+  },
+  {
+   "name": "St. Bonaventure",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "St. John's",
+   "conference": "Big East",
+   "division": "D1"
+  },
+  {
+   "name": "St. Thomas-Minnesota",
+   "conference": "Summit",
+   "division": "D1"
+  },
+  {
+   "name": "Stanford",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "Stephen F. Austin",
+   "conference": "Southland",
+   "division": "D1"
+  },
+  {
+   "name": "Stetson",
+   "conference": "ASUN",
+   "division": "D1"
+  },
+  {
+   "name": "Stonehill",
+   "conference": "NEC",
+   "division": "D1"
+  },
+  {
+   "name": "Stony Brook",
+   "conference": "CAA",
+   "division": "D1"
+  },
+  {
+   "name": "Syracuse",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "TCU",
+   "conference": "Big 12",
+   "division": "D1"
+  },
+  {
+   "name": "Tarleton State",
+   "conference": "UAC",
+   "division": "D1"
+  },
+  {
+   "name": "Temple",
+   "conference": "American",
+   "division": "D1"
+  },
+  {
+   "name": "Tennessee",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
+   "name": "Tennessee State",
+   "conference": "OVC",
+   "division": "D1"
+  },
+  {
+   "name": "Tennessee Tech",
+   "conference": "SoCon",
+   "division": "D1"
+  },
+  {
+   "name": "Texas",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
+   "name": "Texas A&M",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
+   "name": "Texas A&M-Corpus Christi",
+   "conference": "Southland",
+   "division": "D1"
+  },
+  {
+   "name": "Texas Southern",
+   "conference": "SWAC",
+   "division": "D1"
+  },
+  {
+   "name": "Texas State",
+   "conference": "Pac-12",
+   "division": "D1"
+  },
+  {
+   "name": "Texas Tech",
+   "conference": "Big 12",
+   "division": "D1"
+  },
+  {
+   "name": "The Citadel",
+   "conference": "SoCon",
+   "division": "D1"
+  },
+  {
+   "name": "Toledo",
+   "conference": "MAC",
+   "division": "D1"
+  },
+  {
+   "name": "Towson",
+   "conference": "CAA",
+   "division": "D1"
+  },
+  {
+   "name": "Troy",
+   "conference": "Sun Belt",
+   "division": "D1"
+  },
+  {
+   "name": "Tulane",
+   "conference": "American",
+   "division": "D1"
+  },
+  {
+   "name": "Tulsa",
+   "conference": "American",
+   "division": "D1"
+  },
+  {
+   "name": "UAB",
+   "conference": "American",
+   "division": "D1"
+  },
+  {
+   "name": "UAlbany",
+   "conference": "Am. East",
+   "division": "D1"
+  },
+  {
+   "name": "UC Davis",
+   "conference": "Mountain West",
+   "division": "D1"
+  },
+  {
+   "name": "UC Irvine",
+   "conference": "Big West",
+   "division": "D1"
+  },
+  {
+   "name": "UC Riverside",
+   "conference": "Big West",
+   "division": "D1"
+  },
+  {
+   "name": "UC San Diego",
+   "conference": "Big West",
+   "division": "D1"
+  },
+  {
+   "name": "UC Santa Barbara",
+   "conference": "Big West",
+   "division": "D1"
+  },
+  {
+   "name": "UCF",
+   "conference": "Big 12",
+   "division": "D1"
+  },
+  {
+   "name": "UCLA",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "UConn",
+   "conference": "Big East",
+   "division": "D1"
+  },
+  {
+   "name": "UIC",
+   "conference": "MVC",
+   "division": "D1"
+  },
+  {
+   "name": "UL Monroe",
+   "conference": "Sun Belt",
+   "division": "D1"
+  },
+  {
+   "name": "UMBC",
+   "conference": "Am. East",
+   "division": "D1"
+  },
+  {
+   "name": "UMass Lowell",
+   "conference": "Am. East",
+   "division": "D1"
+  },
+  {
+   "name": "UNC Asheville",
+   "conference": "Big South",
+   "division": "D1"
+  },
+  {
+   "name": "UNC Greensboro",
+   "conference": "SoCon",
+   "division": "D1"
+  },
+  {
+   "name": "UNC Wilmington",
+   "conference": "CAA",
+   "division": "D1"
+  },
+  {
+   "name": "UNLV",
+   "conference": "Mountain West",
+   "division": "D1"
+  },
+  {
+   "name": "USC",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "UT Arlington",
+   "conference": "UAC",
+   "division": "D1"
+  },
+  {
+   "name": "UT Martin",
+   "conference": "OVC",
+   "division": "D1"
+  },
+  {
+   "name": "UT Rio Grande Valley",
+   "conference": "Southland",
+   "division": "D1"
+  },
+  {
+   "name": "UTEP",
+   "conference": "Mountain West",
+   "division": "D1"
+  },
+  {
+   "name": "UTSA",
+   "conference": "American",
+   "division": "D1"
+  },
+  {
+   "name": "Utah",
+   "conference": "Big 12",
+   "division": "D1"
+  },
+  {
+   "name": "Utah State",
+   "conference": "Pac-12",
+   "division": "D1"
+  },
+  {
+   "name": "Utah Tech",
+   "conference": "Big Sky",
+   "division": "D1"
+  },
+  {
+   "name": "Utah Valley",
+   "conference": "Big West",
+   "division": "D1"
+  },
+  {
+   "name": "VCU",
+   "conference": "A-10",
+   "division": "D1"
+  },
+  {
+   "name": "VMI",
+   "conference": "SoCon",
+   "division": "D1"
+  },
+  {
+   "name": "Valparaiso",
+   "conference": "MVC",
+   "division": "D1"
+  },
+  {
+   "name": "Vanderbilt",
+   "conference": "SEC",
+   "division": "D1"
+  },
+  {
+   "name": "Vermont",
+   "conference": "Am. East",
+   "division": "D1"
+  },
+  {
+   "name": "Villanova",
+   "conference": "Big East",
+   "division": "D1"
+  },
+  {
+   "name": "Virginia",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "Virginia Tech",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "Wagner",
+   "conference": "NEC",
+   "division": "D1"
+  },
+  {
+   "name": "Wake Forest",
+   "conference": "ACC",
+   "division": "D1"
+  },
+  {
+   "name": "Washington",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "Washington State",
+   "conference": "Pac-12",
+   "division": "D1"
+  },
+  {
+   "name": "Weber State",
+   "conference": "Big Sky",
+   "division": "D1"
+  },
+  {
+   "name": "West Florida",
+   "conference": "ASUN",
+   "division": "D1"
+  },
+  {
+   "name": "West Georgia",
+   "conference": "UAC",
+   "division": "D1"
+  },
+  {
+   "name": "West Virginia",
+   "conference": "Big 12",
+   "division": "D1"
+  },
+  {
+   "name": "Western Carolina",
+   "conference": "SoCon",
+   "division": "D1"
+  },
+  {
+   "name": "Western Illinois",
+   "conference": "OVC",
+   "division": "D1"
+  },
+  {
+   "name": "Western Kentucky",
+   "conference": "CUSA",
+   "division": "D1"
+  },
+  {
+   "name": "Western Michigan",
+   "conference": "MAC",
+   "division": "D1"
+  },
+  {
+   "name": "Wichita State",
+   "conference": "American",
+   "division": "D1"
+  },
+  {
+   "name": "William & Mary",
+   "conference": "CAA",
+   "division": "D1"
+  },
+  {
+   "name": "Winthrop",
+   "conference": "Big South",
+   "division": "D1"
+  },
+  {
+   "name": "Wisconsin",
+   "conference": "Big Ten",
+   "division": "D1"
+  },
+  {
+   "name": "Wofford",
+   "conference": "SoCon",
+   "division": "D1"
+  },
+  {
+   "name": "Wright State",
+   "conference": "Horizon",
+   "division": "D1"
+  },
+  {
+   "name": "Wyoming",
+   "conference": "Mountain West",
+   "division": "D1"
+  },
+  {
+   "name": "Xavier",
+   "conference": "Big East",
+   "division": "D1"
+  },
+  {
+   "name": "Yale",
+   "conference": "Ivy",
+   "division": "D1"
+  },
+  {
+   "name": "Youngstown State",
+   "conference": "Horizon",
+   "division": "D1"
+  }
+ ],
+ "games": [
+  {
+   "home": "Villanova",
+   "away": "Notre Dame",
+   "homePoints": 72,
+   "awayPoints": 74,
+   "week": 1
+  }
+ ],
+ "dates": [
+  "2026-11-01"
+ ],
+ "polls": [
+  {
+   "poll": "AP Top 25",
+   "week": 1,
+   "pollDate": "2026-10-19",
+   "throughWeek": 0,
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "Florida"
+    },
+    {
+     "rank": 2,
+     "team": "Duke"
+    },
+    {
+     "rank": 3,
+     "team": "Illinois"
+    },
+    {
+     "rank": 4,
+     "team": "UConn"
+    },
+    {
+     "rank": 5,
+     "team": "Arizona"
+    },
+    {
+     "rank": 6,
+     "team": "Michigan State"
+    },
+    {
+     "rank": 7,
+     "team": "Texas"
+    },
+    {
+     "rank": 8,
+     "team": "Tennessee"
+    },
+    {
+     "rank": 9,
+     "team": "Virginia"
+    },
+    {
+     "rank": 10,
+     "team": "Houston"
+    },
+    {
+     "rank": 11,
+     "team": "Louisville"
+    },
+    {
+     "rank": 12,
+     "team": "Arkansas"
+    },
+    {
+     "rank": 13,
+     "team": "St. John's"
+    },
+    {
+     "rank": 14,
+     "team": "Miami"
+    },
+    {
+     "rank": 15,
+     "team": "Gonzaga"
+    },
+    {
+     "rank": 16,
+     "team": "Michigan"
+    },
+    {
+     "rank": 17,
+     "team": "Kansas"
+    },
+    {
+     "rank": 18,
+     "team": "Iowa State"
+    },
+    {
+     "rank": 19,
+     "team": "Texas Tech"
+    },
+    {
+     "rank": 20,
+     "team": "Alabama"
+    },
+    {
+     "rank": 21,
+     "team": "USC"
+    },
+    {
+     "rank": 22,
+     "team": "UCLA"
+    },
+    {
+     "rank": 23,
+     "team": "Kentucky"
+    },
+    {
+     "rank": 24,
+     "team": "Vanderbilt"
+    },
+    {
+     "rank": 25,
+     "team": "BYU"
+    }
+   ]
+  },
+  {
+   "poll": "Coaches Poll",
+   "week": 1,
+   "pollDate": "2026-10-19",
+   "throughWeek": 0,
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "Florida"
+    },
+    {
+     "rank": 2,
+     "team": "Duke"
+    },
+    {
+     "rank": 3,
+     "team": "Illinois"
+    },
+    {
+     "rank": 4,
+     "team": "Arizona"
+    },
+    {
+     "rank": 5,
+     "team": "UConn"
+    },
+    {
+     "rank": 6,
+     "team": "Michigan State"
+    },
+    {
+     "rank": 7,
+     "team": "Texas"
+    },
+    {
+     "rank": 8,
+     "team": "Houston"
+    },
+    {
+     "rank": 9,
+     "team": "Tennessee"
+    },
+    {
+     "rank": 10,
+     "team": "Virginia"
+    },
+    {
+     "rank": 11,
+     "team": "Louisville"
+    },
+    {
+     "rank": 12,
+     "team": "Gonzaga"
+    },
+    {
+     "rank": 13,
+     "team": "Arkansas"
+    },
+    {
+     "rank": 14,
+     "team": "St. John's"
+    },
+    {
+     "rank": 14,
+     "team": "Iowa State"
+    },
+    {
+     "rank": 16,
+     "team": "Texas Tech"
+    },
+    {
+     "rank": 17,
+     "team": "Miami"
+    },
+    {
+     "rank": 18,
+     "team": "Kansas"
+    },
+    {
+     "rank": 18,
+     "team": "Alabama"
+    },
+    {
+     "rank": 20,
+     "team": "Michigan"
+    },
+    {
+     "rank": 21,
+     "team": "Vanderbilt"
+    },
+    {
+     "rank": 22,
+     "team": "USC"
+    },
+    {
+     "rank": 23,
+     "team": "Kentucky"
+    },
+    {
+     "rank": 24,
+     "team": "Purdue"
+    },
+    {
+     "rank": 25,
+     "team": "BYU"
+    }
+   ]
+  }
+ ]
+}

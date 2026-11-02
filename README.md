@@ -49,8 +49,12 @@ teams still count as opponents for everyone else.
 ```sh
 export COLLEGE_FOOTBALL_API_KEY='your-key'   # free at collegefootballdata.com/key
 python3 fetch_season.py --year 2026 --out docs/season-2026.json --include-title-games
-python3 fetch_basketball.py --season 2026 --out docs/basketball/season-2026.json
+python3 fetch_basketball.py --season 2027 --out docs/basketball/season-2027.json
 ```
+
+A basketball season is named for the year it ends in, so the 2026–27 season is
+`--season 2027`. Adding a season also needs an `<option>` in the `season` select
+of the relevant `index.html`; the newest sits first and is what the page opens on.
 
 To see what the feed offers for a year without writing anything:
 
