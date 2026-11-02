@@ -22161,6 +22161,13 @@
   },
   {
    "week": 10,
+   "home": "King's",
+   "away": "Delaware Valley",
+   "homePoints": 35,
+   "awayPoints": 61
+  },
+  {
+   "week": 10,
    "home": "Lackawanna",
    "away": "Millersville",
    "homePoints": 28,
@@ -25376,6 +25383,113 @@
     {
      "rank": 25,
      "team": "USC"
+    }
+   ]
+  },
+  {
+   "week": 10,
+   "poll": "AP Top 25",
+   "throughWeek": 10,
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "Miami"
+    },
+    {
+     "rank": 2,
+     "team": "Georgia"
+    },
+    {
+     "rank": 3,
+     "team": "Utah"
+    },
+    {
+     "rank": 4,
+     "team": "Notre Dame"
+    },
+    {
+     "rank": 5,
+     "team": "UCLA"
+    },
+    {
+     "rank": 6,
+     "team": "Indiana"
+    },
+    {
+     "rank": 7,
+     "team": "BYU"
+    },
+    {
+     "rank": 8,
+     "team": "Kentucky"
+    },
+    {
+     "rank": 9,
+     "team": "Alabama"
+    },
+    {
+     "rank": 10,
+     "team": "Texas"
+    },
+    {
+     "rank": 11,
+     "team": "Ohio State"
+    },
+    {
+     "rank": 12,
+     "team": "Ole Miss"
+    },
+    {
+     "rank": 13,
+     "team": "Texas Tech"
+    },
+    {
+     "rank": 14,
+     "team": "Wake Forest"
+    },
+    {
+     "rank": 15,
+     "team": "LSU"
+    },
+    {
+     "rank": 16,
+     "team": "Tennessee"
+    },
+    {
+     "rank": 17,
+     "team": "Houston"
+    },
+    {
+     "rank": 18,
+     "team": "USC"
+    },
+    {
+     "rank": 19,
+     "team": "Missouri"
+    },
+    {
+     "rank": 20,
+     "team": "Boise State"
+    },
+    {
+     "rank": 21,
+     "team": "Iowa"
+    },
+    {
+     "rank": 22,
+     "team": "New Mexico"
+    },
+    {
+     "rank": 23,
+     "team": "South Carolina"
+    },
+    {
+     "rank": 24,
+     "team": "Arizona"
+    },
+    {
+     "rank": 25,
+     "team": "Florida"
     }
    ]
   },
