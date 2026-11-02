@@ -279,7 +279,7 @@ Rankings recomputed in your browser. <a href="about.html">How this works</a>.</f
 
 <script type="module">
 import {WIN, esc, ingest, engine, rank, applyGate, pollAt,
-        agreement, revision, sparkHTML, weighted, schedule} from '../engine.js?v=5df3193dcff4';
+        agreement, revision, sparkHTML, weighted, schedule} from '../engine.js?v=59505fd6b7d5';
 
 const SHOW=100;
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -498,7 +498,7 @@ function renderList(){
   const fact=(v,k,tip)=>`<div class="fact" title="${esc(tip)}"><b>${v}</b><span>${k}</span></div>`;
   $('pollfacts').innerHTML = (sAP||sCO||ref)
     ? (sAP?fact(sAP.rho.toFixed(3),'RANK CORRELATION WITH AP',
-        `Spearman over the ${sAP.n} teams the AP ranks. +1 means the two orders agree exactly, 0 means no relation, −1 means they are reversed. Measured against the full ranking, so the victors gate does not move it.`):'')
+        `Spearman over the ${sAP.n} teams the AP ranks. +1 means the two orders agree exactly, 0 means no relation, −1 means they are reversed. Measured against the full ranking, so the victors gate does not move it. Where either side ties, the tied teams take the mean of the places they span, so a tie contributes no order that was not there.`):'')
       +(sCO?fact(sCO.rho.toFixed(3),'RANK CORRELATION WITH COACHES',
         `Spearman over the ${sCO.n} teams the Coaches poll ranks.`):'')
       +(ref?fact(ref.rho.toFixed(3),'AP AGAINST COACHES — HOW MUCH TWO VOTES AGREE',

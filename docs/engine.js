@@ -229,7 +229,7 @@ export function rank(eng,season,horizon){
    and only the setting was off. 1.5 is taken rather than the peak because it
    is the point that costs nothing: prediction is identical to gamma 1 to the
    game (McNemar p = 1.000 over 7,280 predicted games) while poll agreement
-   rises 0.624 -> 0.632, better in 241 poll-weeks against 112 worse, p < 0.001.
+   rises 0.582 -> 0.590, better in 241 poll-weeks against 112 worse, p < 0.001.
    Past 1.5 the poll figure keeps climbing but prediction starts to slide, and
    that is a trade rather than a free gain. Stability is unaffected: 59 of 2,448
    configurations fail to settle at 1.5 against 57 at 1. */
@@ -414,9 +414,26 @@ export function applyGate(eng,rows,mode,N,horizon){
    against the full ranking, not the gated view, so the number reports how much
    the two orderings agree rather than moving about as the gate opens and shuts. */
 export function spearman(x,y){
+  /* Tied values take the mean of the places they span, which is what Spearman
+     is defined on. Handing them distinct places by sort order instead invents
+     an ordering the data does not contain, and the invention is not neutral --
+     it manufactures agreement. Ties are not an edge case here: 13% of poll
+     weeks carry one, and this ranking shares a rank by design, so in the
+     opening weeks, when most teams are 1-0 and identical on every level, very
+     nearly everything ties. Measured across thirteen seasons the old form
+     overstated agreement by 0.042 on average. It is almost all early season:
+     from week 8 onward the two agree to 0.0004.
+
+     The mean place is still (n+1)/2 either way, because midranks preserve the
+     sum, so only the ranking step changes. */
   const rankOf=a=>{
     const idx=a.map((v,i)=>[v,i]).sort((p,q)=>p[0]-q[0]), r=new Array(a.length);
-    idx.forEach((p,i)=>r[p[1]]=i+1);
+    for(let i=0;i<idx.length;){
+      let j=i; while(j<idx.length&&idx[j][0]===idx[i][0]) j++;
+      const place=(i+1+j)/2;          /* mean of the places i+1 .. j */
+      for(let k=i;k<j;k++) r[idx[k][1]]=place;
+      i=j;
+    }
     return r;
   };
   const rx=rankOf(x), ry=rankOf(y), n=x.length, m=(n+1)/2;

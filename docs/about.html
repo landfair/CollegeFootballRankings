@@ -126,11 +126,15 @@ week&#8209;by&#8209;week scoring reverses 7,762 of them &mdash; one pair in
 thirty&#8209;seven. Pooling reverses none, because a single population cannot
 disagree with the comparison that built it.</p>
 
-<p>Pooling is not free. It agrees with the final AP poll very slightly less often
-&mdash; a mean Spearman correlation of 0.78 against 0.79 across 2014&ndash;2026,
-which is well inside the year&#8209;to&#8209;year noise, better in five seasons and
-clearly worse in two. The rankings themselves barely move: about one place on
-average among the teams shown, and the same teams pass the gate.</p>
+<p>Pooling turns out to cost nothing. It agrees with the final AP poll slightly
+<i>more</i> often, not less &mdash; a mean Spearman of 0.82 against 0.81 across
+2014&ndash;2026, better in ten of the thirteen seasons and never clearly worse in
+any. The rankings themselves barely move either way: about one place on average
+among the teams shown, a median of exactly one, and 5% of gate decisions change.
+An earlier version of this page had that comparison the wrong way round, at 0.78
+against 0.79 with pooling the loser. That figure predated the weighting
+corrections described below and a fault in how the correlation treated tied
+places, and it did not survive either of them.</p>
 
 <h3>Which games the field is drawn from</h3>
 
@@ -200,7 +204,7 @@ thirteen seasons it was plainly too generous to weak opposition: agreement with
 the polls climbs to a peak around twice that setting before falling away again,
 so the shape was right and only the number was wrong. It now sits at the point
 that costs nothing &mdash; prediction identical to the old setting game for game
-over 7,280 predicted games, poll agreement up from 0.624 to 0.632, better in 241
+over 7,280 predicted games, poll agreement up from 0.582 to 0.590, better in 241
 poll&#8209;weeks against 112 worse. Pushing it to the peak would buy a little
 more agreement at the cost of prediction, which is a trade rather than a gain,
 so it stops short. The same
@@ -261,18 +265,18 @@ fields, three weighting modes &mdash; were run against the AP and Coaches polls
 across all thirteen seasons here, at every week a poll was published, 386 paired
 measurements in all, and the one that tracked the voters most closely won. That is
 <b>season&#8209;so&#8209;far scoring</b>, <b>games with an FBS team</b>, and
-<b>balanced weighting</b>, at a mean Spearman of 0.632, against 0.628 for the next
-best and 0.623 for the field it replaced. It leads at most weeks of the season,
+<b>balanced weighting</b>, at a mean Spearman of 0.590, against 0.587 for the next
+best and 0.582 for the field it replaced. It leads at most weeks of the season,
 early and late alike, so the choice is not an artefact of when it was measured.
 The same combination wins on the basketball side, measured separately.</p>
 
 <p>It is worth being honest about what that does and does not justify. The margins
-are narrow: the top six settings sit within 0.013 of each other, while agreement
-swings from 0.33 in 2020 to 0.76 in 2022 between seasons, and six different
+are narrow: the top six settings sit within 0.011 of each other, while agreement
+swings from 0.29 in 2020 to 0.72 in 2022 between seasons, and five different
 combinations each win at least one season outright. So the default is the best
 general guess, not a settled answer, and on any particular season another setting
 may well read better &mdash; sometimes by a lot. In 2026 through week&nbsp;10,
-<b>games between FBS teams</b> beats the default by 0.082 over weeks 8 to 10,
+<b>games between FBS teams</b> beats the default by 0.083 over weeks 8 to 10,
 where across the twelve seasons before it that same swap <i>cost</i> 0.023 on
 average. That is four and a half standard deviations the wrong way, and the
 largest such gap in the record. It has not moved the default, for two reasons:
