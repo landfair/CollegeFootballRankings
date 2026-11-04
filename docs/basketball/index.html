@@ -279,7 +279,7 @@ Rankings recomputed in your browser. <a href="about.html">How this works</a>.</f
 
 <script type="module">
 import {WIN, esc, ingest, engine, rank, applyGate, pollAt,
-        agreement, revision, sparkHTML, weighted, schedule, split} from '../engine.js?v=e8f3a105219c';
+        agreement, revision, sparkHTML, weighted, schedule, split, bracket} from '../engine.js?v=e8f3a105219c';
 
 const SHOW=100;
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -611,7 +611,7 @@ function renderList(){
 
 function renderTeam(team){
   const {h,g,rows,W,S,P,gated}=current();
-  const SI=sosInfo(S,rows), ST=S.get(team), PT=P.get(team);
+  const SI=sosInfo(S,rows), ST=S.get(team), PT=P.get(team), BR=bracket(SEASON);
   $('wkv').textContent=fmtDay(dayOf(h));
   showView('team');
   const me=rows.find(r=>r.team===team);
@@ -656,7 +656,33 @@ function renderTeam(team){
     `<div class="fact"><b>${apR.has(team)?'#'+apR.get(team):'NR'}</b><span>AP</span></div>`+
     `<div class="fact"><b>${coR.has(team)?'#'+coR.get(team):'NR'}</b><span>COACHES</span></div>`+
     `<div class="fact"><b>${bw&&Number.isFinite(bw.bestWin)?'#'+bw.bestWin:'—'}</b><span>BEST WIN</span></div>`+
+    (BR.field.has(team)
+      ?`<div class="fact" title="${esc('From the bracket, which the ranking never sees: postseason '+
+          'games are stored apart and are not graded.')}"><b>${
+          BR.champion===team?'WON IT':BR.finalFour.has(team)?'FINAL FOUR':'MADE IT'
+        }</b><span>NCAA</span></div>`:'')+
     '</div>';
+  /* What the record says about March, and only when the record can say it.
+     Measured over the five tournaments stored here: of teams finishing a
+     regular season in the top four, 8 of 20 reached a Final Four; 5 of 30 from
+     5th to 10th; 3 of 50 from 11th to 20th; 3 of 100 from 21st to 40th; 1 of
+     200 below that, and none at all outside the top 80. Earlier in a season
+     the gradient is not there to report -- at the halfway mark the top four
+     and the 5-to-10 band come out level -- so nothing is shown before day 90,
+     which is about four-fifths of the way through and where the ordering first
+     resembles the one it finishes with. */
+  if(!BR.field.size&&h>=90){
+    const band=[[4,8,20],[10,5,30],[20,3,50],[40,3,100],[80,1,200]].find(([lim])=>me.rank<=lim);
+    const word=n=>['no','one','two','three','four','five','six','seven','eight'][n]||String(n);
+    html+='<p class="status"><b>March.</b> '+(band
+      ? `Of the ${band[2]} teams that have held a place like this one at the end of a `+
+        `regular season, ${word(band[1])} went on to a Final Four. That is `+
+        `${(band[1]/band[2]*100).toFixed(0)}%, drawn from five tournaments, which is `+
+        `few enough that it is a tendency rather than a forecast.`
+      : 'No team ranked outside the top 80 at this stage has reached a Final Four in the '+
+        'five tournaments on record — though 2024 NC State came from 72nd, so the floor '+
+        'is lower than it looks.')+'</p>';
+  }
   if(g.mode!=='off'&&!inGate)
     html+='<p class="status">Not listed at this date: the victors gate requires a win over a '+
       'team inside the top '+g.n+' that also qualifies. Every game below still counts for '+
