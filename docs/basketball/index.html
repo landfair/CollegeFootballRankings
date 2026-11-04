@@ -279,7 +279,7 @@ Rankings recomputed in your browser. <a href="about.html">How this works</a>.</f
 
 <script type="module">
 import {WIN, esc, ingest, engine, rank, applyGate, pollAt,
-        agreement, revision, sparkHTML, weighted, schedule, split} from '../engine.js?v=c143620f0ecd';
+        agreement, revision, sparkHTML, weighted, schedule, split} from '../engine.js?v=58d53f5f6109';
 
 const SHOW=100;
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -610,8 +610,8 @@ function renderList(){
 }
 
 function renderTeam(team){
-  const {h,g,rows,W,S,gated}=current();
-  const SI=sosInfo(S,rows), ST=S.get(team);
+  const {h,g,rows,W,S,P,gated}=current();
+  const SI=sosInfo(S,rows), ST=S.get(team), PT=P.get(team);
   $('wkv').textContent=fmtDay(dayOf(h));
   showView('team');
   const me=rows.find(r=>r.team===team);
@@ -643,6 +643,16 @@ function renderTeam(team){
     (ST?`<div class="fact" title="${esc(SI.tip(team))}"><b>#${SI.order.get(team)}`+
         `<span class="nr" style="font-size:14px;font-weight:400"> (${ST.sos.toFixed(1)})</span>`+
         `</b><span>SCHEDULE</span></div>`:'')+
+    /* The rating's two halves. A single figure cannot say whether a team is
+       here on the strength of its wins or in spite of its defeats. */
+    (PT&&PT.win!=null
+      ?`<div class="fact" title="${esc('Mean of the '+PT.nWin+' scored win'+(PT.nWin===1?'':'s')+
+          '. The rating beside it averages the wins and the defeats together.')}">`+
+        `<b>${PT.win.toFixed(1)}</b><span>WIN SCORE</span></div>`:'')+
+    (PT&&PT.loss!=null
+      ?`<div class="fact" title="${esc('Mean of the '+PT.nLoss+' scored defeat'+(PT.nLoss===1?'':'s')+
+          '. Higher is better here too: losing to a strong side keeps most of the raw figure.')}">`+
+        `<b>${PT.loss.toFixed(1)}</b><span>LOSS SCORE</span></div>`:'')+
     `<div class="fact"><b>${apR.has(team)?'#'+apR.get(team):'NR'}</b><span>AP</span></div>`+
     `<div class="fact"><b>${coR.has(team)?'#'+coR.get(team):'NR'}</b><span>COACHES</span></div>`+
     `<div class="fact"><b>${bw&&Number.isFinite(bw.bestWin)?'#'+bw.bestWin:'—'}</b><span>BEST WIN</span></div>`+

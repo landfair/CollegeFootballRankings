@@ -262,10 +262,10 @@ export function weighted(eng,season,horizon,opts={}){
     (mode==='A'||!won) ? sc*k : 50+(sc-50)*k;
   let q=new Map(ALL.map(t=>[t,.5]));
   const fOf=qq=>t=>{const v=qq.get(t); return floor+(1-floor)*Math.pow(v==null?0:v,gamma);};
-  let agg=[],it=0,settled=false;
-  for(it=1;it<=passes;it++){
-    const f=fOf(q);
-    agg=[];
+  /* Rating every team under one set of weights. Pulled out of the loop because
+     it has to be run once more at the end, on the weights actually returned. */
+  const aggregate=f=>{
+    const out=[];
     for(const t of ALL){
       const arr=[];
       for(let w=1;w<=horizon;w++){
@@ -274,9 +274,14 @@ export function weighted(eng,season,horizon,opts={}){
         const k=f(wk.get(t).opp), won=wk.get(t).res===WIN;
         arr.push(adjustWith(sc,k,won));
       }
-      if(arr.length) agg.push({team:t,key:arr.reduce((a,b)=>a+b,0)/arr.length});
+      if(arr.length) out.push({team:t,key:arr.reduce((a,b)=>a+b,0)/arr.length});
     }
-    agg.sort((a,b)=>b.key-a.key||a.team.localeCompare(b.team));
+    out.sort((a,b)=>b.key-a.key||a.team.localeCompare(b.team));
+    return out;
+  };
+  let agg=[],it=0,settled=false;
+  for(it=1;it<=passes;it++){
+    agg=aggregate(fOf(q));
     /* Nothing scored at this horizon. 2014, 2015 and 2020 each open with a lone
        game between two lower-division teams, so under a pool that requires a
        top-division side the field is empty and there is no span to normalise
@@ -294,6 +299,13 @@ export function weighted(eng,season,horizon,opts={}){
     if(delta<tol){settled=true;break;}
   }
   const f=fOf(q);
+  /* One last pass with the weights this call actually hands back. Without it
+     the rows come from the iterate before the final q update while adjust()
+     uses the final one, so the score a team page explains need not be the score
+     the table ranked on, and Win score and Loss score need not average to the
+     Rating beside them. Settled, the two differ by thousandths; unsettled -- the
+     opening weeks, mostly in strong mode -- by tens of points. */
+  agg=aggregate(f);
   const rows=agg.filter(r=>meta.has(r.team)).map(r=>({...meta.get(r.team),key:r.key}));
   rows.sort((a,b)=>b.key-a.key||b.pd-a.pd||a.team.localeCompare(b.team));
   let rk=1;
