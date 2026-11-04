@@ -304,7 +304,7 @@ Rankings recomputed in your browser. <a href="about.html">How this works</a>.</f
 import {WIN, esc, ingest, engine, rank, applyGate, pollAt,
         agreement, revision, sparkHTML, weighted,
         rankHistory, rankChart,
-        backtest, mcnemar, schedule} from './engine.js?v=59505fd6b7d5';
+        backtest, mcnemar, schedule, split} from './engine.js?v=c143620f0ecd';
 
 const SHOW=100;
 
@@ -379,7 +379,7 @@ function current(){
   const rows = W ? W.rows : rank(ENG,SEASON,h);
   /* Handed the ranking it sits beside, so a schedule figure averages the very
      ratings in the table and follows the pool and the weighting for free. */
-  return {h,g,rows,W,S:schedule(ENG,h,rows),
+  return {h,g,rows,W,S:schedule(ENG,h,rows),P:split(ENG,h,W),
           gated:applyGate(ENG,rows,g.mode,g.n,h)};
 }
 
@@ -473,7 +473,7 @@ function sosInfo(S,rows){
 
 function renderList(){
   showView('list');
-  const {h,g,rows,W,S,gated}=current();
+  const {h,g,rows,W,S,P,gated}=current();
   $('wkv').textContent=h;
   const shown=gated.kept.slice(0,SHOW);
   const ap=pollAt(SEASON,'AP Top 25',h), co=pollAt(SEASON,'Coaches Poll',h);
@@ -576,6 +576,10 @@ function renderList(){
     {k:'rate',  h:'Rating',     cls:'num', lowBest:false, v:r=>r.key},
     {k:'sos',   h:'SOS',        cls:'num', lowBest:false, v:r=>S.get(r.team)?.sos??null,
      tip:'Strength of schedule, as a place in the field: #1 played the hardest season. In brackets is what that place is based on \u2014 the average rating of the teams played, over the same games the rating itself counts. That average is on the same scale as the Rating column, so a higher one means better opposition, and a team rated well above its schedule has beaten what it was given. Note the two columns to the right run the other way: they average RANKS, where low is the good end. A lower-division opponent has no rating and counts as the weakest rated team in the field. Hover a figure for the hardest and easiest game in it.'},
+    {k:'wsc',   h:'Win score',  cls:'num', lowBest:false, v:r=>P.get(r.team)?.win??null,
+     tip:'The average score of this team\u2019s WINS \u2014 not of its opponents\u2019 ranks. The Rating to the left is the mean of every scored game; this is that mean taken over the wins alone, so it says how much the victories were worth. Higher is better. Together with Loss score it splits the rating into its two halves, and the two columns further right, Avg win and Avg loss, describe the same games by opponent rank instead.'},
+    {k:'lsc',   h:'Loss score', cls:'num', lowBest:false, v:r=>P.get(r.team)?.loss??null,
+     tip:'The same for the DEFEATS: the average score of this team\u2019s losses. Higher is better here too \u2014 losing to a strong side keeps most of the raw figure, losing to a weak one is pushed toward zero. Blank for an unbeaten team. A loss carries more spread than a win, but it is one game among many, so this column moves a rating less than Win score does.'},
     {k:'best',  h:'Best win',   cls:'num', lowBest:true,  v:rk1,
      tip:'Rank of the strongest team this one has beaten. Only ranked opponents count.'},
     {k:'awin',  h:'Avg win',    cls:'num', lowBest:true,  v:r=>r.avgWin,
@@ -612,6 +616,10 @@ function renderList(){
   };
   const avg=v=>v==null?'<td class="num nr">—</td>'
     :`<td class="num nr">${v.toFixed(1)}</td>`;
+  /* The count sits in the tooltip because it need not match the W-L column:
+     under a strict field some games are played but never scored. */
+  const scoreCell=(v,n)=>v==null?'<td class="num nr">—</td>'
+    :`<td class="num" title="${esc('Mean of the '+n+' scored '+(n===1?'game':'games')+' in this half.')}">${v.toFixed(1)}</td>`;
   const delta=(p,o)=>{
     if(p==null) return '<td class="num nr">—</td>';
     const d=p-o;
@@ -630,6 +638,8 @@ function renderList(){
       `<td class="num">${r.wins}‑${r.losses}</td>`+
       `<td class="num"><b>${r.key.toFixed(1)}</b></td>`+
       sosCell(r)+
+      scoreCell(P.get(r.team)?.win,P.get(r.team)?.nWin)+
+      scoreCell(P.get(r.team)?.loss,P.get(r.team)?.nLoss)+
       `<td class="num nr">${Number.isFinite(r.bestWin)?'#'+r.bestWin:'—'}</td>`+
       avg(r.avgWin)+avg(r.avgLoss)+
       cell(a)+cell(c)+(cf?cell(f):'')+delta(a,r.rank)+'</tr>';

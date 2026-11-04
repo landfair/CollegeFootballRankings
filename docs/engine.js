@@ -373,6 +373,43 @@ export function schedule(eng,horizon,rows){
   return out;
 }
 
+/* ---------- the rating, split by result ----------
+   A rating is the mean of a team's scored games. Averaging the wins and the
+   defeats apart says which half put it where it is, which the single figure
+   cannot: two 7-1 teams a few points apart can get there by opposite routes,
+   one beating good sides and losing badly, the other the reverse.
+
+   Scored games only, matching the rating -- a team's record counts every game,
+   but under a strict field some of them are not scored, so the counts here can
+   fall short of the W-L column and the two must not be mixed.
+
+   Weighting is followed, because the Rating column follows it and these two are
+   its parts. They are built from the same per-game figures a team page shows on
+   hover, so the page and the column always tell the same story. Against the
+   Rating column itself they reconcile to about three thousandths, the small
+   drift being that weighted() reports rows from one iterate of its fixed point
+   and adjust() from the next; where the weighting does not settle at all, in
+   the first weeks of a season, they can differ by more. */
+export function split(eng,horizon,W){
+  const out=new Map();
+  for(let w=1;w<=horizon;w++){
+    const wk=eng.byWeek.get(w); if(!wk) continue;
+    const pos=eng.slate(w,horizon).pos;
+    for(const [t,e] of wk){
+      const p=pos.get(t); if(!p) continue;
+      const v=W?W.adjust(p.score,e.opp,e.res===WIN):p.score;
+      let o=out.get(t); if(!o){o={ws:0,nWin:0,ls:0,nLoss:0};out.set(t,o);}
+      if(e.res===WIN){o.ws+=v;o.nWin++;} else {o.ls+=v;o.nLoss++;}
+    }
+  }
+  for(const o of out.values()){
+    o.win  = o.nWin  ? o.ws/o.nWin  : null;
+    o.loss = o.nLoss ? o.ls/o.nLoss : null;
+    o.rating = (o.nWin+o.nLoss) ? (o.ws+o.ls)/(o.nWin+o.nLoss) : null;
+  }
+  return out;
+}
+
 export function applyGate(eng,rows,mode,N,horizon){
   const rankOf=new Map(rows.map(r=>[r.team,r.rank]));
   /* The engine holds the whole season, so wins after the chosen week have to be
