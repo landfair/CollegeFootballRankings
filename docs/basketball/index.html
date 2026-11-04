@@ -44,7 +44,8 @@
   table{border-collapse:collapse;width:100%;font-size:13.5px}
   th,td{padding:7px 11px;text-align:left;white-space:nowrap}
   th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
-    font-weight:600;border-bottom:1px solid var(--rule);position:sticky;top:0;background:var(--panel)}
+    font-weight:600;border-bottom:1px solid var(--rule);position:sticky;top:0;background:var(--panel);
+    vertical-align:bottom;line-height:1.25}
   tbody tr:nth-child(even){background:var(--soft)}
   th.sortable{cursor:pointer;user-select:none;white-space:nowrap}
   th.sortable:hover{color:var(--ink)}
@@ -560,6 +561,15 @@ function renderList(){
     return c*dir || x.rank-y.rank;
   });
 
+  /* A two-word heading is set on two lines: the table runs to fifteen columns
+     and the heading is usually wider than the figures beneath it, so the break
+     buys real width. The space is left in place before the break so the cell
+     still reads "Win score" to a screen reader or a copy-paste, rather than
+     "Winscore". th is nowrap, which <br> overrides. */
+  const stack=h=>{
+    const i=String(h).indexOf(' ');
+    return i<0?esc(h):esc(h.slice(0,i))+' <br>'+esc(h.slice(i+1));
+  };
   const cell=v=>v==null?'<td class="num nr">—</td>':`<td class="num">${v}</td>`;
   /* The schedule figure is a bare average, so the cell carries the two games
      that bracket it: without them 54.1 says nothing about which season it was. */
@@ -583,7 +593,7 @@ function renderList(){
   };
   let html='<thead><tr>'+COLS.map(c=>
     `<th class="${c.cls} sortable${c.k===sortKey?' sorted'+(sortAsc?' asc':''):''}"`+
-    ` data-k="${c.k}"${c.tip?` title="${esc(c.tip)}"`:''}>${c.h}</th>`).join('')+
+    ` data-k="${c.k}"${c.tip?` title="${esc(c.tip)}"`:''}>${stack(c.h)}</th>`).join('')+
     '</tr></thead><tbody>';
   for(const r of sorted){
     const a=apR.get(r.team)??null, c=coR.get(r.team)??null;
