@@ -114,6 +114,57 @@ def fetch_games(season, key):
     return out
 
 
+def fetch_postseason(season, key):
+    """NCAA tournament and the other postseason events, as played."""
+    return get("/games", {"season": season, "seasonType": "postseason"}, key)
+
+
+def build_postseason(raw):
+    """Finished postseason games, flat and plainly named.
+
+    These are deliberately NOT merged into `games`. The ranking reads only
+    `games`, so keeping the bracket in its own key means a tournament result
+    can never feed back into a rating that was supposed to predict it --
+    the ranking stays a report on the regular season, which is the whole
+    basis on which anyone would ask it who will reach a Final Four.
+    """
+    out = []
+    for g in raw:
+        home, away = g.get("homeTeam"), g.get("awayTeam")
+        hp, ap = g.get("homePoints"), g.get("awayPoints")
+        if not home or not away or g.get("status") != "final":
+            continue
+        if hp is None or ap is None or hp == ap:
+            continue
+        d = game_day(g)
+        if d is None:
+            continue
+        out.append({"home": home, "away": away,
+                    "homePoints": int(hp), "awayPoints": int(ap),
+                    "date": d.isoformat(),
+                    "tournament": g.get("tournament") or ""})
+    out.sort(key=lambda g: (g["date"], g["home"], g["away"]))
+    return out
+
+
+def final_four(post):
+    """The four teams of the last NCAA weekend, from the bracket alone.
+
+    The last three NCAA games are the two semi-finals and the final, and the
+    teams in them are exactly the Final Four. Derived rather than stored, so
+    it cannot drift from the games it is drawn from.
+    """
+    ncaa = [g for g in post if g.get("tournament") == "NCAA"]
+    if len(ncaa) < 3:
+        return []
+    names = []
+    for g in ncaa[-3:]:
+        for t in (g["home"], g["away"]):
+            if t not in names:
+                names.append(t)
+    return sorted(names)
+
+
 def build_games(raw, teams):
     """Usable games plus the day each was played. Returns (games, skipped)."""
     games, skipped = [], []
@@ -269,12 +320,34 @@ FIXTURE_POLLS = [
 ]
 
 
+FIXTURE_POST = [
+    # a four-team bracket: two semi-finals then the final, out of date order
+    {"homeTeam": "Duke", "awayTeam": "Baylor", "homePoints": 70, "awayPoints": 60,
+     "status": "final", "tournament": "NCAA", "startDate": "2024-04-08T23:00:00.000Z"},
+    {"homeTeam": "Duke", "awayTeam": "Kansas", "homePoints": 75, "awayPoints": 70,
+     "status": "final", "tournament": "NCAA", "startDate": "2024-04-06T23:00:00.000Z"},
+    {"homeTeam": "Baylor", "awayTeam": "Gonzaga", "homePoints": 80, "awayPoints": 78,
+     "status": "final", "tournament": "NCAA", "startDate": "2024-04-06T20:00:00.000Z"},
+    # an earlier round, which must not be mistaken for the Final Four
+    {"homeTeam": "Duke", "awayTeam": "Siena", "homePoints": 90, "awayPoints": 50,
+     "status": "final", "tournament": "NCAA", "startDate": "2024-03-21T23:00:00.000Z"},
+    # other events and unfinished rows
+    {"homeTeam": "Mercyhurst", "awayTeam": "Siena", "homePoints": 70, "awayPoints": 68,
+     "status": "final", "tournament": "NIT", "startDate": "2024-04-04T23:00:00.000Z"},
+    {"homeTeam": "Kansas", "awayTeam": "Gonzaga", "homePoints": None, "awayPoints": None,
+     "status": "scheduled", "tournament": "NCAA", "startDate": "2024-04-09T23:00:00.000Z"},
+    {"homeTeam": "Duke", "awayTeam": "Kansas", "homePoints": 60, "awayPoints": 60,
+     "status": "final", "tournament": "NCAA", "startDate": "2024-03-22T23:00:00.000Z"},
+]
+
+
 def selftest():
     teams = {"Duke": {"name": "Duke", "conference": "ACC", "division": "D1"},
              "Kansas": {"name": "Kansas", "conference": "Big 12", "division": "D1"},
              "Gonzaga": {"name": "Gonzaga", "conference": "WCC", "division": "D1"},
              "Baylor": {"name": "Baylor", "conference": "Big 12", "division": "D1"}}
     games, skipped = build_games(FIXTURE_GAMES, teams)
+    post = build_postseason(FIXTURE_POST)
     games, dates = assign_days(games)
     polls = build_polls(FIXTURE_POLLS, dates)
     byday = {}
@@ -303,6 +376,23 @@ def selftest():
          all(r["team"] != "Siena" for p in polls for r in p["ranks"])),
         ("the postseason poll does not merge into the regular one",
          [p for p in polls if p["week"] == 2][0]["ranks"] == [{"rank": 1, "team": "Duke"}]),
+        ("postseason keeps only finished, ordered games",
+         len(post) == 5),
+        ("postseason is sorted by date", [g["date"] for g in post] ==
+         sorted(g["date"] for g in post)),
+        ("postseason carries its event name",
+         {g["tournament"] for g in post} == {"NCAA", "NIT"}),
+        ("Final Four is the last three NCAA games, not the NIT or earlier rounds",
+         final_four(post) == ["Baylor", "Duke", "Gonzaga", "Kansas"]),
+        ("an incomplete bracket yields no Final Four",
+         final_four([g for g in post if g["tournament"] == "NCAA"][:2]) == []),
+        # the real guarantee: a postseason row carries a plain date and no day
+        # index, so even if one were merged into `games` the engine would drop
+        # it -- ingest() requires a finite week and skips anything without one.
+        ("postseason rows carry no day index, so they cannot be graded",
+         all("week" not in g for g in post) and all("date" in g for g in post)),
+        ("regular-season rows all carry one",
+         all(isinstance(g.get("week"), int) for g in games)),
     ]
     print("\nself test")
     ok = True
@@ -362,6 +452,17 @@ def main():
         for w, t in clashes[:5]:
             warn(f"    day {w} ({dates[w-1]}): {t}")
 
+    print("  postseason")
+    post = []
+    try:
+        post = build_postseason(fetch_postseason(a.season, key))
+        ncaa = [g for g in post if g["tournament"] == "NCAA"]
+        f4 = final_four(post)
+        print(f"     {len(post)} games, {len(ncaa)} of them NCAA" +
+              (f"; Final Four {', '.join(f4)}" if f4 else "; no complete bracket yet"))
+    except Exception as e:                                   # noqa: BLE001
+        warn(f"postseason unavailable ({e}); continuing without it")
+
     print("  polls, AP and Coaches")
     polls = []
     try:
@@ -386,6 +487,8 @@ def main():
                "teams": ordered_teams(teams, 'D1'), "games": games, "dates": dates}
     if polls:
         payload["polls"] = polls
+    if post:
+        payload["postseason"] = post
     with open(a.out, "w") as f:
         json.dump(payload, f, indent=1)
 

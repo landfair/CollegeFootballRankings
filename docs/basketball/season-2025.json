@@ -51142,5 +51142,991 @@
     }
    ]
   }
+ ],
+ "postseason": [
+  {
+   "home": "Alabama State",
+   "away": "St. Francis (PA)",
+   "homePoints": 70,
+   "awayPoints": 68,
+   "date": "2025-03-18",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Arkansas State",
+   "away": "Saint Louis",
+   "homePoints": 103,
+   "awayPoints": 78,
+   "date": "2025-03-18",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Georgia Tech",
+   "away": "Jacksonville State",
+   "homePoints": 64,
+   "awayPoints": 81,
+   "date": "2025-03-18",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Middle Tennessee",
+   "away": "Chattanooga",
+   "homePoints": 103,
+   "awayPoints": 109,
+   "date": "2025-03-18",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Oklahoma State",
+   "away": "Wichita State",
+   "homePoints": 89,
+   "awayPoints": 79,
+   "date": "2025-03-18",
+   "tournament": "NIT"
+  },
+  {
+   "home": "San Diego State",
+   "away": "North Carolina",
+   "homePoints": 68,
+   "awayPoints": 95,
+   "date": "2025-03-18",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Santa Clara",
+   "away": "UC Riverside",
+   "homePoints": 101,
+   "awayPoints": 62,
+   "date": "2025-03-18",
+   "tournament": "NIT"
+  },
+  {
+   "home": "St. Bonaventure",
+   "away": "Kent State",
+   "homePoints": 56,
+   "awayPoints": 75,
+   "date": "2025-03-18",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Stanford",
+   "away": "Cal State Northridge",
+   "homePoints": 87,
+   "awayPoints": 70,
+   "date": "2025-03-18",
+   "tournament": "NIT"
+  },
+  {
+   "home": "American University",
+   "away": "Mount St. Mary's",
+   "homePoints": 72,
+   "awayPoints": 83,
+   "date": "2025-03-19",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Bradley",
+   "away": "North Alabama",
+   "homePoints": 71,
+   "awayPoints": 62,
+   "date": "2025-03-19",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Dayton",
+   "away": "Florida Atlantic",
+   "homePoints": 86,
+   "awayPoints": 79,
+   "date": "2025-03-19",
+   "tournament": "NIT"
+  },
+  {
+   "home": "George Mason",
+   "away": "Samford",
+   "homePoints": 86,
+   "awayPoints": 69,
+   "date": "2025-03-19",
+   "tournament": "NIT"
+  },
+  {
+   "home": "North Texas",
+   "away": "Furman",
+   "homePoints": 75,
+   "awayPoints": 64,
+   "date": "2025-03-19",
+   "tournament": "NIT"
+  },
+  {
+   "home": "SMU",
+   "away": "Northern Iowa",
+   "homePoints": 73,
+   "awayPoints": 63,
+   "date": "2025-03-19",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Saint Joseph's",
+   "away": "UAB",
+   "homePoints": 65,
+   "awayPoints": 69,
+   "date": "2025-03-19",
+   "tournament": "NIT"
+  },
+  {
+   "home": "San Francisco",
+   "away": "Utah Valley",
+   "homePoints": 79,
+   "awayPoints": 70,
+   "date": "2025-03-19",
+   "tournament": "NIT"
+  },
+  {
+   "home": "San Jos\u00e9 State",
+   "away": "Loyola Chicago",
+   "homePoints": 70,
+   "awayPoints": 73,
+   "date": "2025-03-19",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Texas",
+   "away": "Xavier",
+   "homePoints": 80,
+   "awayPoints": 86,
+   "date": "2025-03-19",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "UC Irvine",
+   "away": "Northern Colorado",
+   "homePoints": 82,
+   "awayPoints": 72,
+   "date": "2025-03-19",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Auburn",
+   "away": "Alabama State",
+   "homePoints": 83,
+   "awayPoints": 63,
+   "date": "2025-03-20",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "BYU",
+   "away": "VCU",
+   "homePoints": 80,
+   "awayPoints": 71,
+   "date": "2025-03-20",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Clemson",
+   "away": "McNeese",
+   "homePoints": 67,
+   "awayPoints": 69,
+   "date": "2025-03-20",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Gonzaga",
+   "away": "Georgia",
+   "homePoints": 89,
+   "awayPoints": 68,
+   "date": "2025-03-20",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Houston",
+   "away": "SIU Edwardsville",
+   "homePoints": 78,
+   "awayPoints": 40,
+   "date": "2025-03-20",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Kansas",
+   "away": "Arkansas",
+   "homePoints": 72,
+   "awayPoints": 79,
+   "date": "2025-03-20",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Louisville",
+   "away": "Creighton",
+   "homePoints": 75,
+   "awayPoints": 89,
+   "date": "2025-03-20",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Michigan",
+   "away": "UC San Diego",
+   "homePoints": 68,
+   "awayPoints": 65,
+   "date": "2025-03-20",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Missouri",
+   "away": "Drake",
+   "homePoints": 57,
+   "awayPoints": 67,
+   "date": "2025-03-20",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Purdue",
+   "away": "High Point",
+   "homePoints": 75,
+   "awayPoints": 63,
+   "date": "2025-03-20",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "St. John's",
+   "away": "Omaha",
+   "homePoints": 83,
+   "awayPoints": 53,
+   "date": "2025-03-20",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Tennessee",
+   "away": "Wofford",
+   "homePoints": 77,
+   "awayPoints": 62,
+   "date": "2025-03-20",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Texas A&M",
+   "away": "Yale",
+   "homePoints": 80,
+   "awayPoints": 71,
+   "date": "2025-03-20",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Texas Tech",
+   "away": "UNC Wilmington",
+   "homePoints": 82,
+   "awayPoints": 72,
+   "date": "2025-03-20",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "UCLA",
+   "away": "Utah State",
+   "homePoints": 72,
+   "awayPoints": 47,
+   "date": "2025-03-20",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Wisconsin",
+   "away": "Montana",
+   "homePoints": 85,
+   "awayPoints": 66,
+   "date": "2025-03-20",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Alabama",
+   "away": "Robert Morris",
+   "homePoints": 90,
+   "awayPoints": 81,
+   "date": "2025-03-21",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Arizona",
+   "away": "Akron",
+   "homePoints": 93,
+   "awayPoints": 65,
+   "date": "2025-03-21",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Duke",
+   "away": "Mount St. Mary's",
+   "homePoints": 93,
+   "awayPoints": 49,
+   "date": "2025-03-21",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Florida",
+   "away": "Norfolk State",
+   "homePoints": 95,
+   "awayPoints": 69,
+   "date": "2025-03-21",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Illinois",
+   "away": "Xavier",
+   "homePoints": 86,
+   "awayPoints": 73,
+   "date": "2025-03-21",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Iowa State",
+   "away": "Lipscomb",
+   "homePoints": 82,
+   "awayPoints": 55,
+   "date": "2025-03-21",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Kentucky",
+   "away": "Troy",
+   "homePoints": 76,
+   "awayPoints": 57,
+   "date": "2025-03-21",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Marquette",
+   "away": "New Mexico",
+   "homePoints": 66,
+   "awayPoints": 75,
+   "date": "2025-03-21",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Maryland",
+   "away": "Grand Canyon",
+   "homePoints": 81,
+   "awayPoints": 49,
+   "date": "2025-03-21",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Memphis",
+   "away": "Colorado State",
+   "homePoints": 70,
+   "awayPoints": 78,
+   "date": "2025-03-21",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Michigan State",
+   "away": "Bryant",
+   "homePoints": 87,
+   "awayPoints": 62,
+   "date": "2025-03-21",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Mississippi State",
+   "away": "Baylor",
+   "homePoints": 72,
+   "awayPoints": 75,
+   "date": "2025-03-21",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Ole Miss",
+   "away": "North Carolina",
+   "homePoints": 71,
+   "awayPoints": 64,
+   "date": "2025-03-21",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Oregon",
+   "away": "Liberty",
+   "homePoints": 81,
+   "awayPoints": 52,
+   "date": "2025-03-21",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Saint Mary's",
+   "away": "Vanderbilt",
+   "homePoints": 59,
+   "awayPoints": 56,
+   "date": "2025-03-21",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "UConn",
+   "away": "Oklahoma",
+   "homePoints": 67,
+   "awayPoints": 59,
+   "date": "2025-03-21",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Auburn",
+   "away": "Creighton",
+   "homePoints": 82,
+   "awayPoints": 70,
+   "date": "2025-03-22",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Chattanooga",
+   "away": "Dayton",
+   "homePoints": 87,
+   "awayPoints": 72,
+   "date": "2025-03-22",
+   "tournament": "NIT"
+  },
+  {
+   "home": "George Mason",
+   "away": "Bradley",
+   "homePoints": 67,
+   "awayPoints": 75,
+   "date": "2025-03-22",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Houston",
+   "away": "Gonzaga",
+   "homePoints": 81,
+   "awayPoints": 76,
+   "date": "2025-03-22",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Purdue",
+   "away": "McNeese",
+   "homePoints": 76,
+   "awayPoints": 62,
+   "date": "2025-03-22",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "St. John's",
+   "away": "Arkansas",
+   "homePoints": 66,
+   "awayPoints": 75,
+   "date": "2025-03-22",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Tennessee",
+   "away": "UCLA",
+   "homePoints": 67,
+   "awayPoints": 58,
+   "date": "2025-03-22",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Texas A&M",
+   "away": "Michigan",
+   "homePoints": 79,
+   "awayPoints": 91,
+   "date": "2025-03-22",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Texas Tech",
+   "away": "Drake",
+   "homePoints": 77,
+   "awayPoints": 64,
+   "date": "2025-03-22",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Wisconsin",
+   "away": "BYU",
+   "homePoints": 89,
+   "awayPoints": 91,
+   "date": "2025-03-22",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Alabama",
+   "away": "Saint Mary's",
+   "homePoints": 80,
+   "awayPoints": 66,
+   "date": "2025-03-23",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Arizona",
+   "away": "Oregon",
+   "homePoints": 87,
+   "awayPoints": 83,
+   "date": "2025-03-23",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Army",
+   "away": "Elon",
+   "homePoints": 83,
+   "awayPoints": 78,
+   "date": "2025-03-23",
+   "tournament": "CBI"
+  },
+  {
+   "home": "Duke",
+   "away": "Baylor",
+   "homePoints": 89,
+   "awayPoints": 66,
+   "date": "2025-03-23",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Florida",
+   "away": "UConn",
+   "homePoints": 77,
+   "awayPoints": 75,
+   "date": "2025-03-23",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Incarnate Word",
+   "away": "Manhattan",
+   "homePoints": 92,
+   "awayPoints": 85,
+   "date": "2025-03-23",
+   "tournament": "CBI"
+  },
+  {
+   "home": "Iowa State",
+   "away": "Ole Miss",
+   "homePoints": 78,
+   "awayPoints": 91,
+   "date": "2025-03-23",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Kentucky",
+   "away": "Illinois",
+   "homePoints": 84,
+   "awayPoints": 75,
+   "date": "2025-03-23",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Maryland",
+   "away": "Colorado State",
+   "homePoints": 72,
+   "awayPoints": 71,
+   "date": "2025-03-23",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Michigan State",
+   "away": "New Mexico",
+   "homePoints": 71,
+   "awayPoints": 63,
+   "date": "2025-03-23",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "North Texas",
+   "away": "Arkansas State",
+   "homePoints": 65,
+   "awayPoints": 63,
+   "date": "2025-03-23",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Northern Arizona",
+   "away": "Queens University",
+   "homePoints": 78,
+   "awayPoints": 85,
+   "date": "2025-03-23",
+   "tournament": "CBI"
+  },
+  {
+   "home": "Presbyterian",
+   "away": "Illinois State",
+   "homePoints": 70,
+   "awayPoints": 78,
+   "date": "2025-03-23",
+   "tournament": "CBI"
+  },
+  {
+   "home": "SMU",
+   "away": "Oklahoma State",
+   "homePoints": 83,
+   "awayPoints": 85,
+   "date": "2025-03-23",
+   "tournament": "NIT"
+  },
+  {
+   "home": "San Francisco",
+   "away": "Loyola Chicago",
+   "homePoints": 76,
+   "awayPoints": 77,
+   "date": "2025-03-23",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Santa Clara",
+   "away": "UAB",
+   "homePoints": 84,
+   "awayPoints": 88,
+   "date": "2025-03-23",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Stanford",
+   "away": "Kent State",
+   "homePoints": 75,
+   "awayPoints": 77,
+   "date": "2025-03-23",
+   "tournament": "NIT"
+  },
+  {
+   "home": "UC Irvine",
+   "away": "Jacksonville State",
+   "homePoints": 66,
+   "awayPoints": 61,
+   "date": "2025-03-23",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Cleveland State",
+   "away": "Queens University",
+   "homePoints": 88,
+   "awayPoints": 73,
+   "date": "2025-03-24",
+   "tournament": "CBI"
+  },
+  {
+   "home": "Florida Gulf Coast",
+   "away": "Army",
+   "homePoints": 68,
+   "awayPoints": 65,
+   "date": "2025-03-24",
+   "tournament": "CBI"
+  },
+  {
+   "home": "Jacksonville",
+   "away": "Incarnate Word",
+   "homePoints": 71,
+   "awayPoints": 87,
+   "date": "2025-03-24",
+   "tournament": "CBI"
+  },
+  {
+   "home": "Bradley",
+   "away": "Chattanooga",
+   "homePoints": 65,
+   "awayPoints": 67,
+   "date": "2025-03-25",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Cleveland State",
+   "away": "Florida Gulf Coast",
+   "homePoints": 72,
+   "awayPoints": 65,
+   "date": "2025-03-25",
+   "tournament": "CBI"
+  },
+  {
+   "home": "Incarnate Word",
+   "away": "Illinois State",
+   "homePoints": 73,
+   "awayPoints": 78,
+   "date": "2025-03-25",
+   "tournament": "CBI"
+  },
+  {
+   "home": "Oklahoma State",
+   "away": "North Texas",
+   "homePoints": 59,
+   "awayPoints": 61,
+   "date": "2025-03-25",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Cleveland State",
+   "away": "Illinois State",
+   "homePoints": 68,
+   "awayPoints": 79,
+   "date": "2025-03-26",
+   "tournament": "CBI"
+  },
+  {
+   "home": "Loyola Chicago",
+   "away": "Kent State",
+   "homePoints": 72,
+   "awayPoints": 62,
+   "date": "2025-03-26",
+   "tournament": "NIT"
+  },
+  {
+   "home": "UC Irvine",
+   "away": "UAB",
+   "homePoints": 81,
+   "awayPoints": 77,
+   "date": "2025-03-26",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Alabama",
+   "away": "BYU",
+   "homePoints": 113,
+   "awayPoints": 88,
+   "date": "2025-03-27",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Duke",
+   "away": "Arizona",
+   "homePoints": 100,
+   "awayPoints": 93,
+   "date": "2025-03-27",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Florida",
+   "away": "Maryland",
+   "homePoints": 87,
+   "awayPoints": 71,
+   "date": "2025-03-27",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Texas Tech",
+   "away": "Arkansas",
+   "homePoints": 85,
+   "awayPoints": 83,
+   "date": "2025-03-27",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Auburn",
+   "away": "Michigan",
+   "homePoints": 78,
+   "awayPoints": 65,
+   "date": "2025-03-28",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Houston",
+   "away": "Purdue",
+   "homePoints": 62,
+   "awayPoints": 60,
+   "date": "2025-03-28",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Michigan State",
+   "away": "Ole Miss",
+   "homePoints": 73,
+   "awayPoints": 70,
+   "date": "2025-03-28",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Tennessee",
+   "away": "Kentucky",
+   "homePoints": 78,
+   "awayPoints": 65,
+   "date": "2025-03-28",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Duke",
+   "away": "Alabama",
+   "homePoints": 85,
+   "awayPoints": 65,
+   "date": "2025-03-29",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Florida",
+   "away": "Texas Tech",
+   "homePoints": 84,
+   "awayPoints": 79,
+   "date": "2025-03-29",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Auburn",
+   "away": "Michigan State",
+   "homePoints": 70,
+   "awayPoints": 64,
+   "date": "2025-03-30",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Houston",
+   "away": "Tennessee",
+   "homePoints": 69,
+   "awayPoints": 50,
+   "date": "2025-03-30",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Arizona State",
+   "away": "Nebraska",
+   "homePoints": 78,
+   "awayPoints": 86,
+   "date": "2025-03-31",
+   "tournament": ""
+  },
+  {
+   "home": "Boise State",
+   "away": "George Washington",
+   "homePoints": 89,
+   "awayPoints": 59,
+   "date": "2025-03-31",
+   "tournament": ""
+  },
+  {
+   "home": "Butler",
+   "away": "Utah",
+   "homePoints": 86,
+   "awayPoints": 84,
+   "date": "2025-03-31",
+   "tournament": ""
+  },
+  {
+   "home": "Georgetown",
+   "away": "Washington State",
+   "homePoints": 85,
+   "awayPoints": 82,
+   "date": "2025-03-31",
+   "tournament": ""
+  },
+  {
+   "home": "Chattanooga",
+   "away": "Loyola Chicago",
+   "homePoints": 80,
+   "awayPoints": 73,
+   "date": "2025-04-01",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Cincinnati",
+   "away": "DePaul",
+   "homePoints": 83,
+   "awayPoints": 61,
+   "date": "2025-04-01",
+   "tournament": ""
+  },
+  {
+   "home": "Colorado",
+   "away": "Villanova",
+   "homePoints": 64,
+   "awayPoints": 85,
+   "date": "2025-04-01",
+   "tournament": ""
+  },
+  {
+   "home": "Oregon State",
+   "away": "UCF",
+   "homePoints": 75,
+   "awayPoints": 76,
+   "date": "2025-04-01",
+   "tournament": ""
+  },
+  {
+   "home": "UC Irvine",
+   "away": "North Texas",
+   "homePoints": 69,
+   "awayPoints": 67,
+   "date": "2025-04-01",
+   "tournament": "NIT"
+  },
+  {
+   "home": "USC",
+   "away": "Tulane",
+   "homePoints": 89,
+   "awayPoints": 60,
+   "date": "2025-04-01",
+   "tournament": ""
+  },
+  {
+   "home": "Boise State",
+   "away": "Butler",
+   "homePoints": 100,
+   "awayPoints": 93,
+   "date": "2025-04-02",
+   "tournament": ""
+  },
+  {
+   "home": "Georgetown",
+   "away": "Nebraska",
+   "homePoints": 69,
+   "awayPoints": 81,
+   "date": "2025-04-02",
+   "tournament": ""
+  },
+  {
+   "home": "Cincinnati",
+   "away": "UCF",
+   "homePoints": 80,
+   "awayPoints": 88,
+   "date": "2025-04-03",
+   "tournament": ""
+  },
+  {
+   "home": "UC Irvine",
+   "away": "Chattanooga",
+   "homePoints": 84,
+   "awayPoints": 85,
+   "date": "2025-04-03",
+   "tournament": "NIT"
+  },
+  {
+   "home": "USC",
+   "away": "Villanova",
+   "homePoints": 59,
+   "awayPoints": 60,
+   "date": "2025-04-03",
+   "tournament": ""
+  },
+  {
+   "home": "Auburn",
+   "away": "Florida",
+   "homePoints": 73,
+   "awayPoints": 79,
+   "date": "2025-04-05",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Boise State",
+   "away": "Nebraska",
+   "homePoints": 69,
+   "awayPoints": 79,
+   "date": "2025-04-05",
+   "tournament": ""
+  },
+  {
+   "home": "Duke",
+   "away": "Houston",
+   "homePoints": 67,
+   "awayPoints": 70,
+   "date": "2025-04-05",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Villanova",
+   "away": "UCF",
+   "homePoints": 98,
+   "awayPoints": 104,
+   "date": "2025-04-05",
+   "tournament": ""
+  },
+  {
+   "home": "UCF",
+   "away": "Nebraska",
+   "homePoints": 66,
+   "awayPoints": 77,
+   "date": "2025-04-06",
+   "tournament": ""
+  },
+  {
+   "home": "Houston",
+   "away": "Florida",
+   "homePoints": 63,
+   "awayPoints": 65,
+   "date": "2025-04-07",
+   "tournament": "NCAA"
+  }
  ]
 }

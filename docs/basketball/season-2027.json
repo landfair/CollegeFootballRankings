@@ -3592,6 +3592,13 @@
    "week": 3
   },
   {
+   "home": "San Diego State",
+   "away": "Cal State Fullerton",
+   "homePoints": 102,
+   "awayPoints": 78,
+   "week": 3
+  },
+  {
    "home": "South Carolina",
    "away": "Stetson",
    "homePoints": 81,
@@ -3624,6 +3631,13 @@
    "away": "Milligan",
    "homePoints": 96,
    "awayPoints": 43,
+   "week": 3
+  },
+  {
+   "home": "UNLV",
+   "away": "Northern Arizona",
+   "homePoints": 89,
+   "awayPoints": 77,
    "week": 3
   },
   {

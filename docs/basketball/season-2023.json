@@ -50533,5 +50533,911 @@
     }
    ]
   }
+ ],
+ "postseason": [
+  {
+   "home": "Colorado",
+   "away": "Seton Hall",
+   "homePoints": 65,
+   "awayPoints": 64,
+   "date": "2023-03-14",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Liberty",
+   "away": "Villanova",
+   "homePoints": 62,
+   "awayPoints": 57,
+   "date": "2023-03-14",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Michigan",
+   "away": "Toledo",
+   "homePoints": 90,
+   "awayPoints": 80,
+   "date": "2023-03-14",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Mississippi State",
+   "away": "Pittsburgh",
+   "homePoints": 59,
+   "awayPoints": 60,
+   "date": "2023-03-14",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Rutgers",
+   "away": "Hofstra",
+   "homePoints": 86,
+   "awayPoints": 88,
+   "date": "2023-03-14",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Texas A&M-Corpus Christi",
+   "away": "Southeast Missouri State",
+   "homePoints": 75,
+   "awayPoints": 71,
+   "date": "2023-03-14",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "UAB",
+   "away": "Southern Miss",
+   "homePoints": 88,
+   "awayPoints": 60,
+   "date": "2023-03-14",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Vanderbilt",
+   "away": "Yale",
+   "homePoints": 71,
+   "awayPoints": 62,
+   "date": "2023-03-14",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Washington State",
+   "away": "Eastern Washington",
+   "homePoints": 74,
+   "awayPoints": 81,
+   "date": "2023-03-14",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Wisconsin",
+   "away": "Bradley",
+   "homePoints": 81,
+   "awayPoints": 62,
+   "date": "2023-03-14",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Arizona State",
+   "away": "Nevada",
+   "homePoints": 98,
+   "awayPoints": 73,
+   "date": "2023-03-15",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Cincinnati",
+   "away": "Virginia Tech",
+   "homePoints": 81,
+   "awayPoints": 72,
+   "date": "2023-03-15",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Clemson",
+   "away": "Morehead State",
+   "homePoints": 64,
+   "awayPoints": 68,
+   "date": "2023-03-15",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Florida",
+   "away": "UCF",
+   "homePoints": 49,
+   "awayPoints": 67,
+   "date": "2023-03-15",
+   "tournament": "NIT"
+  },
+  {
+   "home": "New Mexico",
+   "away": "Utah Valley",
+   "homePoints": 69,
+   "awayPoints": 83,
+   "date": "2023-03-15",
+   "tournament": "NIT"
+  },
+  {
+   "home": "North Texas",
+   "away": "Alcorn State",
+   "homePoints": 69,
+   "awayPoints": 53,
+   "date": "2023-03-15",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Oregon",
+   "away": "UC Irvine",
+   "homePoints": 84,
+   "awayPoints": 58,
+   "date": "2023-03-15",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Sam Houston",
+   "away": "Santa Clara",
+   "homePoints": 58,
+   "awayPoints": 56,
+   "date": "2023-03-15",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Texas Southern",
+   "away": "Fairleigh Dickinson",
+   "homePoints": 61,
+   "awayPoints": 84,
+   "date": "2023-03-15",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Youngstown State",
+   "away": "Oklahoma State",
+   "homePoints": 64,
+   "awayPoints": 69,
+   "date": "2023-03-15",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Alabama",
+   "away": "Texas A&M-Corpus Christi",
+   "homePoints": 96,
+   "awayPoints": 75,
+   "date": "2023-03-16",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Arizona",
+   "away": "Princeton",
+   "homePoints": 55,
+   "awayPoints": 59,
+   "date": "2023-03-16",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Arkansas",
+   "away": "Illinois",
+   "homePoints": 73,
+   "awayPoints": 63,
+   "date": "2023-03-16",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Duke",
+   "away": "Oral Roberts",
+   "homePoints": 74,
+   "awayPoints": 51,
+   "date": "2023-03-16",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Houston",
+   "away": "Northern Kentucky",
+   "homePoints": 63,
+   "awayPoints": 52,
+   "date": "2023-03-16",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Iowa",
+   "away": "Auburn",
+   "homePoints": 75,
+   "awayPoints": 83,
+   "date": "2023-03-16",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Kansas",
+   "away": "Howard",
+   "homePoints": 96,
+   "awayPoints": 68,
+   "date": "2023-03-16",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Maryland",
+   "away": "West Virginia",
+   "homePoints": 67,
+   "awayPoints": 65,
+   "date": "2023-03-16",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Missouri",
+   "away": "Utah State",
+   "homePoints": 76,
+   "awayPoints": 65,
+   "date": "2023-03-16",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Northwestern",
+   "away": "Boise State",
+   "homePoints": 75,
+   "awayPoints": 67,
+   "date": "2023-03-16",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "San Diego State",
+   "away": "Charleston",
+   "homePoints": 63,
+   "awayPoints": 57,
+   "date": "2023-03-16",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Tennessee",
+   "away": "Louisiana",
+   "homePoints": 58,
+   "awayPoints": 55,
+   "date": "2023-03-16",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Texas",
+   "away": "Colgate",
+   "homePoints": 81,
+   "awayPoints": 61,
+   "date": "2023-03-16",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Texas A&M",
+   "away": "Penn State",
+   "homePoints": 59,
+   "awayPoints": 76,
+   "date": "2023-03-16",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "UCLA",
+   "away": "UNC Asheville",
+   "homePoints": 86,
+   "awayPoints": 53,
+   "date": "2023-03-16",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Virginia",
+   "away": "Furman",
+   "homePoints": 67,
+   "awayPoints": 68,
+   "date": "2023-03-16",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Baylor",
+   "away": "UC Santa Barbara",
+   "homePoints": 74,
+   "awayPoints": 56,
+   "date": "2023-03-17",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Creighton",
+   "away": "NC State",
+   "homePoints": 72,
+   "awayPoints": 63,
+   "date": "2023-03-17",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Gonzaga",
+   "away": "Grand Canyon",
+   "homePoints": 82,
+   "awayPoints": 70,
+   "date": "2023-03-17",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Indiana",
+   "away": "Kent State",
+   "homePoints": 71,
+   "awayPoints": 60,
+   "date": "2023-03-17",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Iowa State",
+   "away": "Pittsburgh",
+   "homePoints": 41,
+   "awayPoints": 59,
+   "date": "2023-03-17",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Kansas State",
+   "away": "Montana State",
+   "homePoints": 77,
+   "awayPoints": 65,
+   "date": "2023-03-17",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Kentucky",
+   "away": "Providence",
+   "homePoints": 61,
+   "awayPoints": 53,
+   "date": "2023-03-17",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Marquette",
+   "away": "Vermont",
+   "homePoints": 78,
+   "awayPoints": 61,
+   "date": "2023-03-17",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Memphis",
+   "away": "Florida Atlantic",
+   "homePoints": 65,
+   "awayPoints": 66,
+   "date": "2023-03-17",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Miami",
+   "away": "Drake",
+   "homePoints": 63,
+   "awayPoints": 56,
+   "date": "2023-03-17",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Michigan State",
+   "away": "USC",
+   "homePoints": 72,
+   "awayPoints": 62,
+   "date": "2023-03-17",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Purdue",
+   "away": "Fairleigh Dickinson",
+   "homePoints": 58,
+   "awayPoints": 63,
+   "date": "2023-03-17",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Saint Mary's",
+   "away": "VCU",
+   "homePoints": 63,
+   "awayPoints": 51,
+   "date": "2023-03-17",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "TCU",
+   "away": "Arizona State",
+   "homePoints": 72,
+   "awayPoints": 70,
+   "date": "2023-03-17",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "UConn",
+   "away": "Iona",
+   "homePoints": 87,
+   "awayPoints": 63,
+   "date": "2023-03-17",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Xavier",
+   "away": "Kennesaw State",
+   "homePoints": 72,
+   "awayPoints": 67,
+   "date": "2023-03-17",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Alabama",
+   "away": "Maryland",
+   "homePoints": 73,
+   "awayPoints": 51,
+   "date": "2023-03-18",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Hofstra",
+   "away": "Cincinnati",
+   "homePoints": 65,
+   "awayPoints": 79,
+   "date": "2023-03-18",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Houston",
+   "away": "Auburn",
+   "homePoints": 81,
+   "awayPoints": 64,
+   "date": "2023-03-18",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Kansas",
+   "away": "Arkansas",
+   "homePoints": 71,
+   "awayPoints": 72,
+   "date": "2023-03-18",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Missouri",
+   "away": "Princeton",
+   "homePoints": 63,
+   "awayPoints": 78,
+   "date": "2023-03-18",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "North Alabama",
+   "away": "Southern Utah",
+   "homePoints": 50,
+   "awayPoints": 72,
+   "date": "2023-03-18",
+   "tournament": "CBI"
+  },
+  {
+   "home": "San Diego State",
+   "away": "Furman",
+   "homePoints": 75,
+   "awayPoints": 52,
+   "date": "2023-03-18",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "South Carolina Upstate",
+   "away": "Indiana State",
+   "homePoints": 62,
+   "awayPoints": 67,
+   "date": "2023-03-18",
+   "tournament": "CBI"
+  },
+  {
+   "home": "Southern Indiana",
+   "away": "San Jos\u00e9 State",
+   "homePoints": 52,
+   "awayPoints": 77,
+   "date": "2023-03-18",
+   "tournament": "CBI"
+  },
+  {
+   "home": "Tennessee",
+   "away": "Duke",
+   "homePoints": 65,
+   "awayPoints": 52,
+   "date": "2023-03-18",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Texas",
+   "away": "Penn State",
+   "homePoints": 71,
+   "awayPoints": 66,
+   "date": "2023-03-18",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "UCLA",
+   "away": "Northwestern",
+   "homePoints": 68,
+   "awayPoints": 63,
+   "date": "2023-03-18",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Vanderbilt",
+   "away": "Michigan",
+   "homePoints": 66,
+   "awayPoints": 65,
+   "date": "2023-03-18",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Western Carolina",
+   "away": "Charlotte",
+   "homePoints": 56,
+   "awayPoints": 65,
+   "date": "2023-03-18",
+   "tournament": "CBI"
+  },
+  {
+   "home": "Baylor",
+   "away": "Creighton",
+   "homePoints": 76,
+   "awayPoints": 85,
+   "date": "2023-03-19",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Colorado",
+   "away": "Utah Valley",
+   "homePoints": 69,
+   "awayPoints": 81,
+   "date": "2023-03-19",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Eastern Kentucky",
+   "away": "Cleveland State",
+   "homePoints": 91,
+   "awayPoints": 75,
+   "date": "2023-03-19",
+   "tournament": "CBI"
+  },
+  {
+   "home": "Florida Atlantic",
+   "away": "Fairleigh Dickinson",
+   "homePoints": 78,
+   "awayPoints": 70,
+   "date": "2023-03-19",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Gonzaga",
+   "away": "TCU",
+   "homePoints": 84,
+   "awayPoints": 81,
+   "date": "2023-03-19",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Indiana",
+   "away": "Miami",
+   "homePoints": 69,
+   "awayPoints": 85,
+   "date": "2023-03-19",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Kansas State",
+   "away": "Kentucky",
+   "homePoints": 75,
+   "awayPoints": 69,
+   "date": "2023-03-19",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Marquette",
+   "away": "Michigan State",
+   "homePoints": 60,
+   "awayPoints": 69,
+   "date": "2023-03-19",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Milwaukee",
+   "away": "Stetson",
+   "homePoints": 87,
+   "awayPoints": 83,
+   "date": "2023-03-19",
+   "tournament": "CBI"
+  },
+  {
+   "home": "North Texas",
+   "away": "Sam Houston",
+   "homePoints": 75,
+   "awayPoints": 55,
+   "date": "2023-03-19",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Oklahoma State",
+   "away": "Eastern Washington",
+   "homePoints": 71,
+   "awayPoints": 60,
+   "date": "2023-03-19",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Oregon",
+   "away": "UCF",
+   "homePoints": 68,
+   "awayPoints": 54,
+   "date": "2023-03-19",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Radford",
+   "away": "Tarleton State",
+   "homePoints": 72,
+   "awayPoints": 70,
+   "date": "2023-03-19",
+   "tournament": "CBI"
+  },
+  {
+   "home": "Rice",
+   "away": "Duquesne",
+   "homePoints": 84,
+   "awayPoints": 78,
+   "date": "2023-03-19",
+   "tournament": "CBI"
+  },
+  {
+   "home": "UAB",
+   "away": "Morehead State",
+   "homePoints": 77,
+   "awayPoints": 59,
+   "date": "2023-03-19",
+   "tournament": "NIT"
+  },
+  {
+   "home": "UConn",
+   "away": "Saint Mary's",
+   "homePoints": 70,
+   "awayPoints": 55,
+   "date": "2023-03-19",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Wisconsin",
+   "away": "Liberty",
+   "homePoints": 75,
+   "awayPoints": 71,
+   "date": "2023-03-19",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Xavier",
+   "away": "Pittsburgh",
+   "homePoints": 84,
+   "awayPoints": 73,
+   "date": "2023-03-19",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Eastern Kentucky",
+   "away": "Indiana State",
+   "homePoints": 89,
+   "awayPoints": 88,
+   "date": "2023-03-20",
+   "tournament": "CBI"
+  },
+  {
+   "home": "Milwaukee",
+   "away": "Charlotte",
+   "homePoints": 65,
+   "awayPoints": 76,
+   "date": "2023-03-20",
+   "tournament": "CBI"
+  },
+  {
+   "home": "Radford",
+   "away": "San Jos\u00e9 State",
+   "homePoints": 67,
+   "awayPoints": 57,
+   "date": "2023-03-20",
+   "tournament": "CBI"
+  },
+  {
+   "home": "Rice",
+   "away": "Southern Utah",
+   "homePoints": 79,
+   "awayPoints": 81,
+   "date": "2023-03-20",
+   "tournament": "CBI"
+  },
+  {
+   "home": "Eastern Kentucky",
+   "away": "Southern Utah",
+   "homePoints": 108,
+   "awayPoints": 106,
+   "date": "2023-03-21",
+   "tournament": "CBI"
+  },
+  {
+   "home": "Oklahoma State",
+   "away": "North Texas",
+   "homePoints": 59,
+   "awayPoints": 65,
+   "date": "2023-03-21",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Oregon",
+   "away": "Wisconsin",
+   "homePoints": 58,
+   "awayPoints": 61,
+   "date": "2023-03-21",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Radford",
+   "away": "Charlotte",
+   "homePoints": 56,
+   "awayPoints": 63,
+   "date": "2023-03-21",
+   "tournament": "CBI"
+  },
+  {
+   "home": "Eastern Kentucky",
+   "away": "Charlotte",
+   "homePoints": 68,
+   "awayPoints": 71,
+   "date": "2023-03-22",
+   "tournament": "CBI"
+  },
+  {
+   "home": "Utah Valley",
+   "away": "Cincinnati",
+   "homePoints": 74,
+   "awayPoints": 68,
+   "date": "2023-03-22",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Vanderbilt",
+   "away": "UAB",
+   "homePoints": 59,
+   "awayPoints": 67,
+   "date": "2023-03-22",
+   "tournament": "NIT"
+  },
+  {
+   "home": "Kansas State",
+   "away": "Michigan State",
+   "homePoints": 98,
+   "awayPoints": 93,
+   "date": "2023-03-23",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Tennessee",
+   "away": "Florida Atlantic",
+   "homePoints": 55,
+   "awayPoints": 62,
+   "date": "2023-03-23",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "UCLA",
+   "away": "Gonzaga",
+   "homePoints": 76,
+   "awayPoints": 79,
+   "date": "2023-03-23",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "UConn",
+   "away": "Arkansas",
+   "homePoints": 88,
+   "awayPoints": 65,
+   "date": "2023-03-23",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Alabama",
+   "away": "San Diego State",
+   "homePoints": 64,
+   "awayPoints": 71,
+   "date": "2023-03-24",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Creighton",
+   "away": "Princeton",
+   "homePoints": 86,
+   "awayPoints": 75,
+   "date": "2023-03-24",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Houston",
+   "away": "Miami",
+   "homePoints": 75,
+   "awayPoints": 89,
+   "date": "2023-03-24",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Texas",
+   "away": "Xavier",
+   "homePoints": 83,
+   "awayPoints": 71,
+   "date": "2023-03-24",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Gonzaga",
+   "away": "UConn",
+   "homePoints": 54,
+   "awayPoints": 82,
+   "date": "2023-03-25",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Kansas State",
+   "away": "Florida Atlantic",
+   "homePoints": 76,
+   "awayPoints": 79,
+   "date": "2023-03-25",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "San Diego State",
+   "away": "Creighton",
+   "homePoints": 57,
+   "awayPoints": 56,
+   "date": "2023-03-26",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "Texas",
+   "away": "Miami",
+   "homePoints": 81,
+   "awayPoints": 88,
+   "date": "2023-03-26",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "North Texas",
+   "away": "Wisconsin",
+   "homePoints": 56,
+   "awayPoints": 54,
+   "date": "2023-03-28",
+   "tournament": "NIT"
+  },
+  {
+   "home": "UAB",
+   "away": "Utah Valley",
+   "homePoints": 88,
+   "awayPoints": 86,
+   "date": "2023-03-28",
+   "tournament": "NIT"
+  },
+  {
+   "home": "North Texas",
+   "away": "UAB",
+   "homePoints": 68,
+   "awayPoints": 61,
+   "date": "2023-03-30",
+   "tournament": "NIT"
+  },
+  {
+   "home": "San Diego State",
+   "away": "Florida Atlantic",
+   "homePoints": 72,
+   "awayPoints": 71,
+   "date": "2023-04-01",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "UConn",
+   "away": "Miami",
+   "homePoints": 72,
+   "awayPoints": 59,
+   "date": "2023-04-01",
+   "tournament": "NCAA"
+  },
+  {
+   "home": "UConn",
+   "away": "San Diego State",
+   "homePoints": 76,
+   "awayPoints": 59,
+   "date": "2023-04-03",
+   "tournament": "NCAA"
+  }
  ]
 }

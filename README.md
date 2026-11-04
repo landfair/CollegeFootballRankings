@@ -56,6 +56,15 @@ A basketball season is named for the year it ends in, so the 2026–27 season is
 `--season 2027`. Adding a season also needs an `<option>` in the `season` select
 of the relevant `index.html`; the newest sits first and is what the page opens on.
 
+The basketball fetcher also stores the postseason — the NCAA tournament, the NIT
+and the rest — under its own `postseason` key. **These games are never ranked.**
+`ingest()` reads only `games`, and postseason rows carry a plain date rather than
+a day index, so even a merge would be dropped. Keeping them apart is the point: a
+ranking asked which teams will reach a Final Four must not have seen the Final
+Four. Read them with `bracket(season)`, which returns the 68-team field, the four
+teams of the last weekend and the champion, all derived from the games rather
+than stored, plus the list of events present.
+
 To see what the feed offers for a year without writing anything:
 
 ```sh

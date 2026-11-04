@@ -36,9 +36,15 @@ export function ingest(raw){
     if(ranks.length) polls.push({poll:String(p.poll||'Poll'),week:Number(p.week)||0,
       throughWeek:Number(p.throughWeek)||0,ranks});
   }
+  /* raw.postseason is carried through untouched and never enters `games`. The
+     ranking is a report on the regular season, and a bracket result must not
+     feed back into the rating that is being asked to predict it. Postseason
+     rows have no week either, so even a merge would be dropped by the guard
+     above. Read it with bracket(). */
   return {teamInfo,games,polls,maxWeek:Math.max(...games.map(g=>g.week)),
           topDivision:raw.topDivision||'FBS',sport:raw.sport||'football',
-          dates:Array.isArray(raw.dates)?raw.dates:null};
+          dates:Array.isArray(raw.dates)?raw.dates:null,
+          postseason:Array.isArray(raw.postseason)?raw.postseason:[]};
 }
 
 /* Indices are built once per season. Slates are computed per (week, horizon),
@@ -420,6 +426,31 @@ export function split(eng,horizon,W){
     o.rating = (o.nWin+o.nLoss) ? (o.ws+o.ls)/(o.nWin+o.nLoss) : null;
   }
   return out;
+}
+
+/* ---------- the bracket ----------
+   What happened after the regular season, which the ranking never sees. Kept
+   here so the question "did the ordering pick the Final Four" is asked the same
+   way every time rather than reinvented in a throwaway script.
+
+   The field is every team that played an NCAA game. The Final Four are the
+   teams in the last three of them, those being the two semi-finals and the
+   final; it is derived from the games rather than stored, so it cannot drift
+   from them. An incomplete or absent bracket yields empty sets, not a guess. */
+export function bracket(season,event='NCAA'){
+  const all=(season.postseason||[]).filter(g=>g&&g.home&&g.away);
+  const gs=all.filter(g=>(g.tournament||'')===event)
+              .sort((a,b)=>String(a.date||'').localeCompare(String(b.date||'')));
+  const field=new Set();
+  for(const g of gs){ field.add(g.home); field.add(g.away); }
+  const finalFour=new Set();
+  if(gs.length>=3) for(const g of gs.slice(-3)){ finalFour.add(g.home); finalFour.add(g.away); }
+  let champion=null;
+  if(gs.length){
+    const f=gs[gs.length-1];
+    champion=f.homePoints>f.awayPoints?f.home:f.away;
+  }
+  return {field,finalFour,champion,games:gs,events:[...new Set(all.map(g=>g.tournament||''))]};
 }
 
 export function applyGate(eng,rows,mode,N,horizon){
