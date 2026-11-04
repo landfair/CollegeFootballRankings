@@ -433,10 +433,10 @@ function sosInfo(S,rows){
     const s=S.get(t); if(!s) return '';
     const say=o=>`${o.opp} ${o.rating.toFixed(1)}`;
     return `Strength of schedule: #${order.get(t)} of ${order.size} for difficulty, `+
-      `where #1 is the hardest season played. The figure in brackets is the mean `+
-      `rating of the ${s.n} opponent${s.n===1?'':'s'} this rating was earned `+
-      `against \u2014 the same 0\u2013100 scale as the Rating column, so a higher `+
-      `one means better opposition. `+
+      `where #1 is the hardest season played. The ${s.n} opponent`+
+      `${s.n===1?' this rating was earned against averages ':'s this rating was earned against average '}`+
+      `${s.sos.toFixed(1)} \u2014 the same 0\u2013100 scale as the Rating column, `+
+      `so a higher one means better opposition. `+
       `Hardest: ${say(s.opps[0])}. Easiest: ${say(s.opps[s.opps.length-1])}.`+
       (s.unrated?` ${s.unrated} lower-division opponent${s.unrated===1?'':'s'} `+
         `counted at the floor, ${s.floor.toFixed(1)}, there being no rating to use.`:'');
@@ -532,7 +532,7 @@ function renderList(){
     {k:'rec',   h:'Rec',        cls:'num', lowBest:false, v:r=>r.games?r.wins/r.games:0},
     {k:'rate',  h:'Rating',     cls:'num', lowBest:false, v:r=>r.key},
     {k:'sos',   h:'SOS',        cls:'num', lowBest:false, v:r=>S.get(r.team)?.sos??null,
-     tip:'Strength of schedule, as a place in the field: #1 played the hardest season. In brackets is what that place is based on \u2014 the average rating of the teams played, over the same games the rating itself counts. That average is on the same scale as the Rating column, so a higher one means better opposition, and a team rated well above its schedule has beaten what it was given. Note the two columns to the right run the other way: they average RANKS, where low is the good end. A lower-division opponent has no rating and counts as the weakest rated team in the field. Hover a figure for the hardest and easiest game in it.'},
+     tip:'Strength of schedule, as a place in the field: #1 played the hardest season. The place is based on the average rating of the teams played, over the same games the rating itself counts \u2014 hover any figure for that average, the hardest and easiest game in it, or read it beside the place on a team page. That average is on the same scale as the Rating column, so a team rated well above its schedule has beaten what it was given. Note that Avg win and Avg loss run the other way: they average RANKS, where low is the good end. A lower-division opponent has no rating and counts as the weakest rated team in the field.'},
     {k:'wsc',   h:'Win score',  cls:'num', lowBest:false, v:r=>P.get(r.team)?.win??null,
      tip:'The average score of this team\u2019s WINS \u2014 not of its opponents\u2019 ranks. The Rating to the left is the mean of every scored game; this is that mean taken over the wins alone, so it says how much the victories were worth. Higher is better. Together with Loss score it splits the rating into its two halves, and the two columns further right, Avg win and Avg loss, describe the same games by opponent rank instead.'},
     {k:'lsc',   h:'Loss score', cls:'num', lowBest:false, v:r=>P.get(r.team)?.loss??null,
@@ -566,8 +566,9 @@ function renderList(){
   const sosCell=r=>{
     const s=S.get(r.team);
     if(!s) return '<td class="num nr">—</td>';
-    return `<td class="num" title="${esc(SI.tip(r.team))}">#${SI.order.get(r.team)}`+
-      ` <span class="nr">(${s.sos.toFixed(1)})</span></td>`;
+    /* The place alone: the average behind it is a hover away and spelled out on
+       the team page, and the column has to share a very wide table. */
+    return `<td class="num" title="${esc(SI.tip(r.team))}">#${SI.order.get(r.team)}</td>`;
   };
   const avg=v=>v==null?'<td class="num nr">—</td>'
     :`<td class="num nr">${v.toFixed(1)}</td>`;
