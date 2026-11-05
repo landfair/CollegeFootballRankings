@@ -1848,6 +1848,16 @@
    "division": "OTHER"
   },
   {
+   "name": "Blue Mountain",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Bob Jones",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
    "name": "Bridgewater College (VA)",
    "conference": "",
    "division": "OTHER"
@@ -1868,6 +1878,16 @@
    "division": "OTHER"
   },
   {
+   "name": "Central College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Champion Christian",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
    "name": "Chapman",
    "conference": "",
    "division": "OTHER"
@@ -1878,12 +1898,22 @@
    "division": "OTHER"
   },
   {
+   "name": "Christendom",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
    "name": "Coast Guard",
    "conference": "",
    "division": "OTHER"
   },
   {
    "name": "Colorado College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Concordia-Chicago",
    "conference": "",
    "division": "OTHER"
   },
@@ -1903,6 +1933,11 @@
    "division": "OTHER"
   },
   {
+   "name": "Erskine",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
    "name": "Eureka",
    "conference": "",
    "division": "OTHER"
@@ -1913,12 +1948,22 @@
    "division": "OTHER"
   },
   {
+   "name": "Framingham State",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
    "name": "Fresno Pacific",
    "conference": "",
    "division": "OTHER"
   },
   {
    "name": "George Fox",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Grace University",
    "conference": "",
    "division": "OTHER"
   },
@@ -2073,6 +2118,16 @@
    "division": "OTHER"
   },
   {
+   "name": "Randolph College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Regent",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
    "name": "Regis (CO)",
    "conference": "",
    "division": "OTHER"
@@ -2098,7 +2153,17 @@
    "division": "OTHER"
   },
   {
+   "name": "Saint Mary of the Woods College",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
    "name": "Saint Vincent",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Salish Kootenai",
    "conference": "",
    "division": "OTHER"
   },
@@ -2154,6 +2219,11 @@
   },
   {
    "name": "Virginia-Lynchburg",
+   "conference": "",
+   "division": "OTHER"
+  },
+  {
+   "name": "Webster",
    "conference": "",
    "division": "OTHER"
   },
@@ -3496,7 +3566,7 @@
   {
    "home": "Duquesne",
    "away": "Purdue Fort Wayne",
-   "homePoints": 77,
+   "homePoints": 78,
    "awayPoints": 71,
    "week": 3
   },
@@ -3538,8 +3608,8 @@
   {
    "home": "LSU",
    "away": "New Orleans",
-   "homePoints": 99,
-   "awayPoints": 55,
+   "homePoints": 100,
+   "awayPoints": 57,
    "week": 3
   },
   {
@@ -3660,12 +3730,195 @@
    "homePoints": 95,
    "awayPoints": 48,
    "week": 3
+  },
+  {
+   "home": "App State",
+   "away": "Christendom",
+   "homePoints": 108,
+   "awayPoints": 43,
+   "week": 4
+  },
+  {
+   "home": "Auburn",
+   "away": "SE Louisiana",
+   "homePoints": 92,
+   "awayPoints": 59,
+   "week": 4
+  },
+  {
+   "home": "Boise State",
+   "away": "West Coast Baptist",
+   "homePoints": 132,
+   "awayPoints": 53,
+   "week": 4
+  },
+  {
+   "home": "Butler",
+   "away": "Fairleigh Dickinson",
+   "homePoints": 99,
+   "awayPoints": 65,
+   "week": 4
+  },
+  {
+   "home": "California",
+   "away": "Radford",
+   "homePoints": 84,
+   "awayPoints": 70,
+   "week": 4
+  },
+  {
+   "home": "Dartmouth",
+   "away": "Framingham State",
+   "homePoints": 107,
+   "awayPoints": 50,
+   "week": 4
+  },
+  {
+   "home": "Drake",
+   "away": "Central College",
+   "homePoints": 101,
+   "awayPoints": 48,
+   "week": 4
+  },
+  {
+   "home": "Furman",
+   "away": "Bob Jones",
+   "homePoints": 121,
+   "awayPoints": 52,
+   "week": 4
+  },
+  {
+   "home": "High Point",
+   "away": "Maryland Eastern Shore",
+   "homePoints": 63,
+   "awayPoints": 49,
+   "week": 4
+  },
+  {
+   "home": "Loyola Marymount",
+   "away": "Queens University",
+   "homePoints": 95,
+   "awayPoints": 96,
+   "week": 4
+  },
+  {
+   "home": "Montana",
+   "away": "Salish Kootenai",
+   "homePoints": 105,
+   "awayPoints": 40,
+   "week": 4
+  },
+  {
+   "home": "Morgan State",
+   "away": "Virginia-Lynchburg",
+   "homePoints": 95,
+   "awayPoints": 58,
+   "week": 4
+  },
+  {
+   "home": "Norfolk State",
+   "away": "Randolph College",
+   "homePoints": 78,
+   "awayPoints": 71,
+   "week": 4
+  },
+  {
+   "home": "Old Dominion",
+   "away": "Regent",
+   "homePoints": 91,
+   "awayPoints": 47,
+   "week": 4
+  },
+  {
+   "home": "SIU Edwardsville",
+   "away": "Concordia-Chicago",
+   "homePoints": 85,
+   "awayPoints": 61,
+   "week": 4
+  },
+  {
+   "home": "Saint Joseph's",
+   "away": "Longwood",
+   "homePoints": 82,
+   "awayPoints": 73,
+   "week": 4
+  },
+  {
+   "home": "Saint Mary's",
+   "away": "North Dakota State",
+   "homePoints": 105,
+   "awayPoints": 64,
+   "week": 4
+  },
+  {
+   "home": "Santa Clara",
+   "away": "Milwaukee",
+   "homePoints": 95,
+   "awayPoints": 72,
+   "week": 4
+  },
+  {
+   "home": "South Dakota",
+   "away": "Northern Kentucky",
+   "homePoints": 94,
+   "awayPoints": 102,
+   "week": 4
+  },
+  {
+   "home": "Southeast Missouri State",
+   "away": "Webster",
+   "homePoints": 90,
+   "awayPoints": 65,
+   "week": 4
+  },
+  {
+   "home": "Southern Indiana",
+   "away": "Saint Mary of the Woods College",
+   "homePoints": 112,
+   "awayPoints": 42,
+   "week": 4
+  },
+  {
+   "home": "Tennessee Tech",
+   "away": "Blue Mountain",
+   "homePoints": 117,
+   "awayPoints": 70,
+   "week": 4
+  },
+  {
+   "home": "UL Monroe",
+   "away": "Champion Christian",
+   "homePoints": 99,
+   "awayPoints": 55,
+   "week": 4
+  },
+  {
+   "home": "UNC Asheville",
+   "away": "Erskine",
+   "homePoints": 101,
+   "awayPoints": 74,
+   "week": 4
+  },
+  {
+   "home": "Utah Tech",
+   "away": "Grace University",
+   "homePoints": 103,
+   "awayPoints": 52,
+   "week": 4
+  },
+  {
+   "home": "Wichita State",
+   "away": "Cal State Northridge",
+   "homePoints": 79,
+   "awayPoints": 67,
+   "week": 4
   }
  ],
  "dates": [
   "2026-11-01",
   "2026-11-02",
-  "2026-11-03"
+  "2026-11-03",
+  "2026-11-04"
  ],
  "polls": [
   {
