@@ -280,7 +280,8 @@ Rankings recomputed in your browser. <a href="about.html">How this works</a>.</f
 
 <script type="module">
 import {WIN, esc, ingest, engine, rank, applyGate, pollAt,
-        agreement, revision, sparkHTML, weighted, schedule, split, bracket} from '../engine.js?v=e8f3a105219c';
+        agreement, revision, sparkHTML, weighted, schedule, split, bracket,
+        remaining} from '../engine.js?v=64af0057c0d2';
 
 const SHOW=100;
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -315,6 +316,65 @@ const GATE_STARTS=Math.min(...GATE_SCHEDULE.filter(g=>g.mode!=='off').map(g=>g.f
 const $=id=>document.getElementById(id);
 
 let SEASON=null, ENG=null, CACHE=new Map(), VIEW={kind:'list'}, YEAR=null;
+
+/* Fixtures live in their own file and are fetched only when a team page asks
+   for them, so a visitor who never leaves the table does not pay for a 48KB
+   schedule they will not read. A year maps to its rows, or to null once a
+   fetch has failed -- a season with no fixture file is the normal state of a
+   finished season, not an error, so a failure is remembered and never retried
+   or reported. */
+const SOON=new Map();
+/* Only the newest season has a fixture file: it is the one the fetcher is run
+   on, and the one still being played. Asking for an older one would 404 on
+   every historical team page -- caught, harmless, and still a red line in the
+   console that would make a real fault harder to spot later. */
+const newestSeason=()=>{ const sel=$('season');
+  return sel&&sel.options.length?+sel.options[0].value:null; };
+function loadSoon(year){
+  if(SOON.has(year)) return Promise.resolve(SOON.get(year));
+  /* Compared as numbers on purpose: the season select hands its value over as
+     a string, so YEAR is a string here while the option value coerces to one
+     too -- a strict compare between the two is always unequal, which would
+     quietly skip the fetch for every season including the live one. */
+  if(+year!==newestSeason()){ SOON.set(year,null); return Promise.resolve(null); }
+  return fetch('upcoming-'+year+'.json',{cache:'no-cache'})
+    .then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(d=>{ SOON.set(year,Array.isArray(d.upcoming)?d.upcoming:[]);
+               return SOON.get(year); })
+    .catch(()=>{ SOON.set(year,null); return null; });
+}
+
+/* Places for the fixture list, shared on ties exactly as sosInfo does, and
+   measured over the teams that actually have fixtures left: late in a season
+   that is a shrinking field, and calling a team 40th of 40 rather than 40th of
+   365 is the honest way to put it. */
+function soonInfo(R){
+  const sorted=[...R.entries()].filter(([,o])=>o.sos!=null)
+    .sort((a,b)=>b[1].sos-a[1].sos);
+  const order=new Map();
+  let rk=1;
+  sorted.forEach(([t,o],i)=>{
+    if(i>0&&Math.abs(o.sos-sorted[i-1][1].sos)>1e-9) rk=i+1;
+    order.set(t,rk);
+  });
+  const tip=t=>{
+    const o=R.get(t); if(!o||o.sos==null) return '';
+    const rated=o.games.filter(g=>g.rated);
+    const hard=rated.length?rated.reduce((a,b)=>b.rating>a.rating?b:a):null;
+    const easy=rated.length?rated.reduce((a,b)=>b.rating<a.rating?b:a):null;
+    return `What is left to play: #${order.get(t)} of ${order.size} for difficulty among `+
+      `the teams with fixtures remaining, where #1 is the hardest run-in. The `+
+      `${o.n} opponent${o.n===1?'':'s'} still to come average ${o.sos.toFixed(1)} `+
+      `on the same 0\u2013100 scale as the Rating column. `+
+      (hard?`Hardest: ${hard.opp} ${hard.rating.toFixed(1)}. `:'')+
+      (easy&&easy!==hard?`Easiest: ${easy.opp} ${easy.rating.toFixed(1)}. `:'')+
+      (o.unrated?`${o.unrated} of them ${o.unrated===1?'has':'have'} no rating yet and `+
+        `${o.unrated===1?'is':'are'} counted at the floor, ${o.floor.toFixed(1)}. `:'')+
+      `Fixtures are never graded and cannot move a rating; this reads the ratings `+
+      `the played games produced.`;
+  };
+  return {order,tip};
+}
 let sortKey='rank', sortAsc=true;
 /* The two scoring modes are two different populations to place a game in, so
    each needs its own engine. Both are kept once built — flipping between them
@@ -622,6 +682,21 @@ function renderList(){
 function renderTeam(team){
   const {h,g,rows,W,S,P,gated}=current();
   const SI=sosInfo(S,rows), ST=S.get(team), PT=P.get(team), BR=bracket(SEASON);
+  /* Fixtures are fetched on the first team page and the view is drawn again
+     when they land, so the page appears at once rather than waiting on a file
+     that is only ever an addition to it. */
+  if(!SOON.has(YEAR))
+    loadSoon(YEAR).then(()=>{ if(VIEW.kind==='team') render(); });
+  const soon=SOON.get(YEAR)||null;
+  const R=soon?remaining(soon,rows):null;
+  const RI=R?soonInfo(R):null;
+  /* Only at the live horizon. Dragging the slider back asks to see the season
+     as it looked then, and a fixture list is the one thing that cannot be
+     rewound: the file holds what is unplayed NOW, not what was unplayed in
+     November. So both the tile and the list below go, rather than sitting
+     beside an earlier date and quietly mixing the two. */
+  const atEnd=h>=Math.max(...ENG.byWeek.keys());
+  const RT=R&&atEnd?R.get(team):null;
   $('wkv').textContent=fmtDay(dayOf(h));
   showView('team');
   const me=rows.find(r=>r.team===team);
@@ -653,6 +728,13 @@ function renderTeam(team){
     (ST?`<div class="fact" title="${esc(SI.tip(team))}"><b>#${SI.order.get(team)}`+
         `<span class="nr" style="font-size:14px;font-weight:400"> (${ST.sos.toFixed(1)})</span>`+
         `</b><span>SCHEDULE</span></div>`:'')+
+    /* The forward-looking twin of SCHEDULE, on the same scale, so the two read
+       as one sentence: this is what the record was earned against, this is
+       what is left. */
+    (RT&&RT.sos!=null
+      ?`<div class="fact" title="${esc(RI.tip(team))}"><b>#${RI.order.get(team)}`+
+        `<span class="nr" style="font-size:14px;font-weight:400"> (${RT.sos.toFixed(1)})</span>`+
+        `</b><span>TO COME</span></div>`:'')+
     /* The rating's two halves. A single figure cannot say whether a team is
        here on the strength of its wins or in spite of its defeats. */
     (PT&&PT.win!=null
@@ -717,6 +799,36 @@ function renderTeam(team){
       sparkHTML(revision(ENG,team,w,h),{pool:ENG.scoring==='pooled',unit:'day',label:n=>fmtDay(dayOf(n))})+'</div>';
   }
   html+='</div>';
+
+  /* ---- still to play ---- (gated on atEnd above, with RT) */
+  if(RT&&RT.games.length){
+    const say=g=>g.neutral?'vs':g.home?'vs':'at';
+    html+=`<div class="thead" style="margin-top:28px"><h2>Still to play</h2>`+
+      `<span class="sub">${RT.games.length} fixture${RT.games.length===1?'':'s'}, `+
+      `averaging ${RT.sos.toFixed(1)}`+
+      (RT.unrated?` \u2014 ${RT.unrated} opponent${RT.unrated===1?'':'s'} not yet rated, `+
+        `counted at the floor`:'')+`</span></div>`;
+    html+='<p class="slateintro">These are fixtures, not results. They are stored in '+
+      'their own file, are never graded, and cannot move a rating \u2014 the ratings '+
+      'beside them are what the played games produced. Dates and opponents come from '+
+      'the feed and do change: a fixture marked <b>tbd</b> has no tip time set yet, so '+
+      'its date is the one the feed states and may still move.</p>';
+    html+='<div id="soon">';
+    for(const gm of RT.games){
+      const rk=rankOf.get(gm.opp);
+      html+='<div class="g"><div class="grow">'+
+        `<span class="gw">${fmtDay(gm.date)}</span>`+
+        `<span class="res" style="background:none;color:inherit;opacity:.65">${say(gm)}</span>`+
+        `<button class="tm" data-t="${esc(gm.opp)}">${esc(gm.opp)}</button>`+
+        `<span class="cf">${rk?'#'+rk:'unranked'}`+
+          `${gm.conf?' · conference':''}${gm.neutral?' · neutral site':''}`+
+          `${gm.tbd?' · tbd':''}</span>`+
+        `<span class="gsc">${gm.rated?gm.rating.toFixed(1):'\u2014'}</span>`+
+        '</div></div>';
+    }
+    html+='</div>';
+  }
+
   $('teamview').innerHTML=html;
   $('back').onclick=()=>go(null);
   wire($('teamview'));

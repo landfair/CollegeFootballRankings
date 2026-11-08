@@ -65,6 +65,30 @@ Four. Read them with `bracket(season)`, which returns the 68-team field, the fou
 teams of the last weekend and the champion, all derived from the games rather
 than stored, plus the list of events present.
 
+Both fetchers also write a **fixtures** file beside the season file —
+`season-2027.json` → `upcoming-2027.json` — holding the games not yet played,
+each with a date, the two teams, and flags for neutral site, conference game and
+an unset start time. **These are never ranked.** They are not in the season
+payload at all, so `ingest()` cannot see them; the page fetches the file lazily,
+only on a team page and only for the newest season, so a visitor to the table
+does not pay for a schedule they will not read. Read them with
+`remaining(upcoming, rows)`, which returns per team the fixtures left and the
+mean rating of those opponents, built the same way `schedule()` builds the
+backward-looking figure so the two can be read against each other.
+
+Three details worth knowing before touching this code. A fixture with no start
+time carries a **placeholder of 05:00Z** — midnight Eastern on the date meant —
+so it must not go through the eight-hour shift that keeps a late game on its own
+evening, or every such fixture lands a day early. The feed sends
+**`homePoints: 0` rather than null** on an unplayed row, so completion is decided
+by `status`/`completed` alone; a test on the score would admit the whole season
+as nil-nil draws. And a row that is neither played nor in the future is an
+**abandoned** game, not a fixture, so anything dated before today is dropped.
+
+Pass `--no-upcoming` to skip the file, or `--upcoming-out PATH` to put it
+somewhere else. The file is written even when empty, so a missing one means
+something is wrong rather than merely unsupported.
+
 To see what the feed offers for a year without writing anything:
 
 ```sh
@@ -75,7 +99,7 @@ A basketball season is named for the year it ends in: 2026 is the 2025–26 seas
 
 About four API calls per football run; basketball pages its games endpoint, which
 caps responses at 3,000 rows. Both have offline self-tests needing no key and no
-network: `--selftest` (37 checks for football, 14 for basketball).
+network: `--selftest` (50 checks for football, 36 for basketball).
 
 Three rankings ride along for comparison: the AP and Coaches polls, and the CFP
 selection committee's ranking, which only publishes from about week 10. Poll names

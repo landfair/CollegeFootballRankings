@@ -408,6 +408,51 @@ export function schedule(eng,horizon,rows){
    drift being that weighted() reports rows from one iterate of its fixed point
    and adjust() from the next; where the weighting does not settle at all, in
    the first weeks of a season, they can differ by more. */
+/* ---------- the schedule still to come ----------
+   The mean rating of the teams a side has yet to play, built the same way the
+   backward-looking schedule() figure is so the two can be read against each
+   other: this is what the record was earned against, this is what is left.
+
+   Fixtures are never graded and never reach a rating. They arrive in their own
+   file, are passed in here as plain rows, and this function only looks up
+   ratings the ranking already settled -- so a game that has not happened
+   cannot move anybody, which is the whole reason the fixtures are kept apart.
+
+   An opponent with no rating -- lower division, or simply yet to play a game
+   the pool scored -- counts as the weakest rated team in the field, the same
+   assumption schedule() makes. Early in a season that is a real distortion
+   rather than a rounding error: in November most of the field is unrated, so a
+   figure built largely on the floor says more about who has started slowly
+   than about who is hard to beat. The count of unrated opponents is returned
+   alongside so a page can say so rather than imply a precision it lacks. */
+export function remaining(upcoming,rows){
+  const ratingOf=new Map(rows.map(r=>[r.team,r.key]));
+  let floor=Infinity;
+  for(const r of rows) if(r.key<floor) floor=r.key;
+  if(!Number.isFinite(floor)) floor=0;
+  const out=new Map();
+  const add=(t,opp,row)=>{
+    const v=ratingOf.has(opp)?ratingOf.get(opp):null;
+    let o=out.get(t);
+    if(!o){o={sum:0,n:0,unrated:0,games:[],floor};out.set(t,o);}
+    o.games.push({date:row.date,opp,home:row.home===t,
+                  neutral:!!row.neutral,conf:!!row.conf,tbd:!!row.tbd,
+                  rated:v!=null,rating:v==null?floor:v});
+    o.sum+=(v==null?floor:v); o.n++; if(v==null) o.unrated++;
+  };
+  for(const row of (upcoming||[])){
+    if(!row||!row.home||!row.away||!row.date) continue;
+    if(ratingOf.has(row.home)) add(row.home,row.away,row);
+    if(ratingOf.has(row.away)) add(row.away,row.home,row);
+  }
+  for(const o of out.values()){
+    o.sos=o.n?o.sum/o.n:null;
+    o.games.sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:
+                        (a.opp<b.opp?-1:a.opp>b.opp?1:0));
+  }
+  return out;
+}
+
 export function split(eng,horizon,W){
   const out=new Map();
   for(let w=1;w<=horizon;w++){

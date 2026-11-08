@@ -215,6 +215,109 @@ def is_title_game(g):
     return "championship" in notes.lower()
 
 
+def upcoming_date(g):
+    """US calendar date a fixture is expected on, or None.
+
+    A played kickoff goes through game_date(), whose eight-hour shift puts a
+    night game on its own US day. A fixture whose kickoff time is not set yet
+    cannot: the feed stamps those 05:00Z -- midnight Eastern on the date it
+    means -- and shifting that back eight hours would move every one of them a
+    day early. So a TBD fixture is read as the plain date in its stamp. CFBD
+    spells the flag `startTimeTBD` here and `startTimeTbd` in the basketball
+    feed, so both are accepted.
+    """
+    if not pick(g, "startTimeTBD", "startTimeTbd", "start_time_tbd", default=False):
+        return game_date(g)
+    raw = pick(g, "startDate", "start_date")
+    if not raw:
+        return None
+    try:
+        return dt.date.fromisoformat(str(raw)[:10])
+    except ValueError:
+        return None
+
+
+def dedupe_fixtures(rows):
+    """Sort fixtures and drop the ones the feed filed twice.
+
+    CFBD sometimes lists one fixture under two ids with home and away swapped
+    -- 2026-27 has Morgan State and Towson both ways on 14 November -- so the
+    pair is treated as unordered and only the first is kept. Sorting before
+    the test rather than after makes which one survives depend on the fixture
+    itself and not on the order the feed happened to return, so a refetch does
+    not churn the file.
+
+    Two fixtures for one team on one day against DIFFERENT opponents are left
+    alone: those are the feed's claim about a real schedule, not a duplicate,
+    and dropping one would quietly invent a bye.
+    """
+    rows.sort(key=lambda r: (r["date"], r["home"], r["away"]))
+    out, seen = [], set()
+    for r in rows:
+        k = (r["date"], frozenset((r["home"], r["away"])))
+        if k in seen:
+            continue
+        seen.add(k)
+        out.append(r)
+    return out
+
+
+def build_upcoming(raw_games, teams, today=None, top="FBS"):
+    """Fixtures still to be played, flat and plainly named.
+
+    Kept out of `games` and written to their own file. The ranking reads only
+    `games`, so a fixture can never reach a rating, and a visitor to the table
+    does not pay to download a schedule only the team pages read.
+
+    No week number is attached. Weeks here are renumbered from kickoff dates
+    and then compacted to consecutive integers over the games actually played,
+    so the mapping shifts as the season fills in; a fixture carries the date
+    instead, which is both stable and what a reader wants to see anyway.
+
+    A row that is neither completed nor in the future is an abandoned game
+    rather than a fixture -- 2026 has several among the lower divisions -- so
+    anything dated before today is dropped instead of advertised as to come.
+    """
+    if today is None:
+        today = dt.date.today()
+
+    def ranked(n):
+        return (teams.get(n) or {}).get("division") == top
+
+    out = []
+    for g in raw_games:
+        home = pick(g, "homeTeam", "home_team")
+        away = pick(g, "awayTeam", "away_team")
+        if not home or not away:
+            continue
+        if pick(g, "completed", default=False):
+            continue
+        if not ranked(home) and not ranked(away):
+            continue
+        d = upcoming_date(g)
+        if d is None or d < today:
+            continue
+        row = {"home": home, "away": away, "date": d.isoformat()}
+        if pick(g, "neutralSite", "neutral_site", default=False):
+            row["neutral"] = 1
+        if pick(g, "conferenceGame", "conference_game", default=False):
+            row["conf"] = 1
+        if pick(g, "startTimeTBD", "startTimeTbd", "start_time_tbd", default=False):
+            row["tbd"] = 1
+        out.append(row)
+    return dedupe_fixtures(out)
+
+
+def upcoming_path(out):
+    """season-2026.json -> upcoming-2026.json, so the pair sits side by side."""
+    base = os.path.basename(out)
+    head = os.path.dirname(out)
+    name = base.replace("season", "upcoming", 1) if "season" in base \
+        else (base[:-5] + ".upcoming.json" if base.endswith(".json")
+              else base + ".upcoming.json")
+    return os.path.join(head, name) if head else name
+
+
 def build_games(raw_games, teams, week_offset=0, drop_titles=True, tag_cfbd=True):
     """Return (games, skipped, titles_dropped).
 
@@ -432,6 +535,34 @@ FIXTURE_GAMES = [
 
 # Two weekends that CFBD files under a single "week 1". Tarleton plays both, so
 # raw numbering costs Florida Atlantic its game; date numbering keeps everything.
+FIXTURE_UPCOMING = [
+    # a plain fixture with a real kickoff time
+    {"week": 12, "homeTeam": "Florida", "awayTeam": "Army",
+     "homePoints": None, "awayPoints": None, "completed": False,
+     "startDate": "2026-11-21T18:00:00.000Z", "conferenceGame": True},
+    # a TBD fixture: 05:00Z is a placeholder for the stated date and must not
+    # be shifted back a day the way a real night kickoff is
+    {"week": 12, "homeTeam": "Florida Atlantic", "awayTeam": "Mercer",
+     "homePoints": None, "awayPoints": None, "completed": False,
+     "startDate": "2026-11-22T05:00:00.000Z", "startTimeTBD": True},
+    # neutral site
+    {"week": 13, "homeTeam": "Army", "awayTeam": "Florida Atlantic",
+     "homePoints": None, "awayPoints": None, "completed": False,
+     "startDate": "2026-11-28T20:00:00.000Z", "neutralSite": True},
+    # already played: belongs in games, never here
+    {"week": 1, "homeTeam": "Florida", "awayTeam": "Florida Atlantic",
+     "homePoints": 31, "awayPoints": 17, "completed": True,
+     "startDate": "2026-09-05T18:00:00.000Z"},
+    # abandoned: unplayed but dated before today
+    {"week": 3, "homeTeam": "Army", "awayTeam": "Florida",
+     "homePoints": None, "awayPoints": None, "completed": False,
+     "startDate": "2026-09-19T18:00:00.000Z"},
+    # no FBS side, so nobody has a page for it
+    {"week": 12, "homeTeam": "Tarleton State", "awayTeam": "Mercer",
+     "homePoints": None, "awayPoints": None, "completed": False,
+     "startDate": "2026-11-21T18:00:00.000Z"},
+]
+
 FIXTURE_SPLIT = [
     {"week": 1, "homeTeam": "Florida", "awayTeam": "Tarleton State",
      "homePoints": 42, "awayPoints": 7, "completed": True,
@@ -483,6 +614,7 @@ def selftest():
     teams.update(build_teams(FIXTURE_TEAMS_FCS, "FCS"))
     games, skipped, dropped = build_games(FIXTURE_GAMES, teams)
     kept_all, _, _ = build_games(FIXTURE_GAMES, dict(teams), drop_titles=False)
+    soon = build_upcoming(FIXTURE_UPCOMING, teams, today=dt.date(2026, 11, 10))
 
     checks = []
     checks.append(("completed games kept", len(games) == 4))
@@ -589,6 +721,38 @@ def selftest():
                   "homePoints": 1, "awayPoints": 0, "_date": dt.date(2026, 12, 13)})
     checks.append(("one mis-filed game cannot drag the poll alignment",
                    through_week_map(stray)(1) == through_week_map(sg2)(1)))
+    checks.append(("a played game never appears as a fixture",
+                   not any(r["home"] == "Florida" and r["away"] == "Florida Atlantic"
+                           for r in soon)))
+    checks.append(("an unplayed row dated in the past is dropped, not advertised",
+                   not any(r["date"] == "2026-09-19" for r in soon)))
+    checks.append(("a fixture with no FBS side is left out",
+                   not any(r["home"] == "Tarleton State" for r in soon)))
+    checks.append(("the three real fixtures are kept", len(soon) == 3))
+    checks.append(("a TBD fixture keeps its own date rather than shifting a day back",
+                   any(r["away"] == "Mercer" and r["date"] == "2026-11-22" for r in soon)))
+    checks.append(("a fixture with a real kickoff still goes through the shift",
+                   any(r["away"] == "Army" and r["date"] == "2026-11-21" for r in soon)))
+    checks.append(("neutral and conference games are marked",
+                   any(r.get("neutral") for r in soon) and any(r.get("conf") for r in soon)))
+    checks.append(("fixtures are sorted by date",
+                   [r["date"] for r in soon] == sorted(r["date"] for r in soon)))
+    checks.append(("a fixture carries no score and no week, so it cannot be graded",
+                   all("week" not in r and "homePoints" not in r for r in soon)))
+    checks.append(("one fixture filed both ways is kept once",
+                   len(dedupe_fixtures([{"date": "2026-11-21", "home": "Florida",
+                                         "away": "Army"},
+                                        {"date": "2026-11-21", "home": "Army",
+                                         "away": "Florida"}])) == 1))
+    checks.append(("two different opponents on one day are both kept",
+                   len(dedupe_fixtures([{"date": "2026-11-21", "home": "Florida",
+                                         "away": "Army"},
+                                        {"date": "2026-11-21", "home": "Florida",
+                                         "away": "Mercer"}])) == 2))
+    checks.append(("the fixture file is named beside the season file",
+                   upcoming_path("docs/season-2026.json") == "docs/upcoming-2026.json"))
+    checks.append(("an oddly named output still gets a fixture file",
+                   upcoming_path("out.json") == "out.upcoming.json"))
     checks.append(("postseason games are not tagged for poll alignment",
                    build_games(FIXTURE_GAMES, dict(st), tag_cfbd=False)[0][0]["_cfbd"]
                    is None))
@@ -626,6 +790,11 @@ def main():
     p = argparse.ArgumentParser(description="Fetch a season from CollegeFootballData.com")
     p.add_argument("--year", type=int, default=default_year)
     p.add_argument("--out", default="season.json")
+    p.add_argument("--upcoming-out", default=None,
+                   help="where to write the fixtures (default: beside --out, "
+                        "season-X.json -> upcoming-X.json)")
+    p.add_argument("--no-upcoming", action="store_true",
+                   help="skip the fixture file")
     p.add_argument("--postseason", action="store_true",
                    help="also include bowls and playoff, numbered after the regular season")
     p.add_argument("--no-fcs", action="store_true", help="top division only")
@@ -699,6 +868,17 @@ def main():
     raw = get("/games", {"year": a.year, "seasonType": "regular"}, key)
     games, skipped, dropped = build_games(raw, teams, drop_titles=not a.include_title_games)
 
+    # Built here, from the same rows, before `raw` is reused for the postseason.
+    soon = []
+    if not a.no_upcoming:
+        print("  fixtures still to play")
+        soon = build_upcoming(raw, teams)
+        if soon:
+            print(f"     {len(soon)} fixtures, {soon[0]['date']} .. {soon[-1]['date']}"
+                  f", {sum(1 for r in soon if r.get('tbd'))} without a kickoff time")
+        else:
+            warn("the feed listed no fixtures ahead of today")
+
     if a.postseason:
         offset = max((g["week"] for g in games), default=0)
         print("  games, postseason")
@@ -761,6 +941,19 @@ def main():
         payload["polls"] = polls
     with open(a.out, "w") as f:
         json.dump(payload, f, indent=1)
+
+    if not a.no_upcoming:
+        # Written even when empty. A finished season has no fixtures left, and
+        # saying so in a file is better than leaving none: the page can ask for
+        # it unconditionally instead of guessing which seasons have one, and a
+        # missing file stops meaning "not supported yet" and starts meaning
+        # something is actually wrong.
+        where = a.upcoming_out or upcoming_path(a.out)
+        with open(where, "w") as f:
+            json.dump({"sport": "football", "season": a.year,
+                       "generated": dt.date.today().isoformat(),
+                       "upcoming": soon}, f, separators=(",", ":"))
+        print(f"wrote {where} ({len(soon)} fixtures)")
 
     summarize(teams, games)
     if dropped:
