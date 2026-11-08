@@ -45,6 +45,21 @@ is computed: to be listed, you must have beaten someone inside a chosen tier.
 The gate never changes a rating or an order. It only decides who is shown; excluded
 teams still count as opponents for everyone else.
 
+`applyGate()` is also where the per-team résumé figures are attached, which is
+easy to miss given the name: `bestWin`, `worstLoss`, `avgWin` and `avgLoss` all
+ride out of it on the `all` rows. Only `bestWin` is actually used by the gate.
+
+**`bestWin` and `worstLoss` are not symmetric, on purpose.** `bestWin` skips an
+opponent the ranking does not place, and is `Infinity` when there are none.
+`worstLoss` counts one, because out there a defeat is the *worst available
+result*, not a missing figure — skipping it would give a team whose only loss
+came against a lower division an empty cell, reading as no bad loss at all. So
+an unranked defeat takes the `rows.length + 1` sentinel, `worstLossNR` says that
+is what happened, and the page prints `NR`. An unbeaten team gets `null`, like
+`avgLoss` and unlike `bestWin`. `worstLossTeam` names the opponent for the
+tooltip; ties keep the earlier game, and an unranked defeat outranks every
+ranked one regardless of when it fell.
+
 ## Refreshing the data
 
 ```sh

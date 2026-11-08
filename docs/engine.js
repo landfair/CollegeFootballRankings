@@ -528,19 +528,48 @@ export function applyGate(eng,rows,mode,N,horizon){
   /* bestWin counts only ranked opponents, because the gate is defined against
      the ranking. The averages instead score an unranked opponent as one worse
      than last: leaving them out would flatter a team that padded its schedule,
-     which is the opposite of what a strength-of-schedule figure is for. */
+     which is the opposite of what a strength-of-schedule figure is for.
+
+     worstLoss sides with the averages, and has to. An unranked opponent is not
+     a missing figure on this end -- it is the worst result available, and the
+     only one of these four where that is true. Excluding it the way bestWin
+     excludes an unranked win would hand a team whose single defeat came against
+     a lower division an empty cell, reading as no bad loss at all: the exact
+     claim the column exists to refuse. So it takes the sentinel and the page
+     prints NR for it, rather than a place one past the end of a field that
+     stops at rows.length. worstLossNR carries which of the two it is, so the
+     page never has to reconstruct the sentinel for itself, and worstLossTeam
+     names the opponent, because a bare place says which tier the defeat came
+     from but not what the defeat WAS.
+
+     It is not symmetric with bestWin in the other direction either. bestWin
+     answers "what is the best thing on this record", which a team can lack;
+     worstLoss answers "what is the worst", which an unbeaten team lacks
+     instead -- hence null at ln===0, matching avgLoss rather than bestWin's
+     Infinity. Nothing downstream reads worstLoss: the gate is defined on wins
+     alone, and this rides out of applyGate for display only. */
   const UNRANKED=rows.length+1;
   const all=rows.map(r=>{
-    let best=Infinity, ws=0, wn=0, ls=0, ln=0;
+    let best=Infinity, worst=0, wt=null, nr=false, nt=null, ws=0, wn=0, ls=0, ln=0;
     for(const g of (eng.gamesOf.get(r.team)||[])){
       if(g.week>horizon) continue;
       const k=rankOf.get(g.opp);
       if(g.res===WIN){
         if(k!=null&&k<best) best=k;
         ws+=(k??UNRANKED); wn++;
-      } else { ls+=(k??UNRANKED); ln++; }
+      } else {
+        /* Strictly greater, so two defeats at the same place keep the earlier
+           opponent rather than depending on iteration order. An unranked loss
+           outranks every ranked one however late it fell, so it is tracked on
+           its own and wins the tie against them by construction. */
+        if(k==null){ if(!nr){ nr=true; nt=g.opp; } }
+        else if(k>worst){ worst=k; wt=g.opp; }
+        ls+=(k??UNRANKED); ln++;
+      }
     }
-    return {...r,bestWin:best,avgWin:wn?ws/wn:null,avgLoss:ln?ls/ln:null};
+    return {...r,bestWin:best,avgWin:wn?ws/wn:null,avgLoss:ln?ls/ln:null,
+            worstLoss:ln?(nr?UNRANKED:worst):null,worstLossNR:ln?nr:false,
+            worstLossTeam:ln?(nr?nt:wt):null};
   });
   if(mode==='off') return {kept:all,all,passes:0};
   if(mode==='one') return {kept:all.filter(r=>r.bestWin<=N),all,passes:1};
