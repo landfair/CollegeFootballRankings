@@ -432,6 +432,72 @@ def build_polls(raw, through_of):
     return out
 
 
+
+# ----------------------------------------------------------------------------
+# ESPN's Football Power Index
+# ----------------------------------------------------------------------------
+def build_fpi(raw, teams, top="FBS"):
+    """[{team, fpi, rank, sos, sor}] from ESPN's Football Power Index.
+
+    These are the figures ESPN publishes on its own FPI page: the rating, the
+    team's place by that rating, strength of schedule and strength of record.
+    All three places are places in the field; `fpi` alone is a rating on ESPN's
+    scale -- roughly the margin it expects against an average opponent -- and is
+    carried as a number so the page can show it beside the place.
+
+    Two cautions are built into the shape of what this returns.
+
+    The feed has no week dimension. /ratings/fpi takes a year and hands back one
+    snapshot -- today's -- and passing &week=N changes nothing in the response,
+    which was checked rather than assumed. There is no way to ask what FPI said
+    in week 6, so the app must not imply it knows: the caller stamps the payload
+    with the day it was fetched, and the page shows these figures only at the
+    live horizon.
+
+    FPI is a margin-of-victory model and the ranking it sits beside refuses
+    margin on purpose, so the two disagree by construction rather than by
+    accident. Showing them together is the point. It is also exactly why none
+    of this is allowed to reach the grader: it rides in its own key, which
+    ingest() carries through to the page untouched.
+
+    Rows outside the top division are dropped. FPI only rates FBS, and `teams`
+    holds the lower divisions too by this point, so the test is on the division
+    rather than on mere membership.
+    """
+    out = []
+    for row in raw:
+        name = pick(row, "team", "school")
+        if not name or (teams.get(name) or {}).get("division") != top:
+            continue
+        res = pick(row, "resumeRanks", "resume_ranks", default={}) or {}
+        rec = {"team": name}
+        rating = pick(row, "fpi")
+        if rating is not None:
+            try:
+                rec["fpi"] = round(float(rating), 2)
+            except (TypeError, ValueError):
+                pass
+        # resumeRanks.fpi is the team's PLACE by FPI, not the rating again.
+        for key, *names in (("rank", "fpi"),
+                            ("sos", "strengthOfSchedule", "strength_of_schedule"),
+                            ("sor", "strengthOfRecord", "strength_of_record")):
+            v = pick(res, *names)
+            if v is None:
+                continue
+            try:
+                rec[key] = int(v)
+            except (TypeError, ValueError):
+                pass
+        # A row carrying a name and nothing else says nothing. Dropping it is
+        # better than three dashes, which would read as a team FPI declined to
+        # rate rather than as a row that arrived empty.
+        if len(rec) > 1:
+            out.append(rec)
+    out.sort(key=lambda r: (r.get("rank") if r.get("rank") is not None else 10 ** 6,
+                            r["team"]))
+    return out
+
+
 def through_week_map(games):
     """CFBD week -> the renumbered week by which that week's games had been played.
 
@@ -563,6 +629,30 @@ FIXTURE_UPCOMING = [
      "startDate": "2026-11-21T18:00:00.000Z"},
 ]
 
+FIXTURE_FPI = [
+    # a complete row: rating, place by rating, and the two resume places
+    {"team": "Florida", "conference": "SEC", "fpi": 18.69,
+     "resumeRanks": {"fpi": 4, "strengthOfSchedule": 69,
+                     "strengthOfRecord": 11, "gameControl": 7}},
+    # snake_case spellings, which the feed has used for these fields before
+    {"team": "Army", "conference": "American Athletic", "fpi": -3.5,
+     "resume_ranks": {"fpi": 70, "strength_of_schedule": 120,
+                      "strength_of_record": 65}},
+    # a negative rating and a missing SOR: the cell goes blank, the row stays
+    {"team": "Florida Atlantic", "conference": "American Athletic",
+     "fpi": -13.774, "resumeRanks": {"fpi": 118, "strengthOfSchedule": 104}},
+    # FPI does not rate the lower divisions, but if a row ever appears it is
+    # not ours to show: there is no page for it in the table
+    {"team": "Mercer", "conference": "Southern", "fpi": -25.0,
+     "resumeRanks": {"fpi": 140, "strengthOfSchedule": 9,
+                     "strengthOfRecord": 130}},
+    # nothing but a name: an empty row is dropped rather than rendered as a
+    # team FPI declined to rate
+    {"team": "Tarleton State"},
+    # no name at all
+    {"fpi": 1.0, "resumeRanks": {"fpi": 1}},
+]
+
 FIXTURE_SPLIT = [
     {"week": 1, "homeTeam": "Florida", "awayTeam": "Tarleton State",
      "homePoints": 42, "awayPoints": 7, "completed": True,
@@ -615,6 +705,7 @@ def selftest():
     games, skipped, dropped = build_games(FIXTURE_GAMES, teams)
     kept_all, _, _ = build_games(FIXTURE_GAMES, dict(teams), drop_titles=False)
     soon = build_upcoming(FIXTURE_UPCOMING, teams, today=dt.date(2026, 11, 10))
+    power = build_fpi(FIXTURE_FPI, teams)
 
     checks = []
     checks.append(("completed games kept", len(games) == 4))
@@ -749,6 +840,42 @@ def selftest():
                                          "away": "Army"},
                                         {"date": "2026-11-21", "home": "Florida",
                                          "away": "Mercer"}])) == 2))
+    checks.append(("the power index keeps only top-division teams",
+                   [r["team"] for r in power]
+                   == ["Florida", "Army", "Florida Atlantic"]))
+    checks.append(("the rating, its place, and both resume places are read",
+                   power[0] == {"team": "Florida", "fpi": 18.69, "rank": 4,
+                                "sos": 69, "sor": 11}))
+    checks.append(("resumeRanks.fpi is read as a place, not as the rating again",
+                   power[0]["rank"] == 4 and power[0]["fpi"] == 18.69))
+    checks.append(("snake_case field names are read too",
+                   power[1] == {"team": "Army", "fpi": -3.5, "rank": 70,
+                                "sos": 120, "sor": 65}))
+    checks.append(("a negative rating survives rounding",
+                   power[2]["fpi"] == -13.77))
+    checks.append(("a missing figure leaves its key out rather than guessing",
+                   "sor" not in power[2] and "sos" in power[2]))
+    checks.append(("a row with nothing but a name is dropped",
+                   all(r["team"] != "Tarleton State" for r in power)))
+    checks.append(("a row with no team name is dropped",
+                   all(r.get("team") for r in power)))
+    checks.append(("the power index is ordered by its own place",
+                   [r["rank"] for r in power] == [4, 70, 118]))
+    checks.append(("an unrated team sorts last rather than first",
+                   [r["team"] for r in build_fpi(
+                       [{"team": "Army", "fpi": 1.0},
+                        {"team": "Florida", "fpi": 2.0,
+                         "resumeRanks": {"fpi": 9}}], teams)]
+                   == ["Florida", "Army"]))
+    checks.append(("an empty feed gives an empty index, not an error",
+                   build_fpi([], teams) == []))
+    # The page hides these columns off the live horizon because of this: the
+    # feed serves one snapshot per season and ignores a week parameter, so
+    # there is nothing to align a rewound horizon against.
+    checks.append(("the power index carries no week of its own",
+                   all("week" not in r for r in power)))
+    checks.append(("the power index never reaches the game list",
+                   all(not (set(g) & {"fpi", "rank", "sos", "sor"}) for g in games)))
     checks.append(("the fixture file is named beside the season file",
                    upcoming_path("docs/season-2026.json") == "docs/upcoming-2026.json"))
     checks.append(("an oddly named output still gets a fixture file",
@@ -800,6 +927,8 @@ def main():
     p.add_argument("--no-fcs", action="store_true", help="top division only")
     p.add_argument("--no-polls", action="store_true",
                    help="skip the AP and Coaches poll fetch (saves one API call)")
+    p.add_argument("--no-fpi", action="store_true",
+                   help="skip the ESPN power index fetch (saves one API call)")
     p.add_argument("--cfbd-weeks", action="store_true",
                    help="keep CFBD's own week numbers instead of renumbering from "
                         "kickoff dates (CFBD folds Week 0 and Labor Day weekend into "
@@ -932,6 +1061,27 @@ def main():
                 warn(f"{len(unknown)} ranked teams are not in the team list: "
                      f"{', '.join(unknown[:5])}")
 
+
+    fpi = []
+    if not a.no_fpi:
+        print("  ESPN power index")
+        try:
+            fpi = build_fpi(get("/ratings/fpi", {"year": a.year}, key), teams)
+        except SystemExit:
+            raise
+        except Exception as e:                  # a missing rating is not fatal
+            warn(f"could not read the power index ({e}); "
+                 f"writing the season without it")
+        if fpi:
+            whole = sum(1 for r in fpi
+                        if all(k in r for k in ("fpi", "rank", "sos", "sor")))
+            print(f"     {len(fpi)} teams rated, {whole} with all four figures")
+            if whole < len(fpi):
+                warn(f"{len(fpi) - whole} rated teams are missing a figure; "
+                     f"those cells will read as blank")
+        else:
+            warn(f"the feed returned no power index for {a.year}; FPI data "
+                 f"starts in 2005")
     for g in games:
         g.pop("_date", None)
         g.pop("_cfbd", None)
@@ -939,6 +1089,12 @@ def main():
     payload = {"teams": ordered_teams(teams, 'FBS'), "games": games}
     if polls:
         payload["polls"] = polls
+    if fpi:
+        # Its own key, beside the polls and well clear of `games`. The day is
+        # stamped because the feed has no week: without it the page cannot tell
+        # a reader how current these figures are, and cannot know to hide them
+        # when the horizon is rewound behind them.
+        payload["fpi"] = {"asOf": dt.date.today().isoformat(), "teams": fpi}
     with open(a.out, "w") as f:
         json.dump(payload, f, indent=1)
 

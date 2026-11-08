@@ -149,9 +149,11 @@
   </div>
 </header>
 
-<p class="lede">College football ranked only by who beat whom — no preseason expectation,
+<p class="lede">College football ranked only by who beat whom &mdash; no preseason expectation,
 no margin of victory, no votes. The AP and Coaches polls are shown alongside for
-comparison, and the selection committee's ranking once it starts publishing.</p>
+comparison, the selection committee's ranking once it starts publishing, and three
+figures from ESPN's Football Power Index. Those are reference columns only: none of
+them feeds the ranking.</p>
 
 <div class="controls">
   <label class="ctl">Season
@@ -305,7 +307,7 @@ Rankings recomputed in your browser. <a href="about.html">How this works</a>.</f
 import {WIN, esc, ingest, engine, rank, applyGate, pollAt,
         agreement, revision, sparkHTML, weighted,
         rankHistory, rankChart,
-        backtest, mcnemar, schedule, split, remaining} from './engine.js?v=64af0057c0d2';
+        backtest, mcnemar, schedule, split, remaining} from './engine.js?v=62c47c1e4fde';
 
 const SHOW=100;
 
@@ -553,6 +555,15 @@ function renderList(){
   const apR=new Map((ap?ap.ranks:[]).map(r=>[r.team,r.rank]));
   const coR=new Map((co?co.ranks:[]).map(r=>[r.team,r.rank]));
   const cfR=new Map((cf?cf.ranks:[]).map(r=>[r.team,r.rank]));
+  /* ESPN's index has no week. The feed serves one snapshot per season and
+     ignores a week parameter, so these three columns can only ever describe
+     now. Off the live horizon they would put today's figures beside an older
+     ranking and invite a comparison nobody is actually making, so they leave
+     the table rather than stay with a caveat no one reads inside a cell. The
+     fixture list on a team page is hidden for the same reason. */
+  const atEnd=h>=Math.max(...ENG.byWeek.keys());
+  const FP=(atEnd&&SEASON.fpi)?SEASON.fpi.byTeam:null;
+  const fp=t=>FP?(FP.get(t)||null):null;
   const how = g.mode==='off' ? '<b>off</b>'
     : '<b>top '+g.n+'</b>, '+(g.mode==='one'?'one pass':'self\u2011consistent');
   $('gatelbl').innerHTML = g.auto
@@ -591,6 +602,7 @@ function renderList(){
   if(g.auto){ $('gmode').value='auto'; if(g.mode!=='off') $('gn').value=String(g.n); }
   if(g.mode!=='off'&&gated.kept.length<25)
     bits.push(`<b>only ${gated.kept.length} qualify</b> — too little cross-conference play yet for this tier`);
+  if(FP) bits.push(`<b>FPI</b> as of ${esc(SEASON.fpi.asOf||'an unrecorded date')}`);
   $('status').innerHTML=bits.join(' · ');
 
   const fullRank=new Map(rows.map(r=>[r.team,r.rank]));
@@ -660,6 +672,17 @@ function renderList(){
     {k:'co',    h:'Coaches',    cls:'num', lowBest:true,  v:r=>coR.get(r.team)??null},
     ...(cf?[{k:'cfp', h:'CFP',      cls:'num', lowBest:true,  v:r=>cfR.get(r.team)??null,
       tip:'The selection committee\u2019s ranking, which replaced the BCS standings in 2014. Published from about week 10, so this column appears only once it exists.'}]:[]),
+    /* Named apart from the SOS column on the left on purpose. Two columns
+       both labelled SOS would be a genuine trap: they measure different
+       things, and the interesting reading is exactly where they disagree. */
+    ...(FP?[
+    {k:'fpi',   h:'FPI',        cls:'num', lowBest:true,  v:r=>fp(r.team)?.rank??null,
+     tip:'ESPN\u2019s Football Power Index, as a place in the field. FPI is a predictive rating built on margin of victory and efficiency, so it answers a different question from this ranking: how strong it thinks a team IS, rather than what the results the team has actually produced are worth. Expect the two to disagree \u2014 that disagreement is the comparison, not a fault in either. Hover a figure for the rating behind the place. The feed keeps one snapshot per season, dated in the line above the table, so this column leaves the table if you rewind the week: there is no earlier state to rewind it to.'},
+    {k:'fsos',  h:'FPI SOS',    cls:'num', lowBest:true,  v:r=>fp(r.team)?.sos??null,
+     tip:'ESPN\u2019s strength of schedule, as a place: #1 faced the hardest season. Kept separate from the SOS column further left because the two are built differently \u2014 this is FPI\u2019s view of the opponents, where ours is the average recursive rating of the teams actually played. The disagreement is the useful part: a team the two rate far apart has a schedule whose difficulty depends on whether opponents are judged by what they did or by how good a model expects them to be.'},
+    {k:'fsor',  h:'FPI SOR',    cls:'num', lowBest:true,  v:r=>fp(r.team)?.sor??null,
+     tip:'ESPN\u2019s strength of record, as a place: how impressive the won\u2011lost record is, read as the chance an average top\u201125 team would have matched it against the same schedule. Of the three this is the one closest in spirit to what this site computes, because it grades the r\u00e9sum\u00e9 rather than the team \u2014 so where our place and SOR part company, the argument is about how to weigh a r\u00e9sum\u00e9, not about whether to.'},
+    ]:[]),
     {k:'vsap',  h:'vs AP',      cls:'num', lowBest:false,
      v:r=>{const a=apR.get(r.team); return a==null?null:a-r.rank;},
      tip:'How far above its AP place this ranking puts the team. Positive means this system is higher on them.'},
@@ -694,6 +717,17 @@ function renderList(){
        the team page, and the column has to share a very wide table. */
     return `<td class="num" title="${esc(SI.tip(r.team))}">#${SI.order.get(r.team)}</td>`;
   };
+  /* The place goes in the cell, to sit with AP and Coaches beside it; the
+     rating goes in the tooltip, being the one figure here with nowhere else
+     on this page to live. */
+  const fpiCell=r=>{
+    const d=fp(r.team);
+    if(!d||d.rank==null) return '<td class="num nr">\u2014</td>';
+    const v=d.rating;
+    return `<td class="num"${v==null?'':` title="${esc('ESPN rates '+r.team+' '+
+      (v>0?'+':'')+v.toFixed(2)+' \u2014 roughly the margin it expects against an '+
+      'average opponent. The place beside it is where that rating stands in the field.')}"`}>${d.rank}</td>`;
+  };
   const avg=v=>v==null?'<td class="num nr">—</td>'
     :`<td class="num nr">${v.toFixed(1)}</td>`;
   /* The count sits in the tooltip because it need not match the W-L column:
@@ -722,7 +756,9 @@ function renderList(){
       scoreCell(P.get(r.team)?.loss,P.get(r.team)?.nLoss)+
       `<td class="num nr">${Number.isFinite(r.bestWin)?'#'+r.bestWin:'—'}</td>`+
       avg(r.avgWin)+avg(r.avgLoss)+
-      cell(a)+cell(c)+(cf?cell(f):'')+delta(a,r.rank)+'</tr>';
+      cell(a)+cell(c)+(cf?cell(f):'')+
+      (FP?fpiCell(r)+cell(fp(r.team)?.sos??null)+cell(fp(r.team)?.sor??null):'')+
+      delta(a,r.rank)+'</tr>';
   }
   $('tbl').innerHTML=html+'</tbody>';
   $('tbl').querySelectorAll('th.sortable').forEach(th=>th.onclick=()=>{
@@ -752,6 +788,7 @@ function renderTeam(team){
      an earlier week and quietly mixing the two. */
   const atEnd=h>=Math.max(...ENG.byWeek.keys());
   const RT=R&&atEnd?R.get(team):null;
+  const FT=(atEnd&&SEASON.fpi)?(SEASON.fpi.byTeam.get(team)||null):null;
   $('wkv').textContent=h;
   showView('team');
   const me=rows.find(r=>r.team===team);
@@ -805,6 +842,22 @@ function renderTeam(team){
     `<div class="fact"><b>${apR.has(team)?'#'+apR.get(team):'NR'}</b><span>AP</span></div>`+
     `<div class="fact"><b>${coR.has(team)?'#'+coR.get(team):'NR'}</b><span>COACHES</span></div>`+
     (cf?`<div class="fact"><b>${cfR.has(team)?'#'+cfR.get(team):'NR'}</b><span>CFP</span></div>`:'')+
+    /* The same three figures as the table's FPI columns, and hidden off the
+       live horizon for the same reason: the feed has one snapshot per season
+       and no history to rewind. */
+    (FT?`<div class="fact" title="${esc('ESPN\u2019s Football Power Index \u2014 a predictive rating built on '+
+        'margin of victory, so it rates how strong it thinks the team is rather than what its results '+
+        'are worth.'+(FT.rating==null?'':' Rating '+(FT.rating>0?'+':'')+FT.rating.toFixed(2)+'.')+
+        ' Snapshot of '+(SEASON.fpi.asOf||'an unrecorded date')+'.')}">`+
+        `<b>${FT.rank!=null?'#'+FT.rank:'\u2014'}</b><span>FPI</span></div>`+
+      `<div class="fact" title="${esc('ESPN\u2019s strength of schedule, as a place in the field. The '+
+        'SCHEDULE tile to the left is this site\u2019s own figure, built from the recursive ratings of the '+
+        'teams actually played; this one is FPI\u2019s view of the same opponents.')}">`+
+        `<b>${FT.sos!=null?'#'+FT.sos:'\u2014'}</b><span>FPI SOS</span></div>`+
+      `<div class="fact" title="${esc('ESPN\u2019s strength of record, as a place: the chance an average '+
+        'top\u201125 team would have matched this record against this schedule. The closest of the three '+
+        'to what this site measures, because it grades the r\u00e9sum\u00e9 rather than the team.')}">`+
+        `<b>${FT.sor!=null?'#'+FT.sor:'\u2014'}</b><span>FPI SOR</span></div>`:'')+
     `<div class="fact"><b>${bw&&Number.isFinite(bw.bestWin)?'#'+bw.bestWin:'—'}</b><span>BEST WIN</span></div>`+
     '</div>';
   if(g.mode!=='off'&&!inGate)

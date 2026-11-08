@@ -1,7 +1,8 @@
 # CollegeFootballRankings
 
 College football ranked only by who beat whom — no preseason expectation, no margin
-of victory, no votes. AP and Coaches polls are shown alongside for comparison.
+of victory, no votes. AP and Coaches polls and ESPN's power index are shown
+alongside for comparison, and feed nothing.
 
 Two sports, one method. Football at the site root, basketball at `/basketball/`.
 
@@ -10,9 +11,9 @@ Two sports, one method. Football at the site root, basketball at `/basketball/`.
 | Path | What it is |
 |---|---|
 | `docs/engine.js` | The ranking engine, shared by both sports. Verified against the research build: 1,974 comparisons, zero differences. |
-| `docs/index.html` | Football rankings, with the AP and Coaches polls alongside. |
+| `docs/index.html` | Football rankings, with the AP and Coaches polls and ESPN's power index alongside. |
 | `docs/about.html` | How the method works, and what it can't do. |
-| `docs/season-20XX.json` | Football results and polls, one file per season (2014–2026). |
+| `docs/season-20XX.json` | Football results, polls and power index, one file per season (2014–2026). |
 | `docs/basketball/` | The same, for men's college basketball (2021–22 through 2025–26). |
 | `recursive-rankings.html` | The research build — slates, the draft triangle, per-game revision history, poll comparison, backtesting. Open it directly; it loads a season through its own file picker. |
 | `fetch_season.py` | Pulls a football season from CollegeFootballData.com. |
@@ -97,9 +98,9 @@ python3 fetch_season.py --year 2024 --list-polls
 
 A basketball season is named for the year it ends in: 2026 is the 2025–26 season.
 
-About four API calls per football run; basketball pages its games endpoint, which
+About five API calls per football run; basketball pages its games endpoint, which
 caps responses at 3,000 rows. Both have offline self-tests needing no key and no
-network: `--selftest` (50 checks for football, 36 for basketball).
+network: `--selftest` (63 checks for football, 36 for basketball).
 
 Three rankings ride along for comparison: the AP and Coaches polls, and the CFP
 selection committee's ranking, which only publishes from about week 10. Poll names
@@ -109,6 +110,25 @@ under confusingly similar titles and are rejected explicitly. `--list-polls` pri
 every name a season offers and which one each would be filed under. The BCS
 standings that preceded the committee ran 1998–2013 and so fall outside every
 season here; the BCS and playoff eras do not overlap.
+
+Football also carries **three figures from ESPN's Football Power Index**, under an
+`fpi` key beside `polls`: the rating, its own place by that rating (`rank`), and
+the two resume places, `sos` and `sor`. **These are never ranked either** — the
+key is read straight through `ingest()` to the page and nothing downstream of
+`games` can see it, which matters more here than for a poll, since FPI is a
+margin-of-victory model and margin is the one input this ranking refuses. An
+inertness check lives in the repo's history: 36 before/after comparisons across
+every scoring, pool and weighting setting, byte-identical.
+
+Two traps here. The endpoint **has no week dimension** — `/ratings/fpi` takes a
+year and returns one snapshot, and passing `&week=N` changes nothing in the
+response, which was verified rather than assumed. So the payload is stamped with
+an `asOf` date and the page shows these columns only at the live horizon, hiding
+them when the week slider is rewound, exactly as it hides the fixture list. And
+`resumeRanks.fpi` is the team's **place** by FPI, not the rating repeated; the
+rating is the top-level `fpi` field. FPI covers the top division only, from 2005
+on, so the archived season files carry none of this until they are re-pulled.
+Pass `--no-fpi` to skip the call.
 
 Weeks are renumbered from kickoff dates rather than trusting the feed's own week
 field, which folds Week 0 and Labor Day weekend into a single "week 1" — that would

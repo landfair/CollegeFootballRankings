@@ -36,12 +36,33 @@ export function ingest(raw){
     if(ranks.length) polls.push({poll:String(p.poll||'Poll'),week:Number(p.week)||0,
       throughWeek:Number(p.throughWeek)||0,ranks});
   }
+  /* ESPN's power index, carried through as reference only. Like the polls it
+     is never allowed near a grade -- it arrives in its own key, is read here
+     into its own field, and nothing downstream of `games` can see it. That
+     matters more here than for a poll: FPI is a margin-of-victory model, and a
+     margin is the one input this ranking refuses on principle.
+
+     It has no week. The feed serves one snapshot per season and ignores a week
+     parameter, so `asOf` is the day it was fetched and there is no earlier
+     state to rewind to; a caller showing it against a rewound horizon would be
+     putting today's figures beside an older ranking. */
+  let fpi=null;
+  if(raw.fpi&&Array.isArray(raw.fpi.teams)){
+    const num=v=>Number.isFinite(Number(v))?Number(v):null;
+    const byTeam=new Map();
+    for(const r of raw.fpi.teams){
+      if(!r||!r.team) continue;
+      byTeam.set(String(r.team),{rating:num(r.fpi),rank:num(r.rank),
+                                 sos:num(r.sos),sor:num(r.sor)});
+    }
+    if(byTeam.size) fpi={asOf:String(raw.fpi.asOf||''),byTeam};
+  }
   /* raw.postseason is carried through untouched and never enters `games`. The
      ranking is a report on the regular season, and a bracket result must not
      feed back into the rating that is being asked to predict it. Postseason
      rows have no week either, so even a merge would be dropped by the guard
      above. Read it with bracket(). */
-  return {teamInfo,games,polls,maxWeek:Math.max(...games.map(g=>g.week)),
+  return {teamInfo,games,polls,fpi,maxWeek:Math.max(...games.map(g=>g.week)),
           topDivision:raw.topDivision||'FBS',sport:raw.sport||'football',
           dates:Array.isArray(raw.dates)?raw.dates:null,
           postseason:Array.isArray(raw.postseason)?raw.postseason:[]};
