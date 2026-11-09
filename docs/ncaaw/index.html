@@ -1,0 +1,1092 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Recursive Rankings — NCAAW</title>
+<meta name="description" content="NCAA women’s college basketball rankings built only from who beat whom.">
+<style>
+  :root{
+    --bg:#faf9f6; --ink:#1a1a18; --muted:#6b6b63; --rule:#dedcd4; --soft:#edebe4;
+    --mark:#b8860b; --win:#2e7d4f; --loss:#b3443a; --panel:#fff;
+    --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme=light]){
+      --bg:#17171a; --ink:#ecebe6; --muted:#9a998f; --rule:#33332f;
+      --soft:#222226; --mark:#d9a62e; --win:#5fbd85; --loss:#e0756a; --panel:#1e1e22;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Helvetica,sans-serif}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 16px 64px}
+  header{border-bottom:1px solid var(--rule);margin-bottom:22px}
+  .bar{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;padding:20px 0 14px}
+  h1{font-size:21px;margin:0;letter-spacing:-.01em}
+  nav{margin-left:auto;display:flex;gap:16px}
+  nav a{color:var(--muted);text-decoration:none;font-size:14px}
+  nav a:hover,nav a[aria-current]{color:var(--ink)}
+  .lede{color:var(--muted);font-size:14px;margin:0 0 18px;max-width:62ch}
+  .controls{display:flex;gap:18px;flex-wrap:wrap;align-items:center;
+    background:var(--panel);border:1px solid var(--rule);border-radius:8px;padding:12px 14px;margin-bottom:6px}
+  .ctl{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted)}
+  select{font:inherit;font-size:13px;padding:3px 6px;border:1px solid var(--rule);
+    border-radius:5px;background:var(--panel);color:var(--ink)}
+  input[type=range]{accent-color:var(--mark);width:190px}
+  .wk{font-family:var(--mono);font-size:14px;font-weight:600;min-width:8.5ch;text-align:right}
+  .sport{font:400 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;
+    color:var(--mark);border:1px solid var(--rule);border-radius:4px;padding:3px 6px;
+    vertical-align:middle;margin-left:4px}
+  .status{color:var(--muted);font-size:13px;margin:12px 0 16px;min-height:1.4em}
+  .status b{color:var(--ink);font-weight:600}
+  .scroll{overflow-x:auto;border:1px solid var(--rule);border-radius:8px;background:var(--panel)}
+  table{border-collapse:collapse;width:100%;font-size:13.5px}
+  th,td{padding:7px 11px;text-align:left;white-space:nowrap}
+  th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+    font-weight:600;border-bottom:1px solid var(--rule);position:sticky;top:0;background:var(--panel);
+    vertical-align:bottom;line-height:1.25}
+  tbody tr:nth-child(even){background:var(--soft)}
+  th.sortable{cursor:pointer;user-select:none;white-space:nowrap}
+  th.sortable:hover{color:var(--ink)}
+  th.sorted{color:var(--ink)}
+  th.sorted::after{content:'\2193';margin-left:4px;color:var(--mark)}
+  th.sorted.asc::after{content:'\2191'}
+  .num{text-align:right;font-family:var(--mono)}
+  .rk{text-align:right;font-family:var(--mono);color:var(--muted);width:3.5em}
+  .tm{font-weight:600}
+  .cf{color:var(--muted);font-size:12.5px}
+  .nr{color:var(--muted)}
+  .up{color:var(--win)} .dn{color:var(--loss)}
+  .msg{padding:18px;color:var(--muted);font-size:14px}
+  footer{margin-top:28px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--rule);padding-top:14px}
+  footer a{color:var(--muted)}
+  /* help */
+  .iconbtn{width:25px;height:25px;border-radius:50%;border:1px solid var(--rule);
+    background:var(--panel);color:var(--muted);font:600 13px/1 inherit;cursor:pointer;padding:0;
+    display:inline-flex;align-items:center;justify-content:center;flex:none}
+  .iconbtn:hover{border-color:var(--mark);color:var(--mark)}
+  .bar .iconbtn{align-self:center}
+  /* settings modal */
+  .setting{padding:15px 0;border-bottom:1px solid var(--rule)}
+  .setting:first-child{padding-top:2px}
+  .setting:last-child{border-bottom:0;padding-bottom:2px}
+  .setting .row1{display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+    font-size:14px;font-weight:600}
+  .setting p{margin:8px 0 0;font-size:13.5px;color:var(--muted);line-height:1.55}
+  .setting .now{margin-top:7px;font-family:var(--mono);font-size:12.5px;color:var(--mark)}
+  dialog#helpmodal{
+    border:1px solid var(--rule);border-radius:10px;background:var(--panel);color:var(--ink);
+    padding:0;max-width:min(62ch,calc(100vw - 32px));width:100%;
+    box-shadow:0 18px 50px rgba(0,0,0,.22)}
+  dialog#helpmodal::backdrop{background:rgba(20,20,18,.45);backdrop-filter:blur(2px)}
+  .modal-head{display:flex;align-items:center;gap:12px;
+    padding:16px 20px 12px;border-bottom:1px solid var(--rule)}
+  .modal-head h2{font-size:17px;margin:0;letter-spacing:-.01em}
+  .modal-close{margin-left:auto;background:none;border:0;padding:2px 6px;cursor:pointer;
+    font:400 22px/1 inherit;color:var(--muted);border-radius:5px}
+  .modal-close:hover{color:var(--ink);background:var(--soft)}
+  .modal-body{padding:16px 20px 20px;max-height:min(68vh,620px);overflow-y:auto}
+  .modal-body p{margin:0 0 13px;font-size:14px;line-height:1.62}
+  .modal-body p:last-child{margin:0}
+  .modal-body a{color:var(--mark)}
+  /* clickable teams */
+  .tm{font-weight:600}
+  button.tm{background:none;border:0;padding:0;font:inherit;font-weight:600;
+    color:inherit;cursor:pointer;text-align:left}
+  button.tm:hover{color:var(--mark);text-decoration:underline}
+  /* team page */
+  .slatenav{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0 14px}
+  .slatenav select{font:inherit;font-size:13px;padding:3px 6px}
+  .wkbtn{font:inherit;font-size:13px;padding:3px 10px;border:1px solid var(--rule);
+    border-radius:6px;background:var(--panel);color:var(--ink);cursor:pointer}
+  .wkbtn:hover:not(:disabled){border-color:var(--mark);color:var(--mark)}
+  .wkbtn:disabled{opacity:.4;cursor:default}
+  .slateintro{color:var(--muted);font-size:13.5px;line-height:1.55;margin:0 0 14px;max-width:62ch}
+  .back{background:none;border:0;padding:0;font:inherit;font-size:13px;color:var(--muted);cursor:pointer}
+  .back:hover{color:var(--mark)}
+  .thead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:14px 0 4px}
+  .thead h2{font-size:22px;margin:0;letter-spacing:-.01em}
+  .thead .sub{color:var(--muted);font-size:14px}
+  .facts{display:flex;gap:26px;flex-wrap:wrap;margin:14px 0 20px;
+    border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:13px 0}
+  .fact b{display:block;font-family:var(--mono);font-size:21px;font-weight:600;letter-spacing:-.02em}
+  .fact span{font-size:11.5px;color:var(--muted);letter-spacing:.03em}
+  .g{border-bottom:1px solid var(--rule);padding:13px 0}
+  .g:last-child{border-bottom:0}
+  .grow{display:flex;gap:13px;align-items:baseline;flex-wrap:wrap}
+  .gw{font-family:var(--mono);font-size:12.5px;color:var(--muted);min-width:3.4em}
+  .res{font-size:12px;letter-spacing:.05em;text-transform:uppercase;font-weight:600}
+  .res.w{color:var(--win)} .res.l{color:var(--loss)}
+  .gsc{margin-left:auto;font-family:var(--mono);font-size:13px}
+  .gsc.wtd{cursor:help;border-bottom:1px dotted var(--rule)}
+  .spark{display:inline-flex;align-items:center;gap:8px;margin-top:7px}
+  .spark svg{display:block;overflow:visible}
+  .spark .lbl{font-size:11px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+  .spark .val{font-family:var(--mono);font-size:12px;white-space:nowrap;color:var(--muted)}
+  @media (max-width:640px){ .cf{display:none} th:nth-child(3),td:nth-child(3){display:none} }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="bar">
+    <h1>Recursive Rankings <span class="sport">NCAAW</span></h1>
+    <nav><a href="./" aria-current="page">Rankings</a><a href="#slates">Slates</a><a href="about.html">About</a><a href="../">Football</a><a href="../ncaam/">NCAAM</a></nav>
+    <button class="iconbtn" id="gearbtn" title="Settings" aria-label="Settings">&#9881;</button>
+    <button class="iconbtn" id="helpbtn" title="How this works" aria-label="How this works">?</button>
+  </div>
+</header>
+
+<p class="lede">NCAA women’s college basketball ranked only by who beat whom — no preseason expectation,
+no margin of victory, no votes. The AP and Coaches polls are shown alongside for comparison.</p>
+
+<div class="controls">
+  <label class="ctl">Season
+    <select id="season"><option value="2027">2026&#8211;27</option><option value="2026">2025&#8211;26</option><option value="2025">2024&#8211;25</option><option value="2024">2023&#8211;24</option><option value="2023">2022&#8211;23</option><option value="2022">2021&#8211;22</option></select>
+  </label>
+  <label class="ctl">Through
+    <input type="range" id="wk" min="1" max="131" value="131"><span class="wk" id="wkv">—</span>
+  </label>
+</div>
+<p class="status" id="status">Loading…</p>
+
+
+<dialog id="settings" aria-labelledby="settitle">
+  <div class="modal-head">
+    <h2 id="settitle">Settings</h2>
+    <button class="modal-close" id="setclose" aria-label="Close">&times;</button>
+  </div>
+  <div class="modal-body">
+
+    <div class="setting">
+      <div class="row1">Compare each game against
+        <select id="smode">
+          <option value="pooled" selected>the season so far</option>
+          <option value="weekly">that day alone</option>
+        </select>
+      </div>
+      <p>Every game is graded first, then scored by where that grade places it
+      among other games &mdash; so the set it is compared against decides the
+      number. <b>The season so far</b> pools every game played up to the day you
+      are viewing, which lets a team&rsquo;s own results be ranked against each
+      other. <b>That day alone</b> compares a game only with the games played
+      beside it, so the same win scores lower on a crowded night than a quiet
+      one, and two of a team&rsquo;s wins can come out in the wrong order.</p>
+    </div>
+
+    <div class="setting">
+      <div class="row1">Score against
+        <select id="pmode">
+          <option value="any" selected>games with a D1 team</option>
+          <option value="both">games between D1 teams</option>
+          <option value="all">every game played</option>
+        </select>
+      </div>
+      <p>The grader has no notion of divisions, and records only compare across
+      teams with overlapping opponents, so a result from a corner of the schedule
+      that never meets D1 is measured on a different ruler. This feed carries only
+      D1 games and D1 games against outside opposition &mdash; no games between two
+      non&#8209;D1 teams &mdash; so <b>games with a D1 team</b>, the default, and
+      <b>every game played</b> currently pick out the same set; both are kept so
+      they stay distinguishable if that changes. <b>Games between D1 teams</b> is
+      stricter: the 8.8% of results that cross the line neither score a team nor sit
+      in the field. Excluded games still count in their own teams&rsquo; records;
+      what changes is which results are scored and what they are measured against.</p>
+    </div>
+
+    <div class="setting">
+      <div class="row1">Victors gate
+        <select id="gmode">
+          <option value="auto" selected>automatic</option>
+          <option value="off">off</option>
+          <option value="one">one pass</option>
+          <option value="stable">self&#8209;consistent</option>
+        </select>
+        over top
+        <select id="gn"><option>50</option><option>100</option><option>200</option><option selected>300</option></select>
+      </div>
+      <p>To be listed at all you must have beaten somebody worth beating, and that
+      team must qualify too &mdash; the rule repeats until the set stops changing.
+      It stays off through the opening fortnight and tightens as the season fills in,
+      because it needs cross&#8209;conference results to work. It never changes a
+      rating or an order; it only decides who is shown.</p>
+      <p class="now" id="gatelbl"></p>
+    </div>
+
+    <div class="setting">
+      <div class="row1">Opponent weighting
+        <select id="wmode">
+          <option value="off">off</option>
+          <option value="B" selected>balanced</option>
+          <option value="A">strong</option>
+        </select>
+      </div>
+      <p>Scales every game by how good the opponent turned out to be, so a win over
+      a poor team counts for less and a loss to a poor team costs more. Each half
+      is pulled toward its own worst end &mdash; a win toward the halfway mark, a
+      loss toward zero &mdash; so every win still finishes above every loss.
+      Hover any score on a team page for the arithmetic.
+      <b>Balanced</b>, the default, keeps every win above every loss; <b>strong</b>
+      bites harder and drops that rule. Because the weight depends on the ranking
+      it is solved rather than calculated, taking about a dozen passes. Turn it
+      <b>off</b> for the plainer figure, with nothing laid on top of what the
+      season says.</p>
+    </div>
+
+  </div>
+</dialog>
+
+<dialog id="helpmodal" aria-labelledby="helptitle">
+  <div class="modal-head">
+    <h2 id="helptitle">How this works</h2>
+    <button class="modal-close" id="helpclose" aria-label="Close">&times;</button>
+  </div>
+  <div class="modal-body">
+  <p><b>What this is.</b> Every game is graded by what happened next: your result,
+  then how your opponent did across the rest of its season with this game removed,
+  then how <i>their</i> opponents did in turn. That grade is turned into a
+  0&ndash;100 score by where it places among every game played so far this season,
+  and a team's rating is the average of its games. No preseason poll, no margin of
+  victory, no votes. <span class="nr">(The gear icon can score each game against
+  its own day alone instead &mdash; the original method.)</span></p>
+  <p><b>Why rankings move backwards.</b> A November win is not settled in
+  November. It gains value if the team you beat keeps winning and loses value if
+  they collapse. Drag the date slider and you are watching the season reinterpret
+  itself. Click any team to see each of its games and how their worth has shifted:
+  the small line beside each game is that game alone, re&#8209;graded after every day
+  since it was played. Hover it for the day&#8209;by&#8209;day figures.</p>
+  <p><b>Seeing the raw order.</b> <a href="#slates">Slates</a> lays out every result from a single day in exactly the order the grader puts them &mdash; wins above losses, then by opponent &mdash; with both opponent numbers and the score beside each one. The ranking is just those scores averaged per team, so this is the table everything else is built from.</p>
+  <p><b>The victors gate.</b> To be listed you must have beaten somebody worth
+  beating, and that team must qualify too &mdash; the rule is applied over and over
+  until the set stops changing. It needs enough cross&#8209;conference play to work,
+  so it stays off through the opening fortnight and tightens as the season fills in. It never
+  changes a rating or an order; it only decides who is shown.</p>
+  <p><a href="about.html">Fuller explanation, and what this cannot do &rarr;</a></p>
+  </div>
+</dialog>
+
+<div id="listview">
+<div class="facts" id="pollfacts"></div>
+<div class="scroll"><table id="tbl"><tbody><tr><td class="msg">Loading…</td></tr></tbody></table></div>
+</div>
+<div id="teamview" hidden></div>
+<div id="slatesview" hidden></div>
+
+<footer>Game results from the
+<a href="https://github.com/sportsdataverse/wehoop-wbb-data">wehoop</a> data repository.
+No polls are published for this sport here &mdash; <a href="about.html#no-polls">why</a>.
+Rankings recomputed in your browser. <a href="about.html">How this works</a>.</footer>
+</div>
+
+<script type="module">
+import {WIN, esc, ingest, engine, rank, applyGate, pollAt,
+        agreement, revision, sparkHTML, weighted, schedule, split, bracket,
+        remaining} from '../engine.js?v=d2de76c21925';
+
+const SHOW=100;
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+/* Parsed by hand: new Date('2024-11-13') is UTC midnight and would render as the
+   12th anywhere west of Greenwich. */
+const fmtDay=iso=>{ if(!iso) return '—'; const [,m,d]=iso.split('-').map(Number);
+  return MON[m-1]+' '+d; };
+const fmtFull=iso=>{ if(!iso) return '—'; const [y,m,d]=iso.split('-').map(Number);
+  return MON[m-1]+' '+d+', '+y; };
+const dayOf=h=>SEASON&&SEASON.dates?SEASON.dates[h-1]:null;
+
+/* Buckets here are game days, not weeks: basketball teams play two or three
+   times a week and the model holds one game per team per bucket. A season runs
+   about 131 days. The gate needs cross-conference results to close a chain, and
+   November supplies them quickly, but not instantly. Worst case over 2021-22 to
+   2025-26, at the day each tier takes over:
+       tier 300   day  20  136 survive
+       tier 200   day  30  156
+       tier 100   day  60  102
+       tier  50   day 100   81
+   Nothing closes at all before about day 20. Edit here to change it. */
+const GATE_SCHEDULE=[
+  {from:100,mode:'stable',n:50},
+  {from:60, mode:'stable',n:100},
+  {from:30, mode:'stable',n:200},
+  {from:20, mode:'stable',n:300},
+  {from:1,  mode:'off',   n:300},
+];
+const gateFor=h=>GATE_SCHEDULE.find(g=>h>=g.from);
+const GATE_STARTS=Math.min(...GATE_SCHEDULE.filter(g=>g.mode!=='off').map(g=>g.from));
+
+const $=id=>document.getElementById(id);
+
+let SEASON=null, ENG=null, CACHE=new Map(), VIEW={kind:'list'}, YEAR=null;
+
+/* Fixtures live in their own file and are fetched only when a team page asks
+   for them, so a visitor who never leaves the table does not pay for a 48KB
+   schedule they will not read. A year maps to its rows, or to null once a
+   fetch has failed -- a season with no fixture file is the normal state of a
+   finished season, not an error, so a failure is remembered and never retried
+   or reported. */
+const SOON=new Map();
+/* Only the newest season has a fixture file: it is the one the fetcher is run
+   on, and the one still being played. Asking for an older one would 404 on
+   every historical team page -- caught, harmless, and still a red line in the
+   console that would make a real fault harder to spot later. */
+const newestSeason=()=>{ const sel=$('season');
+  return sel&&sel.options.length?+sel.options[0].value:null; };
+function loadSoon(year){
+  if(SOON.has(year)) return Promise.resolve(SOON.get(year));
+  /* Compared as numbers on purpose: the season select hands its value over as
+     a string, so YEAR is a string here while the option value coerces to one
+     too -- a strict compare between the two is always unequal, which would
+     quietly skip the fetch for every season including the live one. */
+  if(+year!==newestSeason()){ SOON.set(year,null); return Promise.resolve(null); }
+  return fetch('upcoming-'+year+'.json',{cache:'no-cache'})
+    .then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(d=>{ SOON.set(year,Array.isArray(d.upcoming)?d.upcoming:[]);
+               return SOON.get(year); })
+    .catch(()=>{ SOON.set(year,null); return null; });
+}
+
+/* Places for the fixture list, shared on ties exactly as sosInfo does, and
+   measured over the teams that actually have fixtures left: late in a season
+   that is a shrinking field, and calling a team 40th of 40 rather than 40th of
+   365 is the honest way to put it. */
+function soonInfo(R){
+  const sorted=[...R.entries()].filter(([,o])=>o.sos!=null)
+    .sort((a,b)=>b[1].sos-a[1].sos);
+  const order=new Map();
+  let rk=1;
+  sorted.forEach(([t,o],i)=>{
+    if(i>0&&Math.abs(o.sos-sorted[i-1][1].sos)>1e-9) rk=i+1;
+    order.set(t,rk);
+  });
+  const tip=t=>{
+    const o=R.get(t); if(!o||o.sos==null) return '';
+    const rated=o.games.filter(g=>g.rated);
+    const hard=rated.length?rated.reduce((a,b)=>b.rating>a.rating?b:a):null;
+    const easy=rated.length?rated.reduce((a,b)=>b.rating<a.rating?b:a):null;
+    return `What is left to play: #${order.get(t)} of ${order.size} for difficulty among `+
+      `the teams with fixtures remaining, where #1 is the hardest run-in. The `+
+      `${o.n} opponent${o.n===1?'':'s'} still to come average ${o.sos.toFixed(1)} `+
+      `on the same 0\u2013100 scale as the Rating column. `+
+      (hard?`Hardest: ${hard.opp} ${hard.rating.toFixed(1)}. `:'')+
+      (easy&&easy!==hard?`Easiest: ${easy.opp} ${easy.rating.toFixed(1)}. `:'')+
+      (o.unrated?`${o.unrated} of them ${o.unrated===1?'has':'have'} no rating yet and `+
+        `${o.unrated===1?'is':'are'} counted at the floor, ${o.floor.toFixed(1)}. `:'')+
+      `Fixtures are never graded and cannot move a rating; this reads the ratings `+
+      `the played games produced.`;
+  };
+  return {order,tip};
+}
+let sortKey='rank', sortAsc=true;
+
+/* No poll rides with this sport's data, so everything poll-shaped is gated on
+   the season actually carrying one rather than deleted outright. A permanently
+   empty AP column would be three columns of em dashes claiming a comparison
+   that is not being made; a gated one simply is not there, and would reappear
+   by itself the day a poll is added to the payload. Module scope because both
+   the table and the team page ask -- they are separate functions, and a const
+   inside one of them is a ReferenceError in the other. */
+const hasPolls=()=>!!(SEASON&&Array.isArray(SEASON.polls)&&SEASON.polls.length);
+/* The two scoring modes are two different populations to place a game in, so
+   each needs its own engine. Both are kept once built — flipping between them
+   on the same season is the point of the setting. */
+function useScoring(){
+  const c=CACHE.get(YEAR); if(!c) return;
+  const m=$('smode').value, pl=$('pmode').value, k=m+'|'+pl;
+  if(!c.eng[k]) c.eng[k]=engine(c.season,{scoring:m,pool:pl});
+  SEASON=c.season; ENG=c.eng[k];
+}
+async function load(year){
+  if(!CACHE.has(year)){
+    /* Revalidate rather than trust the cached copy. These files are corrected in
+       place when the upstream feed is wrong, and a stale one fails silently — it
+       renders a plausible table built on the wrong poll. An unchanged file still
+       costs only a 304. */
+    const res=await fetch('season-'+year+'.json',{cache:'no-cache'});
+    if(!res.ok) throw new Error('could not load season-'+year+'.json ('+res.status+')');
+    CACHE.set(year,{season:ingest(await res.json()),eng:{}});
+  }
+  YEAR=year; useScoring();
+}
+
+/* Automatic follows GATE_SCHEDULE; anything else is the reader overriding it. */
+function current(){
+  const h=+$('wk').value;
+  const pick=$('gmode').value;
+  const auto=pick==='auto';
+  const g=auto?{...gateFor(h),auto:true}
+              :{mode:pick,n:+$('gn').value,auto:false};
+  $('gn').disabled=auto||g.mode==='off';
+  const wm=$('wmode').value;
+  /* Weighting rescales every game by how good the opponent proved to be, which
+     feeds the ranking back into its own inputs, so it is solved iteratively.
+     The gate then runs on whichever ranking came out. The floor and the falloff
+     are fixed in the engine rather than exposed; they are tuning, not a reading
+     anyone should have to make. */
+  const W = wm==='off' ? null : weighted(ENG,SEASON,h,{mode:wm});
+  const rows = W ? W.rows : rank(ENG,SEASON,h);
+  /* Handed the ranking it sits beside, so a schedule figure averages the very
+     ratings in the table and follows the pool and the weighting for free. */
+  return {h,g,rows,W,S:schedule(ENG,h,rows),P:split(ENG,h,W),
+          gated:applyGate(ENG,rows,g.mode,g.n,h)};
+}
+
+/* Three views share the page: the table, one team, and one bucket's slate.
+   The hash is the single source of truth for which is showing. */
+function parseHash(){
+  let m=/^#t=(.+)$/.exec(location.hash);
+  if(m) return {kind:'team',team:decodeURIComponent(m[1])};
+  m=/^#slates(?:=(\d+))?$/.exec(location.hash);
+  if(m) return {kind:'slates',bucket:m[1]?+m[1]:null};
+  return {kind:'list'};
+}
+const sameView=(a,b)=>a.kind===b.kind&&a.team===b.team&&a.bucket===b.bucket;
+function showView(which){
+  $('listview').hidden=which!=='list';
+  $('teamview').hidden=which!=='team';
+  $('slatesview').hidden=which!=='slates';
+}
+function render(){
+  if(!SEASON) return;
+  if(VIEW.kind==='team') renderTeam(VIEW.team);
+  else if(VIEW.kind==='slates') renderSlates(VIEW.bucket);
+  else renderList();
+}
+
+/* Spell out the arithmetic, and be candid about the loss case: scaling a
+   score toward 50 discounts a cheap win and forgives a cheap loss by the
+   same stroke, which is not what the feature is usually sold as. */
+function weightTip(W,p,e){
+  if(!W||!p) return '';
+  const won=e.res===WIN;
+  const q=W.quality(e.opp), f=W.factor(e.opp), adj=W.adjust(p.score,e.opp,won);
+  /* two places on the raw score and three on the weight, so the sum
+     reconciles for anyone who checks it by hand */
+  const sum=(W.mode==='A'||!won)
+    ? `${p.score.toFixed(2)} \u00d7 ${f.toFixed(3)} = ${adj.toFixed(2)}`
+    : `50 + (${p.score.toFixed(2)} \u2212 50) \u00d7 ${f.toFixed(3)} = ${adj.toFixed(2)}`;
+  return 'HOW THIS WAS WEIGHTED\n\n'+
+    `Raw ${p.score.toFixed(2)} \u2014 where this result placed among the `+
+    `${p.n.toLocaleString()} games\nit was scored against.\n\n`+
+    `${e.opp} rates ${Math.round(q*100)}% of the way from the weakest team to the\n`+
+    `strongest, which sets the weight:\n`+
+    `   ${W.floor} + ${(1-W.floor).toFixed(1)} \u00d7 ${q.toFixed(3)}`+
+    (W.gamma!==1?`^${W.gamma}`:'')+` = ${f.toFixed(3)}\n\n`+
+    (W.mode==='A'
+      ? `Strong mode scales the score itself:\n   ${sum}\n\n`
+      : won
+        ? `A win is pulled toward 50, the worst a win can be:\n   ${sum}\n\n`
+        : `A loss is pulled toward 0, the worst a loss can be:\n   ${sum}\n\n`)+
+    (won
+      ? `Beating a strong team keeps most of the raw figure; beating a weak one\nis pulled back toward 50, because it earned close to nothing.`
+      : `Losing to a strong team keeps most of the raw figure; losing to a weak\none is pushed down toward 0. Each half is pulled toward its own worst\nend, so a cheap win earns little and a cheap loss costs plenty \u2014 and\nevery win still finishes above every loss.`)+
+    `\n\nThe weight depends on the ranking and the ranking depends on the weights,\nso the two are solved together \u2014 ${W.passes} passes this time.`;
+}
+
+/* Shared by the table and the team pages so a schedule figure reads the same in
+   both: one ordering over the whole field, and the same two bracketing games. */
+function sosInfo(S,rows){
+  const sorted=[...rows].filter(r=>S.has(r.team))
+    .sort((a,b)=>S.get(b.team).sos-S.get(a.team).sos);
+  /* Teams level on schedule share a place, the way the ranking itself does.
+     The early weeks need it: before anyone has played twice, every unbeaten
+     team has met exactly one 0-1 side and the entire field ties. */
+  const order=new Map();
+  let rk=1;
+  sorted.forEach((r,i)=>{
+    if(i>0&&Math.abs(S.get(r.team).sos-S.get(sorted[i-1].team).sos)>1e-9) rk=i+1;
+    order.set(r.team,rk);
+  });
+  /* Shown as a place rather than the bare average, because 58.7 carries no
+     direction: beside it sit Avg win and Avg loss, which average RANKS, where
+     low is the good end. As a place it points the same way they do. The
+     average itself follows in parentheses, and the tip names the scale. */
+  const tip=t=>{
+    const s=S.get(t); if(!s) return '';
+    const say=o=>`${o.opp} ${o.rating.toFixed(1)}`;
+    return `Strength of schedule: #${order.get(t)} of ${order.size} for difficulty, `+
+      `where #1 is the hardest season played. The ${s.n} opponent`+
+      `${s.n===1?' this rating was earned against averages ':'s this rating was earned against average '}`+
+      `${s.sos.toFixed(1)} \u2014 the same 0\u2013100 scale as the Rating column, `+
+      `so a higher one means better opposition. `+
+      `Hardest: ${say(s.opps[0])}. Easiest: ${say(s.opps[s.opps.length-1])}.`+
+      (s.unrated?` ${s.unrated} lower-division opponent${s.unrated===1?'':'s'} `+
+        `counted at the floor, ${s.floor.toFixed(1)}, there being no rating to use.`:'');
+  };
+  return {order,tip};
+}
+
+function renderList(){
+  showView('list');
+  const {h,g,rows,W,S,P,gated}=current();
+  $('wkv').textContent=fmtDay(dayOf(h));
+  const shown=gated.kept.slice(0,SHOW);
+  const ap=pollAt(SEASON,'AP Top 25',h), co=pollAt(SEASON,'Coaches Poll',h);
+  const apR=new Map((ap?ap.ranks:[]).map(r=>[r.team,r.rank]));
+  const coR=new Map((co?co.ranks:[]).map(r=>[r.team,r.rank]));
+  const HASPOLLS=hasPolls();
+  const how = g.mode==='off' ? '<b>off</b>'
+    : '<b>top '+g.n+'</b>, '+(g.mode==='one'?'one pass':'self\u2011consistent');
+  $('gatelbl').innerHTML = g.auto
+    ? how+(g.mode==='off'?' until '+fmtDay(dayOf(GATE_STARTS)):'')+' <span class="nr">(automatic)</span>'
+    : how+' <span class="nr">(manual)</span>';
+
+  const bits=[`<b>${rows.length}</b> teams through <b>${fmtFull(dayOf(h))}</b>`];
+  if(W) bits.push(W.settled
+    ? `weighted by opponent, settled in <b>${W.passes}</b> passes`
+    : `<b>weighting did not settle</b> in ${W.passes} passes — try a higher floor`);
+  if(g.mode!=='off') bits.push(`gate removed <b>${gated.all.length-gated.kept.length}</b> in ${gated.passes} pass${gated.passes===1?'':'es'}`);
+  /* The two polls need not publish together, so reporting only the first would
+     call the pair behind when one of them is current. */
+  const haveP=[['AP',ap],['Coaches',co]].filter(([,p])=>p);
+  if(haveP.length){
+    const now=haveP.filter(([,p])=>p.throughWeek>=h).map(([n])=>n);
+    const back=haveP.filter(([,p])=>p.throughWeek<h);
+    if(!back.length) bits.push(`poll${haveP.length===1?'':'s'} reflect${haveP.length===1?'s':''} the same games`);
+    else if(!now.length){
+      const t=Math.max(...back.map(([,p])=>p.throughWeek));
+      bits.push(`poll published ${fmtDay(dayOf(t))}, ${h-t} day${h-t>1?'s':''} behind`);
+    } else bits.push(`${now.join(' and ')} reflect${now.length===1?'s':''} the same games, `+
+      back.map(([n,p])=>`${n} is from ${fmtDay(dayOf(p.throughWeek))}`).join(' and '));
+  } else if(HASPOLLS) bits.push('no poll published this early');
+  if($('season').value==='2021')
+    bits.push('<b>2020&#8209;21 was disrupted by the pandemic</b>; schedules were uneven');
+  if(g.auto){ $('gmode').value='auto'; if(g.mode!=='off') $('gn').value=String(g.n); }
+  if(g.mode!=='off'&&gated.kept.length<25)
+    bits.push(`<b>only ${gated.kept.length} qualify</b> — too little cross-conference play yet for this tier`);
+  $('status').innerHTML=bits.join(' · ');
+
+  const fullRank=new Map(rows.map(r=>[r.team,r.rank]));
+  const sAP=ap?agreement(ap.ranks,fullRank):null;
+  const sCO=co?agreement(co.ranks,fullRank):null;
+  /* The two polls need not publish together. Setting AP's week 9 against the
+     Coaches' week 10 would measure the gap between two weeks as well as the gap
+     between two rooms, dragging the yardstick down and flattering everything
+     measured against it. Step both back to the last bucket they both cover. */
+  const refB=(ap&&co)?Math.min(ap.throughWeek,co.throughWeek):0;
+  const refAP=refB?pollAt(SEASON,'AP Top 25',refB):null;
+  const refCO=refB?pollAt(SEASON,'Coaches Poll',refB):null;
+  const ref=(refAP&&refCO)
+    ?agreement(refAP.ranks,new Map(refCO.ranks.map(r=>[r.team,r.rank]))):null;
+  const fact=(v,k,tip)=>`<div class="fact" title="${esc(tip)}"><b>${v}</b><span>${k}</span></div>`;
+  $('pollfacts').innerHTML = (sAP||sCO||ref)
+    ? (sAP?fact(sAP.rho.toFixed(3),'RANK CORRELATION WITH AP',
+        `Spearman over the ${sAP.n} teams the AP ranks. +1 means the two orders agree exactly, 0 means no relation, −1 means they are reversed. Measured against the full ranking, so the victors gate does not move it. Where either side ties, the tied teams take the mean of the places they span, so a tie contributes no order that was not there.`):'')
+      +(sCO?fact(sCO.rho.toFixed(3),'RANK CORRELATION WITH COACHES',
+        `Spearman over the ${sCO.n} teams the Coaches poll ranks.`):'')
+      +(ref?fact(ref.rho.toFixed(3),'AP AGAINST COACHES — HOW MUCH TWO VOTES AGREE',
+        `The same measure applied to the two human polls against each other, over the ${ref.n} teams both rank. It is the yardstick: this is how closely two rooms of voters looking at the same season agree with one another.`+
+        (refB<h?` Both are taken from ${fmtDay(dayOf(refB))}, the last day they both cover, so this compares two rooms rather than two dates.`:'')):'')
+    : '';
+
+  if(!shown.length){
+    /* Two different emptinesses. Nothing scored at all -- the first bucket of
+       some seasons holds only games the chosen field does not draw from -- or a
+       gate nobody has cleared yet. Blaming the gate for the first is wrong, and
+       wrong in a way that reads as a broken page. */
+    $('tbl').innerHTML='<tbody><tr><td class="msg">'+(rows.length
+      ? 'No team has yet beaten anyone inside the top '+g.n+' who also qualifies. Move to a later date.'
+      : 'Nothing is scored this early: date '+h+' holds no game the chosen field is '+
+        'drawn from. Move to a later date, or widen <b>Score against</b> in settings.')+
+      '</td></tr></tbody>';
+    return;
+  }
+  /* The top SHOW teams are chosen by the ranking, then sorted for display, so
+     changing the sort reorders the same teams rather than pulling in new ones.
+     Blanks (no losses yet, unranked by a poll) always sink to the bottom. */
+  const rk1=r=>Number.isFinite(r.bestWin)?r.bestWin:null;
+  /* Already numeric, and the sentinel for an unranked defeat already sorts past
+     the last real place, so only the blank an unbeaten team carries needs the
+     sorter, which sinks it like every other blank. */
+  const wl1=r=>r.worstLoss??null;
+  /* Ranked over the whole field rather than the gated view, so 'hardest of 138'
+     does not shift about as the gate opens and shuts. */
+  const SI=sosInfo(S,rows);
+  const COLS=[
+    {k:'rank',  h:'#',          cls:'rk',  lowBest:true,  v:r=>r.rank},
+    {k:'team',  h:'Team',       cls:'',    lowBest:true,  v:r=>r.team, text:true},
+    {k:'conf',  h:'Conference', cls:'cf',  lowBest:true,  v:r=>r.conference||'', text:true},
+    {k:'rec',   h:'Rec',        cls:'num', lowBest:false, v:r=>r.games?r.wins/r.games:0},
+    {k:'rate',  h:'Rating',     cls:'num', lowBest:false, v:r=>r.key},
+    {k:'sos',   h:'SOS',        cls:'num', lowBest:false, v:r=>S.get(r.team)?.sos??null,
+     tip:'Strength of schedule, as a place in the field: #1 played the hardest season. The place is based on the average rating of the teams played, over the same games the rating itself counts \u2014 hover any figure for that average, the hardest and easiest game in it, or read it beside the place on a team page. That average is on the same scale as the Rating column, so a team rated well above its schedule has beaten what it was given. Note that Avg win and Avg loss run the other way: they average RANKS, where low is the good end. A lower-division opponent has no rating and counts as the weakest rated team in the field.'},
+    {k:'wsc',   h:'Win score',  cls:'num', lowBest:false, v:r=>P.get(r.team)?.win??null,
+     tip:'The average score of this team\u2019s WINS \u2014 not of its opponents\u2019 ranks. The Rating to the left is the mean of every scored game; this is that mean taken over the wins alone, so it says how much the victories were worth. Higher is better. Together with Loss score it splits the rating into its two halves, and the two columns further right, Avg win and Avg loss, describe the same games by opponent rank instead.'},
+    {k:'lsc',   h:'Loss score', cls:'num', lowBest:false, v:r=>P.get(r.team)?.loss??null,
+     tip:'The same for the DEFEATS: the average score of this team\u2019s losses. Higher is better here too \u2014 losing to a strong side keeps most of the raw figure, losing to a weak one is pushed toward zero. Blank for an unbeaten team. A loss carries more spread than a win, but it is one game among many, so this column moves a rating less than Win score does.'},
+    {k:'best',  h:'Best win',   cls:'num', lowBest:true,  v:rk1,
+     tip:'Rank of the strongest team this one has beaten. Only ranked opponents count.'},
+    {k:'worst', h:'Worst loss', cls:'num', lowBest:true,  v:wl1,
+     tip:'Rank of the WEAKEST team this one has lost to \u2014 the worst single result on the record, where Best win to the left is the best. Lower is better here too: a team whose worst defeat came against #2 lost only to the very top. Blank means unbeaten. NR means the defeat came against a team the ranking does not place at all, which is worse than any place in it \u2014 note that this is the one column where an unranked opponent counts rather than being skipped, because out there a loss is the worst thing available, not a missing figure. Non\u2011Division I opponents are common early in a basketball season, so an NR here is usually one of those. Hover a figure for the opponent. An unbeaten team sinks to the bottom when you sort by this, as it does on every column that describes defeats.'},
+    {k:'awin',  h:'Avg win',    cls:'num', lowBest:true,  v:r=>r.avgWin,
+     tip:'Average rank of the teams beaten. Lower is a better set of wins. An opponent outside the ranking counts as one place worse than last, so padding the schedule shows up here.'},
+    {k:'aloss', h:'Avg loss',   cls:'num', lowBest:true,  v:r=>r.avgLoss,
+     tip:'Average rank of the teams lost to. Lower means the defeats came against better opposition. Blank for an unbeaten team.'},
+    ...(HASPOLLS?[
+    {k:'ap',    h:'AP',         cls:'num', lowBest:true,  v:r=>apR.get(r.team)??null},
+    {k:'co',    h:'Coaches',    cls:'num', lowBest:true,  v:r=>coR.get(r.team)??null},
+    {k:'vsap',  h:'vs AP',      cls:'num', lowBest:false,
+     v:r=>{const a=apR.get(r.team); return a==null?null:a-r.rank;},
+     tip:'How far above its AP place this ranking puts the team. Positive means this system is higher on them.'},
+    ]:[]),
+  ];
+  const col=COLS.find(c=>c.k===sortKey)||COLS[0];
+  const dir=sortAsc?1:-1;
+  const sorted=[...shown].sort((x,y)=>{
+    const a=col.v(x), b=col.v(y);
+    if(a==null&&b==null) return x.rank-y.rank;
+    if(a==null) return 1;
+    if(b==null) return -1;
+    const c=col.text?String(a).localeCompare(String(b)):a-b;
+    return c*dir || x.rank-y.rank;
+  });
+
+  /* A two-word heading is set on two lines: the table runs to fifteen columns
+     and the heading is usually wider than the figures beneath it, so the break
+     buys real width. The space is left in place before the break so the cell
+     still reads "Win score" to a screen reader or a copy-paste, rather than
+     "Winscore". th is nowrap, which <br> overrides. */
+  const stack=h=>{
+    const i=String(h).indexOf(' ');
+    return i<0?esc(h):esc(h.slice(0,i))+' <br>'+esc(h.slice(i+1));
+  };
+  const cell=v=>v==null?'<td class="num nr">—</td>':`<td class="num">${v}</td>`;
+  /* The schedule figure is a bare average, so the cell carries the two games
+     that bracket it: without them 54.1 says nothing about which season it was. */
+  const sosCell=r=>{
+    const s=S.get(r.team);
+    if(!s) return '<td class="num nr">—</td>';
+    /* The place alone: the average behind it is a hover away and spelled out on
+       the team page, and the column has to share a very wide table. */
+    return `<td class="num" title="${esc(SI.tip(r.team))}">#${SI.order.get(r.team)}</td>`;
+  };
+  /* Best win puts the place in the cell and nothing behind it; this one carries
+     the opponent, because the place names a tier and the tier is not the point
+     -- which team it was is. */
+  const lossCell=r=>{
+    if(r.worstLoss==null) return '<td class="num nr">—</td>';
+    const who=r.worstLossTeam;
+    const tip=!who?'':r.worstLossNR
+      ? 'Lost to '+who+', which this ranking does not place \u2014 outside '+
+        'Division I, or a team with no game the chosen field scores. Worse than '+
+        'any ranked defeat, so it sorts past last rather than reading as a place.'
+      : 'Lost to '+who+', #'+r.worstLoss+'. No team it lost to finished lower.';
+    return `<td class="num nr"${tip?` title="${esc(tip)}"`:''}>`+
+      `${r.worstLossNR?'NR':'#'+r.worstLoss}</td>`;
+  };
+  const avg=v=>v==null?'<td class="num nr">—</td>'
+    :`<td class="num nr">${v.toFixed(1)}</td>`;
+  /* The count sits in the tooltip because it need not match the W-L column:
+     under a strict field some games are played but never scored. */
+  const scoreCell=(v,n)=>v==null?'<td class="num nr">—</td>'
+    :`<td class="num" title="${esc('Mean of the '+n+' scored '+(n===1?'game':'games')+' in this half.')}">${v.toFixed(1)}</td>`;
+  const delta=(p,o)=>{
+    if(p==null) return '<td class="num nr">—</td>';
+    const d=p-o;
+    return `<td class="num ${d>0?'up':d<0?'dn':''}">${d>0?'+':''}${d}</td>`;
+  };
+  let html='<thead><tr>'+COLS.map(c=>
+    `<th class="${c.cls} sortable${c.k===sortKey?' sorted'+(sortAsc?' asc':''):''}"`+
+    ` data-k="${c.k}"${c.tip?` title="${esc(c.tip)}"`:''}>${stack(c.h)}</th>`).join('')+
+    '</tr></thead><tbody>';
+  for(const r of sorted){
+    const a=HASPOLLS?(apR.get(r.team)??null):null, c=HASPOLLS?(coR.get(r.team)??null):null;
+    html+=`<tr><td class="rk">${r.rank}</td>`+
+      `<td><button class="tm" data-t="${esc(r.team)}">${esc(r.team)}</button></td>`+
+      `<td class="cf">${esc(r.conference||'')}</td>`+
+      `<td class="num">${r.wins}‑${r.losses}</td>`+
+      `<td class="num"><b>${r.key.toFixed(1)}</b></td>`+
+      sosCell(r)+
+      scoreCell(P.get(r.team)?.win,P.get(r.team)?.nWin)+
+      scoreCell(P.get(r.team)?.loss,P.get(r.team)?.nLoss)+
+      `<td class="num nr">${Number.isFinite(r.bestWin)?'#'+r.bestWin:'—'}</td>`+
+      lossCell(r)+
+      avg(r.avgWin)+avg(r.avgLoss)+
+      (HASPOLLS?cell(a)+cell(c)+delta(a,r.rank):'')+'</tr>';
+  }
+  $('tbl').innerHTML=html+'</tbody>';
+  $('tbl').querySelectorAll('th.sortable').forEach(th=>th.onclick=()=>{
+    const k=th.dataset.k, c=COLS.find(x=>x.k===k);
+    if(k===sortKey) sortAsc=!sortAsc;
+    else { sortKey=k; sortAsc=c.lowBest; }
+    renderList();
+  });
+  wire($('tbl'));
+}
+
+function renderTeam(team){
+  const {h,g,rows,W,S,P,gated}=current();
+  const SI=sosInfo(S,rows), ST=S.get(team), PT=P.get(team), BR=bracket(SEASON);
+  /* Fixtures are fetched on the first team page and the view is drawn again
+     when they land, so the page appears at once rather than waiting on a file
+     that is only ever an addition to it. */
+  if(!SOON.has(YEAR))
+    loadSoon(YEAR).then(()=>{ if(VIEW.kind==='team') render(); });
+  const soon=SOON.get(YEAR)||null;
+  const R=soon?remaining(soon,rows):null;
+  const RI=R?soonInfo(R):null;
+  /* Only at the live horizon. Dragging the slider back asks to see the season
+     as it looked then, and a fixture list is the one thing that cannot be
+     rewound: the file holds what is unplayed NOW, not what was unplayed in
+     November. So both the tile and the list below go, rather than sitting
+     beside an earlier date and quietly mixing the two. */
+  const atEnd=h>=Math.max(...ENG.byWeek.keys());
+  const RT=R&&atEnd?R.get(team):null;
+  $('wkv').textContent=fmtDay(dayOf(h));
+  showView('team');
+  const me=rows.find(r=>r.team===team);
+  if(!me){
+    const outside=SEASON.teamInfo.has(team)&&!ENG.isTop(team);
+    $('teamview').innerHTML='<p class="msg"><button class="back" id="back">&larr; All teams</button></p>'+
+      '<p class="msg">'+(outside
+        ? esc(team)+' is outside '+esc(ENG.topDivision)+', so it is graded but never ranked. '+
+          'Its results still count in its opponents&rsquo; records.'
+        : esc(team)+' had not played by '+fmtFull(dayOf(h))+'.')+'</p>';
+    $('back').onclick=()=>go(null);
+    return;
+  }
+  const info=SEASON.teamInfo.get(team)||{};
+  const inGate=gated.kept.some(r=>r.team===team);
+  const rankOf=new Map(rows.map(r=>[r.team,r.rank]));
+  const ap=pollAt(SEASON,'AP Top 25',h), co=pollAt(SEASON,'Coaches Poll',h);
+  const apR=ap?new Map(ap.ranks.map(r=>[r.team,r.rank])):new Map();
+  const coR=co?new Map(co.ranks.map(r=>[r.team,r.rank])):new Map();
+  const bw=gated.all.find(r=>r.team===team);
+
+  let html='<p><button class="back" id="back">&larr; All teams</button></p>'+
+    `<div class="thead"><h2>${esc(team)}</h2>`+
+    `<span class="sub">${esc(info.conference||'')}</span></div>`;
+  html+='<div class="facts">'+
+    `<div class="fact"><b>#${me.rank}</b><span>HERE</span></div>`+
+    `<div class="fact"><b>${me.wins}‑${me.losses}</b><span>RECORD</span></div>`+
+    `<div class="fact"><b>${me.key.toFixed(1)}</b><span>RATING</span></div>`+
+    (ST?`<div class="fact" title="${esc(SI.tip(team))}"><b>#${SI.order.get(team)}`+
+        `<span class="nr" style="font-size:14px;font-weight:400"> (${ST.sos.toFixed(1)})</span>`+
+        `</b><span>SCHEDULE</span></div>`:'')+
+    /* The forward-looking twin of SCHEDULE, on the same scale, so the two read
+       as one sentence: this is what the record was earned against, this is
+       what is left. */
+    (RT&&RT.sos!=null
+      ?`<div class="fact" title="${esc(RI.tip(team))}"><b>#${RI.order.get(team)}`+
+        `<span class="nr" style="font-size:14px;font-weight:400"> (${RT.sos.toFixed(1)})</span>`+
+        `</b><span>TO COME</span></div>`:'')+
+    /* The rating's two halves. A single figure cannot say whether a team is
+       here on the strength of its wins or in spite of its defeats. */
+    (PT&&PT.win!=null
+      ?`<div class="fact" title="${esc('Mean of the '+PT.nWin+' scored win'+(PT.nWin===1?'':'s')+
+          '. The rating beside it averages the wins and the defeats together.')}">`+
+        `<b>${PT.win.toFixed(1)}</b><span>WIN SCORE</span></div>`:'')+
+    (PT&&PT.loss!=null
+      ?`<div class="fact" title="${esc('Mean of the '+PT.nLoss+' scored defeat'+(PT.nLoss===1?'':'s')+
+          '. Higher is better here too: losing to a strong side keeps most of the raw figure.')}">`+
+        `<b>${PT.loss.toFixed(1)}</b><span>LOSS SCORE</span></div>`:'')+
+    (hasPolls()?`<div class="fact"><b>${apR.has(team)?'#'+apR.get(team):'NR'}</b><span>AP</span></div>`+
+      `<div class="fact"><b>${coR.has(team)?'#'+coR.get(team):'NR'}</b><span>COACHES</span></div>`:'')+
+    `<div class="fact"><b>${bw&&Number.isFinite(bw.bestWin)?'#'+bw.bestWin:'—'}</b><span>BEST WIN</span></div>`+
+    (bw?`<div class="fact" title="${esc(bw.worstLoss==null
+        ?'Unbeaten through this day, so there is no worst loss to report.'
+        :(bw.worstLossNR
+          ?'Lost to '+bw.worstLossTeam+', which this ranking does not place \u2014 '+
+           'outside Division I, or a team with no game the chosen field scores. '+
+           'Worse than any ranked defeat.'
+          :'Lost to '+bw.worstLossTeam+'. No team it lost to finished lower than #'+
+           bw.worstLoss+'.'))}">`+
+      `<b>${bw.worstLoss==null?'—':(bw.worstLossNR?'NR':'#'+bw.worstLoss)}</b>`+
+      `<span>WORST LOSS</span></div>`:'')+
+    (BR.field.has(team)
+      ?`<div class="fact" title="${esc('From the bracket, which the ranking never sees: postseason '+
+          'games are stored apart and are not graded.')}"><b>${
+          BR.champion===team?'WON IT':BR.finalFour.has(team)?'FINAL FOUR':'MADE IT'
+        }</b><span>NCAA</span></div>`:'')+
+    '</div>';
+  /* What the record says about March, and only when the record can say it.
+     Measured over the five tournaments stored here: of teams finishing a
+     regular season in the top four, 8 of 20 reached a Final Four; 5 of 30 from
+     5th to 10th; 3 of 50 from 11th to 20th; 3 of 100 from 21st to 40th; 1 of
+     200 below that, and none at all outside the top 80. Earlier in a season
+     the gradient is not there to report -- at the halfway mark the top four
+     and the 5-to-10 band come out level -- so nothing is shown before day 90,
+     which is about four-fifths of the way through and where the ordering first
+     resembles the one it finishes with. */
+  /* Counted from this site's own end-of-regular-season orders against the five
+     completed brackets in the data, 2021-22 through 2025-26. The men's page
+     carries the same paragraph off its own count, and the two are worth setting
+     side by side: 13 of 20 top-four finishers here reached a Final Four against
+     8 of 20 there, and nobody outside the top 20 has ever managed it, where the
+     men's floor runs past 70th. Recount these if a season is added. */
+  if(!BR.field.size&&h>=90){
+    const band=[[4,13,20],[10,6,30],[20,1,50],[40,0,100],[80,0,200]].find(([lim])=>me.rank<=lim);
+    const word=n=>['no','one','two','three','four','five','six','seven','eight',
+                   'nine','ten','eleven','twelve','thirteen'][n]||String(n);
+    html+='<p class="status"><b>March.</b> '+(band
+      ? `Of the ${band[2]} teams that have held a place like this one at the end of a `+
+        `regular season, ${word(band[1])} went on to a Final Four. That is `+
+        `${(band[1]/band[2]*100).toFixed(0)}%, drawn from five tournaments, which is `+
+        `few enough that it is a tendency rather than a forecast.` +
+        (band[1]===0 ? ' The women\u2019s game runs top-heavy: no team outside the '+
+         'top 20 has reached a Final Four in any of the five, and the deepest run '+
+         'on record started 11th.' : '')
+      : 'No team ranked outside the top 80 at this stage has come close in the five '+
+        'tournaments on record. The deepest Final Four run here started 11th \u2014 '+
+        '2024 NC State \u2014 which is a much higher floor than the men\u2019s game has.')+'</p>';
+  }
+  if(g.mode!=='off'&&!inGate)
+    html+='<p class="status">Not listed at this date: the victors gate requires a win over a '+
+      'team inside the top '+g.n+' that also qualifies. Every game below still counts for '+
+      'everyone else.</p>';
+  html+='<div id="games">';
+  for(let w=1;w<=h;w++){
+    const wk=ENG.byWeek.get(w); if(!wk) continue;
+    const e=wk.get(team); if(!e) continue;
+    const p=ENG.slate(w,h).pos.get(team);
+    const oppRank=rankOf.get(e.opp);
+    const others=(ENG.gamesOf.get(e.opp)||[]).filter(x=>x.week<=h&&x.id!==e.id);
+    const ow=others.filter(x=>x.res===WIN).length;
+    html+='<div class="g"><div class="grow">'+
+      `<span class="gw">${fmtDay(dayOf(w))}</span>`+
+      `<span class="res ${e.res===WIN?'w':'l'}">${e.res===WIN?'beat':'lost to'}</span>`+
+      `<button class="tm" data-t="${esc(e.opp)}">${esc(e.opp)}</button>`+
+      `<span class="cf">${oppRank?'#'+oppRank:'unranked'} · ${ow}‑${others.length-ow} in their other games</span>`+
+      `<span class="gsc${W&&p?' wtd':''}"${W&&p?` title="${esc(weightTip(W,p,e))}"`:''}>`+
+      `${p?(W?(W.adjust(p.score,e.opp,e.res===WIN)).toFixed(1):p.score.toFixed(1)):'—'}`+
+        (W&&p?`<span class="nr" style="font-weight:400"> &nbsp;${p.score.toFixed(1)}&times;${W.factor(e.opp).toFixed(2)}</span>`:'')+
+        `</span></div>`+
+      sparkHTML(revision(ENG,team,w,h),{pool:ENG.scoring==='pooled',unit:'day',label:n=>fmtDay(dayOf(n))})+'</div>';
+  }
+  html+='</div>';
+
+  /* ---- still to play ---- (gated on atEnd above, with RT) */
+  if(RT&&RT.games.length){
+    const say=g=>g.neutral?'vs':g.home?'vs':'at';
+    html+=`<div class="thead" style="margin-top:28px"><h2>Still to play</h2>`+
+      `<span class="sub">${RT.games.length} fixture${RT.games.length===1?'':'s'}, `+
+      `averaging ${RT.sos.toFixed(1)}`+
+      (RT.unrated?` \u2014 ${RT.unrated} opponent${RT.unrated===1?'':'s'} not yet rated, `+
+        `counted at the floor`:'')+`</span></div>`;
+    html+='<p class="slateintro">These are fixtures, not results. They are stored in '+
+      'their own file, are never graded, and cannot move a rating \u2014 the ratings '+
+      'beside them are what the played games produced. Dates and opponents come from '+
+      'the feed and do change: a fixture marked <b>tbd</b> has no tip time set yet, so '+
+      'its date is the one the feed states and may still move.</p>';
+    html+='<div id="soon">';
+    for(const gm of RT.games){
+      const rk=rankOf.get(gm.opp);
+      html+='<div class="g"><div class="grow">'+
+        `<span class="gw">${fmtDay(gm.date)}</span>`+
+        `<span class="res" style="background:none;color:inherit;opacity:.65">${say(gm)}</span>`+
+        `<button class="tm" data-t="${esc(gm.opp)}">${esc(gm.opp)}</button>`+
+        `<span class="cf">${rk?'#'+rk:'unranked'}`+
+          `${gm.conf?' · conference':''}${gm.neutral?' · neutral site':''}`+
+          `${gm.tbd?' · tbd':''}</span>`+
+        `<span class="gsc">${gm.rated?gm.rating.toFixed(1):'\u2014'}</span>`+
+        '</div></div>';
+    }
+    html+='</div>';
+  }
+
+  $('teamview').innerHTML=html;
+  $('back').onclick=()=>go(null);
+  wire($('teamview'));
+  $('status').innerHTML=`Through <b>${fmtFull(dayOf(h))}</b> · each line is what that game is worth now, `+
+    `and how that has moved since it was played`;
+}
+
+/* ---------- the slate ----------
+   Every result in one bucket, in the order the comparator puts them. This is
+   the object the ranking is built from — the table of teams is only these
+   scores averaged — so it is worth being able to look at directly. Ordering is
+   always by the raw vector; opponent weighting rescales scores afterwards and
+   would reorder the list, so it is deliberately not applied here. */
+function renderSlates(bucket){
+  const h=+$('wk').value;
+  $('wkv').textContent=fmtDay(dayOf(h));
+  showView('slates');
+  const buckets=[];
+  for(let w=1;w<=h;w++) if(ENG.byWeek.get(w)) buckets.push(w);
+  if(!buckets.length){
+    $('slatesview').innerHTML='<p class="msg">Nothing played yet.</p>'; return; }
+  /* The slate is the pool, not one bucket: every result from day 1 up to the
+     one chosen, ranked against each other. Moving the selector back hides later
+     days from the list without changing how anything was graded — the horizon
+     slider above still decides that. */
+  const w=buckets.includes(bucket)?bucket:buckets[buckets.length-1];
+  const i=buckets.indexOf(w);
+  const rows=[]; let played=0;
+  for(const b of buckets){
+    if(b>w) break;
+    const wk=ENG.byWeek.get(b); played+=wk.size;
+    const pos=ENG.slate(b,h).pos;
+    for(const [t,p] of pos) rows.push({team:t,week:b,score:p.score,rank:p.rank,n:p.n,val:p.val,e:wk.get(t)});
+  }
+  /* Weighting is the whole point of this view when it is on. Left out, a win
+     over a 7-1 lower-division side outscores a win over a 6-1 top-ten one,
+     because the two records are lexicographically compared before anyone asks
+     who those records were built against -- and L1 settles 91% of comparisons,
+     so L2 rarely gets the chance. Weighting fixes 36 of the 38 such pairs in
+     thirteen seasons, and this was the one view that threw it away. */
+  const SW=current().W;
+  if(SW) for(const r of rows) r.adj=SW.adjust(r.score,r.e.opp,r.e.res===WIN);
+  rows.sort(SW
+    ? (a,b)=>b.adj-a.adj||ENG.cmp(a.val,b.val)||a.team.localeCompare(b.team)||a.week-b.week
+    : (a,b)=>ENG.cmp(a.val,b.val)||a.team.localeCompare(b.team)||a.week-b.week);
+  const pooled=ENG.scoring==='pooled';
+  const n=rows.length;
+  const excl=played-n;
+  const poolN=pooled&&buckets.length?ENG.slate(buckets[0],h).n:0;
+  /* Opponent ranks are the live ones, so a result's worth can be read against
+     what the opponent has since turned out to be. Teams outside the ranked
+     table — lower divisions — have no rank to show. */
+  const rankOf=new Map(current().rows.map(r=>[r.team,r.rank]));
+  $('status').innerHTML=`The slate &mdash; every result of the season so far in the order `+
+    `the grader puts them, scored ${pooled?'against the whole pool':`against its own ${'day'} alone`}.`;
+
+  let html='<p><button class="back" id="back">&larr; All teams</button></p>'+
+    `<div class="thead"><h2>${esc(String('through '+fmtFull(dayOf(w))))}</h2>`+
+    `<span class="sub">${n} scored result${n===1?'':'s'}${excl?` of ${n+excl} played`:''}, graded on everything through ${esc(String(fmtFull(dayOf(h))))}</span></div>`;
+
+  html+='<div class="slatenav">'+
+    `<button class="wkbtn" id="slprev"${i===0?' disabled':''}>&lsaquo; previous</button>`+
+    '<select id="slpick">'+buckets.map(x=>
+      `<option value="${x}"${x===w?' selected':''}>through ${esc(String(fmtDay(dayOf(x))))}</option>`).join('')+
+    '</select>'+
+    `<button class="wkbtn" id="slnext"${i===buckets.length-1?' disabled':''}>next &rsaquo;</button>`+
+    '</div>';
+
+  html+='<p class="slateintro">Every result up to this point in the season. '+
+    (SW
+      ? 'The grader places each one by comparing wins above losses, then by how good the '+
+        'opponent was (<b>L1</b>, their record in their other games), then by how good '+
+        '<i>their</i> opponents were (<b>L2</b>) — the first of those three that differs '+
+        'decides it, nothing is added or averaged. Opponent weighting then rescales the '+
+        'result by how good that opponent proved to be, and the list is in that order. '
+      : 'They are sorted against the others the way the grader sorts them: wins above '+
+        'losses, then by how good the opponent was (<b>L1</b>, their record in their other '+
+        'games), then by how good <i>their</i> opponents were (<b>L2</b>). The first of '+
+        'those three that differs decides the order — nothing is added or averaged. ')+
+    (pooled
+      ? `The score is each result&rsquo;s place among all ${poolN.toLocaleString()} in the `+
+        `season&rsquo;s pool through ${esc(String(fmtFull(dayOf(h))))}. Pulling the selector back hides later `+
+        `days from the list but not from the pool, so the scores never change and the `+
+        `column stays in step with the order.`
+      : `Careful: each day is its own population in this mode, so these scores come from `+
+        `${i+1} different ones and the Score column will not descend cleanly. Two results `+
+        `can sit in the right order by vector and the wrong order by score &mdash; which is `+
+        `the reason the other setting exists.`)+
+    '</p>';
+  const TOPD=esc(ENG.topDivision);
+  html+='<p class="slateintro">'+(excl
+    ? `${excl} further result${excl===1?'':'s'} ${excl===1?'was':'were'} played over this `+
+      `stretch and ${excl===1?'is':'are'} not listed: the pool is set to games `+
+      `${ENG.pool==='both'?`between ${TOPD} teams`:`with ${/^[AEFHILMNORSX]/.test(ENG.topDivision)?'an':'a'} ${TOPD} team in them`}. `+
+      `They still count in their own teams&rsquo; records, which is how they reach the `+
+      `numbers in this table &mdash; only the measuring stick leaves them out.`
+    : `Every division is here, not only the top one. A lower&#8209;division game still `+
+      `sits in somebody&rsquo;s record, so it is graded alongside the rest; the ranking `+
+      `table then shows ${TOPD} teams only. That is why unfamiliar names appear here.`)+
+    '</p>';
+  if(SW)
+    html+='<p class="slateintro"><b>Opponent weighting is on, so this list is in weighted '+
+      'order.</b> The raw grade places a result among its peers but has no notion of who the '+
+      'opponent was beyond their bare record, which is why an unweighted slate can rate a win '+
+      'over a 7&#8209;1 lower&#8209;division side above a win over a 6&#8209;1 top&#8209;ten '+
+      'one. The <b>Score</b> column is the weighted figure, with the raw grade beside it in '+
+      'grey; <b>L1</b> and <b>L2</b> remain the raw ones it was built from. Hover any score '+
+      'for the arithmetic. Turn weighting off to see the grader\u2019s own lexicographic order.</p>';
+
+  html+='<div class="scroll"><table><thead><tr>'+
+    '<th class="rk">#</th><th class="num">Score</th>'+
+    `<th class="num"${SW?` title="${esc('Where the raw grade alone placed this result. With weighting on it '+
+        'differs from the column at the left, and the gap is how far weighting moved the game.')}"`:''
+      }>${pooled?'In pool':'In day'}</th>`+
+    '<th class="rk">Day</th><th>Team</th><th></th><th>Opponent</th>'+
+    '<th class="num">Opp now</th>'+
+    '<th class="num">Their other games</th>'+
+    '<th class="num">L1</th><th class="num">L2</th>'+
+    '</tr></thead><tbody>';
+  for(let k=0;k<n;k++){
+    const r=rows[k];
+    const others=(ENG.gamesOf.get(r.e.opp)||[]).filter(x=>x.week<=h&&x.id!==r.e.id);
+    const ow=others.filter(x=>x.res===WIN).length;
+    html+='<tr>'+
+      `<td class="rk">${k+1}</td>`+
+      (SW
+        ? `<td class="num" title="${esc(weightTip(SW,{score:r.score,n:r.n},r.e))}">`+
+          `${r.adj.toFixed(1)}<span class="nr" style="font-weight:400"> ${r.score.toFixed(1)}</span></td>`
+        : `<td class="num">${r.score.toFixed(1)}</td>`)+
+      `<td class="num nr">${r.rank}</td>`+
+      `<td class="rk nr">${esc(String(fmtDay(dayOf(r.week))))}</td>`+
+      `<td><button class="tm" data-t="${esc(r.team)}">${esc(r.team)}</button></td>`+
+      `<td><span class="res ${r.e.res===WIN?'w':'l'}">${r.e.res===WIN?'beat':'lost to'}</span></td>`+
+      `<td><button class="tm" data-t="${esc(r.e.opp)}">${esc(r.e.opp)}</button></td>`+
+      `<td class="num nr">${rankOf.has(r.e.opp)?'#'+rankOf.get(r.e.opp):'&mdash;'}</td>`+
+      `<td class="num cf">${ow}\u2011${others.length-ow}</td>`+
+      `<td class="num">${r.val[1].toFixed(3)}</td>`+
+      `<td class="num">${r.val[2].toFixed(3)}</td>`+
+      '</tr>';
+  }
+  html+='</tbody></table></div>';
+
+  $('slatesview').innerHTML=html;
+  $('back').onclick=()=>go(null);
+  $('slpick').onchange=e=>go({kind:'slates',bucket:+e.target.value});
+  $('slprev').onclick=()=>go({kind:'slates',bucket:buckets[i-1]});
+  $('slnext').onclick=()=>go({kind:'slates',bucket:buckets[i+1]});
+  wire($('slatesview'));
+}
+
+function wire(root){
+  root.querySelectorAll('button.tm').forEach(b=>b.onclick=()=>go(b.dataset.t));
+}
+function go(v){
+  VIEW = (typeof v==='string') ? {kind:'team',team:v} : (v||{kind:'list'});
+  const want = VIEW.kind==='team' ? 't='+encodeURIComponent(VIEW.team)
+             : VIEW.kind==='slates' ? 'slates'+(VIEW.bucket?'='+VIEW.bucket:'')
+             : '';
+  if(want) location.hash=want;
+  else if(location.hash) location.hash='';
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+window.addEventListener('hashchange',()=>{
+  const v=parseHash();
+  if(!sameView(v,VIEW)){ VIEW=v; render(); }
+});
+
+async function pick(year){
+  $('status').textContent='Loading '+year+'…';
+  try{
+    await load(year);
+    const s=$('wk');
+    s.max=SEASON.maxWeek;
+    s.value=SEASON.maxWeek;
+    render();
+  }catch(e){
+    $('status').textContent=e.message;
+    $('tbl').innerHTML='<tbody><tr><td class="msg">'+esc(e.message)+
+      '<br>Serve this folder over http:// — opening the file directly blocks the data load.</td></tr></tbody>';
+  }
+}
+$('season').onchange=e=>{ VIEW={kind:'list'}; location.hash=''; pick(e.target.value); };
+$('wk').oninput=render;
+$('smode').onchange=()=>{ useScoring(); render(); };
+$('pmode').onchange=()=>{ useScoring(); render(); };
+$('gmode').onchange=render;
+$('wmode').onchange=render;
+$('gn').onchange=render;
+/* A dialog rather than an inline panel: Escape and focus handling come free,
+   and opening it no longer pushes the table down the page. */
+for(const [btn,dlg,close] of [['helpbtn','helpmodal','helpclose'],
+                              ['gearbtn','settings','setclose']]){
+  const d=$(dlg);
+  $(btn).onclick=()=>d.showModal();
+  $(close).onclick=()=>d.close();
+  d.onclick=e=>{
+    if(e.target===d) d.close();
+    /* A hash link would otherwise switch the view behind an open modal. */
+    else if(e.target.closest('a[href^="#"]')) d.close();
+  };
+}
+VIEW=parseHash();
+pick($('season').value);
+</script>
+</body>
+</html>

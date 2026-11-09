@@ -4,20 +4,27 @@ College football ranked only by who beat whom — no preseason expectation, no m
 of victory, no votes. AP and Coaches polls and ESPN's power index are shown
 alongside for comparison, and feed nothing.
 
-Two sports, one method. Football at the site root, basketball at `/basketball/`.
+Three sections, one method. Football at the site root, men's basketball at
+`/ncaam/`, women's basketball at `/ncaaw/`. The basketball section was a single
+`/basketball/` until the men's and women's games were split apart; that path is
+still served and redirects to `/ncaam/`, carrying the URL hash with it so a saved
+team page survives the move.
 
 ## What's here
 
 | Path | What it is |
 |---|---|
-| `docs/engine.js` | The ranking engine, shared by both sports. Verified against the research build: 1,974 comparisons, zero differences. |
+| `docs/engine.js` | The ranking engine, shared by all three sections. Verified against the research build: 1,974 comparisons, zero differences. |
 | `docs/index.html` | Football rankings, with the AP and Coaches polls and ESPN's power index alongside. |
 | `docs/about.html` | How the method works, and what it can't do. |
 | `docs/season-20XX.json` | Football results, polls and power index, one file per season (2014–2026). |
-| `docs/basketball/` | The same, for men's college basketball (2021–22 through 2025–26). |
+| `docs/ncaam/` | The same, for men's college basketball (2021–22 through 2026–27). |
+| `docs/ncaaw/` | The same, for women's college basketball (2021–22 through 2026–27). No polls — see below. |
+| `docs/basketball/` | A redirect stub to `/ncaam/`, so links handed out before the rename still work. |
 | `recursive-rankings.html` | The research build — slates, the draft triangle, per-game revision history, poll comparison, backtesting. Open it directly; it loads a season through its own file picker. |
 | `fetch_season.py` | Pulls a football season from CollegeFootballData.com. |
-| `fetch_basketball.py` | Pulls a basketball season from CollegeBasketballData.com. The same API key works for both. |
+| `fetch_basketball.py` | Pulls a men's basketball season from CollegeBasketballData.com. The same API key works for both. |
+| `fetch_wbasketball.py` | Pulls a women's basketball season from the wehoop data repository. No API key; needs `pyarrow`. |
 
 ## Weeks and days
 
@@ -65,12 +72,54 @@ ranked one regardless of when it fell.
 ```sh
 export COLLEGE_FOOTBALL_API_KEY='your-key'   # free at collegefootballdata.com/key
 python3 fetch_season.py --year 2026 --out docs/season-2026.json --include-title-games
-python3 fetch_basketball.py --season 2027 --out docs/basketball/season-2027.json
+python3 fetch_basketball.py --season 2027 --out docs/ncaam/season-2027.json
+python3 fetch_wbasketball.py --season 2027 --out docs/ncaaw/season-2027.json
 ```
 
 A basketball season is named for the year it ends in, so the 2026–27 season is
 `--season 2027`. Adding a season also needs an `<option>` in the `season` select
 of the relevant `index.html`; the newest sits first and is what the page opens on.
+
+### The women's game comes from somewhere else
+
+CollegeBasketballData.com has **no women's basketball at all** — the word "women"
+does not appear anywhere in its OpenAPI document and no endpoint takes a gender. So
+`fetch_wbasketball.py` reads published season files from
+[sportsdataverse/wehoop-wbb-data](https://github.com/sportsdataverse/wehoop-wbb-data)
+instead. No API key, but parquet, so:
+
+```sh
+pip install pyarrow
+```
+
+That is this repo's only third-party Python requirement; the other two fetchers are
+stdlib-only. `--selftest` runs without it.
+
+Two things about that source are worth knowing before changing the script.
+
+**Division I membership and conference come off the games, not off a team
+directory.** Each side of each game carries its own conference id for that season,
+so Texas reads Big 12 in 2022–23 and SEC in 2025–26 with nobody having to remember
+the realignment, and Stanford still reads Pac-12 in the 2021–22 file. A side with no
+conference id was not in Division I that season. Conference *names* are a separate
+problem: wehoop publishes standings for only 2003–2007 and 2026–2027, so the names
+are merged from those few files and applied to all. An ESPN conference id is stable
+across seasons, and the merged map was checked to leave no conference unnamed in any
+season here — 2007 is in the list precisely because it names conferences that have
+since folded.
+
+**There are no polls, and that is a real gap rather than a cosmetic one.** wehoop
+publishes no rankings file. The schedule does record each side's rank at tip-off,
+and reconstructing weekly snapshots from it was tried and rejected: over 2025–26
+only 8 of 22 weeks recover all 25 places, the week before Christmas recovers 14, and
+10 weeks give two teams the same rank because the window straddles two polls. The
+page therefore shows no poll rather than a poll-shaped guess — everything poll-shaped
+is gated on `SEASON.polls` being non-empty, so the columns, the agreement tiles and
+the team-page tiles all reappear by themselves if a poll is ever added. The cost is
+not the columns but the yardstick: the defaults on the other two pages are justified
+by sweeping every setting against the polls, and on `/ncaaw/` they are inherited and
+cannot be checked. ESPN's core API publishes both polls by week and could fill this
+later.
 
 The basketball fetcher also stores the postseason — the NCAA tournament, the NIT
 and the rest — under its own `postseason` key. **These games are never ranked.**
@@ -114,8 +163,9 @@ python3 fetch_season.py --year 2024 --list-polls
 A basketball season is named for the year it ends in: 2026 is the 2025–26 season.
 
 About five API calls per football run; basketball pages its games endpoint, which
-caps responses at 3,000 rows. Both have offline self-tests needing no key and no
-network: `--selftest` (63 checks for football, 36 for basketball).
+caps responses at 3,000 rows. All three have offline self-tests needing no key, no
+network and — for the women's one — no pyarrow: `--selftest` (63 checks for football,
+36 for men's basketball, 53 for women's).
 
 Three rankings ride along for comparison: the AP and Coaches polls, and the CFP
 selection committee's ranking, which only publishes from about week 10. Poll names

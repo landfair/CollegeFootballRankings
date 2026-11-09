@@ -29,7 +29,12 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent
 ENGINE = ROOT / "docs" / "engine.js"
-PAGES = [ROOT / "docs" / "index.html", ROOT / "docs" / "basketball" / "index.html"]
+# Every page that imports the engine. docs/basketball/index.html is deliberately
+# absent: since the men's and women's games were split it is a redirect stub with
+# no import to stamp, and listing it here would fail the run on every build.
+PAGES = [ROOT / "docs" / "index.html",
+         ROOT / "docs" / "ncaam" / "index.html",
+         ROOT / "docs" / "ncaaw" / "index.html"]
 
 # the import specifier, with an optional ?v= already on it
 IMPORT_RE = re.compile(r"""(from\s+['"])((?:\.\./|\./)engine\.js)(\?v=[0-9a-f]+)?(['"])""")
@@ -102,7 +107,7 @@ def selftest():
     eq(got, "from './engine.js?v=deadbeef1234'", "restamp existing")
     eq(n, 1, "count existing")
 
-    # the basketball page's relative path
+    # the sub-section pages' relative path
     got, n = restamp('from "../engine.js"', "deadbeef1234")
     eq(got, 'from "../engine.js?v=deadbeef1234"', "stamp parent path")
     eq(n, 1, "count parent")

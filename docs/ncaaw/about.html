@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>About — Recursive Rankings, NCAAW</title>
+<meta name="description" content="How an NCAA women’s college basketball ranking built only from wins and losses works, and what it can’t do.">
+<style>
+  :root{
+    --bg:#faf9f6; --ink:#1a1a18; --muted:#6b6b63; --rule:#dedcd4; --soft:#edebe4;
+    --mark:#b8860b; --panel:#fff; --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme=light]){
+      --bg:#17171a; --ink:#ecebe6; --muted:#9a998f; --rule:#33332f;
+      --soft:#222226; --mark:#d9a62e; --panel:#1e1e22;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.65 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Helvetica,sans-serif}
+  .wrap{max-width:660px;margin:0 auto;padding:0 16px 72px}
+  header{border-bottom:1px solid var(--rule);margin-bottom:28px}
+  .bar{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;padding:20px 0 14px}
+  h1{font-size:21px;margin:0;letter-spacing:-.01em}
+  nav{margin-left:auto;display:flex;gap:16px}
+  nav a{color:var(--muted);text-decoration:none;font-size:14px}
+  nav a:hover,nav a[aria-current]{color:var(--ink)}
+  h2{font-size:18px;margin:34px 0 10px;letter-spacing:-.01em}
+  h3{font-size:15px;margin:24px 0 6px}
+  p{margin:0 0 14px}
+  ul{margin:0 0 14px;padding-left:22px}
+  li{margin-bottom:7px}
+  .v{font-family:var(--mono);font-size:.92em;white-space:nowrap}
+  .ex{background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--mark);
+    border-radius:0 6px 6px 0;padding:12px 15px;margin:18px 0;font-size:14.5px}
+  .ex b{font-family:var(--mono);font-weight:600}
+  code{font-family:var(--mono);font-size:13.5px;background:var(--soft);padding:1px 5px;border-radius:4px}
+  a{color:var(--mark)}
+  .sport{font:400 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;
+    color:var(--mark);border:1px solid var(--rule);border-radius:4px;padding:3px 6px;
+    vertical-align:middle;margin-left:4px}
+  footer{margin-top:40px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--rule);padding-top:14px}
+  footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="bar">
+    <h1>Recursive Rankings <span class="sport">NCAAW</span></h1>
+    <nav><a href="./">Rankings</a><a href="about.html" aria-current="page">About</a><a href="../">Football</a><a href="../ncaam/">NCAAM</a></nav>
+  </div>
+</header>
+
+<h2>The problem</h2>
+
+<p>Every team plays about thirty games out of three hundred and sixty-odd possible
+opponents, and almost all of them against the dozen or so teams in its own
+conference. Nobody plays a common schedule. So the raw question — who had the best
+season — has no direct answer. A 28&#8209;4 record in a weak league and a
+24&#8209;8 in a brutal one are not comparable on their face.</p>
+
+<p>The usual solutions all add information from outside the results. The AP and
+Coaches polls start from a preseason ballot written before a single game, and
+voters move teams up and down from there, carrying reputation with them. Most
+computer ratings lean on margin of victory, which rewards running up the score
+and punishes teams that empty the bench in the fourth quarter.</p>
+
+<p>This ranking adds nothing. It knows who played whom and who won. That is all.
+No preseason poll, no margin of victory, no conference prestige, no human vote.</p>
+
+<h2>How it works</h2>
+
+<p>Start with a single game. If Duke beats Kansas, how much is that worth?</p>
+
+<p>On its own, nothing — you cannot tell a good win from a bad one without knowing
+something about Kansas. So the system looks at <em>what Kansas did in the rest of
+its season</em>, with this one game removed so no result is ever counted twice
+against the team that produced it. If Kansas went on to win most of its other
+games, beating Kansas was worth a lot.</p>
+
+<p>But that just moves the question along: how good were the teams Kansas beat?
+So it looks one step further out — the records of Kansas's other opponents, each
+with their own game against Kansas removed. That is the recursion. Your result,
+then your opponent's season, then their opponents' seasons.</p>
+
+<div class="ex">
+<b>Duke beat Kansas</b> — Kansas was 20&#8209;10 in its other games, and those thirty
+opponents were a combined .540 in theirs. Both numbers travel with the win.
+</div>
+
+<p>Those grades are then sorted against each other, using the numbers in order:
+did you win, then how good was your opponent, then how good were theirs. Placing
+near the top scores near 100; near the bottom, near 0. A team's rating is the
+average of its games.</p>
+
+<h3>What a game is compared against</h3>
+
+<p>The <a href="index.html#slates">slates</a> view shows this directly: every result from one day, in the order the grader puts them, with its score beside it.</p>
+
+<p>A grade on its own is not a number out of a hundred &mdash; it only becomes one
+once you say <i>among what</i>. By default that is <b>every game played so far this
+season</b>, up to whichever day you are viewing. The pool grows as the season does,
+and a game is re&#8209;scored against the larger pool each day.</p>
+
+<p>The original method compared a game only against the games played the same day,
+and you can switch back to it under the gear icon. It has two problems the
+season&#8209;wide pool does not. The first is that an identical result is worth
+different amounts depending on how busy the calendar happened to be that night
+&mdash; which no team controls. Basketball feels this harder than football does: a
+night with thirty games and a Saturday with two hundred are both &ldquo;a day&rdquo;,
+so the field a result is measured against swings enormously.</p>
+
+<p>The second problem is worse, because it is a contradiction rather than a
+calibration error. Two of a team's own results fall on different days, so their
+percentiles come from different populations &mdash; and they can therefore come out
+in the wrong order, with the grader saying one win was better and the score saying
+the other was. Across the five seasons here there are 901,439 pairs of a team's own
+games that the grader ranks strictly; day&#8209;by&#8209;day scoring reverses 36,994
+of them &mdash; one pair in twenty&#8209;four, noticeably worse than football's one
+in thirty&#8209;seven, because the buckets are smaller and vary more. Pooling
+reverses none, because a single population cannot disagree with the comparison that
+built it.</p>
+
+<p>Football buckets by week; basketball has to bucket by <em>day</em>, because teams
+play two or three times a week and the model holds one game per team per bucket.
+Weekly buckets would quietly throw away about 67% of the season here &mdash; even
+more than the 45% they cost the men&rsquo;s game, because the women&rsquo;s schedule
+leans harder on midweek pairs. No team has played twice in a day in any season here.</p>
+
+<h3>Which games the field is drawn from</h3>
+
+<p>The grader has no notion of divisions, and a record only means something relative
+to the teams it was earned against. Where a corner of the schedule never meets D1,
+its records are measured on a different ruler and should not be sorted into one list
+with D1 results. Basketball is largely spared this: the feed carries D1 games and D1
+games against outside opposition, and no games between two non&#8209;D1 teams, so
+<b>games with a D1 team in them</b> and every game played pick out the same set.
+Both are offered under the gear icon so they stay distinguishable if that ever
+changes.</p>
+
+<p>The third option, <b>games between two D1 teams</b>, does bite: it stops the 6.2%
+of results that cross the line from counting toward a rating at all, which can leave
+a team rated on slightly fewer games. Either way the grading is untouched &mdash; an
+opponent&rsquo;s record is still its real record, taken from all of its games. Only
+the field a result is placed in changes. Football, where three&#8209;quarters of all
+results involve no top&#8209;division team, is affected far more; the
+<a href="../about.html">football page</a> works through why.</p>
+
+<h3>Rankings change in hindsight</h3>
+
+<p>Because a game is graded by what happened afterwards, the value of a November
+result is not settled in November. It shifts every time one of the teams involved
+plays again. A win over a team that then collapses quietly loses value; a win over a
+team that goes on a run gains it. Early-season games get revised the most, because
+the most basketball happens after them.</p>
+
+<p>Move the date slider and you are not just adding games — you are watching the
+whole season get reinterpreted.</p>
+
+<h2>Weighing the opponent</h2>
+
+<p>The score so far says where a result finished among everyone who played that
+day. That already leans on opponent quality, but weakly. Beating a team that
+happens to be unbeaten counts enormously, whoever that team turns out to be
+— and an unbeaten record against poor opposition is still unbeaten.</p>
+
+<p>So there is an option to scale each game by how good the opponent actually
+proved to be. A win over the twelfth&#8209;best team keeps almost all its value;
+the same win over the hundred&#8209;and&#8209;twelfth keeps very little. The same
+scaling runs over defeats, and there the anchor has to be mirrored. The
+win/loss line sits at exactly 50, because every game puts one win and one loss
+into the pool; 50 is therefore the <em>floor</em> of the win range and the
+<em>ceiling</em> of the loss range. Shrink everything toward 50 and you discount a
+cheap win and forgive a cheap loss in the same stroke. So each half is pulled
+toward its own worst end instead: a win toward 50, a loss toward 0. Beating nobody
+earns nearly nothing; losing to nobody is as bad as a result gets, and every win
+still finishes above every loss. Across basketball 2026 that widens the gap between
+beating a top&#8209;25 team and beating one outside the top 100 from 27 points to
+30, and the equivalent gap for defeats from 29 to 30 rather than collapsing it.
+Each game's score on a team page carries the full arithmetic on hover.</p>
+
+<div class="ex">
+A 7&#8209;0 team beat a 5&#8209;0 opponent, which scored <b>98.6</b> — among the
+very best results of that day. But that opponent's own five wins came against
+teams at 2&#8209;5, 2&#8209;4, 2&#8209;4, 2&#8209;3 and 1&#8209;4. Weighted, the
+win is worth <b>79.6</b>: still good, no longer extraordinary.
+</div>
+
+<p><strong>It is switched on by default</strong>, in the balanced setting. The
+ranking already accounts for opponent quality once, in the two levels described
+above, and weighting applies it a second time — a modelling choice rather
+than a plain reading of the results. The trade is a sharper ranking that sits
+further from the raw evidence. Switching it off gives the plainer thing: what
+the season says, with as little laid on top as possible. Both are worth looking
+at, and the gear icon moves between them.</p>
+
+<p>There is also a catch, and it is the interesting part. The weight depends on
+how good the opponent is, which is what the ranking is trying to work out. The
+ranking therefore feeds back into its own inputs, so it is not calculated once
+but solved: rank, re&#8209;weigh, rank again, until the numbers stop moving.
+That usually takes about a dozen passes. The page says how many it took, and
+says so plainly if it fails to settle.</p>
+
+<p>Three settings:</p>
+
+<ul>
+  <li><strong>Off</strong> leaves the raw figures alone.</li>
+  <li><strong>Balanced</strong> (the default) pulls each half toward its own worst
+  end: a win toward the halfway mark, a loss toward zero. A soft win is pulled back
+  toward the middle rather than beneath a defeat, and a soft loss is pushed down
+  rather than forgiven.</li>
+  <li><strong>Strong</strong> scales the score itself. It bites harder, and it
+  breaks that rule: a good loss can finish above a poor win.</li>
+</ul>
+
+
+
+<h3 id="defaults">How the defaults were chosen</h3>
+
+<p>Four of the settings have a default &mdash;
+<b>season&#8209;so&#8209;far scoring</b>, <b>games with a D1 team</b>, and
+<b>balanced weighting</b> &mdash; and on the football and men&rsquo;s pages those
+four were picked by measurement: every combination of scoring, field and weighting
+was run against the AP and Coaches polls at every day a poll was published, and the
+one that tracked the voters most closely won.</p>
+
+<p><b>That measurement cannot be repeated here, and the defaults on this page are
+therefore inherited rather than earned.</b> No poll is published with this
+data, so there is no independent ordering to sweep against: the figure that
+justifies these settings elsewhere simply does not exist for the women&rsquo;s
+game. What can be said is that the choice was never close to sport&#8209;specific.
+The same three options win on football and on the men&rsquo;s side, measured
+separately, and the mechanism they are chosen for &mdash; how to treat a schedule
+that only partly overlaps &mdash; does not change when the players do. That is an
+argument from the method, not a measurement of this sport, and it is offered as
+exactly that. Every setting is in reach under the gear icon, and anyone who thinks
+a different combination reads better here can switch it and see.</p>
+
+<p>It is worth being honest about what that does and does not justify. The margins
+are narrow &mdash; a few thousandths separate the leading options, and the
+difference between any of them is far smaller than the swing from one season, or
+one week of a season, to the next. So the default is the best general guess, not a
+settled answer, and on any particular season another setting may well read better.
+There is also something a little circular about tuning a poll&#8209;free ranking to
+agree with polls; the measure is used here only to break ties between defensible
+options, never to decide what the system counts as evidence. Every option stays
+under the gear icon, and the correlation figures at the top of the page update as
+you change them, so you can check any of this yourself.</p>
+
+<h3>Strength of schedule</h3>
+
+<p>The <b>SOS</b> column is a place in the field: <b>#1</b> played the hardest
+season of anyone. Behind that place is the average <i>rating</i> of the teams
+played, taken over exactly the games the side&rsquo;s own rating counts, which
+puts it on the same 0&ndash;100 scale as the <b>Rating</b> column, so a higher
+one means better opposition. A team rated well above its schedule has beaten
+what it was given; one rated near it has not yet been tested. The column shows
+only the place; hover any figure for the average itself, or open a team page,
+where the two sit side by side.</p>
+
+<p>Watch the direction, because it is not the same across the table. The two
+columns <b>Avg win</b> and <b>Avg loss</b> average <i>ranks</i>, where low is the
+good end, and in a 365&#8209;team field they run into the hundreds. The average
+rating behind SOS runs the other way, higher being harder, which is one reason
+the column shows the place instead: as a place it points the same way as its
+neighbours. Hover any figure for the hardest and easiest game inside it.</p>
+
+<p>Averaging ratings rather than ranks is the one real choice here. Rank is
+ordinal &mdash; the step from 1st to 2nd and the step from 60th to 61st are the
+same single place but nothing like the same distance &mdash; and in a
+365&#8209;team Division&nbsp;I field that flattening is severe, which is why the
+rank&#8209;averaging columns run into the hundreds and are best taken as a report
+on who a team played in the basement.
+In practice the two orderings agree closely, at a Spearman of 0.998 across the
+whole 363&#8209;team field, so this is a sharper instrument and not a
+correction. What it buys is that the opponent figures are the very numbers in the
+table: the hardest game in a schedule reads at the rating on that
+opponent&rsquo;s own row. Because the column is handed the ranking rather than
+rebuilding one, it follows the field and the weighting you have chosen without
+being told.</p>
+
+<p>Two smaller decisions, both settled by measurement rather than argument. An
+opponent&rsquo;s rating is taken whole, not recomputed with this game left out.
+Leaving it out is what the engine does everywhere else &mdash; both levels of the
+grade exclude the game being graded &mdash; and it was tried here, since beating
+a team drags its rating down a little and so quietly docks the winner some
+schedule strength. Averaged over a season of opponents that bias turns out to be
+about a tenth of a point and not to track win percentage at all, with the sign
+unstable from season to season. It corrected nothing and made every opponent
+figure disagree with the one on display, so it is not done. Second, an opponent
+outside the ranking has no rating to average, and counts as the weakest rated
+team in the field &mdash; already what the <b>Avg win</b> and <b>Avg loss</b>
+columns assume. Its own figure cannot stand in, because only its one or two games
+against the field are ever scored, so the occasional one that wins such a game
+would read as the best team in the country off a sample of one.</p>
+
+<h3 id="worst-loss">Best win and worst loss</h3>
+
+<p>Two columns name a single game each: the strongest team a side has beaten and
+the weakest team it has lost to. They sit together because they are the two ends
+of the same record, and because the averages beside them hide exactly what these
+show. Basketball makes the point harder than football does, because thirty&#8209;odd
+games leave far more room for one bad night, and the women&rsquo;s game makes it
+harder still. In 2025&#8209;26 Rhode Island finished 28&#8209;4 and fifteenth here,
+and one of those four defeats was to Rutgers, <b>#232</b> of 363. Richmond was
+25&#8209;6 and eighteenth with a loss to George Washington at <b>#210</b>. Neither
+record is a fluke and neither team is misplaced; the column simply refuses to let
+the loss disappear into an average.</p>
+
+<p>The direction is the same as its neighbours: low is good. A worst loss of
+<b>#25</b> means a side lost only to the very top; <b>#229</b> means it did not.
+Blank means unbeaten, and an unbeaten team sinks to the bottom when the column is
+sorted, as it does on every column here that describes defeats. Expect the
+figures to run far deeper than football&rsquo;s: the median worst&nbsp;loss inside
+the 2025&#8209;26 top 25 was <b>#80</b>, against <b>#22</b> for the football top
+25, and the spread ran from <b>#2</b> to <b>#232</b>. That is a difference in the
+number of games played rather than in the quality of anybody&rsquo;s schedule
+&mdash; play thirty and one of them will be strange.</p>
+
+<p>The one asymmetry is deliberate. <b>Best win</b> skips an opponent the ranking
+does not place, because out there a win proves nothing and the victors gate is
+defined against the ranking anyway. <b>Worst loss</b> cannot skip it, because out
+there a defeat is not a missing figure &mdash; it is the worst thing on the
+record. Were it skipped, a team whose single blemish came against a
+non&#8209;Division&nbsp;I side would show an empty cell, reading as though it had
+no bad loss at all, which is the precise claim the column exists to refuse. So it
+prints <b>NR</b>, and <b>NR</b> sorts below every place in the field. Nine teams
+carried one in 2025&#8209;26; UAB&rsquo;s was West Alabama. These are commoner
+here than in football, and commonest in November, when the non&#8209;conference
+schedule is thickest. None of the nine was anywhere near the top of the table,
+which is itself the finding: at this level a loss outside Division&nbsp;I is not
+a blemish on a good season, it is a description of a bad one.</p>
+
+<p>Neither column feeds the ranking. Both are read off the finished order, the
+same way strength of schedule is, and they describe it rather than shaping it.</p>
+
+<h3>What is still to come</h3>
+
+<p>A team page also lists the games a side has <b>not</b> played yet, with each
+future opponent&rsquo;s current rating beside it, and a <b>To come</b> figure that
+averages them the way <b>SOS</b> averages the games already played. The two sit
+together on purpose, and they read as one sentence: this is what the record was
+earned against, and this is what is left. A side rated highly on a soft schedule
+with the hardest run-in in the field is a different proposition from one with the
+same record and nothing ahead of it.</p>
+
+<p>Fixtures are kept in a file of their own and are <b>never graded</b>. The
+ranking reads only games that have been played, so a fixture cannot reach a
+rating, cannot move anybody, and cannot be mistaken for a result &mdash; the same
+discipline the postseason follows. The ratings shown beside them are
+simply what the played games produced. Nothing here is a prediction: the page
+says who is left to play and how good those teams have been so far, and stops
+there.</p>
+
+<p>Three honest limits. The feed sends fixtures through the first week of March &mdash; 5,568 of them
+&mdash; and they <i>move</i>: dates shift, games are cancelled, and a fixture
+marked <b>tbd</b> has no tip time set yet, so even its date is provisional.
+Opponents with no rating of their own count at the floor, as they do in SOS,
+and in November that is a real distortion rather than a rounding error &mdash; about
+4% of the fixtures ahead are against teams the pool has not scored, so
+the count is printed beside the figure rather than buried. And the list is only
+shown at the live horizon: dragging the week slider back asks to see the season
+as it stood then, and a fixture list is the one thing that cannot be rewound,
+since the file holds what is unplayed <i>now</i>. Rather than quietly mix two
+dates, both the figure and the list disappear until the slider returns.</p>
+
+<h2>The victors gate</h2>
+
+<p>A pure record-based system has a known weakness: a team can go undefeated
+against opposition that never tested it, and the maths has no way to say so. An
+unbeaten record looks the same whoever produced it.</p>
+
+<p>The gate is a separate check applied after the ranking is computed:
+<strong>to be listed at all, you must have beaten somebody worth beating &mdash; and
+that team must qualify too.</strong> The rule is applied over and over until the set
+stops changing, so nobody holds a place on a win over a team the rule itself rejects.</p>
+
+<p>It tightens as the season fills in, because it needs cross&#8209;conference results
+to work. Early on, teams have mostly played inside their own conference and no chain
+of justification can close; run the rule in September and it returns nobody at all.</p>
+
+<ul>
+  <li><strong>The first fortnight</strong> &mdash; off. Nothing closes that early;
+  run the rule in mid&#8209;November and it returns nobody at all.</li>
+  <li><strong>From about day&nbsp;20</strong> (late November) &mdash; the top 300.</li>
+  <li><strong>From day&nbsp;30</strong> (early December) &mdash; the top 200.</li>
+  <li><strong>From day&nbsp;60</strong> (early January) &mdash; the top 100.</li>
+  <li><strong>From day&nbsp;100</strong> (mid&#8209;February) &mdash; the top 50.</li>
+</ul>
+
+<p>You can override all of this from the control at the top of the rankings, which
+starts on <em>automatic</em>. One pass is a looser version that reads the tier off the
+finished order once without re-checking, and the tier itself can be widened or
+narrowed.</p>
+
+<p>The gate never changes a rating or an order. It only decides who is shown, and
+excluded teams still count as opponents for everyone else. A team can lose its place
+because an opponent slipped, and get it back the week after &mdash; that is the rule
+working, not a glitch.</p>
+
+<h2>What it cannot do</h2>
+
+<p>Being honest about this matters more than the rankings do.</p>
+
+<ul>
+  <li><strong>It is a record of what happened, not a forecast.</strong> The voters'
+  preseason ballot encodes real information — returning players, recruiting,
+  coaching — that this system refuses on principle and pays for early. Through
+  November it knows very little, and says so by ranking almost nobody.</li>
+  <li><strong>Every game counts the same.</strong> A November exhibition against a
+  low&#8209;major is weighed equally with a February road game at a rival, so a team
+  that pads its non&#8209;conference schedule is marked down for it even though the
+  schedule says nothing about how good that team is. This is the system's largest
+  blind spot.</li>
+  <li><strong>No loss ever outranks a win.</strong> Quality of defeat <em>is</em>
+  measured &mdash; a loss to one of the best teams in the country scores far higher
+  than a loss to a bad one, a spread of tens of points. But the result comes first in the ordering, so every win outscores
+  every loss: the best loss of that entire season was worth 49.9 and the worst win
+  50.1. A team with two good losses therefore takes two trips into the bottom half
+  that an unbeaten team with a weak schedule never takes, which is why strong
+  two&#8209;loss teams can finish below weaker unbeaten ones.</li>
+  <li><strong>No home field, no injuries, no weather, no context.</strong></li>
+</ul>
+
+<h3 id="no-polls">Why there is no poll beside this one</h3>
+
+<p>The football and men&rsquo;s pages set this ranking against the AP and Coaches
+polls, column by column, and report how closely the orders agree. This page does
+not, because the data it is built from carries no poll. That absence is worth a
+paragraph rather than a shrug, because it costs more than a column.</p>
+
+<p>The source is the reason. collegebasketballdata.com, which feeds the other two
+pages, has no women&rsquo;s basketball at all &mdash; the word &ldquo;women&rdquo;
+does not occur anywhere in its API description. The results here come instead from
+the <a href="https://github.com/sportsdataverse/wehoop-wbb-data">wehoop</a> data
+repository, which publishes schedules, box scores and standings but not rankings.</p>
+
+<p>There was a tempting shortcut, and it was tried and thrown away. Each game in
+the feed records what rank each side held at tip&#8209;off, so weekly poll
+snapshots can be reassembled from the games played that week. Reassembled badly,
+as it turns out: over 2025&#8209;26 only 8 of 22 weeks recover all twenty&#8209;five
+places, the week before Christmas recovers fourteen, and ten weeks hand two
+different teams the same rank because the window straddles two polls. A ranking
+compared against a poll with holes in it would produce an agreement figure
+measuring the holes. Better no number than a number that means something other
+than what it says.</p>
+
+<p>The practical cost is not the missing columns but the <a href="#defaults">missing
+yardstick</a>. On the other two pages the settings are defended by showing they
+track the voters; here they are inherited from those pages and cannot be checked
+against anything external. ESPN does publish both polls by week and could fill the
+gap later. Until it does, this page is a ranking with nothing to argue with.</p>
+
+<h2>A note on the data</h2>
+
+<p>Six seasons are here, 2021&#8209;22 through 2026&#8209;27, five of them complete.
+Each covers the regular season and conference tournaments up to Selection Sunday. The
+NCAA tournament itself is not included, nor the WNIT or WBIT: this ranks the season
+that earns a bid, not the tournament that follows. Those games are stored apart and
+are never graded, which is what lets a team page say a side reached a Final Four
+without the ranking ever having seen it happen.</p>
+
+<p>Teams outside Division&nbsp;I appear only as opponents. They are never ranked,
+but beating one still counts — and counts for very little, which is the point.</p>
+
+<h2>Prior work</h2>
+
+<p>Ranking teams from wins and losses alone is a well-worked problem. The
+<a href="https://www.colleyrankings.com/method.html">Colley Matrix</a>, one of the
+computer rankings used by college football's BCS, is built on the same refusal to
+use margin of victory, and the same ideas run through basketball's own RPI and the
+NET. Park and Newman's
+<a href="https://arxiv.org/abs/physics/0505169">network-based ranking</a> (2005)
+counts direct and indirect wins through the season's win graph, much as the levels
+here do. The idea that later results should revise earlier estimates is called
+smoothing, and has been applied to games at least since Glickman (1999) and in
+<a href="https://www.remi-coulom.fr/WHR/WHR.pdf">Whole-History Rating</a> (2008).</p>
+
+<p>What is unusual here is the presentation: keeping every intermediate state of the
+season rather than only the final answer, and the self-consistent gate.</p>
+
+<footer>
+Game results from the <a href="https://github.com/sportsdataverse/wehoop-wbb-data">wehoop</a>
+data repository, which derives them from ESPN. No poll is published alongside —
+<a href="#no-polls">why that matters here</a>.
+Everything is recomputed in your browser from the raw results — nothing is precomputed or stored.
+</footer>
+</div>
+</body>
+</html>
