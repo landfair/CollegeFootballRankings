@@ -33,8 +33,16 @@ export function ingest(raw){
     if(!p||!Array.isArray(p.ranks)) continue;
     const ranks=p.ranks.filter(r=>r&&r.team&&Number.isFinite(Number(r.rank)))
       .map(r=>({team:String(r.team),rank:Number(r.rank)})).sort((a,b)=>a.rank-b.rank);
+    /* pollDate is carried because it answers a different question from
+       throughWeek and the page needs both: throughWeek is the last day of
+       games the voters could have seen, pollDate is the day they published.
+       A Monday poll covering the weekend has them a day apart, and a status
+       line with only one of them has to misname whichever it prints. Like
+       everything else on a poll row it is reference data -- nothing
+       downstream of `games` reads it. */
     if(ranks.length) polls.push({poll:String(p.poll||'Poll'),week:Number(p.week)||0,
-      throughWeek:Number(p.throughWeek)||0,ranks});
+      throughWeek:Number(p.throughWeek)||0,
+      pollDate:p.pollDate?String(p.pollDate):'',ranks});
   }
   /* ESPN's power index, carried through as reference only. Like the polls it
      is never allowed near a grade -- it arrives in its own key, is read here

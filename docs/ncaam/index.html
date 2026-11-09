@@ -281,7 +281,7 @@ Rankings recomputed in your browser. <a href="about.html">How this works</a>.</f
 <script type="module">
 import {WIN, esc, ingest, engine, rank, applyGate, pollAt,
         agreement, revision, sparkHTML, weighted, schedule, split, bracket,
-        remaining} from '../engine.js?v=d2de76c21925';
+        remaining} from '../engine.js?v=f3bfe8d59b58';
 
 const SHOW=100;
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -533,7 +533,16 @@ function renderList(){
     if(!back.length) bits.push(`poll${haveP.length===1?'':'s'} reflect${haveP.length===1?'s':''} the same games`);
     else if(!now.length){
       const t=Math.max(...back.map(([,p])=>p.throughWeek));
-      bits.push(`poll published ${fmtDay(dayOf(t))}, ${h-t} day${h-t>1?'s':''} behind`);
+      /* Two different dates, and running them together misdates the poll.
+         pollDate is the day the voters published; dayOf(throughWeek) is the
+         last day of games they could have seen. A Monday poll covering the
+         weekend is published on the 9th and reflects the 8th, so printing
+         "published Nov 8" states a falsehood about a fact the payload is
+         already carrying one field away. */
+      const pub=back.map(([,p])=>p.pollDate).filter(Boolean).sort().pop();
+      bits.push((pub?`poll${back.length>1?'s':''} published ${fmtDay(pub)}, reflecting `:
+                     `poll${back.length>1?'s':''} reflecting `)+
+        `games through ${fmtDay(dayOf(t))} — ${h-t} day${h-t>1?'s':''} behind`);
     } else bits.push(`${now.join(' and ')} reflect${now.length===1?'s':''} the same games, `+
       back.map(([n,p])=>`${n} is from ${fmtDay(dayOf(p.throughWeek))}`).join(' and '));
   } else bits.push('no poll published this early');
