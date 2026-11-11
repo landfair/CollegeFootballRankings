@@ -28063,6 +28063,113 @@
   },
   {
    "week": 11,
+   "poll": "CFP Rankings",
+   "throughWeek": 11,
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "Georgia"
+    },
+    {
+     "rank": 2,
+     "team": "Utah"
+    },
+    {
+     "rank": 3,
+     "team": "Alabama"
+    },
+    {
+     "rank": 4,
+     "team": "UCLA"
+    },
+    {
+     "rank": 5,
+     "team": "Notre Dame"
+    },
+    {
+     "rank": 6,
+     "team": "Texas"
+    },
+    {
+     "rank": 7,
+     "team": "Miami"
+    },
+    {
+     "rank": 8,
+     "team": "Tennessee"
+    },
+    {
+     "rank": 9,
+     "team": "Indiana"
+    },
+    {
+     "rank": 10,
+     "team": "BYU"
+    },
+    {
+     "rank": 11,
+     "team": "Kentucky"
+    },
+    {
+     "rank": 12,
+     "team": "Texas Tech"
+    },
+    {
+     "rank": 13,
+     "team": "Wake Forest"
+    },
+    {
+     "rank": 14,
+     "team": "Houston"
+    },
+    {
+     "rank": 15,
+     "team": "Iowa"
+    },
+    {
+     "rank": 16,
+     "team": "Oregon"
+    },
+    {
+     "rank": 17,
+     "team": "South Carolina"
+    },
+    {
+     "rank": 18,
+     "team": "USC"
+    },
+    {
+     "rank": 19,
+     "team": "Ole Miss"
+    },
+    {
+     "rank": 20,
+     "team": "Ohio State"
+    },
+    {
+     "rank": 21,
+     "team": "LSU"
+    },
+    {
+     "rank": 22,
+     "team": "Missouri"
+    },
+    {
+     "rank": 23,
+     "team": "Arizona"
+    },
+    {
+     "rank": 24,
+     "team": "Boise State"
+    },
+    {
+     "rank": 25,
+     "team": "Oklahoma State"
+    }
+   ]
+  },
+  {
+   "week": 11,
    "poll": "Coaches Poll",
    "throughWeek": 11,
    "ranks": [
@@ -28170,7 +28277,7 @@
   }
  ],
  "fpi": {
-  "asOf": "2026-11-08",
+  "asOf": "2026-11-10",
   "teams": [
    {
     "team": "Notre Dame",
