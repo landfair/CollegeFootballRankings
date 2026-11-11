@@ -1056,17 +1056,18 @@ function renderSlates(bucket){
      what the opponent has since turned out to be. Teams outside the ranked
      table — lower divisions — have no rank to show. */
   const rankOf=new Map(current().rows.map(r=>[r.team,r.rank]));
-  $('status').innerHTML=`The slate &mdash; every result of the season so far in the order `+
+  $('status').innerHTML=`The slate &mdash; every result ${isCombined()
+      ?'of all thirteen seasons':'of the season so far'} in the order `+
     `the grader puts them, scored ${pooled?'against the whole pool':`against its own ${'week'} alone`}.`;
 
   let html='<p><button class="back" id="back">&larr; All teams</button></p>'+
     `<div class="thead"><h2>${esc(isCombined()?('through '+weekName(w)):('through week '+w))}</h2>`+
-    `<span class="sub">${n} scored result${n===1?'':'s'}${excl?` of ${n+excl} played`:''}, graded on everything through ${esc(String('week '+h))}</span></div>`;
+    `<span class="sub">${n} scored result${n===1?'':'s'}${excl?` of ${n+excl} played`:''}, graded on everything through ${esc(isCombined()?weekName(h):'week '+h)}</span></div>`;
 
   html+='<div class="slatenav">'+
     `<button class="wkbtn" id="slprev"${i===0?' disabled':''}>&lsaquo; previous</button>`+
     '<select id="slpick">'+buckets.map(x=>
-      `<option value="${x}"${x===w?' selected':''}>through ${esc(String('wk '+x))}</option>`).join('')+
+      `<option value="${x}"${x===w?' selected':''}>through ${esc(isCombined()?weekName(x):'wk '+x)}</option>`).join('')+
     '</select>'+
     `<button class="wkbtn" id="slnext"${i===buckets.length-1?' disabled':''}>next &rsaquo;</button>`+
     '</div>';
@@ -1119,7 +1120,9 @@ function renderSlates(bucket){
       }>${pooled?'In pool':'In week'}</th>`+
     '<th class="rk">Wk</th><th>Team</th><th></th><th>Opponent</th>'+
     '<th class="num">Opp now</th>'+
-    '<th class="num">Their other games</th>'+
+    `<th class="num"${isCombined()?` title="${esc('Across all thirteen seasons, not one. An opponent '+
+      'here has played about 150 games, so a record like 28-116 is a decade of a program rather than '+
+      'a bad autumn.')}"`:''}>Their other games</th>`+
     '<th class="num">L1</th><th class="num">L2</th>'+
     '</tr></thead><tbody>';
   for(let k=0;k<n;k++){
@@ -1133,7 +1136,7 @@ function renderSlates(bucket){
           `${r.adj.toFixed(1)}<span class="nr" style="font-weight:400"> ${r.score.toFixed(1)}</span></td>`
         : `<td class="num">${r.score.toFixed(1)}</td>`)+
       `<td class="num nr">${r.rank}</td>`+
-      `<td class="rk nr">${esc(String(r.week))}</td>`+
+      `<td class="rk nr">${esc(isCombined()?weekName(r.week):String(r.week))}</td>`+
       `<td><button class="tm" data-t="${esc(r.team)}">${esc(r.team)}</button></td>`+
       `<td><span class="res ${r.e.res===WIN?'w':'l'}">${r.e.res===WIN?'beat':'lost to'}</span></td>`+
       `<td><button class="tm" data-t="${esc(r.e.opp)}">${esc(r.e.opp)}</button></td>`+
