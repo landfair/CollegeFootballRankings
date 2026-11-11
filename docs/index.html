@@ -38,6 +38,15 @@
   .controls{display:flex;gap:18px;flex-wrap:wrap;align-items:center;
     background:var(--panel);border:1px solid var(--rule);border-radius:8px;padding:12px 14px;margin-bottom:6px}
   .ctl{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted)}
+  /* A class selector outranks the browser's own [hidden]{display:none}, so any
+     rule setting display on an element that is ever hidden has to say so
+     itself or the attribute silently does nothing. .ctl was doing exactly
+     that: the From control shipped with `hidden` set and rendered anyway,
+     because display:flex won. Stated once here for everything, since the next
+     element given both a display rule and a hidden attribute would hit it
+     too. !important because .ctl and [hidden] are otherwise a specificity
+     fight that [hidden] loses. */
+  [hidden]{display:none!important}
   select{font:inherit;font-size:13px;padding:3px 6px;border:1px solid var(--rule);
     border-radius:5px;background:var(--panel);color:var(--ink)}
   input[type=range]{accent-color:var(--mark);width:150px}
