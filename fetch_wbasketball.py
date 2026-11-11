@@ -87,6 +87,18 @@ MAP_SEASONS = (2027, 2026, 2007)
 
 TOP_DIVISION = "D1"
 
+# Tip-offs are stamped UTC and the late ones run past midnight there: a 10:30pm
+# Eastern game on the Pacific coast is stamped 03:30Z the NEXT day. Slicing the
+# first ten characters of that string files it under a day nobody played it on,
+# which puts it in its own bucket, gives those teams a phantom extra game day
+# and -- because the engine holds one game per team per bucket -- can split a
+# team's real slate across two. Shifting back 8 hours before taking the date
+# lands every game on the calendar day it was actually played. This is the same
+# constant and the same reasoning as fetch_basketball.py, which had it from the
+# start; this fetcher did not, and quietly misfiled every late West Coast game
+# until a Wednesday morning pull turned up 30 games dated that afternoon.
+UTC_SHIFT = dt.timedelta(hours=8)
+
 # ESPN's season types, which wehoop carries through unchanged.
 REGULAR, POSTSEASON = 2, 3
 
@@ -201,12 +213,11 @@ def parse_schedule(cols, teams, by_id, confnames=None):
         if not home or not away:
             skipped.append(f"{label}: missing a side")
             continue
-        day = (dates[i] or "")[:10]
-        try:
-            date = dt.date.fromisoformat(day)
-        except ValueError:
+        date = game_day(dates[i])
+        if date is None:
             skipped.append(f"{label}: no usable date")
             continue
+        day = date.isoformat()
 
         # A bracket slot whose occupant is not known yet is carried as a team
         # called TBD on a negative id. Two of those would collide into one
@@ -267,6 +278,33 @@ def parse_schedule(cols, teams, by_id, confnames=None):
             # results anybody means to rank.
             skipped.append(f"{label}: season type {stype[i]}, not a counted game")
     return reg, post, soon, skipped
+
+
+def game_day(stamp):
+    """Calendar day a game was played, from an ISO timestamp, or None.
+
+    Handles both the offset-bearing form ESPN sends through wehoop
+    (2026-11-11T03:30Z) and a bare date, and shifts by UTC_SHIFT so a late
+    tip-off counts on the day it started rather than the UTC day it ended.
+    """
+    raw = str(stamp or "").strip()
+    if not raw:
+        return None
+    s = raw.replace("Z", "+0000")
+    for fmt in ("%Y-%m-%dT%H:%M:%S.%f%z", "%Y-%m-%dT%H:%M:%S%z",
+                "%Y-%m-%dT%H:%M%z",
+                "%Y-%m-%dT%H:%M:%S.%f", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%dT%H:%M"):
+        try:
+            t = dt.datetime.strptime(s, fmt)
+        except ValueError:
+            continue
+        if t.tzinfo is not None:
+            t = t.astimezone(dt.timezone.utc).replace(tzinfo=None)
+        return (t - UTC_SHIFT).date()
+    try:
+        return dt.date.fromisoformat(raw[:10])
+    except ValueError:
+        return None
 
 
 def PLACEHOLDER(name):
@@ -563,6 +601,38 @@ def selftest():
        "so a 2023 game still says Pac-12 years after it folded")
     ok(t4["Tiny College"]["division"] == "OTHER",
        "a side with no conference id that season is not Division I")
+
+    # UTC shift: a late tip-off must count on the day it started
+    ok(game_day("2026-11-11T03:30Z") == dt.date(2026, 11, 10),
+       "a 03:30Z game counts on the previous day (10:30pm Eastern)")
+    ok(game_day("2026-11-11T02:00Z") == dt.date(2026, 11, 10),
+       "so does an 02:00Z one (9pm Eastern)")
+    ok(game_day("2026-11-10T17:00Z") == dt.date(2026, 11, 10),
+       "an afternoon game stays on its own day")
+    ok(game_day("2026-11-11T08:00Z") == dt.date(2026, 11, 11),
+       "and 08:00Z is the boundary, landing on the new day")
+    ok(game_day("2026-11-10") == dt.date(2026, 11, 10),
+       "a bare date with no time is taken as given")
+    ok(game_day("") is None and game_day(None) is None,
+       "an empty stamp yields no date rather than crashing")
+    ok(game_day("not a date") is None, "so does nonsense")
+
+    # the whole point: two games either side of UTC midnight share a bucket
+    t5, b5 = build_directory(_cols(STANDINGS_ROWS))
+    r5, _, _, _ = parse_schedule(_cols([
+        {"id": 1, "date": "2026-11-11T02:00Z", "status_type_completed": True,
+         "season_type": 2, "home_id": 41, "home_location": "UConn",
+         "home_conference_id": 4, "away_id": 251, "away_location": "Texas",
+         "away_conference_id": 23, "home_score": 70, "away_score": 60,
+         "notes_headline": None},
+        {"id": 2, "date": "2026-11-10T18:00Z", "status_type_completed": True,
+         "season_type": 2, "home_id": 26, "home_location": "UCLA",
+         "home_conference_id": 7, "away_id": 2579, "away_location": "South Carolina",
+         "away_conference_id": 23, "home_score": 80, "away_score": 61,
+         "notes_headline": None}]), t5, b5, {"4": "Big East", "7": "Big Ten", "23": "SEC"})
+    _, d5 = assign_days(r5)
+    ok(len(d5) == 1 and d5[0] == "2026-11-10",
+       f"a 02:00Z game and an 18:00Z one the day before share one bucket ({d5})")
 
     ok(PLACEHOLDER("TBD") and PLACEHOLDER("tba") and PLACEHOLDER(""),
        "an unfilled bracket slot is recognised as not a school")
