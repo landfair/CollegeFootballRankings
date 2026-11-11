@@ -382,6 +382,18 @@
    ===================================================================== */
 const WIN=1, LOSS=0, NEUTRAL=0.5;
 
+/* Kept byte-for-byte in step with docs/engine.js, which exports these. This
+   file is standalone by design -- it opens from disk with no imports -- so the
+   definitions are duplicated rather than shared, and any change to one has to
+   be made to the other or the verification between them stops meaning
+   anything. EPS is the single definition of "level on rating", used by both
+   the sort and the rank assignment so they cannot disagree about what a tie
+   is. byRating never consults margin of victory. */
+const EPS=1e-9;
+const LEVEL=(a,b)=>Math.abs(a-b)<=EPS;
+const byRating=(a,b)=>
+  LEVEL(a.key,b.key) ? a.team.localeCompare(b.team) : b.key-a.key;
+
 const S = {
   teamInfo:new Map(),   // name -> {name, conference, division, truth}
   games:[],             // {week, winner, loser}
@@ -647,10 +659,20 @@ function national(mode,fbsOnly){
     out.push({team:t,total:tot,avg:tot/arr.length,games:arr.length,wins,losses,pd,
               key: mode==='sum'?tot:tot/arr.length});
   }
-  out.sort((a,b)=> b.key-a.key || b.pd-a.pd || a.team.localeCompare(b.team));
+  /* Mirrors docs/engine.js exactly -- EPS, LEVEL and byRating there. This file
+     carries its own engine and is verified against that one, so a divergence
+     here is a divergence in the verification, not a local style choice.
+
+     Two changes landed together. The margin tiebreak (b.pd-a.pd) is gone: this
+     ranking refuses margin of victory, and an exception that fires only inside
+     a tie is still an exception. And the sort now uses the SAME epsilon as the
+     rank assignment below it -- comparing exactly here while merging within
+     1e-9 there meant a group drawn as tied could be ordered internally by a
+     rating gap six orders of magnitude under the threshold that made it a tie. */
+  out.sort(byRating);
   let rank=1;
   for(let i=0;i<out.length;i++){
-    if(i>0 && Math.abs(out[i].key-out[i-1].key)>1e-9) rank=i+1;
+    if(i>0 && !LEVEL(out[i].key,out[i-1].key)) rank=i+1;
     out[i].rank=rank;
   }
   return out;
@@ -1073,7 +1095,7 @@ function renderNational(){
     const xs=rows.map(r=>S.teamInfo.get(r.team).truth), ys=rows.map(r=>r.key);
     corr=spearman(xs,ys).toFixed(3);
   }
-  const perm=rows.filter((r,i)=>i>0&&Math.abs(r.key-rows[i-1].key)<1e-9).length;
+  const perm=rows.filter((r,i)=>i>0&&LEVEL(r.key,rows[i-1].key)).length;
   $('nat-facts').innerHTML=
     fact(rows.length,'teams ranked')+
     (gateOn?fact(beforeGate-rows.length,'removed for beating nobody in the top '+GATE_N):'')+

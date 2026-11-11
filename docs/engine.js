@@ -218,12 +218,24 @@ export function rank(eng,season,horizon){
       games:wins+losses,scored:arr.length,
       key:arr.reduce((s,x)=>s+x,0)/arr.length});
   }
-  rows.sort((a,b)=>b.key-a.key||b.pd-a.pd||a.team.localeCompare(b.team));
+  /* Ties break on the name, never on points. This ranking says in six places
+     that it refuses margin of victory, and that claim has to be unconditional
+     or it is not a claim. The old form fell back to point differential first,
+     which read as harmless on the grounds that exact rating ties are rare --
+     they are not. Teams level on rating are the common case early, when most
+     of a field is 1-0 and identical on every level, and measured across the
+     thirteen football and twelve basketball seasons here the margin term
+     decided the order of 18,201 adjacent pairs. It never moved a rank, since
+     tied teams share one by design, but it chose which of two tied teams the
+     page listed first, and it chose on margin. See byRating. */
+  rows.sort(byRating);
   /* Teams level on rating share a rank, so a tie at a tier boundary lets both
-     through the gate rather than only the one sorted first. */
+     through the gate rather than only the one sorted first. Same LEVEL the
+     sort used, so the group the page draws as tied is exactly the group the
+     sort declined to order. */
   let rk=1;
   rows.forEach((r,i)=>{
-    if(i>0 && Math.abs(r.key-rows[i-1].key)>1e-9) rk=i+1;
+    if(i>0 && !LEVEL(r.key,rows[i-1].key)) rk=i+1;
     r.rank=rk;
   });
   return rows;
@@ -342,9 +354,10 @@ export function weighted(eng,season,horizon,opts={}){
      opening weeks, mostly in strong mode -- by tens of points. */
   agg=aggregate(f);
   const rows=agg.filter(r=>meta.has(r.team)).map(r=>({...meta.get(r.team),key:r.key}));
-  rows.sort((a,b)=>b.key-a.key||b.pd-a.pd||a.team.localeCompare(b.team));
+  /* Same rule as rank(): rating, then name, never margin. */
+  rows.sort(byRating);
   let rk=1;
-  rows.forEach((r,i)=>{ if(i>0&&Math.abs(r.key-rows[i-1].key)>1e-9) rk=i+1; r.rank=rk; });
+  rows.forEach((r,i)=>{ if(i>0&&!LEVEL(r.key,rows[i-1].key)) rk=i+1; r.rank=rk; });
   /* quality/floor/gamma are exposed so a page can show its working: the weight
      is floor + (1-floor)*quality^gamma, and quality is where the opponent sits
      between the weakest and strongest rating. */
@@ -526,6 +539,35 @@ export function bracket(season,event='NCAA'){
   }
   return {field,finalFour,champion,games:gs,events:[...new Set(all.map(g=>g.tournament||''))]};
 }
+
+/* One definition of "level on rating", used by the sort AND by the rank
+   assignment, because they were using two and disagreeing.
+
+   The sort compared exactly, so it separated teams whose ratings differ by
+   ~7e-15 -- floating-point dust from summing the same averages in a different
+   order, not a fact about any team. The rank assignment compared within 1e-9,
+   so it called those same teams tied. The result was a group the page drew as
+   a tie whose internal order came from a rating difference six orders of
+   magnitude below the threshold that defined the tie. 591 groups across the
+   seasons here are merged by the epsilon while not being exactly equal.
+
+   The epsilon is the better of the two definitions: it encodes the judgement
+   that a 7e-15 gap is noise, which exact equality cannot express. So it wins,
+   and it is named once rather than appearing as a literal in four places.
+
+   Strictly, LEVEL is not transitive -- a and b may be within EPS, and b and c,
+   without a and c being so -- which makes `by` not a total order in the formal
+   sense. It is fine here with six orders of magnitude of headroom between the
+   observed gaps and the threshold, and the groups run to two teams, but it is
+   a real property and worth knowing before anyone widens EPS. */
+export const EPS=1e-9;
+export const LEVEL=(a,b)=>Math.abs(a-b)<=EPS;
+/* Rating first, then the name. Never points: this ranking refuses margin of
+   victory in six places on the site, and an exception that fires only inside a
+   tie is still an exception. Alphabetical is arbitrary on purpose -- visibly
+   arbitrary, so a reader can see nothing was smuggled into the order. */
+export const byRating=(a,b)=>
+  LEVEL(a.key,b.key) ? a.team.localeCompare(b.team) : b.key-a.key;
 
 export function applyGate(eng,rows,mode,N,horizon){
   const rankOf=new Map(rows.map(r=>[r.team,r.rank]));
