@@ -42,6 +42,12 @@
     border-radius:5px;background:var(--panel);color:var(--ink)}
   input[type=range]{accent-color:var(--mark);width:150px}
   .wk{font-family:var(--mono);font-size:17px;font-weight:600;min-width:2.4ch;text-align:right}
+  /* On the combined view a readout is "2026 wk 11", not "11" -- it needs room
+     and should not drag the two sliders to different widths as it changes. */
+  .ctl .wk:not(:empty){white-space:nowrap}
+  #fromctl .wk,#wkv{min-width:2.4ch}
+  body.combined #fromctl .wk,body.combined #wkv{min-width:9.5ch;font-size:15px}
+  body.combined .ctl{font-size:12.5px}
   .status{color:var(--muted);font-size:13px;margin:12px 0 16px;min-height:1.4em}
   .status b{color:var(--ink);font-weight:600}
   .scroll{overflow-x:auto;border:1px solid var(--rule);border-radius:8px;background:var(--panel)}
@@ -159,7 +165,10 @@ them feeds the ranking.</p>
   <label class="ctl">Season
     <select id="season"><option value="all">All 13 seasons</option><option selected>2026</option><option>2025</option><option>2024</option><option>2023</option><option>2022</option><option>2021</option><option>2020</option><option>2019</option><option>2018</option><option>2017</option><option>2016</option><option>2015</option><option>2014</option></select>
   </label>
-  <label class="ctl">Through week
+  <label class="ctl" id="fromctl" hidden>From
+    <input type="range" id="wkfrom" min="1" max="8" value="1"><span class="wk" id="wkfromv">1</span>
+  </label>
+  <label class="ctl"><span id="wklabel">Through week</span>
     <input type="range" id="wk" min="1" max="8" value="8"><span class="wk" id="wkv">8</span>
   </label>
 </div>
@@ -436,11 +445,43 @@ let sortKey='rank', sortAsc=true;
 /* The two scoring modes are two different populations to place a game in, so
    each needs its own engine. Both are kept once built — flipping between them
    on the same season is the point of the setting. */
+/* The lower edge of the window, as a bucket. 1 means "everything", which is
+   every view except a combined one the reader has narrowed. */
+function windowFrom(){
+  const el=$('wkfrom');
+  if(!el||$('fromctl').hidden) return 1;
+  return Math.max(1,Math.min(+el.value||1,+$('wk').value));
+}
+
+/* A window is applied by filtering the GAMES and rebuilding the engine, not by
+   threading a second bound through it. horizon already appears in nine engine
+   functions, all of them assuming the window opens at bucket 1, and adding a
+   floor to each would be nine chances to get it subtly wrong in a way that
+   only shows up as a slightly different rating. engine() reads nothing but
+   season.games, so a season whose games are pre-filtered IS the window, and
+   every function below it keeps working unaltered and unaware.
+
+   The cost is a rebuild per distinct window, which the cache below makes a
+   once-per-window cost rather than a once-per-render one. On the combined file
+   that is about 150 ms, which is the price of not touching the engine. */
+function windowed(season,from){
+  if(from<=1) return season;
+  const games=season.games.filter(g=>g.week>=from);
+  /* teamInfo is kept whole. A team with no game inside the window simply
+     scores nothing and drops out of rank() on its own, which is the same path
+     a team that has not played yet already takes. */
+  return {...season,games,maxWeek:season.maxWeek};
+}
+
 function useScoring(){
   const c=CACHE.get(YEAR); if(!c) return;
-  const m=$('smode').value, pl=$('pmode').value, k=m+'|'+pl;
-  if(!c.eng[k]) c.eng[k]=engine(c.season,{scoring:m,pool:pl});
-  SEASON=c.season; ENG=c.eng[k];
+  const m=$('smode').value, pl=$('pmode').value, from=windowFrom();
+  const k=m+'|'+pl+'|'+from;
+  if(!c.eng[k]){
+    const sn=windowed(c.season,from);
+    c.eng[k]={eng:engine(sn,{scoring:m,pool:pl}),season:sn};
+  }
+  SEASON=c.eng[k].season; ENG=c.eng[k].eng;
 }
 async function load(year){
   if(!CACHE.has(year)){
@@ -568,7 +609,7 @@ function sosInfo(S,rows){
 function renderList(){
   showView('list');
   const {h,g,rows,W,S,P,gated}=current();
-  $('wkv').textContent=h;
+  $('wkv').textContent=isCombined()?weekName(h):h;
   const shown=gated.kept.slice(0,SHOW);
   const ap=pollAt(SEASON,'AP Top 25',h), co=pollAt(SEASON,'Coaches Poll',h);
   /* The committee only publishes from about week 10, and only from 2014, so
@@ -592,8 +633,16 @@ function renderList(){
     ? how+(g.mode==='off'?' until week '+GATE_STARTS+(isCombined()?' of a season':''):'')+' <span class="nr">(automatic)</span>'
     : how+' <span class="nr">(manual)</span>';
 
+  const from=windowFrom();
+  /* How many seasons the window actually touches, which is not the file's
+     count once the reader has narrowed it. */
+  const spanCount=isCombined()
+    ? SEASON.combined.spans.filter(sp=>sp.to>=from&&sp.from<=h).length : 0;
   const bits=[isCombined()
-    ? `<b>${rows.length}</b> teams over <b>${SEASON.combined.seasons}</b> seasons, through <b>${esc(weekName(h))}</b>`
+    ? (from>1
+       ? `<b>${rows.length}</b> teams, <b>${esc(weekName(from))}</b> to <b>${esc(weekName(h))}</b>`+
+         ` <span class="nr">(${spanCount} season${spanCount===1?'':'s'})</span>`
+       : `<b>${rows.length}</b> teams over <b>${SEASON.combined.seasons}</b> seasons, through <b>${esc(weekName(h))}</b>`)
     : `<b>${rows.length}</b> teams through week <b>${h}</b>`];
   if(W) bits.push(W.settled
     ? `weighted by opponent, settled in <b>${W.passes}</b> passes`
@@ -840,7 +889,7 @@ function renderTeam(team){
   const atEnd=h>=Math.max(...ENG.byWeek.keys());
   const RT=R&&atEnd?R.get(team):null;
   const FT=(atEnd&&SEASON.fpi)?(SEASON.fpi.byTeam.get(team)||null):null;
-  $('wkv').textContent=h;
+  $('wkv').textContent=isCombined()?weekName(h):h;
   showView('team');
   const me=rows.find(r=>r.team===team);
   if(!me){
@@ -1018,7 +1067,7 @@ function renderTeam(team){
    would reorder the list, so it is deliberately not applied here. */
 function renderSlates(bucket){
   const h=+$('wk').value;
-  $('wkv').textContent=h;
+  $('wkv').textContent=isCombined()?weekName(h):h;
   showView('slates');
   const buckets=[];
   for(let w=1;w<=h;w++) if(ENG.byWeek.get(w)) buckets.push(w);
@@ -1352,6 +1401,17 @@ async function pick(year){
     const s=$('wk');
     s.max=SEASON.maxWeek;
     s.value=selectionWeek(year);
+    /* The From slider is only offered where a window means something. On a
+       single season the Through slider already is the window -- there are
+       sixteen buckets and the reader wants all of them -- so a second control
+       would be clutter that does nothing anybody asked for. */
+    const fc=$('fromctl'), f=$('wkfrom');
+    fc.hidden=!isCombined();
+    document.body.classList.toggle('combined',isCombined());
+    f.max=SEASON.maxWeek; f.value=1;
+    $('wkfromv').textContent=isCombined()?weekName(1):'1';
+    $('wklabel').textContent=isCombined()?'To':'Through week';
+    useScoring();
     render();
   }catch(e){
     $('status').textContent=e.message;
@@ -1360,7 +1420,24 @@ async function pick(year){
   }
 }
 $('season').onchange=e=>{ VIEW={kind:'list'}; location.hash=''; pick(e.target.value); };
-$('wk').oninput=render;
+$('wk').oninput=()=>{
+  const f=$('wkfrom');
+  if(!$('fromctl').hidden&&+f.value>+$('wk').value){ f.value=$('wk').value; syncFrom(); }
+  render();
+};
+function syncFrom(){
+  $('wkfromv').textContent=isCombined()?weekName(+$('wkfrom').value):$('wkfrom').value;
+}
+$('wkfrom').oninput=()=>{
+  const w=$('wk');
+  if(+$('wkfrom').value>+w.value){ w.value=$('wkfrom').value;
+    $('wkv').textContent=isCombined()?weekName(+w.value):w.value; }
+  syncFrom();
+  /* The window changed, so the engine has to be rebuilt before anything is
+     drawn from it -- render() alone would redraw the previous window. */
+  useScoring();
+  render();
+};
 $('smode').onchange=()=>{ useScoring(); render(); };
 $('pmode').onchange=()=>{ useScoring(); render(); };
 $('gmode').onchange=render;
