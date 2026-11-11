@@ -70,7 +70,24 @@ export function ingest(raw){
      feed back into the rating that is being asked to predict it. Postseason
      rows have no week either, so even a merge would be dropped by the guard
      above. Read it with bracket(). */
-  return {teamInfo,games,polls,fpi,maxWeek:Math.max(...games.map(g=>g.week)),
+  /* `combined` marks a payload built by stacking whole seasons end to end, and
+     carries the bucket range each one occupies. It is reference data of the
+     same kind as the polls: read here into its own field, never consulted by
+     anything downstream of `games`, and present only on the combined file. A
+     page uses it to name a bucket -- bucket 174 means nothing, "2024 wk 11"
+     does -- and to say how many seasons are in view. */
+  const combined=(raw.combined&&Array.isArray(raw.combined.spans)
+                  &&raw.combined.spans.length)
+    ? {seasons:Number(raw.combined.seasons)||raw.combined.spans.length,
+       buckets:Number(raw.combined.buckets)||0,
+       built:String(raw.combined.built||''),
+       spans:raw.combined.spans.map(s=>({
+         label:String(s.file||s.label||'').replace(/^season-|\.json$/g,''),
+         from:Number(s.from)||0,to:Number(s.to)||0,
+         games:Number(s.games)||0}))}
+    : null;
+  return {teamInfo,games,polls,fpi,combined,
+          maxWeek:Math.max(...games.map(g=>g.week)),
           topDivision:raw.topDivision||'FBS',sport:raw.sport||'football',
           dates:Array.isArray(raw.dates)?raw.dates:null,
           postseason:Array.isArray(raw.postseason)?raw.postseason:[]};

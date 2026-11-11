@@ -157,7 +157,7 @@ them feeds the ranking.</p>
 
 <div class="controls">
   <label class="ctl">Season
-    <select id="season"><option>2026</option><option>2025</option><option>2024</option><option>2023</option><option>2022</option><option>2021</option><option>2020</option><option>2019</option><option>2018</option><option>2017</option><option>2016</option><option>2015</option><option>2014</option></select>
+    <select id="season"><option value="all">All 13 seasons</option><option selected>2026</option><option>2025</option><option>2024</option><option>2023</option><option>2022</option><option>2021</option><option>2020</option><option>2019</option><option>2018</option><option>2017</option><option>2016</option><option>2015</option><option>2014</option></select>
   </label>
   <label class="ctl">Through week
     <input type="range" id="wk" min="1" max="8" value="8"><span class="wk" id="wkv">8</span>
@@ -307,7 +307,7 @@ Rankings recomputed in your browser. <a href="about.html">How this works</a>.</f
 import {WIN, esc, ingest, engine, rank, applyGate, pollAt,
         agreement, revision, sparkHTML, weighted,
         rankHistory, rankChart,
-        backtest, mcnemar, schedule, split, remaining} from './engine.js?v=0bec68a90728';
+        backtest, mcnemar, schedule, split, remaining} from './engine.js?v=ed05575f7495';
 
 const SHOW=100;
 
@@ -335,12 +335,34 @@ const GATE_SCHEDULE=[
   {from:8, mode:'stable',n:100},
   {from:1, mode:'off',   n:100},
 ];
-const gateFor=h=>GATE_SCHEDULE.find(g=>h>=g.from);
+/* The schedule is keyed on how far into A SEASON a bucket is, not on its
+   absolute index, because on the combined file those are different numbers.
+   Bucket 174 is week 11 of 2024, and asking for the playoff-tier rule there
+   because 174 > 15 would apply the last-stretch gate to all thirteen years at
+   once. weekInSeason collapses a combined bucket back to its position inside
+   its own season; on an ordinary file it is the identity. */
+const weekInSeason=h=>{ const sp=spanAt(h); return sp?h-sp.from+1:h; };
+const gateFor=h=>GATE_SCHEDULE.find(g=>weekInSeason(h)>=g.from);
 const GATE_STARTS=Math.min(...GATE_SCHEDULE.filter(g=>g.mode!=='off').map(g=>g.from));
 
 const $=id=>document.getElementById(id);
 
 let SEASON=null, ENG=null, CACHE=new Map(), VIEW={kind:'list'}, YEAR=null;
+
+/* The combined file stacks thirteen seasons into one, so a bucket index means
+   nothing by itself -- bucket 174 is a week of SOME season, and which one is
+   the only thing a reader wants. spanAt locates the season a bucket falls in;
+   weekName turns it into "2024 wk 11". Both no-op on an ordinary season file,
+   where the bucket IS the week and saying so twice would be noise. */
+const isCombined=()=>!!(SEASON&&SEASON.combined);
+const spanAt=h=>{
+  const c=SEASON&&SEASON.combined; if(!c) return null;
+  return c.spans.find(sp=>h>=sp.from&&h<=sp.to)||null;
+};
+const weekName=h=>{
+  const sp=spanAt(h);
+  return sp?`${sp.label} wk ${h-sp.from+1}`:'week '+h;
+};
 
 /* Fixtures carry dates rather than weeks. Weeks here are renumbered from
    kickoff dates and compacted over the games actually played, so the mapping
@@ -567,10 +589,12 @@ function renderList(){
   const how = g.mode==='off' ? '<b>off</b>'
     : '<b>top '+g.n+'</b>, '+(g.mode==='one'?'one pass':'self\u2011consistent');
   $('gatelbl').innerHTML = g.auto
-    ? how+(g.mode==='off'?' until week '+GATE_STARTS:'')+' <span class="nr">(automatic)</span>'
+    ? how+(g.mode==='off'?' until week '+GATE_STARTS+(isCombined()?' of a season':''):'')+' <span class="nr">(automatic)</span>'
     : how+' <span class="nr">(manual)</span>';
 
-  const bits=[`<b>${rows.length}</b> teams through week <b>${h}</b>`];
+  const bits=[isCombined()
+    ? `<b>${rows.length}</b> teams over <b>${SEASON.combined.seasons}</b> seasons, through <b>${esc(weekName(h))}</b>`
+    : `<b>${rows.length}</b> teams through week <b>${h}</b>`];
   if(W) bits.push(W.settled
     ? `weighted by opponent, settled in <b>${W.passes}</b> passes`
     : `<b>weighting did not settle</b> in ${W.passes} passes — try a higher floor`);
@@ -590,7 +614,13 @@ function renderList(){
       bits.push(`polls are from week ${t}, ${h-t===1?'one step':(h-t)+' weeks'} behind`);
     } else bits.push(`${now.join(' and ')} reflect${now.length===1?'s':''} the same games, `+
       back.map(([n,p])=>`${n} is from week ${p.throughWeek}`).join(' and '));
-  } else bits.push('no poll published this early');
+  } else bits.push(isCombined()
+    /* The combined file carries no poll at all, on purpose: a poll is a
+       statement about one season, and "the AP's 10th in week 8 of 2019" has no
+       referent in a thirteen-year field. Saying "none published this early" of
+       a view whose last bucket is the present day would be nonsense. */
+    ? 'no polls — each one describes a single season'
+    : 'no poll published this early');
   /* Worth naming: otherwise a finished season opening short of its last week
      reads as a bug rather than the point. */
   if(h<SEASON.maxWeek&&h===selectionWeek($('season').value))
@@ -819,7 +849,7 @@ function renderTeam(team){
       '<p class="msg">'+(outside
         ? esc(team)+' is outside '+esc(ENG.topDivision)+', so it is graded but never ranked. '+
           'Its results still count in its opponents&rsquo; records.'
-        : esc(team)+' has not played through week '+h+'.')+'</p>';
+        : esc(team)+' has not played through '+(isCombined()?weekName(h):'week '+h)+'.')+'</p>';
     $('back').onclick=()=>go(null);
     return;
   }
@@ -897,8 +927,13 @@ function renderTeam(team){
       'everyone else.</p>';
   /* Where this team stood after each week, with the two polls for scale.
      Recomputed at every horizon, which is affordable for a football season and
-     is why basketball has no equivalent. */
-  const hist=rankHistory(ENG,SEASON,h,team,
+     is why basketball has no equivalent -- and why the combined view has none
+     either. Thirteen seasons is 208 buckets, and a full weighted solve at each
+     of them measured at over three minutes for a single team page: not slow,
+     broken. The chart is dropped there rather than made to crawl, which is the
+     same call basketball already made for the same reason. Everything else on
+     the page is computed once at the chosen horizon and is unaffected. */
+  const hist=isCombined()?null:rankHistory(ENG,SEASON,h,team,
     W?{mode:$('wmode').value}:null);
   const pollSeries=(name,color,dash)=>{
     const pts=[];
@@ -911,7 +946,7 @@ function renderTeam(team){
     const short={'AP Top 25':'AP','Coaches Poll':'Coaches','CFP Rankings':'CFP'};
     return {label:short[name]||name,color,dash,pts,w:1.3,r:1.8};
   };
-  html+='<div class="charth">rank by week</div>'+rankChart([
+  if(hist) html+='<div class="charth">rank by week</div>'+rankChart([
     {label:'This ranking',color:'var(--mark)',pts:hist.map(p=>({x:p.x,rank:p.rank})),w:2,r:2.4},
     pollSeries('AP Top 25','var(--ink)','5 3'),
     pollSeries('Coaches Poll','var(--muted)','2 3'),
@@ -926,7 +961,7 @@ function renderTeam(team){
     const others=(ENG.gamesOf.get(e.opp)||[]).filter(x=>x.week<=h&&x.id!==e.id);
     const ow=others.filter(x=>x.res===WIN).length;
     html+='<div class="g"><div class="grow">'+
-      `<span class="gw">Week ${w}</span>`+
+      `<span class="gw">${esc(isCombined()?weekName(w):'Week '+w)}</span>`+
       `<span class="res ${e.res===WIN?'w':'l'}">${e.res===WIN?'beat':'lost to'}</span>`+
       `<button class="tm" data-t="${esc(e.opp)}">${esc(e.opp)}</button>`+
       `<span class="cf">${oppRank?'#'+oppRank:'unranked'} · ${ow}‑${others.length-ow} in their other games</span>`+
@@ -934,7 +969,8 @@ function renderTeam(team){
       `${p?(W?(W.adjust(p.score,e.opp,e.res===WIN)).toFixed(1):p.score.toFixed(1)):'—'}`+
         (W&&p?`<span class="nr" style="font-weight:400"> &nbsp;${p.score.toFixed(1)}&times;${W.factor(e.opp).toFixed(2)}</span>`:'')+
         `</span></div>`+
-      sparkHTML(revision(ENG,team,w,h),{pool:ENG.scoring==='pooled',unit:'week',label:n=>'wk '+n})+'</div>';
+      sparkHTML(revision(ENG,team,w,h),{pool:ENG.scoring==='pooled',unit:'week',
+        label:n=>isCombined()?weekName(n):'wk '+n})+'</div>';
   }
   html+='</div>';
 
@@ -970,7 +1006,7 @@ function renderTeam(team){
   $('teamview').innerHTML=html;
   $('back').onclick=()=>go(null);
   wire($('teamview'));
-  $('status').innerHTML=`Through week <b>${h}</b> · each line is what that game is worth now, `+
+  $('status').innerHTML=`Through <b>${esc(isCombined()?weekName(h):'week '+h)}</b> · each line is what that game is worth now, `+
     `and how that has moved since it was played`;
 }
 
@@ -1024,7 +1060,7 @@ function renderSlates(bucket){
     `the grader puts them, scored ${pooled?'against the whole pool':`against its own ${'week'} alone`}.`;
 
   let html='<p><button class="back" id="back">&larr; All teams</button></p>'+
-    `<div class="thead"><h2>${esc(String('through week '+w))}</h2>`+
+    `<div class="thead"><h2>${esc(isCombined()?('through '+weekName(w)):('through week '+w))}</h2>`+
     `<span class="sub">${n} scored result${n===1?'':'s'}${excl?` of ${n+excl} played`:''}, graded on everything through ${esc(String('week '+h))}</span></div>`;
 
   html+='<div class="slatenav">'+
@@ -1288,7 +1324,13 @@ window.addEventListener('hashchange',()=>{
    that is week 16, while the season itself runs to a week 17 holding eleven
    games and no poll at all. */
 function selectionWeek(year){
-  const latest=Math.max(...[...$('season').options].map(o=>+o.value));
+  /* The combined file ends where its newest season ends, so the last bucket is
+     always the right place to open: there is no later poll to rewind to, and
+     the options list has a non-numeric entry that would poison the Math.max
+     below if it were included. */
+  if(year==='all'||isCombined()) return SEASON.maxWeek;
+  const latest=Math.max(...[...$('season').options]
+    .map(o=>+o.value).filter(Number.isFinite));
   if(+year>=latest) return SEASON.maxWeek;
   const last=name=>{
     let w=0;
