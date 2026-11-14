@@ -41,7 +41,7 @@ game's `week` field is just a bucket index.
 
 A record-only system can't tell an unbeaten team that played nobody from an unbeaten
 team that played everybody. The gate is a separate check applied *after* the ranking
-is computed: to be listed, you must have beaten someone inside a chosen tier.
+is computed: to qualify, you must have beaten someone inside a chosen tier.
 
 - **One pass** reads the tier off the finished order once. Stable, but it launders —
   you can qualify on a win over a team that is itself disqualified.
@@ -49,8 +49,11 @@ is computed: to be listed, you must have beaten someone inside a chosen tier.
   point. Stricter, but it needs enough cross-conference play to close a chain, so it
   is switched off before week 8.
 
-The gate never changes a rating or an order. It only decides who is shown; excluded
-teams still count as opponents for everyone else.
+The gate never changes a rating or an order. It only decides who is struck through:
+an excluded team keeps its row and its place in the table, and still counts as an
+opponent for everyone else. It used to drop the row instead, which left gaps in the
+`#` column; renumbering the rest was rejected because every other place on the page
+(Best win, Worst loss, the averages, vs AP, the team pages) refers to the full order.
 
 `applyGate()` is also where the per-team résumé figures are attached, which is
 easy to miss given the name: `bestWin`, `worstLoss`, `avgWin` and `avgLoss` all

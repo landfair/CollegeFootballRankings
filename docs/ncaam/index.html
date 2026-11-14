@@ -95,6 +95,11 @@
   button.tm{background:none;border:0;padding:0;font:inherit;font-weight:600;
     color:inherit;cursor:pointer;text-align:left}
   button.tm:hover{color:var(--mark);text-decoration:underline}
+  /* A team the victors gate excludes keeps its row and its place, struck through
+     and dimmed. The hover rule is repeated so the underline does not replace the
+     strike when the pointer lands on it. */
+  tr.gated td{opacity:.6}
+  tr.gated button.tm,tr.gated button.tm:hover{text-decoration:line-through}
   /* team page */
   .slatenav{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0 14px}
   .slatenav select{font:inherit;font-size:13px;padding:3px 6px}
@@ -206,11 +211,12 @@ no margin of victory, no votes. The AP and Coaches polls are shown alongside for
         over top
         <select id="gn"><option>50</option><option>100</option><option>200</option><option selected>300</option></select>
       </div>
-      <p>To be listed at all you must have beaten somebody worth beating, and that
-      team must qualify too &mdash; the rule repeats until the set stops changing.
+      <p>To qualify you must have beaten somebody worth beating, and that team
+      must qualify too &mdash; the rule repeats until the set stops changing. A
+      team that does not is struck through where it stands.
       It stays off through the opening fortnight and tightens as the season fills in,
       because it needs cross&#8209;conference results to work. It never changes a
-      rating or an order; it only decides who is shown.</p>
+      rating or an order; it only decides who is struck through.</p>
       <p class="now" id="gatelbl"></p>
     </div>
 
@@ -257,11 +263,11 @@ no margin of victory, no votes. The AP and Coaches polls are shown alongside for
   the small line beside each game is that game alone, re&#8209;graded after every day
   since it was played. Hover it for the day&#8209;by&#8209;day figures.</p>
   <p><b>Seeing the raw order.</b> <a href="#slates">Slates</a> lays out every result from a single day in exactly the order the grader puts them &mdash; wins above losses, then by opponent &mdash; with both opponent numbers and the score beside each one. The ranking is just those scores averaged per team, so this is the table everything else is built from.</p>
-  <p><b>The victors gate.</b> To be listed you must have beaten somebody worth
+  <p><b>The victors gate.</b> To qualify you must have beaten somebody worth
   beating, and that team must qualify too &mdash; the rule is applied over and over
   until the set stops changing. It needs enough cross&#8209;conference play to work,
   so it stays off through the opening fortnight and tightens as the season fills in. It never
-  changes a rating or an order; it only decides who is shown.</p>
+  changes a rating or an order; it only decides who is struck through.</p>
   <p><a href="about.html">Fuller explanation, and what this cannot do &rarr;</a></p>
   </div>
 </dialog>
@@ -509,7 +515,20 @@ function renderList(){
   showView('list');
   const {h,g,rows,W,S,P,gated}=current();
   $('wkv').textContent=fmtDay(dayOf(h));
-  const shown=gated.kept.slice(0,SHOW);
+  /* The gate strikes a team through rather than dropping its row. Dropped rows
+     left the # column running 1, 2, 3, 5, 8 with nothing to say what had fallen
+     out, and renumbering the survivors would have been worse: Best win, Worst
+     loss, the two averages, vs AP and the team pages all name places in the
+     full order, so a renumbered table would have Best win #14 pointing at
+     whoever sat 14th after the cut, or at a team not in the table at all. So
+     the table runs the full order down to the SHOW-th team that qualifies,
+     every place filled, and an excluded team sits where it stands, struck
+     through. */
+  const out=new Set(gated.all.map(r=>r.team));
+  for(const r of gated.kept) out.delete(r.team);
+  const kept=gated.kept.slice(0,SHOW);
+  const last=kept.length?kept[kept.length-1].rank:0;
+  const shown=gated.all.filter(r=>r.rank<=last);
   const ap=pollAt(SEASON,'AP Top 25',h), co=pollAt(SEASON,'Coaches Poll',h);
   const apR=new Map((ap?ap.ranks:[]).map(r=>[r.team,r.rank]));
   const coR=new Map((co?co.ranks:[]).map(r=>[r.team,r.rank]));
@@ -523,7 +542,7 @@ function renderList(){
   if(W) bits.push(W.settled
     ? `weighted by opponent, settled in <b>${W.passes}</b> passes`
     : `<b>weighting did not settle</b> in ${W.passes} passes — try a higher floor`);
-  if(g.mode!=='off') bits.push(`gate removed <b>${gated.all.length-gated.kept.length}</b> in ${gated.passes} pass${gated.passes===1?'':'es'}`);
+  if(g.mode!=='off') bits.push(`gate excludes <b>${gated.all.length-gated.kept.length}</b> in ${gated.passes} pass${gated.passes===1?'':'es'}`);
   /* The two polls need not publish together, so reporting only the first would
      call the pair behind when one of them is current. */
   const haveP=[['AP',ap],['Coaches',co]].filter(([,p])=>p);
@@ -588,7 +607,7 @@ function renderList(){
       '</td></tr></tbody>';
     return;
   }
-  /* The top SHOW teams are chosen by the ranking, then sorted for display, so
+  /* The rows are chosen by the ranking, then sorted for display, so
      changing the sort reorders the same teams rather than pulling in new ones.
      Blanks (no losses yet, unranked by a poll) always sink to the bottom. */
   const rk1=r=>Number.isFinite(r.bestWin)?r.bestWin:null;
@@ -684,10 +703,18 @@ function renderList(){
     `<th class="${c.cls} sortable${c.k===sortKey?' sorted'+(sortAsc?' asc':''):''}"`+
     ` data-k="${c.k}"${c.tip?` title="${esc(c.tip)}"`:''}>${stack(c.h)}</th>`).join('')+
     '</tr></thead><tbody>';
+  /* Strikethrough alone is not read out, so the button carries the reason as a
+     label for a screen reader and a tooltip for everyone else. */
+  const gtip='Excluded by the victors gate: no win over a team inside the top '+g.n+
+    (g.mode==='stable'?' that also qualifies':'')+'. Its rating and place are '+
+    'unchanged, and its games still count for everyone else.';
   for(const r of sorted){
     const a=apR.get(r.team)??null, c=coR.get(r.team)??null;
-    html+=`<tr><td class="rk">${r.rank}</td>`+
-      `<td><button class="tm" data-t="${esc(r.team)}">${esc(r.team)}</button></td>`+
+    const x=out.has(r.team);
+    html+=`<tr${x?' class="gated"':''}><td class="rk">${r.rank}</td>`+
+      `<td><button class="tm" data-t="${esc(r.team)}"`+
+      (x?` title="${esc(gtip)}" aria-label="${esc(r.team)}, excluded by the victors gate"`:'')+
+      `>${esc(r.team)}</button></td>`+
       `<td class="cf">${esc(r.conference||'')}</td>`+
       `<td class="num">${r.wins}‑${r.losses}</td>`+
       `<td class="num"><b>${r.key.toFixed(1)}</b></td>`+
@@ -816,9 +843,9 @@ function renderTeam(team){
         'is lower than it looks.')+'</p>';
   }
   if(g.mode!=='off'&&!inGate)
-    html+='<p class="status">Not listed at this date: the victors gate requires a win over a '+
-      'team inside the top '+g.n+' that also qualifies. Every game below still counts for '+
-      'everyone else.</p>';
+    html+='<p class="status">Struck through at this date: the victors gate requires a win over a '+
+      'team inside the top '+g.n+(g.mode==='stable'?' that also qualifies':'')+'. Its rating and '+
+      'place are unchanged, and every game below still counts for everyone else.</p>';
   html+='<div id="games">';
   for(let w=1;w<=h;w++){
     const wk=ENG.byWeek.get(w); if(!wk) continue;
