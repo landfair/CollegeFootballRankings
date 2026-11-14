@@ -25731,6 +25731,13 @@
   },
   {
    "week": 12,
+   "home": "Colorado",
+   "away": "Houston",
+   "homePoints": 42,
+   "awayPoints": 32
+  },
+  {
+   "week": 12,
    "home": "Fayetteville State",
    "away": "Virginia State",
    "homePoints": 31,
@@ -25766,6 +25773,13 @@
   },
   {
    "week": 12,
+   "home": "Portland State",
+   "away": "Southern Utah",
+   "homePoints": 21,
+   "awayPoints": 23
+  },
+  {
+   "week": 12,
    "home": "Rowan",
    "away": "Montclair State",
    "homePoints": 28,
@@ -25784,6 +25798,13 @@
    "away": "Massachusetts",
    "homePoints": 24,
    "awayPoints": 0
+  },
+  {
+   "week": 12,
+   "home": "UCLA",
+   "away": "Illinois",
+   "homePoints": 22,
+   "awayPoints": 14
   },
   {
    "week": 12,
@@ -28368,7 +28389,7 @@
   }
  ],
  "fpi": {
-  "asOf": "2026-11-13",
+  "asOf": "2026-11-14",
   "teams": [
    {
     "team": "Notre Dame",

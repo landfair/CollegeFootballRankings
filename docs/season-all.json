@@ -81,10 +81,10 @@
     "file": "season-2026.json",
     "from": 198,
     "to": 209,
-    "games": 3165
+    "games": 3168
    }
   ],
-  "built": "2026-11-13"
+  "built": "2026-11-14"
  },
  "teams": [
   {
@@ -213688,6 +213688,13 @@
   },
   {
    "week": 209,
+   "home": "Colorado",
+   "away": "Houston",
+   "homePoints": 42,
+   "awayPoints": 32
+  },
+  {
+   "week": 209,
    "home": "Fayetteville State",
    "away": "Virginia State",
    "homePoints": 31,
@@ -213723,6 +213730,13 @@
   },
   {
    "week": 209,
+   "home": "Portland State",
+   "away": "Southern Utah",
+   "homePoints": 21,
+   "awayPoints": 23
+  },
+  {
+   "week": 209,
    "home": "Rowan",
    "away": "Montclair State",
    "homePoints": 28,
@@ -213741,6 +213755,13 @@
    "away": "Massachusetts",
    "homePoints": 24,
    "awayPoints": 0
+  },
+  {
+   "week": 209,
+   "home": "UCLA",
+   "away": "Illinois",
+   "homePoints": 22,
+   "awayPoints": 14
   },
   {
    "week": 209,
