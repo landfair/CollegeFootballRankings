@@ -25700,6 +25700,97 @@
    "away": "Brown",
    "homePoints": 20,
    "awayPoints": 24
+  },
+  {
+   "week": 12,
+   "home": "Akron",
+   "away": "Western Michigan",
+   "homePoints": 14,
+   "awayPoints": 42
+  },
+  {
+   "week": 12,
+   "home": "Ball State",
+   "away": "Buffalo",
+   "homePoints": 7,
+   "awayPoints": 28
+  },
+  {
+   "week": 12,
+   "home": "Bowling Green",
+   "away": "Kent State",
+   "homePoints": 33,
+   "awayPoints": 28
+  },
+  {
+   "week": 12,
+   "home": "Central Michigan",
+   "away": "Sacramento State",
+   "homePoints": 28,
+   "awayPoints": 7
+  },
+  {
+   "week": 12,
+   "home": "Fayetteville State",
+   "away": "Virginia State",
+   "homePoints": 31,
+   "awayPoints": 29
+  },
+  {
+   "week": 12,
+   "home": "Fort Valley State",
+   "away": "Clark Atlanta",
+   "homePoints": 13,
+   "awayPoints": 24
+  },
+  {
+   "week": 12,
+   "home": "Johns Hopkins",
+   "away": "Franklin & Marshall",
+   "homePoints": 17,
+   "awayPoints": 3
+  },
+  {
+   "week": 12,
+   "home": "Miami (OH)",
+   "away": "Ohio",
+   "homePoints": 34,
+   "awayPoints": 17
+  },
+  {
+   "week": 12,
+   "home": "Pittsburgh",
+   "away": "Florida State",
+   "homePoints": 10,
+   "awayPoints": 16
+  },
+  {
+   "week": 12,
+   "home": "Rowan",
+   "away": "Montclair State",
+   "homePoints": 28,
+   "awayPoints": 35
+  },
+  {
+   "week": 12,
+   "home": "South Florida",
+   "away": "Memphis",
+   "homePoints": 41,
+   "awayPoints": 52
+  },
+  {
+   "week": 12,
+   "home": "Toledo",
+   "away": "Massachusetts",
+   "homePoints": 24,
+   "awayPoints": 0
+  },
+  {
+   "week": 12,
+   "home": "UL Monroe",
+   "away": "Louisiana",
+   "homePoints": 21,
+   "awayPoints": 42
   }
  ],
  "polls": [
@@ -28277,7 +28368,7 @@
   }
  ],
  "fpi": {
-  "asOf": "2026-11-10",
+  "asOf": "2026-11-13",
   "teams": [
    {
     "team": "Notre Dame",

@@ -3,7 +3,7 @@
  "topDivision": "FBS",
  "combined": {
   "seasons": 13,
-  "buckets": 208,
+  "buckets": 209,
   "spans": [
    {
     "file": "season-2014.json",
@@ -80,11 +80,11 @@
    {
     "file": "season-2026.json",
     "from": 198,
-    "to": 208,
-    "games": 3152
+    "to": 209,
+    "games": 3165
    }
   ],
-  "built": "2026-11-10"
+  "built": "2026-11-13"
  },
  "teams": [
   {
@@ -213657,6 +213657,97 @@
    "away": "Brown",
    "homePoints": 20,
    "awayPoints": 24
+  },
+  {
+   "week": 209,
+   "home": "Akron",
+   "away": "Western Michigan",
+   "homePoints": 14,
+   "awayPoints": 42
+  },
+  {
+   "week": 209,
+   "home": "Ball State",
+   "away": "Buffalo",
+   "homePoints": 7,
+   "awayPoints": 28
+  },
+  {
+   "week": 209,
+   "home": "Bowling Green",
+   "away": "Kent State",
+   "homePoints": 33,
+   "awayPoints": 28
+  },
+  {
+   "week": 209,
+   "home": "Central Michigan",
+   "away": "Sacramento State",
+   "homePoints": 28,
+   "awayPoints": 7
+  },
+  {
+   "week": 209,
+   "home": "Fayetteville State",
+   "away": "Virginia State",
+   "homePoints": 31,
+   "awayPoints": 29
+  },
+  {
+   "week": 209,
+   "home": "Fort Valley State",
+   "away": "Clark Atlanta",
+   "homePoints": 13,
+   "awayPoints": 24
+  },
+  {
+   "week": 209,
+   "home": "Johns Hopkins",
+   "away": "Franklin & Marshall",
+   "homePoints": 17,
+   "awayPoints": 3
+  },
+  {
+   "week": 209,
+   "home": "Miami (OH)",
+   "away": "Ohio",
+   "homePoints": 34,
+   "awayPoints": 17
+  },
+  {
+   "week": 209,
+   "home": "Pittsburgh",
+   "away": "Florida State",
+   "homePoints": 10,
+   "awayPoints": 16
+  },
+  {
+   "week": 209,
+   "home": "Rowan",
+   "away": "Montclair State",
+   "homePoints": 28,
+   "awayPoints": 35
+  },
+  {
+   "week": 209,
+   "home": "South Florida",
+   "away": "Memphis",
+   "homePoints": 41,
+   "awayPoints": 52
+  },
+  {
+   "week": 209,
+   "home": "Toledo",
+   "away": "Massachusetts",
+   "homePoints": 24,
+   "awayPoints": 0
+  },
+  {
+   "week": 209,
+   "home": "UL Monroe",
+   "away": "Louisiana",
+   "homePoints": 21,
+   "awayPoints": 42
   }
  ]
 }
