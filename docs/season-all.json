@@ -81,10 +81,10 @@
     "file": "season-2026.json",
     "from": 198,
     "to": 209,
-    "games": 3427
+    "games": 3452
    }
   ],
-  "built": "2026-11-14"
+  "built": "2026-11-15"
  },
  "teams": [
   {
@@ -213674,6 +213674,13 @@
   },
   {
    "week": 209,
+   "home": "Air Force",
+   "away": "San Jos\u00e9 State",
+   "homePoints": 24,
+   "awayPoints": 3
+  },
+  {
+   "week": 209,
    "home": "Akron",
    "away": "Western Michigan",
    "homePoints": 14,
@@ -213730,6 +213737,20 @@
   },
   {
    "week": 209,
+   "home": "Arizona",
+   "away": "Utah",
+   "homePoints": 39,
+   "awayPoints": 40
+  },
+  {
+   "week": 209,
+   "home": "Arkansas",
+   "away": "South Carolina",
+   "homePoints": 34,
+   "awayPoints": 6
+  },
+  {
+   "week": 209,
    "home": "Arkansas Monticello",
    "away": "Southern Arkansas",
    "homePoints": 49,
@@ -213769,6 +213790,13 @@
    "away": "Abilene Christian",
    "homePoints": 31,
    "awayPoints": 34
+  },
+  {
+   "week": 209,
+   "home": "BYU",
+   "away": "Baylor",
+   "homePoints": 28,
+   "awayPoints": 7
   },
   {
    "week": 209,
@@ -214122,6 +214150,13 @@
   },
   {
    "week": 209,
+   "home": "Eastern New Mexico",
+   "away": "Midwestern State",
+   "homePoints": 32,
+   "awayPoints": 57
+  },
+  {
+   "week": 209,
    "home": "Edinboro",
    "away": "Shippensburg",
    "homePoints": 21,
@@ -214290,6 +214325,13 @@
   },
   {
    "week": 209,
+   "home": "Hawai'i",
+   "away": "North Dakota State",
+   "homePoints": 13,
+   "awayPoints": 21
+  },
+  {
+   "week": 209,
    "home": "Henderson State",
    "away": "Ouachita Baptist",
    "homePoints": 33,
@@ -214353,6 +214395,13 @@
   },
   {
    "week": 209,
+   "home": "Idaho",
+   "away": "UC Davis",
+   "homePoints": 24,
+   "awayPoints": 28
+  },
+  {
+   "week": 209,
    "home": "Illinois College",
    "away": "Beloit",
    "homePoints": 29,
@@ -214378,6 +214427,13 @@
    "away": "Murray State",
    "homePoints": 14,
    "awayPoints": 44
+  },
+  {
+   "week": 209,
+   "home": "Iowa",
+   "away": "Purdue",
+   "homePoints": 28,
+   "awayPoints": 7
   },
   {
    "week": 209,
@@ -214434,6 +214490,13 @@
    "away": "Monmouth (IL)",
    "homePoints": 7,
    "awayPoints": 73
+  },
+  {
+   "week": 209,
+   "home": "LSU",
+   "away": "Texas",
+   "homePoints": 21,
+   "awayPoints": 22
   },
   {
    "week": 209,
@@ -214518,6 +214581,13 @@
    "away": "Southern Miss",
    "homePoints": 63,
    "awayPoints": 31
+  },
+  {
+   "week": 209,
+   "home": "Lyon",
+   "away": "Centenary (LA)",
+   "homePoints": 6,
+   "awayPoints": 35
   },
   {
    "week": 209,
@@ -214668,6 +214738,13 @@
   },
   {
    "week": 209,
+   "home": "Montana",
+   "away": "Idaho State",
+   "homePoints": 38,
+   "awayPoints": 30
+  },
+  {
+   "week": 209,
    "home": "Moravian",
    "away": "Lycoming",
    "homePoints": 10,
@@ -214717,6 +214794,13 @@
   },
   {
    "week": 209,
+   "home": "New Mexico",
+   "away": "UNLV",
+   "homePoints": 17,
+   "awayPoints": 21
+  },
+  {
+   "week": 209,
    "home": "Newberry",
    "away": "Anderson (SC)",
    "homePoints": 28,
@@ -214728,6 +214812,13 @@
    "away": "Western New England",
    "homePoints": 28,
    "awayPoints": 56
+  },
+  {
+   "week": 209,
+   "home": "North Carolina",
+   "away": "Louisville",
+   "homePoints": 14,
+   "awayPoints": 16
   },
   {
    "week": 209,
@@ -214770,6 +214861,13 @@
    "away": "Weber State",
    "homePoints": 21,
    "awayPoints": 25
+  },
+  {
+   "week": 209,
+   "home": "Northern Colorado",
+   "away": "Montana State",
+   "homePoints": 21,
+   "awayPoints": 31
   },
   {
    "week": 209,
@@ -214850,6 +214948,13 @@
   },
   {
    "week": 209,
+   "home": "Oklahoma State",
+   "away": "Texas Tech",
+   "homePoints": 27,
+   "awayPoints": 52
+  },
+  {
+   "week": 209,
    "home": "Oregon",
    "away": "Michigan",
    "homePoints": 31,
@@ -214868,6 +214973,13 @@
    "away": "Assumption",
    "homePoints": 17,
    "awayPoints": 20
+  },
+  {
+   "week": 209,
+   "home": "Penn State",
+   "away": "Minnesota",
+   "homePoints": 42,
+   "awayPoints": 14
   },
   {
    "week": 209,
@@ -214997,6 +215109,13 @@
   },
   {
    "week": 209,
+   "home": "SE Louisiana",
+   "away": "McNeese",
+   "homePoints": 21,
+   "awayPoints": 17
+  },
+  {
+   "week": 209,
    "home": "SMU",
    "away": "Wake Forest",
    "homePoints": 7,
@@ -215053,6 +215172,13 @@
   },
   {
    "week": 209,
+   "home": "San Diego State",
+   "away": "Utah State",
+   "homePoints": 30,
+   "awayPoints": 13
+  },
+  {
+   "week": 209,
    "home": "Schreiner",
    "away": "McMurry",
    "homePoints": 26,
@@ -215091,6 +215217,13 @@
    "home": "Slippery Rock",
    "away": "East Stroudsburg",
    "homePoints": 44,
+   "awayPoints": 14
+  },
+  {
+   "week": 209,
+   "home": "South Alabama",
+   "away": "Troy",
+   "homePoints": 27,
    "awayPoints": 14
   },
   {
@@ -215270,6 +215403,13 @@
   },
   {
    "week": 209,
+   "home": "Tulsa",
+   "away": "Florida Atlantic",
+   "homePoints": 38,
+   "awayPoints": 21
+  },
+  {
+   "week": 209,
    "home": "Tusculum",
    "away": "Carson Newman",
    "homePoints": 10,
@@ -215333,6 +215473,20 @@
   },
   {
    "week": 209,
+   "home": "UTEP",
+   "away": "Wyoming",
+   "homePoints": 15,
+   "awayPoints": 27
+  },
+  {
+   "week": 209,
+   "home": "UTSA",
+   "away": "North Texas",
+   "homePoints": 35,
+   "awayPoints": 16
+  },
+  {
+   "week": 209,
    "home": "University of Mary",
    "away": "Bemidji State",
    "homePoints": 14,
@@ -215343,6 +215497,13 @@
    "home": "Upper Iowa",
    "away": "Indianapolis",
    "homePoints": 14,
+   "awayPoints": 31
+  },
+  {
+   "week": 209,
+   "home": "Utah Tech",
+   "away": "Eastern Washington",
+   "homePoints": 28,
    "awayPoints": 31
   },
   {
@@ -215382,6 +215543,13 @@
   },
   {
    "week": 209,
+   "home": "Virginia Tech",
+   "away": "Stanford",
+   "homePoints": 22,
+   "awayPoints": 40
+  },
+  {
+   "week": 209,
    "home": "Virginia Union",
    "away": "Johnson C. Smith",
    "homePoints": 15,
@@ -215414,6 +215582,13 @@
    "away": "Wooster",
    "homePoints": 52,
    "awayPoints": 0
+  },
+  {
+   "week": 209,
+   "home": "Washington State",
+   "away": "Colorado State",
+   "homePoints": 73,
+   "awayPoints": 7
   },
   {
    "week": 209,
