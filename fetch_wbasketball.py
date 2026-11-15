@@ -825,7 +825,10 @@ def main():
         with open(where, "w") as f:
             json.dump({"sport": "wbasketball", "season": a.season,
                        "generated": dt.date.today().isoformat(),
-                       "games": soon}, f, indent=1)
+                       # "upcoming", as the other two fetchers write it: the
+                       # page reads d.upcoming, and under "games" every NCAAW
+                       # team page showed no fixtures at all.
+                       "upcoming": soon}, f, indent=1)
         print(f"  wrote {where}  ({len(soon)} fixtures)")
 
     summarize(teams, reg, dates)

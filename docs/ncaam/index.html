@@ -334,8 +334,12 @@ const SOON=new Map();
    on, and the one still being played. Asking for an older one would 404 on
    every historical team page -- caught, harmless, and still a red line in the
    console that would make a real fault harder to spot later. */
-const newestSeason=()=>{ const sel=$('season');
-  return sel&&sel.options.length?+sel.options[0].value:null; };
+/* The newest numbered option, not the first one: football's select opens with
+   the combined view's "All 13 seasons", and +'all' is NaN, which made the live
+   season look historical and silently dropped every fixture list. */
+const newestSeason=()=>{ const sel=$('season'); if(!sel) return null;
+  const ys=[...sel.options].map(o=>+o.value).filter(Number.isFinite);
+  return ys.length?Math.max(...ys):null; };
 function loadSoon(year){
   if(SOON.has(year)) return Promise.resolve(SOON.get(year));
   /* Compared as numbers on purpose: the season select hands its value over as
