@@ -632,7 +632,7 @@ function renderList(){
   /* The gate strikes a team through rather than dropping its row. Dropped rows
      left the # column running 1, 2, 3, 5, 8 with nothing to say what had fallen
      out, and renumbering the survivors would have been worse: Best win, Worst
-     loss, the two averages, vs AP and the team pages all name places in the
+     loss, the two averages, vs AP, vs Coaches and the team pages all name places in the
      full order, so a renumbered table would have Best win #14 pointing at
      whoever sat 14th after the cut, or at a team not in the table at all. So
      the table runs the full order down to the SHOW-th team that qualifies,
@@ -803,6 +803,9 @@ function renderList(){
     {k:'vsap',  h:'vs AP',      cls:'num', lowBest:false,
      v:r=>{const a=apR.get(r.team); return a==null?null:a-r.rank;},
      tip:'How far above its AP place this ranking puts the team. Positive means this system is higher on them.'},
+    {k:'vsco',  h:'vs Coaches', cls:'num', lowBest:false,
+     v:r=>{const c=coR.get(r.team); return c==null?null:c-r.rank;},
+     tip:'How far above its Coaches Poll place this ranking puts the team. Positive means this system is higher on them.'},
   ];
   const col=COLS.find(c=>c.k===sortKey)||COLS[0];
   const dir=sortAsc?1:-1;
@@ -898,7 +901,7 @@ function renderList(){
       avg(r.avgWin)+avg(r.avgLoss)+
       cell(a)+cell(c)+(cf?cell(f):'')+
       (FP?fpiCell(r)+cell(fp(r.team)?.sos??null)+cell(fp(r.team)?.sor??null):'')+
-      delta(a,r.rank)+'</tr>';
+      delta(a,r.rank)+delta(c,r.rank)+'</tr>';
   }
   $('tbl').innerHTML=html+'</tbody>';
   $('tbl').querySelectorAll('th.sortable').forEach(th=>th.onclick=()=>{

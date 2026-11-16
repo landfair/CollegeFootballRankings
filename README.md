@@ -53,7 +53,8 @@ The gate never changes a rating or an order. It only decides who is struck throu
 an excluded team keeps its row and its place in the table, and still counts as an
 opponent for everyone else. It used to drop the row instead, which left gaps in the
 `#` column; renumbering the rest was rejected because every other place on the page
-(Best win, Worst loss, the averages, vs AP, the team pages) refers to the full order.
+(Best win, Worst loss, the averages, vs AP, vs Coaches, the team pages) refers to the
+full order.
 
 `applyGate()` is also where the per-team résumé figures are attached, which is
 easy to miss given the name: `bestWin`, `worstLoss`, `avgWin` and `avgLoss` all
