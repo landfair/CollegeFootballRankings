@@ -30524,6 +30524,113 @@
   },
   {
    "week": 12,
+   "poll": "AP Top 25",
+   "throughWeek": 12,
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "Georgia"
+    },
+    {
+     "rank": 2,
+     "team": "Utah"
+    },
+    {
+     "rank": 3,
+     "team": "Notre Dame"
+    },
+    {
+     "rank": 4,
+     "team": "UCLA"
+    },
+    {
+     "rank": 5,
+     "team": "Miami"
+    },
+    {
+     "rank": 6,
+     "team": "Indiana"
+    },
+    {
+     "rank": 7,
+     "team": "Alabama"
+    },
+    {
+     "rank": 8,
+     "team": "Texas"
+    },
+    {
+     "rank": 9,
+     "team": "Tennessee"
+    },
+    {
+     "rank": 10,
+     "team": "Wake Forest"
+    },
+    {
+     "rank": 11,
+     "team": "Texas Tech"
+    },
+    {
+     "rank": 12,
+     "team": "BYU"
+    },
+    {
+     "rank": 13,
+     "team": "Iowa"
+    },
+    {
+     "rank": 14,
+     "team": "Oregon"
+    },
+    {
+     "rank": 15,
+     "team": "Boise State"
+    },
+    {
+     "rank": 16,
+     "team": "Ohio State"
+    },
+    {
+     "rank": 17,
+     "team": "Kentucky"
+    },
+    {
+     "rank": 18,
+     "team": "USC"
+    },
+    {
+     "rank": 19,
+     "team": "Arizona"
+    },
+    {
+     "rank": 20,
+     "team": "Houston"
+    },
+    {
+     "rank": 21,
+     "team": "Louisville"
+    },
+    {
+     "rank": 22,
+     "team": "Liberty"
+    },
+    {
+     "rank": 23,
+     "team": "Florida"
+    },
+    {
+     "rank": 24,
+     "team": "Memphis"
+    },
+    {
+     "rank": 25,
+     "team": "Ole Miss"
+    }
+   ]
+  },
+  {
+   "week": 12,
    "poll": "Coaches Poll",
    "throughWeek": 12,
    "ranks": [
@@ -30631,7 +30738,7 @@
   }
  ],
  "fpi": {
-  "asOf": "2026-11-15",
+  "asOf": "2026-11-16",
   "teams": [
    {
     "team": "Georgia",
