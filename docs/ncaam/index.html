@@ -154,7 +154,7 @@
 <header>
   <div class="bar">
     <h1>Recursive Rankings <span class="sport">NCAAM</span></h1>
-    <nav><a href="./" aria-current="page">Rankings</a><a href="#slates">Slates</a><a href="about.html">About</a><a href="../">Football</a><a href="../ncaaw/">NCAAW</a></nav>
+    <nav><a href="./" aria-current="page">Rankings</a><a href="#stats">Stats</a><a href="#slates">Slates</a><a href="about.html">About</a><a href="../">Football</a><a href="../ncaaw/">NCAAW</a></nav>
     <button class="iconbtn" id="gearbtn" title="Settings" aria-label="Settings">&#9881;</button>
     <button class="iconbtn" id="helpbtn" title="How this works" aria-label="How this works">?</button>
   </div>
@@ -295,6 +295,7 @@ no margin of victory, no votes. The AP and Coaches polls are shown alongside for
 </div>
 <div id="teamview" hidden></div>
 <div id="slatesview" hidden></div>
+<div id="statsview" hidden></div>
 
 <footer>Game results and polls from
 <a href="https://collegebasketballdata.com">collegebasketballdata.com</a>.
@@ -403,6 +404,10 @@ function soonInfo(R){
   return {order,tip};
 }
 let sortKey='rank', sortAsc=true;
+/* The stats table keeps its own sort, so moving between the two views does not
+   reset either. It opens on the ranking's own order, which is the honest
+   default: this is a stats page on a ranking site, not a stats site. */
+let statKey='rank', statAsc=true;
 /* The two scoring modes are two different populations to place a game in, so
    each needs its own engine. Both are kept once built — flipping between them
    on the same season is the point of the setting. */
@@ -447,13 +452,14 @@ function current(){
           gated:applyGate(ENG,rows,g.mode,g.n,h)};
 }
 
-/* Three views share the page: the table, one team, and one bucket's slate.
-   The hash is the single source of truth for which is showing. */
+/* Four views share the page: the table, one team, one bucket's slate, and the
+   stats table. The hash is the single source of truth for which is showing. */
 function parseHash(){
   let m=/^#t=(.+)$/.exec(location.hash);
   if(m) return {kind:'team',team:decodeURIComponent(m[1])};
   m=/^#slates(?:=(\d+))?$/.exec(location.hash);
   if(m) return {kind:'slates',bucket:m[1]?+m[1]:null};
+  if(/^#stats$/.test(location.hash)) return {kind:'stats'};
   return {kind:'list'};
 }
 const sameView=(a,b)=>a.kind===b.kind&&a.team===b.team&&a.bucket===b.bucket;
@@ -461,11 +467,13 @@ function showView(which){
   $('listview').hidden=which!=='list';
   $('teamview').hidden=which!=='team';
   $('slatesview').hidden=which!=='slates';
+  $('statsview').hidden=which!=='stats';
 }
 function render(){
   if(!SEASON) return;
   if(VIEW.kind==='team') renderTeam(VIEW.team);
   else if(VIEW.kind==='slates') renderSlates(VIEW.bucket);
+  else if(VIEW.kind==='stats') renderStats();
   else renderList();
 }
 
@@ -1152,6 +1160,124 @@ function renderTeam(team){
    scores averaged — so it is worth being able to look at directly. Ordering is
    always by the raw vector; opponent weighting rescales scores afterwards and
    would reorder the list, so it is deliberately not applied here. */
+/* The stats table. A separate view rather than more columns on the ranking,
+   because the two tables answer different questions and the ranking's columns
+   are all evidence: rating, schedule, best win, worst loss, the polls. Putting
+   PPG beside them would set a margin-derived figure in the same sentence as
+   the résumé figures, which is the separation the team pages spend a dashed
+   border maintaining. Here the page boundary does that job instead.
+
+   The first four columns are the ranking's own, carried over as anchors so the
+   two views can always be read against each other, and so sorting by Rating
+   gives the side-by-side comparison a merged table would have given. */
+function renderStats(){
+  const {h,rows,W}=current();
+  showView('stats');
+  $('wkv').textContent=h;
+  const TS=SEASON.teamStats;
+  if(!TS||!TS.size){
+    $('statsview').innerHTML='<p><button class="back" id="back">&larr; Rankings</button></p>'+
+      '<p class="msg">No box-score figures in this season’s file. They are pulled '+
+      'separately from the results and only the seasons that have been re-fetched carry '+
+      'them — the ranking itself is unaffected.</p>';
+    $('back').onclick=()=>go(null);
+    return;
+  }
+  const rateOf=new Map(rows.map(r=>[r.team,r]));
+  /* Only teams the ranking places AND the feed has figures for. A row with one
+     half missing would sort to an end and read as a result. */
+  const data=[];
+  for(const r of rows){
+    const t=TS.get(r.team);
+    if(!t||!t.games) continue;
+    const per=k=>t[k]==null?null:t[k]/t.games;
+    data.push({team:r.team,conference:r.conference,rank:r.rank,key:r.key,
+      wins:r.wins,losses:r.losses,games:t.games,
+      ppg:per('points'),oppPpg:per('oppPoints'),
+      margin:(t.points!=null&&t.oppPoints!=null)?(t.points-t.oppPoints)/t.games:null,
+      rpg:per('rebounds'),apg:per('assists'),topg:per('turnovers'),
+      spg:per('steals'),bpg:per('blocks'),
+      fg:t.fgPct??null,tp:t.threePct??null,ft:t.ftPct??null,
+      oppFg:t.oppFgPct??null,pace:t.pace??null,
+      ortg:t.oRating??null,drtg:t.dRating??null});
+  }
+  const f1=v=>v==null?null:v.toFixed(1);
+  const pc=v=>v==null?null:v.toFixed(1)+'%';
+  const sg=v=>v==null?null:(v>0?'+':'')+v.toFixed(1);
+  /* lowBest marks the columns whose good end is the small number, which is
+     what the first click on a header should show. It is per column because the
+     direction genuinely differs: most points, fewest points allowed. */
+  const C=[
+    {k:'rank', h:'#',          cls:'rk',  low:true,  v:r=>r.rank,   d:r=>r.rank,
+     tip:'Place in this ranking — the same number as the Rankings page, carried here so the two can be read against each other. Computed from results alone.'},
+    {k:'team', h:'Team',       cls:'',    low:true,  v:r=>r.team,   d:r=>`<button class="tm" data-t="${esc(r.team)}">${esc(r.team)}</button>`, text:true},
+    {k:'conf', h:'Conference', cls:'cf',  low:true,  v:r=>r.conference||'', d:r=>esc(r.conference||''), text:true},
+    {k:'rec',  h:'Rec',        cls:'num', low:false, v:r=>r.games?r.wins/r.games:0, d:r=>`${r.wins}‑${r.losses}`,
+     tip:'Wins and losses over every game played through the chosen day. Sorts on win percentage.'},
+    {k:'key',  h:'Rating',     cls:'num', low:false, v:r=>r.key,    d:r=>`<b>${r.key.toFixed(1)}</b>`,
+     tip:'This ranking’s own rating: the mean of a team’s scored games, each graded as a percentile among everyone who played that day. Not a box-score figure — it is here as the anchor the rest of the table can be sorted against.'},
+    {k:'ppg',  h:'PPG',        cls:'num', low:false, v:r=>r.ppg,    d:r=>f1(r.ppg),
+     tip:'Points scored per game. From CollegeBasketballData, never read by the ranking.'},
+    {k:'opp',  h:'Opp PPG',    cls:'num', low:true,  v:r=>r.oppPpg, d:r=>f1(r.oppPpg),
+     tip:'Points allowed per game. Lower is better, so the first click sorts ascending.'},
+    {k:'mar',  h:'Margin',     cls:'num', low:false, v:r=>r.margin, d:r=>sg(r.margin),
+     tip:'Points scored minus points allowed, per game. Shown because people want it, and set apart from the ranking for the same reason: margin of victory is the one input this system refuses, so this column describes a team without ever having graded one.'},
+    {k:'rpg',  h:'RPG',        cls:'num', low:false, v:r=>r.rpg,    d:r=>f1(r.rpg), tip:'Total rebounds per game, offensive and defensive.'},
+    {k:'apg',  h:'APG',        cls:'num', low:false, v:r=>r.apg,    d:r=>f1(r.apg), tip:'Assists per game.'},
+    {k:'topg', h:'TO',         cls:'num', low:true,  v:r=>r.topg,   d:r=>f1(r.topg), tip:'Turnovers per game. Lower is better.'},
+    {k:'spg',  h:'STL',        cls:'num', low:false, v:r=>r.spg,    d:r=>f1(r.spg), tip:'Steals per game.'},
+    {k:'bpg',  h:'BLK',        cls:'num', low:false, v:r=>r.bpg,    d:r=>f1(r.bpg), tip:'Blocks per game.'},
+    {k:'fg',   h:'FG%',        cls:'num', low:false, v:r=>r.fg,     d:r=>pc(r.fg),
+     tip:'Field goals made over attempted, season to date — a season total over a season total, not an average of per-game rates.'},
+    {k:'tp',   h:'3P%',        cls:'num', low:false, v:r=>r.tp,     d:r=>pc(r.tp), tip:'Three-point percentage, season to date.'},
+    {k:'ft',   h:'FT%',        cls:'num', low:false, v:r=>r.ft,     d:r=>pc(r.ft), tip:'Free-throw percentage, season to date.'},
+    {k:'ofg',  h:'Opp FG%',    cls:'num', low:true,  v:r=>r.oppFg,  d:r=>pc(r.oppFg), tip:'What opponents shot from the field. Lower is better.'},
+    {k:'pace', h:'Pace',       cls:'num', low:false, v:r=>r.pace,   d:r=>f1(r.pace),
+     tip:'Possessions per 40 minutes. The figure that makes PPG misleading: a fast team scores more without being better.'},
+    {k:'ortg', h:'ORtg',       cls:'num', low:false, v:r=>r.ortg,   d:r=>f1(r.ortg), tip:'Points per 100 possessions. Pace-adjusted, so it compares a fast team and a slow one more fairly than PPG does.'},
+    {k:'drtg', h:'DRtg',       cls:'num', low:true,  v:r=>r.drtg,   d:r=>f1(r.drtg), tip:'Points allowed per 100 possessions. Lower is better.'},
+  ];
+  const col=C.find(c=>c.k===statKey)||C[0];
+  const dir=statAsc?1:-1;
+  const sorted=[...data].sort((x,y)=>{
+    const a=col.v(x), b=col.v(y);
+    if(a==null&&b==null) return x.rank-y.rank;
+    if(a==null) return 1;            // blanks sink, whichever way the sort runs
+    if(b==null) return -1;
+    const c=col.text?String(a).localeCompare(String(b)):a-b;
+    return c*dir || x.rank-y.rank;
+  });
+  const stack=t=>{const i=String(t).indexOf(' ');
+    return i<0?esc(t):esc(t.slice(0,i))+' <br>'+esc(t.slice(i+1));};
+  let html='<p><button class="back" id="back">&larr; Rankings</button></p>'+
+    `<div class="thead"><h2>Team stats</h2><span class="sub">${sorted.length} teams `+
+    `through ${esc(fmtFull(dayOf(h))||('day '+h))}</span></div>`+
+    '<p class="slateintro">Every figure right of <b>Rating</b> comes from the box score and '+
+    '<b>none of it feeds the ranking</b> — this site grades who beat whom, and points '+
+    'scored is not that. The first five columns are the ranking’s own, carried over so '+
+    'the two tables can be read against each other: sort by <b>Rating</b> to see the order '+
+    'the Rankings page gives, then sort by anything else to see how little it has to do with '+
+    'it. Click a heading to sort; click again to reverse. Hover any heading for what the '+
+    'figure is and where it came from.</p>'+
+    '<div class="scroll"><table id="stbl"><thead><tr>'+
+    C.map(c=>`<th class="${c.cls} sortable${c.k===statKey?' sorted'+(statAsc?' asc':''):''}"`+
+      ` data-k="${c.k}"${c.tip?` title="${esc(c.tip)}"`:''}>${stack(c.h)}</th>`).join('')+
+    '</tr></thead><tbody>';
+  for(const r of sorted)
+    html+='<tr>'+C.map(c=>{
+      const v=c.d(r);
+      return `<td class="${c.cls}${v==null?' nr':''}">${v==null?'—':v}</td>`;
+    }).join('')+'</tr>';
+  $('statsview').innerHTML=html+'</tbody></table></div>';
+  $('back').onclick=()=>go(null);
+  $('stbl').querySelectorAll('th.sortable').forEach(th=>th.onclick=()=>{
+    const k=th.dataset.k, c=C.find(x=>x.k===k);
+    if(k===statKey) statAsc=!statAsc; else { statKey=k; statAsc=c.low; }
+    renderStats();
+  });
+  wire($('statsview'));
+}
+
 function renderSlates(bucket){
   const h=+$('wk').value;
   $('wkv').textContent=fmtDay(dayOf(h));
@@ -1295,6 +1421,7 @@ function wire(root){
 function go(v){
   VIEW = (typeof v==='string') ? {kind:'team',team:v} : (v||{kind:'list'});
   const want = VIEW.kind==='team' ? 't='+encodeURIComponent(VIEW.team)
+             : VIEW.kind==='stats' ? 'stats'
              : VIEW.kind==='slates' ? 'slates'+(VIEW.bucket?'='+VIEW.bucket:'')
              : '';
   if(want) location.hash=want;

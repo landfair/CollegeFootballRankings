@@ -144,7 +144,7 @@
 <header>
   <div class="bar">
     <h1>Recursive Rankings <span class="sport">NCAAW</span></h1>
-    <nav><a href="./" aria-current="page">Rankings</a><a href="#slates">Slates</a><a href="about.html">About</a><a href="../">Football</a><a href="../ncaam/">NCAAM</a></nav>
+    <nav><a href="./" aria-current="page">Rankings</a><a href="#stats">Stats</a><a href="#slates">Slates</a><a href="about.html">About</a><a href="../">Football</a><a href="../ncaam/">NCAAM</a></nav>
     <button class="iconbtn" id="gearbtn" title="Settings" aria-label="Settings">&#9881;</button>
     <button class="iconbtn" id="helpbtn" title="How this works" aria-label="How this works">?</button>
   </div>
@@ -287,6 +287,7 @@ none — <a href="about.html#no-polls">why</a>.</p>
 </div>
 <div id="teamview" hidden></div>
 <div id="slatesview" hidden></div>
+<div id="statsview" hidden></div>
 
 <footer>Game results from the
 <a href="https://github.com/sportsdataverse/wehoop-wbb-data">wehoop</a> data repository.
@@ -396,6 +397,8 @@ function soonInfo(R){
   return {order,tip};
 }
 let sortKey='rank', sortAsc=true;
+/* The stats table keeps its own sort, so moving between views resets neither. */
+let statKey='rank', statAsc=true;
 
 /* No poll rides with this sport's data, so everything poll-shaped is gated on
    the season actually carrying one rather than deleted outright. A permanently
@@ -456,6 +459,7 @@ function parseHash(){
   if(m) return {kind:'team',team:decodeURIComponent(m[1])};
   m=/^#slates(?:=(\d+))?$/.exec(location.hash);
   if(m) return {kind:'slates',bucket:m[1]?+m[1]:null};
+  if(/^#stats$/.test(location.hash)) return {kind:'stats'};
   return {kind:'list'};
 }
 const sameView=(a,b)=>a.kind===b.kind&&a.team===b.team&&a.bucket===b.bucket;
@@ -463,11 +467,13 @@ function showView(which){
   $('listview').hidden=which!=='list';
   $('teamview').hidden=which!=='team';
   $('slatesview').hidden=which!=='slates';
+  $('statsview').hidden=which!=='stats';
 }
 function render(){
   if(!SEASON) return;
   if(VIEW.kind==='team') renderTeam(VIEW.team);
   else if(VIEW.kind==='slates') renderSlates(VIEW.bucket);
+  else if(VIEW.kind==='stats') renderStats();
   else renderList();
 }
 
@@ -1049,6 +1055,122 @@ function renderTeam(team){
    scores averaged — so it is worth being able to look at directly. Ordering is
    always by the raw vector; opponent weighting rescales scores afterwards and
    would reorder the list, so it is deliberately not applied here. */
+/* The stats table. wehoop publishes no box score for this sport, so there is
+   no PPG or FG% to sort by and a page offering them would be a page of dashes.
+   What there IS, and what the men's page cannot offer in one sortable view, is
+   every team's RÉSUMÉ: the ranking's own figures plus the record against each
+   tier, for all 363 teams at once. Those are computed from the order on screen
+   rather than fetched, so this table costs no new data and can never disagree
+   with the ranking it is read from.
+
+   That makes this the better half of the two tables rather than a consolation:
+   sorting the field by "record against the top 25" is a question the box score
+   cannot answer at all. */
+function renderStats(){
+  const {h,rows,gated,W}=current();
+  showView('stats');
+  $('wkv').textContent=h;
+  const place=new Map(rows.map(r=>[r.team,r.rank]));
+  const gateRow=new Map(gated.all.map(r=>[r.team,r]));
+  /* One pass over every team's games, counting each band. Done here rather
+     than per row so the table costs one walk of the season, not 363. */
+  const data=rows.map(r=>{
+    const games=(ENG.gamesOf.get(r.team)||[]).filter(g=>g.week<=h);
+    const band={t10:[0,0],t25:[0,0],t50:[0,0],t100:[0,0],q1:[0,0],q4:[0,0],nr:[0,0]};
+    for(const g of games){
+      const p=place.get(g.opp), i=g.res===WIN?0:1;
+      if(p==null){ band.nr[i]++; continue; }
+      if(p<=10) band.t10[i]++;
+      if(p<=25) band.t25[i]++;
+      if(p<=50) band.t50[i]++;
+      if(p<=100) band.t100[i]++;
+      if(p<=30) band.q1[i]++;
+      if(p>200) band.q4[i]++;
+    }
+    const gr=gateRow.get(r.team)||{};
+    return {team:r.team,conference:r.conference,rank:r.rank,key:r.key,
+      wins:r.wins,losses:r.losses,games:r.games,band,
+      best:Number.isFinite(gr.bestWin)?gr.bestWin:null,
+      worst:gr.worstLoss==null?null:gr.worstLoss,
+      worstNR:!!gr.worstLossNR,
+      aw:gr.avgWin??null,al:gr.avgLoss??null};
+  });
+  /* A band sorts on wins first and losses second, so 8-0 beats 8-2 and both
+     beat 2-0. Encoded as one number to keep the comparator simple. */
+  const bv=b=>b[0]*1000-b[1];
+  const bd=b=>(b[0]+b[1])?`${b[0]}‑${b[1]}`:null;
+  const C=[
+    {k:'rank', h:'#',          cls:'rk',  low:true,  v:r=>r.rank, d:r=>r.rank,
+     tip:'Place in this ranking, computed from results alone — no poll is published with this sport’s data at all.'},
+    {k:'team', h:'Team',       cls:'',    low:true,  v:r=>r.team, text:true,
+     d:r=>`<button class="tm" data-t="${esc(r.team)}">${esc(r.team)}</button>`},
+    {k:'conf', h:'Conference', cls:'cf',  low:true,  v:r=>r.conference||'', text:true,
+     d:r=>esc(r.conference||'')},
+    {k:'rec',  h:'Rec',        cls:'num', low:false, v:r=>r.games?r.wins/r.games:0,
+     d:r=>`${r.wins}‑${r.losses}`, tip:'Every game played through the chosen day. Sorts on win percentage.'},
+    {k:'key',  h:'Rating',     cls:'num', low:false, v:r=>r.key, d:r=>`<b>${r.key.toFixed(1)}</b>`,
+     tip:'The mean of a team’s scored games, each graded as a percentile among everyone who played that day.'},
+    {k:'t10',  h:'vs Top10',   cls:'num', low:false, v:r=>bv(r.band.t10), d:r=>bd(r.band.t10),
+     tip:'Record against the teams THIS ranking places 1st to 10th. Cumulative with the wider tiers to its right. Counted from the order on screen, so it moves with the scoring, field, weighting and day.'},
+    {k:'t25',  h:'vs Top25',   cls:'num', low:false, v:r=>bv(r.band.t25), d:r=>bd(r.band.t25), tip:'Against places 1–25. Cumulative: a top‑10 win counts here too.'},
+    {k:'t50',  h:'vs Top50',   cls:'num', low:false, v:r=>bv(r.band.t50), d:r=>bd(r.band.t50), tip:'Against places 1–50. Cumulative.'},
+    {k:'t100', h:'vs Top100',  cls:'num', low:false, v:r=>bv(r.band.t100), d:r=>bd(r.band.t100), tip:'Against places 1–100. Cumulative. Early in a season this is often the only band with anything in it.'},
+    {k:'q1',   h:'Quad1',      cls:'num', low:false, v:r=>bv(r.band.q1), d:r=>bd(r.band.q1),
+     tip:'Places 1–30 — the committee’s idea drawn on this ranking rather than on the NET.'},
+    {k:'q4',   h:'Quad4',      cls:'num', low:true,  v:r=>bv(r.band.q4), d:r=>bd(r.band.q4),
+     tip:'Places 201 and worse — the games that can only cost you. Sorted so the teams with the most damage here come first.'},
+    {k:'nr',   h:'Unrated',    cls:'num', low:true,  v:r=>bv(r.band.nr), d:r=>bd(r.band.nr),
+     tip:'Against sides this ranking does not place at all — outside Division I, or with no scored game.'},
+    {k:'best', h:'Best win',   cls:'num', low:true,  v:r=>r.best, d:r=>r.best==null?null:'#'+r.best,
+     tip:'The best place, in this ranking, of any team beaten. Only ranked opponents count.'},
+    {k:'worst',h:'Worst loss', cls:'num', low:true,  v:r=>r.worst,
+     d:r=>r.worst==null?null:(r.worstNR?'NR':'#'+r.worst),
+     tip:'The weakest team lost to. NR means the defeat came against a side outside the ranking, which sorts below every place in it. Blank means unbeaten.'},
+    {k:'aw',   h:'Avg win',    cls:'num', low:true,  v:r=>r.aw, d:r=>r.aw==null?null:r.aw.toFixed(1),
+     tip:'Mean place of the teams beaten. An opponent outside the ranking counts one worse than last, so a padded schedule shows up here.'},
+    {k:'al',   h:'Avg loss',   cls:'num', low:true,  v:r=>r.al, d:r=>r.al==null?null:r.al.toFixed(1),
+     tip:'Mean place of the teams lost to. Lower means the defeats came against better sides. Blank for an unbeaten team.'},
+  ];
+  const col=C.find(c=>c.k===statKey)||C[0];
+  const dir=statAsc?1:-1;
+  const sorted=[...data].sort((x,y)=>{
+    const a=col.v(x), b=col.v(y);
+    if(a==null&&b==null) return x.rank-y.rank;
+    if(a==null) return 1;
+    if(b==null) return -1;
+    const c=col.text?String(a).localeCompare(String(b)):a-b;
+    return c*dir || x.rank-y.rank;
+  });
+  const stack=t=>{const i=String(t).indexOf(' ');
+    return i<0?esc(t):esc(t.slice(0,i))+' <br>'+esc(t.slice(i+1));};
+  let html='<p><button class="back" id="back">&larr; Rankings</button></p>'+
+    `<div class="thead"><h2>Team stats</h2><span class="sub">${sorted.length} teams `+
+    `through ${esc(fmtFull(dayOf(h))||('day '+h))}</span></div>`+
+    '<p class="slateintro">Every column here is computed from the ranking itself — no box '+
+    'score is published for this sport, so there is no PPG or FG% to offer, and nothing on '+
+    'this page is borrowed from anywhere. What it gives instead is the whole field’s '+
+    '<b>résumé</b> at once: sort by <b>vs Top25</b> to see who has actually played '+
+    'anybody, or by <b>Quad4</b> to see who has the most to answer for. Click a heading to '+
+    'sort, again to reverse, and hover one for what it means.</p>'+
+    '<div class="scroll"><table id="stbl"><thead><tr>'+
+    C.map(c=>`<th class="${c.cls} sortable${c.k===statKey?' sorted'+(statAsc?' asc':''):''}"`+
+      ` data-k="${c.k}"${c.tip?` title="${esc(c.tip)}"`:''}>${stack(c.h)}</th>`).join('')+
+    '</tr></thead><tbody>';
+  for(const r of sorted)
+    html+='<tr>'+C.map(c=>{
+      const v=c.d(r);
+      return `<td class="${c.cls}${v==null?' nr':''}">${v==null?'—':v}</td>`;
+    }).join('')+'</tr>';
+  $('statsview').innerHTML=html+'</tbody></table></div>';
+  $('back').onclick=()=>go(null);
+  $('stbl').querySelectorAll('th.sortable').forEach(th=>th.onclick=()=>{
+    const k=th.dataset.k, c=C.find(x=>x.k===k);
+    if(k===statKey) statAsc=!statAsc; else { statKey=k; statAsc=c.low; }
+    renderStats();
+  });
+  wire($('statsview'));
+}
+
 function renderSlates(bucket){
   const h=+$('wk').value;
   $('wkv').textContent=fmtDay(dayOf(h));
@@ -1192,6 +1314,7 @@ function wire(root){
 function go(v){
   VIEW = (typeof v==='string') ? {kind:'team',team:v} : (v||{kind:'list'});
   const want = VIEW.kind==='team' ? 't='+encodeURIComponent(VIEW.team)
+             : VIEW.kind==='stats' ? 'stats'
              : VIEW.kind==='slates' ? 'slates'+(VIEW.bucket?'='+VIEW.bucket:'')
              : '';
   if(want) location.hash=want;
