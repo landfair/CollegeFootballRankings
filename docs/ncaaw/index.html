@@ -888,35 +888,69 @@ function renderTeam(team){
       }
       return {w,l,n:w+l};
     };
-    const SRC='Counted from THIS ranking\u2019s order, never from a poll \u2014 and no poll '+
-      'is published with this sport\u2019s data at all. An opponent\u2019s place is the one on '+
-      'the table you just came from, so these figures move when you change the scoring, the '+
-      'field, the weighting or the day. ';
+    const SRC='Counted from THIS ranking\u2019s order, never from a poll: an opponent\u2019s '+
+      'place is the one on the table you just came from, so these figures move when you change '+
+      'the scoring, the field, the weighting or the day. No poll is published with this '+
+      'sport\u2019s data at all. ';
     const CUM='Cumulative \u2014 a win over #3 is counted here and in every wider tier below.';
+    /* The quadrant rows are EXCLUSIVE bands, not cumulative tiers, and together
+       they account for every game played: 1-30, 31-100, 101-200, 201+, plus
+       anything the ranking does not place at all. An earlier version used
+       1-30 and 201+ only, which left a hole from 101 to 200 -- Florida beating
+       Jacksonville at #128 appeared in no row at all, so a 5-0 record read as
+       3-0 and 1-0 and nothing explained the fifth win. Bands that do not sum
+       to the record are worse than no bands. */
+    const unplaced=games.filter(g=>place.get(g.opp)==null);
+    const nr={w:unplaced.filter(g=>g.res===WIN).length,
+              l:unplaced.filter(g=>g.res!==WIN).length};
+    nr.n=nr.w+nr.l;
     return [
-      ['vs TOP 10',  tally(p=>p<=10),
+      ['vs TOP 10',  tally(p=>p<=10), true,
        SRC+'Record against the teams this ranking places 1st to 10th through the chosen day. '+
        'A dash means nobody in that band has been played yet.'],
-      ['vs TOP 25',  tally(p=>p<=25), SRC+'Against places 1\u201325. '+CUM],
-      ['vs TOP 50',  tally(p=>p<=50), SRC+'Against places 1\u201350. '+CUM],
-      ['vs TOP 100', tally(p=>p<=100),
+      ['vs TOP 25',  tally(p=>p<=25), true, SRC+'Against places 1\u201325. '+CUM],
+      ['vs TOP 50',  tally(p=>p<=50), true, SRC+'Against places 1\u201350. '+CUM],
+      ['vs TOP 100', tally(p=>p<=100), true,
        SRC+'Against places 1\u2013100. '+CUM+' In November this is often the only band with '+
        'anything in it, because the hard games have not been played.'],
-      ['QUAD 1',     tally(p=>p<=30),
+      ['QUAD 1',     tally(p=>p<=30), false,
        'The selection committee argues in quadrants built on the NET, which this site does not '+
-       'use. This is the same IDEA drawn on this ranking instead: the top 30, regardless of '+
-       'venue. Read it as the shape of the argument rather than a reproduction of their table.'],
-      ['QUAD 4',     tally(p=>p>200),
-       'Games against teams this ranking places outside the top 200 \u2014 the ones that can '+
-       'only cost you. A loss here is the worst thing on a r\u00e9sum\u00e9; a win is worth '+
-       'close to nothing. Our order, not the NET.'],
+       'use. These four are the same IDEA drawn on this ranking instead, and unlike the tiers '+
+       'above they do not overlap: Quad 1 is places 1\u201330. The committee\u2019s own bands '+
+       'also widen for road games; these do not, so read them as the shape of the argument '+
+       'rather than a reproduction of their table.'],
+      ['QUAD 2',     tally(p=>p>30&&p<=100), false,
+       'Places 31\u2013100 \u2014 solid opponents, the games that neither make nor break a '+
+       'r\u00e9sum\u00e9. Exclusive: a team counted here is in none of the other quadrants.'],
+      ['QUAD 3',     tally(p=>p>100&&p<=200), false,
+       'Places 101\u2013200. Exclusive. This band exists because without it the quadrants left '+
+       'a hole: a win over #128 belonged to no row, and the four numbers did not add up to the '+
+       'record they were describing.'],
+      ['QUAD 4',     tally(p=>p>200), false,
+       'Places 201 and worse \u2014 the games that can only cost you. A loss here is the worst '+
+       'thing on a r\u00e9sum\u00e9; a win is worth close to nothing. Exclusive, and our '+
+       'order rather than the NET.'],
+      ['UNRATED',    nr, false,
+       'Games against sides this ranking does not place at all \u2014 outside Division I, or '+
+       'with no game the chosen field scores. Shown so that the four quadrants plus this row '+
+       'account for every game played, and nothing quietly disappears between the bands.'],
     ];
   })();
-  html+='<div class="tiers"><div class="tierh">record by tier</div><div class="facts">'+
-    tierRows.map(([label,t,tip])=>
-      `<div class="fact" title="${esc(tip)}"><b>${t.n?`${t.w}\u2011${t.l}`:'\u2014'}</b>`+
-      `<span>${esc(label)}</span></div>`).join('')+
-    '</div></div>';
+  /* Two rows, because the two kinds of band answer different questions and
+     reading them as one list invites adding up numbers that are not meant to
+     sum. The tiers are cumulative; the quadrants partition the schedule and
+     DO sum to the record. */
+  const tierCell=([label,t,,tip])=>
+    `<div class="fact" title="${esc(tip)}"><b>${t.n?`${t.w}\u2011${t.l}`:'\u2014'}</b>`+
+    `<span>${esc(label)}</span></div>`;
+  const cum=tierRows.filter(r=>r[2]), excl=tierRows.filter(r=>!r[2]);
+  const tot=excl.reduce((a,[,t])=>({w:a.w+t.w,l:a.l+t.l}),{w:0,l:0});
+  html+='<div class="tiers"><div class="tierh">record by tier '+
+    '<span class="nr">\u2014 cumulative; a top\u201110 win counts in every row</span></div>'+
+    '<div class="facts">'+cum.map(tierCell).join('')+'</div>'+
+    `<div class="tierh">by quadrant <span class="nr">\u2014 exclusive; these add up to `+
+    `${tot.w}\u2011${tot.l}</span></div>`+
+    '<div class="facts">'+excl.map(tierCell).join('')+'</div></div>';
   /* What the record says about March, and only when the record can say it.
      Measured over the five tournaments stored here: of teams finishing a
      regular season in the top four, 8 of 20 reached a Final Four; 5 of 30 from
