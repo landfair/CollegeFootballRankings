@@ -1361,10 +1361,10 @@ const DERIVES={
      correlation between any two of them is three descriptions of one set of
      downs agreeing with itself, not a discovery, so the whole family is
      declared here and the page holds it back together. */
-  ypg:['rush','pass','ypp','oppa','osucc','third'],
-  ypp:['ypg','rush','pass','oppa','osucc','oexpl','oppo'],
-  oypg:['orush','opass','oypp','dppa','dsucc','othird'],
-  oypp:['oypg','orush','opass','dppa','dsucc','dexpl','dppo'],
+  ypg:['rush','pass','ypp','oppa','osucc','third','ydm','yppm'],
+  ypp:['ypg','rush','pass','oppa','osucc','oexpl','oppo','ydm','yppm'],
+  oypg:['orush','opass','oypp','dppa','dsucc','othird','ydm','yppm'],
+  oypp:['oypg','orush','opass','dppa','dsucc','dexpl','dppo','ydm','yppm'],
   /* PPA, success rate and points per opportunity are the same efficiency
      measured three ways; explosiveness is the value of the plays the success
      rate counted. */
@@ -1378,6 +1378,14 @@ const DERIVES={
   ypc:['rush','olin'],
   /* Turnover margin is the subtraction of the two turnover columns. */
   tom:['to'],
+  /* The yards margins are subtractions of the yardage columns beside them,
+     so their agreement with either half is arithmetic. They also derive from
+     each other: the per-game and per-play forms are the same difference
+     divided by different denominators. Declared against the efficiency
+     family too, since yards per play IS what the per-play margin is built
+     from and PPA is the same snaps weighted. */
+  ydm:['ypg','oypg','yppm','ypp','oypp'],
+  yppm:['ypp','oypp','ydm','ypg','oypg','oppa','dppa'],
   /* Sacks are a subset of tackles for loss, by definition. */
   sack:['tfl'],
   /* Third-down conversion is one of the inputs to the success rate. */
@@ -1583,6 +1591,15 @@ function statRows(){
       ypp:(t.yards!=null&&t.offPlays)?t.yards/t.offPlays:null,
       oppYpp:(t.oppYards!=null&&t.defPlays)?t.oppYards/t.defPlays:null,
       ypg:per('yards'), oppYpg:per('oppYards'),
+      /* Yards margin, both ways round. Per game is the figure a broadcast
+         quotes; per play is the one that survives a difference in pace, and
+         a team that runs eighty snaps against an opponent's sixty will out-
+         gain it on the day without being the better side. Both are offered
+         because they genuinely disagree: the per-game column rewards playing
+         fast, the per-play column does not. */
+      yardMargin:(t.yards!=null&&t.oppYards!=null)?(t.yards-t.oppYards)/g:null,
+      yppMargin:(t.yards!=null&&t.oppYards!=null&&t.offPlays&&t.defPlays)
+        ?t.yards/t.offPlays-t.oppYards/t.defPlays:null,
       rushYpg:per('rushYards'), passYpg:per('passYards'),
       oppRushYpg:per('oppRushYards'), oppPassYpg:per('oppPassYards'),
       ypc:(t.rushYards!=null&&t.rushAtt)?t.rushYards/t.rushAtt:null,
@@ -1626,8 +1643,12 @@ function statRows(){
      tip:'Total yards divided by offensive plays. Preferred to yards per game, which mostly measures how often a team had the ball.'},
     {k:'oypp', h:'Opp yds/play',cls:'num',low:true,  v:r=>r.oppYpp, d:r=>f2(r.oppYpp),
      tip:'What opponents averaged per play. Lower is better, so the first click sorts ascending.'},
+    {k:'yppm', h:'Yds/play marg',cls:'num',low:false, v:r=>r.yppMargin, d:r=>r.yppMargin==null?null:(r.yppMargin>0?'+':'')+r.yppMargin.toFixed(2),
+     tip:'Yards per play minus yards per play allowed. The pace-independent form of yards margin, and the one to prefer: a team that runs eighty snaps against an opponent\u2019s sixty will out-gain it on the day without being better, and this column does not reward that.'},
     {k:'ypg',  h:'Yds/game',   cls:'num', low:false, v:r=>r.ypg, d:r=>f1(r.ypg), tip:'Total yards per game.'},
     {k:'oypg', h:'Opp yds/game',cls:'num',low:true,  v:r=>r.oppYpg, d:r=>f1(r.oppYpg), tip:'Yards allowed per game. Lower is better.'},
+    {k:'ydm',  h:'Yds margin', cls:'num', low:false, v:r=>r.yardMargin, d:r=>sg(r.yardMargin),
+     tip:'Yards gained minus yards allowed, per game \u2014 the figure a broadcast quotes. It rewards playing fast, because a team with more snaps has more chances to gain: the Yds/play marg column to the left is the same idea without that bias. Like every figure here it describes a team rather than grading one; the ranking never sees it.'},
     {k:'rush', h:'Rush/game',  cls:'num', low:false, v:r=>r.rushYpg, d:r=>f1(r.rushYpg), tip:'Rushing yards per game.'},
     {k:'pass', h:'Pass/game',  cls:'num', low:false, v:r=>r.passYpg, d:r=>f1(r.passYpg), tip:'Net passing yards per game — sack yardage already deducted.'},
     {k:'orush',h:'Opp rush',   cls:'num', low:true,  v:r=>r.oppRushYpg, d:r=>f1(r.oppRushYpg), tip:'Rushing yards allowed per game. Lower is better.'},
