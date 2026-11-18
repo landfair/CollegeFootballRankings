@@ -78,6 +78,7 @@ RAW = ("https://raw.githubusercontent.com/sportsdataverse/wehoop-wbb-data/"
 SCHEDULE = RAW + "/schedules/parquet/wbb_schedule_{season}.parquet"
 STANDINGS = RAW + "/standings/parquet/standings_{season}.parquet"
 TEAMSTATS = RAW + "/team_season_stats/parquet/team_season_stats_{season}.parquet"
+TEAMBOX = RAW + "/team_box/parquet/team_box_{season}.parquet"
 
 # Seasons whose standings files are read purely to collect conference NAMES.
 # wehoop publishes standings for 2003-2007 and 2026-2027 only, so the recent
@@ -382,6 +383,79 @@ def build_team_stats(cols, teams, games, by_id, top=TOP_DIVISION):
         if played.get(name):
             rec["oppPpg"] = round(allowed[name] / played[name], 2)
         out[name] = {k: round(v, 3) for k, v in rec.items()}
+    return out
+
+
+def stats_from_box(cols, teams, games, by_id, top=TOP_DIVISION):
+    """The same figures as build_team_stats, summed from per-game box scores.
+
+    wehoop publishes team_season_stats only from 2023; team_box goes back to
+    2004. For a season with no season-stats file the per-game rows are summed
+    here instead, which is what a season total IS -- the aggregate is not an
+    approximation of the published figure, it is the same arithmetic done
+    locally. Validated by running it on a season that HAS both and comparing.
+
+    Only the regular season counts, matching what the ranking grades: ESPN's
+    season_type 2. A postseason game summed in here would put figures on the
+    page that the games list does not contain.
+    """
+    rows = len(cols.get("team_id") or [])
+    acc = {}
+    for i in range(rows):
+        if cols.get("season_type") and cols["season_type"][i] != REGULAR:
+            continue
+        name = by_id.get(str(cols["team_id"][i]))
+        if not name:
+            continue
+        a = acc.setdefault(name, {"games": 0, "pts": 0, "reb": 0, "ast": 0,
+                                  "to": 0, "stl": 0, "blk": 0, "orb": 0,
+                                  "pf": 0, "fgm": 0, "fga": 0, "tpm": 0,
+                                  "tpa": 0, "ftm": 0, "fta": 0})
+
+        def add(key, col):
+            v = (cols.get(col) or [None] * rows)[i]
+            if v is not None:
+                a[key] += v
+
+        a["games"] += 1
+        add("pts", "team_score");            add("reb", "total_rebounds")
+        add("ast", "assists");               add("to", "total_turnovers")
+        add("stl", "steals");                add("blk", "blocks")
+        add("orb", "offensive_rebounds");    add("pf", "fouls")
+        add("fgm", "field_goals_made");      add("fga", "field_goals_attempted")
+        add("tpm", "three_point_field_goals_made")
+        add("tpa", "three_point_field_goals_attempted")
+        add("ftm", "free_throws_made");      add("fta", "free_throws_attempted")
+
+    allowed, played = {}, {}
+    for g in games:
+        for side, other in ((g["home"], g["awayPoints"]),
+                            (g["away"], g["homePoints"])):
+            allowed[side] = allowed.get(side, 0) + other
+            played[side] = played.get(side, 0) + 1
+
+    out = {}
+    for name, a in acc.items():
+        if (teams.get(name) or {}).get("division") != top or not a["games"]:
+            continue
+        g = a["games"]
+        rec = {"games": float(g),
+               "ppg": round(a["pts"] / g, 3), "rpg": round(a["reb"] / g, 3),
+               "apg": round(a["ast"] / g, 3), "topg": round(a["to"] / g, 3),
+               "spg": round(a["stl"] / g, 3), "bpg": round(a["blk"] / g, 3),
+               "orpg": round(a["orb"] / g, 3), "pfpg": round(a["pf"] / g, 3)}
+        # Percentages are made over attempted across the whole season, never a
+        # mean of per-game rates -- averaging rates weights a 2-for-4 night the
+        # same as a 12-for-20 one.
+        if a["fga"]:
+            rec["fgPct"] = round(a["fgm"] / a["fga"] * 100, 3)
+        if a["tpa"]:
+            rec["threePct"] = round(a["tpm"] / a["tpa"] * 100, 3)
+        if a["fta"]:
+            rec["ftPct"] = round(a["ftm"] / a["fta"] * 100, 3)
+        if played.get(name):
+            rec["oppPpg"] = round(allowed[name] / played[name], 2)
+        out[name] = rec
     return out
 
 
@@ -881,21 +955,35 @@ def main():
     if not a.no_stats:
         print("  box-score totals")
         dest = os.path.join(tmp, f"team_season_stats_{a.season}.parquet")
+        src = "season totals"
         try:
             if not (os.path.exists(dest) and os.path.getsize(dest) > 1024):
                 download(TEAMSTATS.format(season=a.season), dest)
             stats = build_team_stats(read_parquet(dest), teams, reg, by_id)
-            if stats:
-                opp = sum(1 for r in stats.values() if "oppPpg" in r)
-                print(f"     {len(stats)} teams, {opp} with points allowed derived "
-                      f"from the results")
-            else:
-                warn("no box-score rows matched the team list")
         except SystemExit:
-            warn(f"wehoop publishes no box score for {a.season}; "
-                 f"writing without it")
+            stats = {}                 # published only from 2023; fall back
         except Exception as e:                               # noqa: BLE001
-            warn(f"could not read box scores ({e}); writing without them")
+            warn(f"could not read season totals ({e})")
+            stats = {}
+        if not stats:
+            # team_box reaches back to 2004. Summing per-game rows IS the
+            # season total, so an older season loses nothing by this route.
+            src = "per-game box scores"
+            box = os.path.join(tmp, f"team_box_{a.season}.parquet")
+            try:
+                if not (os.path.exists(box) and os.path.getsize(box) > 1024):
+                    download(TEAMBOX.format(season=a.season), box)
+                stats = stats_from_box(read_parquet(box), teams, reg, by_id)
+            except SystemExit:
+                warn(f"wehoop has no box score of either kind for {a.season}")
+            except Exception as e:                           # noqa: BLE001
+                warn(f"could not read per-game box scores ({e})")
+        if stats:
+            opp = sum(1 for r in stats.values() if "oppPpg" in r)
+            print(f"     {len(stats)} teams from {src}, {opp} with points "
+                  f"allowed derived from the results")
+        else:
+            warn("no box-score figures for this season; writing without them")
 
     reg.sort(key=lambda g: (g["week"], g["home"]))
     post.sort(key=lambda g: (g["date"], g["home"]))
