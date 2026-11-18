@@ -121,6 +121,23 @@
      dashed block for box-score figures; there is none here because wehoop
      publishes no box scores for this sport, so the styles for it are absent
      too rather than sitting unused. */
+  /* The column combiner above the stats table. */
+  .combo{margin:16px 0 4px;padding:12px 0;border-top:1px solid var(--rule);
+    border-bottom:1px solid var(--rule)}
+  .combohd{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:9px}
+  .combohd .nr{text-transform:none;letter-spacing:0}
+  .combobox{display:flex;flex-wrap:wrap;gap:6px 8px;margin-bottom:9px}
+  .cb{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;
+    color:var(--muted);border:1px solid var(--rule);border-radius:5px;
+    padding:3px 8px;cursor:pointer;user-select:none;background:var(--panel)}
+  .cb input{margin:0;cursor:pointer}
+  .cb.on{color:var(--ink);border-color:var(--mark);font-weight:600}
+  .cb.off{opacity:.42;cursor:not-allowed}
+  .cb.off input{cursor:not-allowed}
+  .combomode{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12.5px}
+  .combonote{color:var(--muted);font-size:12px;margin-left:4px}
+  .cmb{color:var(--mark)}
   .tierh{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
     color:var(--muted);margin:22px 0 -6px}
   .tiers .facts{margin-top:10px}
@@ -1055,23 +1072,128 @@ function renderTeam(team){
    scores averaged — so it is worth being able to look at directly. Ordering is
    always by the raw vector; opponent weighting rescales scores afterwards and
    would reorder the list, so it is deliberately not applied here. */
-/* The stats table. wehoop publishes no box score for this sport, so there is
-   no PPG or FG% to sort by and a page offering them would be a page of dashes.
-   What there IS, and what the men's page cannot offer in one sortable view, is
-   every team's RÉSUMÉ: the ranking's own figures plus the record against each
-   tier, for all 363 teams at once. Those are computed from the order on screen
-   rather than fetched, so this table costs no new data and can never disagree
-   with the ranking it is read from.
+/* The stats table, in two halves.
 
-   That makes this the better half of the two tables rather than a consolation:
-   sorting the field by "record against the top 25" is a question the box score
-   cannot answer at all. */
+   The RÉSUMÉ half -- record against each tier, best win, worst loss, average
+   win and loss -- is computed from the order on screen rather than fetched, so
+   it costs no new data and can never disagree with the ranking it is read
+   from. Sorting a whole field by "record against the top 25" is a question a
+   box score cannot answer at all.
+
+   The BOX half comes from wehoop's team_season_stats, which an earlier version
+   of this page said did not exist. It does: the fetcher had only ever read the
+   schedules directory, and the claim was written from that rather than from
+   looking. It is fenced the same way the men's side is -- own key, display
+   only, unreachable from the grader -- and 2021-22 genuinely has none, so
+   those columns drop out there rather than showing dashes. */
+/* ---- combining two or three columns -------------------------------------
+   Two modes, because "combine these stats" means two different things and
+   only one of them is always valid.
+
+   AVERAGE OF RANKS is the general case. Raw values cannot be averaged -- PPG
+   83.0 and FG% 47.6 are points and percent, and their mean is arithmetic on
+   nothing. Each team's PLACE on each chosen column is unit-free, and because
+   a column's place already respects its own direction (fewest points allowed
+   is 1st), low-is-better columns need no special handling here. A team
+   missing any chosen figure is left out rather than given a default, which
+   would invent a standing it has not earned.
+
+   RATIO is the special case, and is offered only when it means something:
+   exactly two columns, both per-game counts of the same kind of thing. APG
+   divided by TO is the assist-to-turnover ratio, a real basketball figure.
+   PPG divided by FG% is not a figure at all, so the control disables rather
+   than producing a number nobody should read. RATIOABLE is the whitelist. */
+const RATIOABLE=new Set(['ppg','oppg','opp','rpg','apg','topg','spg','bpg','marg','mar']);
+let comboKeys=[], comboMode='avg';
+
+function comboState(C){
+  const picked=comboKeys.filter(k=>C.some(c=>c.k===k));
+  const canRatio=picked.length===2&&picked.every(k=>RATIOABLE.has(k));
+  return {picked,canRatio,mode:(comboMode==='ratio'&&canRatio)?'ratio':'avg'};
+}
+
+/* Place on one column, over the teams that have a figure for it. Ties share a
+   place, as everywhere else on this site. */
+function placesFor(data,col){
+  const vals=data.filter(r=>col.v(r)!=null).map(r=>[r,col.v(r)]);
+  vals.sort((a,b)=>col.low?a[1]-b[1]:b[1]-a[1]);
+  const m=new Map(); let place=1;
+  vals.forEach(([r,v],i)=>{
+    if(i>0&&Math.abs(v-vals[i-1][1])>1e-9) place=i+1;
+    m.set(r.team,place);
+  });
+  return m;
+}
+
+/* {team -> {score, detail}} for the current selection, or null if fewer than
+   two columns are chosen. */
+function comboScores(data,C){
+  const st=comboState(C);
+  if(st.picked.length<2) return null;
+  const cols=st.picked.map(k=>C.find(c=>c.k===k));
+  if(st.mode==='ratio'){
+    const [a,b]=cols;
+    const out=new Map();
+    for(const r of data){
+      const x=a.v(r), y=b.v(r);
+      if(x==null||y==null||y===0) continue;
+      out.set(r.team,{score:x/y,
+        detail:`${a.h} ${x.toFixed(1)} ÷ ${b.h} ${y.toFixed(1)}`});
+    }
+    return {mode:'ratio',low:false,map:out,
+      label:`${a.h} ÷ ${b.h}`,cols};
+  }
+  const places=cols.map(c=>placesFor(data,c));
+  const out=new Map();
+  for(const r of data){
+    const ps=places.map(m=>m.get(r.team));
+    if(ps.some(p=>p==null)) continue;      // incomplete, so not placed
+    out.set(r.team,{score:ps.reduce((a,b)=>a+b,0)/ps.length,
+      detail:cols.map((c,i)=>`${c.h} #${ps[i]}`).join(' · ')});
+  }
+  return {mode:'avg',low:true,map:out,
+    label:cols.map(c=>c.h).join(' + '),cols};
+}
+
+/* The picker: a checkbox per sortable numeric column, plus the mode toggle. */
+function comboUI(C,combo){
+  const st=comboState(C);
+  const able=C.filter(c=>!c.text&&c.k!=='rank');
+  return '<div class="combo"><div class="combohd">combine columns '+
+    '<span class="nr">— tick two or three to rank on them together</span></div>'+
+    '<div class="combobox">'+able.map(c=>{
+      const on=st.picked.includes(c.k);
+      const full=st.picked.length>=3&&!on;
+      return `<label class="cb${on?' on':''}${full?' off':''}">`+
+        `<input type="checkbox" data-ck="${c.k}"${on?' checked':''}`+
+        `${full?' disabled':''}> ${esc(c.h)}</label>`;
+    }).join('')+'</div>'+
+    '<div class="combomode">'+
+      `<label class="cb${st.mode==='avg'?' on':''}">`+
+        `<input type="radio" name="cmode" value="avg"${st.mode==='avg'?' checked':''}> `+
+        `average of ranks</label>`+
+      `<label class="cb${st.mode==='ratio'?' on':''}${st.canRatio?'':' off'}" `+
+        `title="${esc(st.canRatio?'Divide the first by the second.':
+          'A ratio needs exactly two columns that are both per-game counts — '+
+          'dividing points by a percentage is not a figure anybody should read.')}">`+
+        `<input type="radio" name="cmode" value="ratio"`+
+        `${st.mode==='ratio'?' checked':''}${st.canRatio?'':' disabled'}> `+
+        `ratio A ÷ B</label>`+
+      (combo?`<span class="combonote">ranking ${combo.map.size} teams on `+
+        `<b>${esc(combo.label)}</b></span>`:
+        '<span class="combonote nr">pick two to begin</span>')+
+    '</div></div>';
+}
+
 function renderStats(){
   const {h,rows,gated,W}=current();
   showView('stats');
   $('wkv').textContent=h;
   const place=new Map(rows.map(r=>[r.team,r.rank]));
   const gateRow=new Map(gated.all.map(r=>[r.team,r]));
+  const BX=SEASON.teamStats&&SEASON.teamStats.size?SEASON.teamStats:null;
+  const f1=v=>v==null?null:v.toFixed(1);
+  const pc=v=>v==null?null:v.toFixed(1)+'%';
   /* One pass over every team's games, counting each band. Done here rather
      than per row so the table costs one walk of the season, not 363. */
   const data=rows.map(r=>{
@@ -1090,6 +1212,7 @@ function renderStats(){
     const gr=gateRow.get(r.team)||{};
     return {team:r.team,conference:r.conference,rank:r.rank,key:r.key,
       wins:r.wins,losses:r.losses,games:r.games,band,
+      bx:BX?BX.get(r.team)||null:null,
       best:Number.isFinite(gr.bestWin)?gr.bestWin:null,
       worst:gr.worstLoss==null?null:gr.worstLoss,
       worstNR:!!gr.worstLossNR,
@@ -1130,7 +1253,36 @@ function renderStats(){
      tip:'Mean place of the teams beaten. An opponent outside the ranking counts one worse than last, so a padded schedule shows up here.'},
     {k:'al',   h:'Avg loss',   cls:'num', low:true,  v:r=>r.al, d:r=>r.al==null?null:r.al.toFixed(1),
      tip:'Mean place of the teams lost to. Lower means the defeats came against better sides. Blank for an unbeaten team.'},
+    ...(BX?[
+    {k:'ppg',  h:'PPG',        cls:'num', low:false, v:r=>r.bx?r.bx.ppg??null:null, d:r=>f1(r.bx?r.bx.ppg:null),
+     tip:'Points per game, from wehoop’s team season stats. Never read by the ranking.'},
+    {k:'oppg', h:'Opp PPG',    cls:'num', low:true,  v:r=>r.bx?r.bx.oppPpg??null:null, d:r=>f1(r.bx?r.bx.oppPpg:null),
+     tip:'Points allowed per game. The one figure here DERIVED rather than fetched — wehoop carries a team’s own stats but no opponent mirror, so this is computed from the game results, which are the authoritative record of what happened.'},
+    {k:'marg', h:'Margin',     cls:'num', low:false,
+     v:r=>(r.bx&&r.bx.ppg!=null&&r.bx.oppPpg!=null)?r.bx.ppg-r.bx.oppPpg:null,
+     d:r=>(r.bx&&r.bx.ppg!=null&&r.bx.oppPpg!=null)?((r.bx.ppg-r.bx.oppPpg)>0?'+':'')+(r.bx.ppg-r.bx.oppPpg).toFixed(1):null,
+     tip:'Points scored minus points allowed, per game. Kept well clear of the résumé columns because margin of victory is the one input this ranking refuses.'},
+    {k:'rpg',  h:'RPG',        cls:'num', low:false, v:r=>r.bx?r.bx.rpg??null:null, d:r=>f1(r.bx?r.bx.rpg:null), tip:'Total rebounds per game.'},
+    {k:'apg',  h:'APG',        cls:'num', low:false, v:r=>r.bx?r.bx.apg??null:null, d:r=>f1(r.bx?r.bx.apg:null), tip:'Assists per game.'},
+    {k:'topg', h:'TO',         cls:'num', low:true,  v:r=>r.bx?r.bx.topg??null:null, d:r=>f1(r.bx?r.bx.topg:null), tip:'Turnovers per game. Lower is better.'},
+    {k:'spg',  h:'STL',        cls:'num', low:false, v:r=>r.bx?r.bx.spg??null:null, d:r=>f1(r.bx?r.bx.spg:null), tip:'Steals per game.'},
+    {k:'bpg',  h:'BLK',        cls:'num', low:false, v:r=>r.bx?r.bx.bpg??null:null, d:r=>f1(r.bx?r.bx.bpg:null), tip:'Blocks per game.'},
+    {k:'fg',   h:'FG%',        cls:'num', low:false, v:r=>r.bx?r.bx.fgPct??null:null, d:r=>pc(r.bx?r.bx.fgPct:null), tip:'Field-goal percentage, season to date.'},
+    {k:'tp',   h:'3P%',        cls:'num', low:false, v:r=>r.bx?r.bx.threePct??null:null, d:r=>pc(r.bx?r.bx.threePct:null), tip:'Three-point percentage, season to date.'},
+    {k:'ft',   h:'FT%',        cls:'num', low:false, v:r=>r.bx?r.bx.ftPct??null:null, d:r=>pc(r.bx?r.bx.ftPct:null), tip:'Free-throw percentage, season to date.'},
+    ]:[]),
   ];
+  const combo=comboScores(data,C);
+  if(combo)
+    C.push({k:'combo',h:combo.mode==='ratio'?'Ratio':'Combined',cls:'num',
+      low:combo.low,v:r=>{const e=combo.map.get(r.team);return e?e.score:null;},
+      d:r=>{const e=combo.map.get(r.team);
+        return e?`<b class="cmb" title="${esc(e.detail)}">`+
+          `${combo.mode==='ratio'?e.score.toFixed(2):e.score.toFixed(1)}</b>`:null;},
+      tip:combo.mode==='ratio'
+        ?`${combo.label}, each team\u2019s first figure divided by its second. Hover a value for the two numbers behind it.`
+        :`The mean of each team\u2019s PLACE on ${combo.label}. Raw values cannot be averaged across different units, so places are averaged instead \u2014 which also means a column where low is better needs no special handling, its place already says so. Lower is better. A team missing any of the chosen figures is left out rather than given a default.`});
+  if(combo&&statKey!=='combo'&&!C.some(c=>c.k===statKey)) statKey='combo';
   const col=C.find(c=>c.k===statKey)||C[0];
   const dir=statAsc?1:-1;
   const sorted=[...data].sort((x,y)=>{
@@ -1146,12 +1298,13 @@ function renderStats(){
   let html='<p><button class="back" id="back">&larr; Rankings</button></p>'+
     `<div class="thead"><h2>Team stats</h2><span class="sub">${sorted.length} teams `+
     `through ${esc(fmtFull(dayOf(h))||('day '+h))}</span></div>`+
-    '<p class="slateintro">Every column here is computed from the ranking itself — no box '+
-    'score is published for this sport, so there is no PPG or FG% to offer, and nothing on '+
-    'this page is borrowed from anywhere. What it gives instead is the whole field’s '+
-    '<b>résumé</b> at once: sort by <b>vs Top25</b> to see who has actually played '+
-    'anybody, or by <b>Quad4</b> to see who has the most to answer for. Click a heading to '+
-    'sort, again to reverse, and hover one for what it means.</p>'+
+    '<p class="slateintro">Two kinds of column. Everything up to <b>Avg loss</b> is computed '+
+    'from the ranking itself — the whole field’s <b>résumé</b> at once, which no box score '+
+    'can give you: sort by <b>vs Top25</b> to see who has played anybody, or <b>Quad4</b> '+
+    'for who has most to answer for. Everything after it is the box score, and <b>none of it '+
+    'feeds the ranking</b>. Click a heading to sort, again to reverse, and hover one for '+
+    'what it is and where it came from.</p>'+
+    comboUI(C,combo)+
     '<div class="scroll"><table id="stbl"><thead><tr>'+
     C.map(c=>`<th class="${c.cls} sortable${c.k===statKey?' sorted'+(statAsc?' asc':''):''}"`+
       ` data-k="${c.k}"${c.tip?` title="${esc(c.tip)}"`:''}>${stack(c.h)}</th>`).join('')+
@@ -1166,6 +1319,21 @@ function renderStats(){
   $('stbl').querySelectorAll('th.sortable').forEach(th=>th.onclick=()=>{
     const k=th.dataset.k, c=C.find(x=>x.k===k);
     if(k===statKey) statAsc=!statAsc; else { statKey=k; statAsc=c.low; }
+    renderStats();
+  });
+  $('statsview').querySelectorAll('input[data-ck]').forEach(cb=>cb.onchange=()=>{
+    const k=cb.dataset.ck;
+    comboKeys=cb.checked?[...comboKeys,k].slice(-3):comboKeys.filter(x=>x!==k);
+    /* Sorting follows the selection: tick two columns and the table should
+       already be ordered by them, rather than making the reader find and
+       click a heading that only just appeared. */
+    if(comboKeys.length>=2){ statKey='combo'; statAsc=true; }
+    else if(statKey==='combo') statKey='rank';
+    renderStats();
+  });
+  $('statsview').querySelectorAll('input[name=cmode]').forEach(rb=>rb.onchange=()=>{
+    comboMode=rb.value;
+    if(comboKeys.length>=2){ statKey='combo'; statAsc=comboMode!=='ratio'; }
     renderStats();
   });
   wire($('statsview'));

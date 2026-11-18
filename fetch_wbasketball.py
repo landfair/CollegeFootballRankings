@@ -77,6 +77,7 @@ RAW = ("https://raw.githubusercontent.com/sportsdataverse/wehoop-wbb-data/"
        "main/wbb")
 SCHEDULE = RAW + "/schedules/parquet/wbb_schedule_{season}.parquet"
 STANDINGS = RAW + "/standings/parquet/standings_{season}.parquet"
+TEAMSTATS = RAW + "/team_season_stats/parquet/team_season_stats_{season}.parquet"
 
 # Seasons whose standings files are read purely to collect conference NAMES.
 # wehoop publishes standings for 2003-2007 and 2026-2027 only, so the recent
@@ -315,6 +316,73 @@ def PLACEHOLDER(name):
     into a single phantom team with a schedule of its own.
     """
     return (name or "").strip().upper() in ("TBD", "TBA", "")
+
+
+def build_team_stats(cols, teams, games, by_id, top=TOP_DIVISION):
+    """{team: {...}} of box-score figures, for display only.
+
+    wehoop publishes these in LONG form -- one row per team per stat, with the
+    figure in `value` and the name in `stat_name` -- so they are pivoted here
+    into one record per team. That shape is why this file was missed when the
+    fetcher was first written: the schedules directory was read, the rest of
+    the tree was not, and the page carried a note saying no box score existed
+    for this sport. It did; nobody looked.
+
+    THESE NEVER TOUCH THE RANKING. Same fence as the men's side and the polls:
+    own key, read through ingest() into its own field, unreachable from
+    anything downstream of `games`. It matters here for the same reason -- a
+    points-scored figure is a short step from scoring margin, and margin is the
+    input this project refuses.
+
+    Points ALLOWED is not in the feed, which carries a team's own figures and
+    no opponent mirror. It is computed from the game results instead, which are
+    already in hand and are the authoritative record of what happened: for each
+    team, the points its opponents scored against it, over the games it played.
+    That makes OPP PPG the one figure here derived rather than fetched, and the
+    page says so.
+
+    Teams are joined on team_id, not on name. The stats file writes
+    "Boston College Eagles" where the schedule writes "Boston College", and
+    leaves short_display_name null throughout, so a name join matches exactly
+    nothing -- which it did, silently, on the first attempt. by_id is built
+    from the schedule as it is read and is the same id space, so the join is
+    exact rather than fuzzy.
+    """
+    want = {"avgPoints": "ppg", "avgRebounds": "rpg", "avgAssists": "apg",
+            "avgTurnovers": "topg", "avgSteals": "spg", "avgBlocks": "bpg",
+            "avgOffensiveRebounds": "orpg", "avgFouls": "pfpg",
+            "fieldGoalPct": "fgPct", "threePointFieldGoalPct": "threePct",
+            "freeThrowPct": "ftPct", "gamesPlayed": "games"}
+    by_name = {}
+    rows = len(cols.get("team_id") or [])
+    for i in range(rows):
+        key = want.get(cols["stat_name"][i])
+        if key is None:
+            continue
+        v = cols["value"][i]
+        if v is None:
+            continue
+        name = by_id.get(str(cols["team_id"][i]))
+        if name:
+            by_name.setdefault(name, {})[key] = float(v)
+
+    # points allowed, straight off the results
+    allowed, played = {}, {}
+    for g in games:
+        for side, other in ((g["home"], g["awayPoints"]), (g["away"], g["homePoints"])):
+            allowed[side] = allowed.get(side, 0) + other
+            played[side] = played.get(side, 0) + 1
+
+    out = {}
+    for name, rec in by_name.items():
+        if (teams.get(name) or {}).get("division") != top:
+            continue
+        if not rec.get("games"):
+            continue
+        if played.get(name):
+            rec["oppPpg"] = round(allowed[name] / played[name], 2)
+        out[name] = {k: round(v, 3) for k, v in rec.items()}
+    return out
 
 
 def tournament_of(headline):
@@ -712,6 +780,8 @@ def main():
     p.add_argument("--upcoming-out", default=None,
                    help="where to write the fixtures (default: beside --out)")
     p.add_argument("--no-upcoming", action="store_true")
+    p.add_argument("--no-stats", action="store_true",
+                   help="skip the box-score file; the ranking never uses it")
     p.add_argument("--cache-dir", default=None,
                    help="keep the downloaded parquet here instead of a temp "
                         "directory, to avoid re-fetching")
@@ -807,6 +877,26 @@ def main():
         g.pop("_date", None)
     for g in post:
         g.pop("_date", None)
+    stats = {}
+    if not a.no_stats:
+        print("  box-score totals")
+        dest = os.path.join(tmp, f"team_season_stats_{a.season}.parquet")
+        try:
+            if not (os.path.exists(dest) and os.path.getsize(dest) > 1024):
+                download(TEAMSTATS.format(season=a.season), dest)
+            stats = build_team_stats(read_parquet(dest), teams, reg, by_id)
+            if stats:
+                opp = sum(1 for r in stats.values() if "oppPpg" in r)
+                print(f"     {len(stats)} teams, {opp} with points allowed derived "
+                      f"from the results")
+            else:
+                warn("no box-score rows matched the team list")
+        except SystemExit:
+            warn(f"wehoop publishes no box score for {a.season}; "
+                 f"writing without it")
+        except Exception as e:                               # noqa: BLE001
+            warn(f"could not read box scores ({e}); writing without them")
+
     reg.sort(key=lambda g: (g["week"], g["home"]))
     post.sort(key=lambda g: (g["date"], g["home"]))
 
@@ -817,6 +907,9 @@ def main():
                "games": reg, "dates": dates}
     if post:
         payload["postseason"] = post
+    if stats:
+        # Own key, like the men's side. Display only; see build_team_stats.
+        payload["teamStats"] = stats
     with open(a.out, "w") as f:
         json.dump(payload, f, indent=1)
 

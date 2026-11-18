@@ -132,6 +132,23 @@
      thing you read first. It is a rank among rated teams on that one stat, not
      a ranking position, and the muted colour keeps the two from being
      confused at a glance. */
+  /* The column combiner above the stats table. */
+  .combo{margin:16px 0 4px;padding:12px 0;border-top:1px solid var(--rule);
+    border-bottom:1px solid var(--rule)}
+  .combohd{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:9px}
+  .combohd .nr{text-transform:none;letter-spacing:0}
+  .combobox{display:flex;flex-wrap:wrap;gap:6px 8px;margin-bottom:9px}
+  .cb{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;
+    color:var(--muted);border:1px solid var(--rule);border-radius:5px;
+    padding:3px 8px;cursor:pointer;user-select:none;background:var(--panel)}
+  .cb input{margin:0;cursor:pointer}
+  .cb.on{color:var(--ink);border-color:var(--mark);font-weight:600}
+  .cb.off{opacity:.42;cursor:not-allowed}
+  .cb.off input{cursor:not-allowed}
+  .combomode{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12.5px}
+  .combonote{color:var(--muted);font-size:12px;margin-left:4px}
+  .cmb{color:var(--mark)}
   .srk{margin-left:5px;color:var(--mark);font-family:var(--mono);font-size:10.5px;
     letter-spacing:0;opacity:.85}
   .g{border-bottom:1px solid var(--rule);padding:13px 0}
@@ -1170,6 +1187,105 @@ function renderTeam(team){
    The first four columns are the ranking's own, carried over as anchors so the
    two views can always be read against each other, and so sorting by Rating
    gives the side-by-side comparison a merged table would have given. */
+/* ---- combining two or three columns -------------------------------------
+   Two modes, because "combine these stats" means two different things and
+   only one of them is always valid.
+
+   AVERAGE OF RANKS is the general case. Raw values cannot be averaged -- PPG
+   83.0 and FG% 47.6 are points and percent, and their mean is arithmetic on
+   nothing. Each team's PLACE on each chosen column is unit-free, and because
+   a column's place already respects its own direction (fewest points allowed
+   is 1st), low-is-better columns need no special handling here. A team
+   missing any chosen figure is left out rather than given a default, which
+   would invent a standing it has not earned.
+
+   RATIO is the special case, and is offered only when it means something:
+   exactly two columns, both per-game counts of the same kind of thing. APG
+   divided by TO is the assist-to-turnover ratio, a real basketball figure.
+   PPG divided by FG% is not a figure at all, so the control disables rather
+   than producing a number nobody should read. RATIOABLE is the whitelist. */
+const RATIOABLE=new Set(['ppg','oppg','opp','rpg','apg','topg','spg','bpg','marg','mar']);
+let comboKeys=[], comboMode='avg';
+
+function comboState(C){
+  const picked=comboKeys.filter(k=>C.some(c=>c.k===k));
+  const canRatio=picked.length===2&&picked.every(k=>RATIOABLE.has(k));
+  return {picked,canRatio,mode:(comboMode==='ratio'&&canRatio)?'ratio':'avg'};
+}
+
+/* Place on one column, over the teams that have a figure for it. Ties share a
+   place, as everywhere else on this site. */
+function placesFor(data,col){
+  const vals=data.filter(r=>col.v(r)!=null).map(r=>[r,col.v(r)]);
+  vals.sort((a,b)=>col.low?a[1]-b[1]:b[1]-a[1]);
+  const m=new Map(); let place=1;
+  vals.forEach(([r,v],i)=>{
+    if(i>0&&Math.abs(v-vals[i-1][1])>1e-9) place=i+1;
+    m.set(r.team,place);
+  });
+  return m;
+}
+
+/* {team -> {score, detail}} for the current selection, or null if fewer than
+   two columns are chosen. */
+function comboScores(data,C){
+  const st=comboState(C);
+  if(st.picked.length<2) return null;
+  const cols=st.picked.map(k=>C.find(c=>c.k===k));
+  if(st.mode==='ratio'){
+    const [a,b]=cols;
+    const out=new Map();
+    for(const r of data){
+      const x=a.v(r), y=b.v(r);
+      if(x==null||y==null||y===0) continue;
+      out.set(r.team,{score:x/y,
+        detail:`${a.h} ${x.toFixed(1)} ÷ ${b.h} ${y.toFixed(1)}`});
+    }
+    return {mode:'ratio',low:false,map:out,
+      label:`${a.h} ÷ ${b.h}`,cols};
+  }
+  const places=cols.map(c=>placesFor(data,c));
+  const out=new Map();
+  for(const r of data){
+    const ps=places.map(m=>m.get(r.team));
+    if(ps.some(p=>p==null)) continue;      // incomplete, so not placed
+    out.set(r.team,{score:ps.reduce((a,b)=>a+b,0)/ps.length,
+      detail:cols.map((c,i)=>`${c.h} #${ps[i]}`).join(' · ')});
+  }
+  return {mode:'avg',low:true,map:out,
+    label:cols.map(c=>c.h).join(' + '),cols};
+}
+
+/* The picker: a checkbox per sortable numeric column, plus the mode toggle. */
+function comboUI(C,combo){
+  const st=comboState(C);
+  const able=C.filter(c=>!c.text&&c.k!=='rank');
+  return '<div class="combo"><div class="combohd">combine columns '+
+    '<span class="nr">— tick two or three to rank on them together</span></div>'+
+    '<div class="combobox">'+able.map(c=>{
+      const on=st.picked.includes(c.k);
+      const full=st.picked.length>=3&&!on;
+      return `<label class="cb${on?' on':''}${full?' off':''}">`+
+        `<input type="checkbox" data-ck="${c.k}"${on?' checked':''}`+
+        `${full?' disabled':''}> ${esc(c.h)}</label>`;
+    }).join('')+'</div>'+
+    '<div class="combomode">'+
+      `<label class="cb${st.mode==='avg'?' on':''}">`+
+        `<input type="radio" name="cmode" value="avg"${st.mode==='avg'?' checked':''}> `+
+        `average of ranks</label>`+
+      `<label class="cb${st.mode==='ratio'?' on':''}${st.canRatio?'':' off'}" `+
+        `title="${esc(st.canRatio?'Divide the first by the second.':
+          'A ratio needs exactly two columns that are both per-game counts — '+
+          'dividing points by a percentage is not a figure anybody should read.')}">`+
+        `<input type="radio" name="cmode" value="ratio"`+
+        `${st.mode==='ratio'?' checked':''}${st.canRatio?'':' disabled'}> `+
+        `ratio A ÷ B</label>`+
+      (combo?`<span class="combonote">ranking ${combo.map.size} teams on `+
+        `<b>${esc(combo.label)}</b></span>`:
+        '<span class="combonote nr">pick two to begin</span>')+
+    '</div></div>';
+}
+
 function renderStats(){
   const {h,rows,W}=current();
   showView('stats');
@@ -1237,6 +1353,17 @@ function renderStats(){
     {k:'ortg', h:'ORtg',       cls:'num', low:false, v:r=>r.ortg,   d:r=>f1(r.ortg), tip:'Points per 100 possessions. Pace-adjusted, so it compares a fast team and a slow one more fairly than PPG does.'},
     {k:'drtg', h:'DRtg',       cls:'num', low:true,  v:r=>r.drtg,   d:r=>f1(r.drtg), tip:'Points allowed per 100 possessions. Lower is better.'},
   ];
+  const combo=comboScores(data,C);
+  if(combo)
+    C.push({k:'combo',h:combo.mode==='ratio'?'Ratio':'Combined',cls:'num',
+      low:combo.low,v:r=>{const e=combo.map.get(r.team);return e?e.score:null;},
+      d:r=>{const e=combo.map.get(r.team);
+        return e?`<b class="cmb" title="${esc(e.detail)}">`+
+          `${combo.mode==='ratio'?e.score.toFixed(2):e.score.toFixed(1)}</b>`:null;},
+      tip:combo.mode==='ratio'
+        ?`${combo.label}, each team\u2019s first figure divided by its second. Hover a value for the two numbers behind it.`
+        :`The mean of each team\u2019s PLACE on ${combo.label}. Raw values cannot be averaged across different units, so places are averaged instead \u2014 which also means a column where low is better needs no special handling, its place already says so. Lower is better. A team missing any of the chosen figures is left out rather than given a default.`});
+  if(combo&&statKey!=='combo'&&!C.some(c=>c.k===statKey)) statKey='combo';
   const col=C.find(c=>c.k===statKey)||C[0];
   const dir=statAsc?1:-1;
   const sorted=[...data].sort((x,y)=>{
@@ -1259,6 +1386,7 @@ function renderStats(){
     'the Rankings page gives, then sort by anything else to see how little it has to do with '+
     'it. Click a heading to sort; click again to reverse. Hover any heading for what the '+
     'figure is and where it came from.</p>'+
+    comboUI(C,combo)+
     '<div class="scroll"><table id="stbl"><thead><tr>'+
     C.map(c=>`<th class="${c.cls} sortable${c.k===statKey?' sorted'+(statAsc?' asc':''):''}"`+
       ` data-k="${c.k}"${c.tip?` title="${esc(c.tip)}"`:''}>${stack(c.h)}</th>`).join('')+
@@ -1273,6 +1401,21 @@ function renderStats(){
   $('stbl').querySelectorAll('th.sortable').forEach(th=>th.onclick=()=>{
     const k=th.dataset.k, c=C.find(x=>x.k===k);
     if(k===statKey) statAsc=!statAsc; else { statKey=k; statAsc=c.low; }
+    renderStats();
+  });
+  $('statsview').querySelectorAll('input[data-ck]').forEach(cb=>cb.onchange=()=>{
+    const k=cb.dataset.ck;
+    comboKeys=cb.checked?[...comboKeys,k].slice(-3):comboKeys.filter(x=>x!==k);
+    /* Sorting follows the selection: tick two columns and the table should
+       already be ordered by them, rather than making the reader find and
+       click a heading that only just appeared. */
+    if(comboKeys.length>=2){ statKey='combo'; statAsc=true; }
+    else if(statKey==='combo') statKey='rank';
+    renderStats();
+  });
+  $('statsview').querySelectorAll('input[name=cmode]').forEach(rb=>rb.onchange=()=>{
+    comboMode=rb.value;
+    if(comboKeys.length>=2){ statKey='combo'; statAsc=comboMode!=='ratio'; }
     renderStats();
   });
   wire($('statsview'));
