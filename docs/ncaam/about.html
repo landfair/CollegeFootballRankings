@@ -391,6 +391,47 @@ as an opponent for everyone else. A team can be struck through because an oppone
 slipped, and cleared the week after &mdash; that is the rule working, not a
 glitch.</p>
 
+<h2 id="correlations">What moves with what</h2>
+
+<p>The <a href="./#corr">Correlations</a> view takes every pair of columns on the
+stats table and asks how closely the two move together across the whole field.
+The figure is Pearson's <em>r</em>, which runs from &minus;1 to +1: at +1 the two
+rise in perfect step, at &minus;1 one falls as the other rises, and at 0 neither
+tells you anything about the other. Spearman's rank correlation is computed
+alongside it and shown on hover, because where the two disagree the relationship
+is not a straight line &mdash; and that is worth seeing rather than averaging away.</p>
+
+<p><strong>The sign is left alone.</strong> Several columns are good at their low
+end: fewest turnovers, fewest points allowed, the smallest number in Best win.
+It would be easy to flip those so that every relationship read positive, and it
+would be wrong. More turnovers really does go with a worse record, and the minus
+sign is the honest way to say so. A negative figure on this page is not a defect
+in the pairing; it is the direction of the thing.</p>
+
+<p><strong>The obvious pairs are demoted, not hidden.</strong> Margin is defined
+as points scored minus points allowed, so its agreement with either of them is
+arithmetic restating itself. The rating is computed from results, so its
+agreement with win percentage is this system agreeing with itself. Neither of these teaches anything, and all of
+them would otherwise sit at the top of the list and crowd out the findings. They
+are collected in a block at the foot of the page with the reason attached &mdash;
+listed rather than deleted, so that the page cannot be accused of quietly missing
+its own largest numbers. A second tag, <em>shares a part</em>, marks the softer
+case where two columns are built on a common ingredient without either defining
+the other.</p>
+
+<p>One pair survives that demotion and deserves singling out. <strong>Margin
+correlates strongly with both the record and this system's own rating</strong>
+&mdash; and margin of victory is the one input the ranking refuses to read. The
+system never sees a scoreline, only who won; that the resulting order tracks
+scoring margin this closely is a fact about basketball rather than a fact about
+the arithmetic, and it is the reason that pair is kept in the main list while
+PPG&#8209;against&#8209;Margin is not.</p>
+
+<p>Finally, and unavoidably: <strong>none of this shows cause.</strong> Teams that
+shoot well also tend to pass well, rebound well and win, because they are better
+teams. A strong <em>r</em> between two columns is usually both of them answering
+to something neither one measures.</p>
+
 <h2>What it cannot do</h2>
 
 <p>Being honest about this matters more than the rankings do.</p>
