@@ -117,6 +117,17 @@
     border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:13px 0}
   .fact b{display:block;font-family:var(--mono);font-size:21px;font-weight:600;letter-spacing:-.02em}
   .fact span{font-size:11.5px;color:var(--muted);letter-spacing:.03em}
+  /* Two labelled blocks below the headline tiles. The tier block is the
+     résumé read off the ranking; the box block is description the ranking
+     never saw, and it is set apart deliberately rather than blended in --
+     PPG minus OPP PPG is scoring margin, and the page should not let that sit
+     unmarked beside figures the ranking actually uses. */
+  .tierh,.boxh{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);margin:22px 0 -6px}
+  .tiers .facts{margin-top:10px}
+  .boxs{margin-top:4px;opacity:.92}
+  .boxs .facts{border-top-style:dashed;border-bottom-style:dashed;margin-top:10px}
+  .boxh .nr{text-transform:none;letter-spacing:0;font-size:11px}
   .g{border-bottom:1px solid var(--rule);padding:13px 0}
   .g:last-child{border-bottom:0}
   .grow{display:flex;gap:13px;align-items:baseline;flex-wrap:wrap}
@@ -287,7 +298,7 @@ Rankings recomputed in your browser. <a href="about.html">How this works</a>.</f
 <script type="module">
 import {WIN, esc, ingest, engine, rank, applyGate, pollAt,
         agreement, revision, sparkHTML, weighted, schedule, split, bracket,
-        remaining} from '../engine.js?v=ed05575f7495';
+        remaining} from '../engine.js?v=e3ba731b516d';
 
 const SHOW=100;
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -828,6 +839,74 @@ function renderTeam(team){
           BR.champion===team?'WON IT':BR.finalFour.has(team)?'FINAL FOUR':'MADE IT'
         }</b><span>NCAA</span></div>`:'')+
     '</div>';
+
+  /* Record against each tier of the ranking -- the thing a selection argument
+     is actually made of. Computed live from the order on screen rather than
+     stored, so it moves when the reader changes the scoring, the field or the
+     week, and so it can never disagree with the table above it.
+
+     Tiers are cumulative on purpose: a win over #3 counts in the top 10, the
+     top 25 and the top 50 alike, because "beat two top-25 teams" means at most
+     25th, not between 11th and 25th. Quadrants are the selection committee's
+     own bands, included because they are the vocabulary people argue in, but
+     they are the ranking's own tiers rather than the committee's NET ones --
+     the shape of the idea, not a reproduction of their table. */
+  const tierRows=(()=>{
+    const place=new Map(rows.map(r=>[r.team,r.rank]));
+    const games=(ENG.gamesOf.get(team)||[]).filter(g=>g.week<=h);
+    const tally=pred=>{
+      let w=0,l=0;
+      for(const g of games){
+        const p=place.get(g.opp);
+        if(p==null||!pred(p)) continue;
+        g.res===WIN?w++:l++;
+      }
+      return {w,l,n:w+l};
+    };
+    return [
+      ['vs TOP 10',  tally(p=>p<=10),  'Record against teams this ranking places in its top 10.'],
+      ['vs TOP 25',  tally(p=>p<=25),  'Against the top 25. Cumulative: a top-10 win is counted here too.'],
+      ['vs TOP 50',  tally(p=>p<=50),  'Against the top 50.'],
+      ['vs TOP 100', tally(p=>p<=100), 'Against the top 100.'],
+      ['QUAD 1',     tally(p=>p<=30),  'The committee argues in quadrants; these are the same idea drawn on THIS ranking rather than on the NET. Quad 1 is the top 30.'],
+      ['QUAD 4',     tally(p=>p>200),  'Outside the top 200 \u2014 the games that can only hurt.'],
+    ];
+  })();
+  html+='<div class="tiers"><div class="tierh">record by tier</div><div class="facts">'+
+    tierRows.map(([label,t,tip])=>
+      `<div class="fact" title="${esc(tip)}"><b>${t.n?`${t.w}\u2011${t.l}`:'\u2014'}</b>`+
+      `<span>${esc(label)}</span></div>`).join('')+
+    '</div></div>';
+
+  /* Box-score averages, fenced off and labelled. Everything above this line is
+     the ranking describing itself; everything below is description the ranking
+     never saw. The fence is not decoration -- PPG minus OPP PPG is scoring
+     margin, which this project refuses as an input in six places on the site
+     and in the sort order itself. Showing it while being clear it feeds
+     nothing is honest; showing it next to the résumé figures without a line
+     between them would not be. */
+  const TS=SEASON.teamStats?SEASON.teamStats.get(team):null;
+  if(TS&&TS.games){
+    const per=(v,d=1)=>v==null?null:(v/TS.games).toFixed(d);
+    const pct=v=>v==null?null:v.toFixed(1)+'%';
+    const box=[
+      ['PPG',     per(TS.points),    'Points per game. Descriptive only \u2014 subtract the next one and you have scoring margin, which this ranking refuses as evidence.'],
+      ['OPP PPG', per(TS.oppPoints), 'Points allowed per game.'],
+      ['RPG',     per(TS.rebounds),  'Total rebounds per game.'],
+      ['APG',     per(TS.assists),   'Assists per game.'],
+      ['TOPG',    per(TS.turnovers), 'Turnovers per game. Lower is better, unlike every other figure in this block.'],
+      ['FG%',     pct(TS.fgPct),     'Field-goal percentage over the season so far.'],
+      ['3P%',     pct(TS.threePct),  'Three-point percentage.'],
+      ['OPP FG%', pct(TS.oppFgPct),  'What opponents shot against this team.'],
+      ['PACE',    TS.pace==null?null:TS.pace.toFixed(1), 'Possessions per 40 minutes. A fast team scores more without being better, which is most of why PPG is not evidence here.'],
+    ].filter(([,v])=>v!=null);
+    if(box.length)
+      html+='<div class="boxs"><div class="boxh">box score '+
+        '<span class="nr">\u2014 shown for interest; none of it feeds the ranking</span></div>'+
+        '<div class="facts">'+box.map(([label,v,tip])=>
+          `<div class="fact" title="${esc(tip)}"><b>${esc(String(v))}</b>`+
+          `<span>${esc(label)}</span></div>`).join('')+'</div></div>';
+  }
   /* What the record says about March, and only when the record can say it.
      Measured over the five tournaments stored here: of teams finishing a
      regular season in the top four, 8 of 20 reached a Final Four; 5 of 30 from

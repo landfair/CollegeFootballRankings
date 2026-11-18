@@ -373,6 +373,64 @@ def build_polls(raw, dates):
     return out
 
 
+def build_team_stats(raw, teams, top="D1"):
+    """{team: {...}} of box-score totals, per team, for the season so far.
+
+    THESE NEVER TOUCH THE RANKING. They ride in their own `teamStats` key for
+    the same reason the polls and the football power index do: ingest() reads
+    only `games`, so nothing here can reach a grade even by accident. That
+    separation matters more for this key than for the polls, because points
+    scored and points allowed ARE scoring margin once you subtract them, and
+    margin is the one input this project refuses -- in six places on the site,
+    and in the sort order itself since the tiebreak came out.
+
+    So the page shows them, labelled as description rather than evidence, and
+    the engine cannot see them. A reader who wants to know whether a team runs
+    hot or slow gets an answer; the ranking still does not care.
+
+    Per-game figures are left to the page. Totals divide by `games`, which is
+    the honest denominator and is carried alongside, and storing the division
+    here would bake in a rounding the page might want differently.
+    """
+    out = {}
+    for row in raw:
+        name = row.get("team") or row.get("school")
+        if not name or (teams.get(name) or {}).get("division") != top:
+            continue
+        ts = row.get("teamStats") or {}
+        os_ = row.get("opponentStats") or {}
+
+        def dig(d, *path):
+            cur = d
+            for k in path:
+                if not isinstance(cur, dict):
+                    return None
+                cur = cur.get(k)
+            return cur
+
+        rec = {"games": row.get("games"),
+               "wins": row.get("wins"), "losses": row.get("losses"),
+               "pace": row.get("pace"),
+               "points": dig(ts, "points", "total"),
+               "oppPoints": dig(os_, "points", "total"),
+               "rebounds": dig(ts, "rebounds", "total"),
+               "oppRebounds": dig(os_, "rebounds", "total"),
+               "offRebounds": dig(ts, "rebounds", "offensive"),
+               "assists": ts.get("assists"),
+               "turnovers": dig(ts, "turnovers", "total"),
+               "steals": ts.get("steals"), "blocks": ts.get("blocks"),
+               "fgPct": dig(ts, "fieldGoals", "pct"),
+               "threePct": dig(ts, "threePointFieldGoals", "pct"),
+               "ftPct": dig(ts, "freeThrows", "pct"),
+               "oppFgPct": dig(os_, "fieldGoals", "pct"),
+               "efgPct": dig(ts, "fourFactors", "effectiveFieldGoalPct"),
+               "oRating": ts.get("rating"), "dRating": os_.get("rating")}
+        rec = {k: v for k, v in rec.items() if v is not None}
+        if rec.get("games"):
+            out[name] = rec
+    return out
+
+
 def summarize(teams, games, dates):
     from collections import defaultdict
     div = defaultdict(int)
@@ -478,6 +536,59 @@ FIXTURE_UPCOMING = [
 ]
 
 
+FIXTURE_STATS = [
+    {"team": "Kansas", "games": 3, "wins": 3, "losses": 0, "pace": 73.5,
+     "teamStats": {"assists": 56, "steals": 25, "blocks": 15,
+                   "rating": 123.5,
+                   "points": {"total": 273},
+                   "rebounds": {"total": 131, "offensive": 36},
+                   "turnovers": {"total": 39},
+                   "fieldGoals": {"pct": 55.1},
+                   "threePointFieldGoals": {"pct": 37.1},
+                   "freeThrows": {"pct": 57.3},
+                   "fourFactors": {"effectiveFieldGoalPct": 62.2}},
+     "opponentStats": {"rating": 81.4, "points": {"total": 194},
+                       "rebounds": {"total": 98},
+                       "fieldGoals": {"pct": 33.7}}},
+    # a lower-division side: present in the feed, never ranked, must be dropped
+    {"team": "Tiny College", "games": 2, "wins": 0, "losses": 2,
+     "teamStats": {"points": {"total": 90}}},
+    # played nothing yet -- no denominator, so no row
+    {"team": "Duke", "games": 0, "wins": 0, "losses": 0,
+     "teamStats": {"points": {"total": 0}}},
+    # nameless
+    {"games": 5, "teamStats": {"points": {"total": 300}}},
+]
+
+
+def _stats_checks():
+    teams = {"Kansas": {"name": "Kansas", "division": "D1"},
+             "Duke": {"name": "Duke", "division": "D1"},
+             "Tiny College": {"name": "Tiny College", "division": "OTHER"}}
+    st = build_team_stats(FIXTURE_STATS, teams)
+    k = st.get("Kansas", {})
+    return [
+        ("only ranked divisions get a stats row", set(st) == {"Kansas"}),
+        ("a team with no games played gets no row", "Duke" not in st),
+        ("a nameless row is dropped", len(st) == 1),
+        ("points and opponent points both survive",
+         k.get("points") == 273 and k.get("oppPoints") == 194),
+        ("rebounds, assists and turnovers survive",
+         k.get("rebounds") == 131 and k.get("assists") == 56
+         and k.get("turnovers") == 39),
+        ("shooting percentages survive",
+         k.get("fgPct") == 55.1 and k.get("threePct") == 37.1
+         and k.get("oppFgPct") == 33.7),
+        ("the game count rides along as the denominator", k.get("games") == 3),
+        ("nothing is pre-divided; totals are stored raw",
+         k.get("points") == 273 and k.get("points") != 91.0),
+        ("absent figures are omitted rather than stored as None",
+         all(v is not None for v in k.values())),
+        ("no stats key names a game field the engine reads",
+         not (set(k) & {"week", "home", "away", "homePoints", "awayPoints"})),
+    ]
+
+
 def selftest():
     teams = {"Duke": {"name": "Duke", "conference": "ACC", "division": "D1"},
              "Kansas": {"name": "Kansas", "conference": "Big 12", "division": "D1"},
@@ -574,7 +685,8 @@ def selftest():
          == "docs/basketball/upcoming-2027.json"),
         ("an oddly named output still gets a fixture file",
          upcoming_path("out.json") == "out.upcoming.json"),
-    ]
+    ] + _stats_checks()
+    
     print("\nself test")
     ok = True
     for name, passed in checks:
@@ -605,6 +717,8 @@ def main():
     p.add_argument("--upcoming-out", default=None,
                    help="where to write the fixtures (default: beside --out, "
                         "season-X.json -> upcoming-X.json)")
+    p.add_argument("--no-stats", action="store_true",
+                   help="skip the box-score call; the ranking never uses it")
     p.add_argument("--no-upcoming", action="store_true",
                    help="skip the fixture file")
     p.add_argument("--selftest", action="store_true")
@@ -676,6 +790,22 @@ def main():
     except Exception as e:
         warn(f"could not read polls ({e}); writing without them")
 
+    stats = {}
+    if not a.no_stats:
+        print("  box-score totals")
+        try:
+            stats = build_team_stats(
+                get("/stats/team/season", {"season": a.season}, key), teams)
+            if stats:
+                whole = sum(1 for r in stats.values() if "points" in r)
+                print(f"     {len(stats)} teams, {whole} with points recorded")
+            else:
+                warn("no box-score rows came back")
+        except SystemExit:
+            raise
+        except Exception as e:                               # noqa: BLE001
+            warn(f"could not read box scores ({e}); writing without them")
+
     for g in games:
         g.pop("_date", None)
     games.sort(key=lambda g: (g["week"], g["home"]))
@@ -683,6 +813,10 @@ def main():
                "teams": ordered_teams(teams, 'D1'), "games": games, "dates": dates}
     if polls:
         payload["polls"] = polls
+    if stats:
+        # Its own key, like polls. Read straight through ingest() to the page;
+        # nothing downstream of `games` can see it. See build_team_stats.
+        payload["teamStats"] = stats
     if post:
         payload["postseason"] = post
     with open(a.out, "w") as f:

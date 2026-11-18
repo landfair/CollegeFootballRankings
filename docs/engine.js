@@ -86,7 +86,25 @@ export function ingest(raw){
          from:Number(s.from)||0,to:Number(s.to)||0,
          games:Number(s.games)||0}))}
     : null;
-  return {teamInfo,games,polls,fpi,combined,
+  /* Box-score totals, carried for display only. This key needs the fence more
+     than the polls do: points scored and points allowed are scoring margin the
+     moment anyone subtracts them, and margin is the input this ranking refuses
+     everywhere else, down to the sort order. It arrives in its own key, is
+     read here into its own field, and nothing downstream of `games` can reach
+     it. The page shows it under a heading saying so. */
+  let teamStats=null;
+  if(raw.teamStats&&typeof raw.teamStats==='object'&&!Array.isArray(raw.teamStats)){
+    const num=v=>Number.isFinite(Number(v))?Number(v):null;
+    const byTeam=new Map();
+    for(const [name,r] of Object.entries(raw.teamStats)){
+      if(!name||!r||typeof r!=='object') continue;
+      const rec={};
+      for(const [k,v] of Object.entries(r)){ const n=num(v); if(n!==null) rec[k]=n; }
+      if(rec.games) byTeam.set(String(name),rec);
+    }
+    if(byTeam.size) teamStats=byTeam;
+  }
+  return {teamInfo,games,polls,fpi,combined,teamStats,
           maxWeek:Math.max(...games.map(g=>g.week)),
           topDivision:raw.topDivision||'FBS',sport:raw.sport||'football',
           dates:Array.isArray(raw.dates)?raw.dates:null,
