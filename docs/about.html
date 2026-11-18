@@ -550,6 +550,47 @@ job the ranking is for &mdash; ordering teams by what they have earned is a
 different question from forecasting what they will do next, and a modest score here
 is not by itself a fault.</p>
 
+<h2 id="stats">Team stats, and what moves with what</h2>
+
+<p>Two views sit beside the ranking and take no part in it. <a href="./#stats">Stats</a>
+is a sortable table of box-score figures; <a href="./#corr">Correlations</a> takes every
+pair of columns on that table and ranks them by how strongly the two move together.</p>
+
+<p><strong>They cover FBS only.</strong> The feed behind them publishes the top division
+and nothing else &mdash; 138 teams against the seven hundred-odd this ranking places. Every
+other view on this site shows the whole field, so the limit is stated at the top of both
+pages rather than left to be inferred from a short table.</p>
+
+<p><strong>None of it reaches the grader.</strong> These figures ride in their own key,
+exactly as the polls and the power index do, and the function that builds a season reads
+only the game list. That separation matters more here than for the polls: yards and points
+per opportunity are scoring margin's close relatives, and margin is the one input this
+project refuses. The claim is checked rather than asserted &mdash; the ranking is computed
+with the statistics present and again with them stripped out, at every week of the season,
+and the two orders are compared. They are identical.</p>
+
+<p><strong>On the correlations.</strong> The figure is Pearson's <em>r</em>, which runs
+from &minus;1 to +1, with Spearman's rank correlation shown on hover so that a relationship
+which is not a straight line is visible rather than averaged away. Signs are left alone:
+several columns are good at their low end, and flipping them so everything read positive
+would be false. Pairs where one column is computed from the other are demoted to a
+collapsed block with the reason attached &mdash; yards per play and offensive PPA are two
+readings of the same snaps, and total yards contains the rushing and passing yards it is
+made of. They are listed rather than deleted, so the page cannot be accused of missing its
+own largest numbers.</p>
+
+<p>What survives that filter is worth a look. <strong>Havoc rate</strong> &mdash; the share
+of plays on which a defence disrupted the opponent &mdash; turns up repeatedly near the top,
+and the offensive mirror of it correlates at about &minus;0.78 with a team's own predicted
+points added. Offences that get hit in the backfield do not score, and that is a different
+statement from the yardage columns, which is why it survives when the yardage pairs do not.
+Among the plain figures, <strong>opponent rushing yards</strong> is the defensive stat most
+closely tied to winning.</p>
+
+<p>And the usual caution: <strong>correlation is not cause.</strong> Good teams block, throw
+and tackle well together because they are good. A strong <em>r</em> between two columns is
+usually both of them answering to something neither one measures.</p>
+
 <h2>What it cannot do</h2>
 
 <p>Being honest about this matters more than the rankings do.</p>

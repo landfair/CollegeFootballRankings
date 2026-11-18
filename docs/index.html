@@ -155,6 +155,114 @@
   .chart .legend .k{display:inline-flex;align-items:center;gap:6px}
   .charth{font-size:11.5px;color:var(--muted);letter-spacing:.04em;
     text-transform:uppercase;margin:16px 0 2px}
+  .combo{margin:16px 0 4px;padding:12px 0;border-top:1px solid var(--rule);
+    border-bottom:1px solid var(--rule)}
+  .combohd{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:9px}
+  .combohd .nr{text-transform:none;letter-spacing:0}
+  .combobox{display:flex;flex-wrap:wrap;gap:6px 8px;margin-bottom:9px}
+  .cb{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;
+    color:var(--muted);border:1px solid var(--rule);border-radius:5px;
+    padding:3px 8px;cursor:pointer;user-select:none;background:var(--panel)}
+  .cb input{margin:0;cursor:pointer}
+  .cb.on{color:var(--ink);border-color:var(--mark);font-weight:600}
+  .cb.off{opacity:.42;cursor:not-allowed}
+  .cb.off input{cursor:not-allowed}
+  .combomode{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12.5px}
+  .combonote{color:var(--muted);font-size:12px;margin-left:4px}
+  .cmb{color:var(--mark)}
+  .srk{margin-left:5px;color:var(--mark);font-family:var(--mono);font-size:10.5px;
+    letter-spacing:0;opacity:.85}
+  .g{border-bottom:1px solid var(--rule);padding:13px 0}
+  .g:last-child{border-bottom:0}
+  .grow{display:flex;gap:13px;align-items:baseline;flex-wrap:wrap}
+  .gw{font-family:var(--mono);font-size:12.5px;color:var(--muted);min-width:3.4em}
+  .res{font-size:12px;letter-spacing:.05em;text-transform:uppercase;font-weight:600}
+  .res.w{color:var(--win)} .res.l{color:var(--loss)}
+  .gsc{margin-left:auto;font-family:var(--mono);font-size:13px}
+  .gsc.wtd{cursor:help;border-bottom:1px dotted var(--rule)}
+  .spark{display:inline-flex;align-items:center;gap:8px;margin-top:7px}
+  .spark svg{display:block;overflow:visible}
+  .spark .lbl{font-size:11px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+  .spark .val{font-family:var(--mono);font-size:12px;white-space:nowrap;color:var(--muted)}
+  /* Correlations. The bar is a signed magnitude drawn from the centre, so a
+     strong negative reads as far from the middle as a strong positive and the
+     sign stays visible without reading the figure. */
+  .cgrid{display:grid;grid-template-columns:1fr;gap:0;margin:2px 0 18px}
+  .crow{display:grid;grid-template-columns:2.1em 1fr 4.4em 5.2em;gap:11px;
+    align-items:center;padding:7px 0;border-bottom:1px solid var(--rule)}
+  .crow:last-child{border-bottom:0}
+  .crow .cn{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:right}
+  .cpair{font-size:13.5px}
+  .cpair b{font-weight:600}
+  .cpair .vs{color:var(--muted);margin:0 5px;font-size:12px}
+  .cr{font-family:var(--mono);font-size:13px;text-align:right;cursor:help}
+  .cr.pos{color:var(--win)} .cr.neg{color:var(--loss)}
+  .cbar{position:relative;height:9px;background:var(--panel);
+    border:1px solid var(--rule);border-radius:2px;overflow:hidden}
+  .cbar i{position:absolute;top:0;bottom:0;display:block}
+  .cbar i.pos{left:50%;background:var(--win)}
+  .cbar i.neg{right:50%;background:var(--loss)}
+  .cbar u{position:absolute;top:-1px;bottom:-1px;left:50%;width:1px;
+    background:var(--rule);text-decoration:none}
+  .ctag{font-size:10px;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--muted);border:1px solid var(--rule);border-radius:3px;
+    padding:1px 4px;margin-left:7px;cursor:help;white-space:nowrap}
+  .cdetail{margin:0 0 8px;font-size:12.5px;color:var(--muted)}
+  details.cdef{margin:16px 0 4px;border-top:1px solid var(--rule);padding-top:12px}
+  details.cdef summary{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);cursor:pointer;margin-bottom:4px}
+  details.cdef summary span{text-transform:none;letter-spacing:0}
+  .cscat{margin:6px 0 20px}
+  .cscat svg{display:block;max-width:100%;height:auto;overflow:visible}
+  .cscat .ax{stroke:var(--rule);stroke-width:1}
+  .cscat .pt{fill:var(--mark);fill-opacity:.5}
+  .cscat .fit{stroke:var(--mark);stroke-width:1.5;stroke-dasharray:4 3;fill:none}
+  .cscat .axl{font-size:10px;fill:var(--muted)}
+  .cpick{display:flex;flex-wrap:wrap;gap:6px 8px;margin:9px 0}
+  @media (max-width:640px){
+    .crow{grid-template-columns:1.8em 1fr 4em;gap:8px}
+    .crow .cbar{display:none}
+  }
+  /* Correlations. The bar is a signed magnitude drawn from the centre, so a
+     strong negative reads as far from the middle as a strong positive and the
+     sign stays visible without reading the figure. */
+  .cgrid{display:grid;grid-template-columns:1fr;gap:0;margin:2px 0 18px}
+  .crow{display:grid;grid-template-columns:2.1em 1fr 4.4em 5.2em;gap:11px;
+    align-items:center;padding:7px 0;border-bottom:1px solid var(--rule)}
+  .crow:last-child{border-bottom:0}
+  .crow .cn{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:right}
+  .cpair{font-size:13.5px}
+  .cpair b{font-weight:600}
+  .cpair .vs{color:var(--muted);margin:0 5px;font-size:12px}
+  .cr{font-family:var(--mono);font-size:13px;text-align:right;cursor:help}
+  .cr.pos{color:var(--win)} .cr.neg{color:var(--loss)}
+  .cbar{position:relative;height:9px;background:var(--panel);
+    border:1px solid var(--rule);border-radius:2px;overflow:hidden}
+  .cbar i{position:absolute;top:0;bottom:0;display:block}
+  .cbar i.pos{left:50%;background:var(--win)}
+  .cbar i.neg{right:50%;background:var(--loss)}
+  .cbar u{position:absolute;top:-1px;bottom:-1px;left:50%;width:1px;
+    background:var(--rule);text-decoration:none}
+  .ctag{font-size:10px;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--muted);border:1px solid var(--rule);border-radius:3px;
+    padding:1px 4px;margin-left:7px;cursor:help;white-space:nowrap}
+  .cdetail{margin:0 0 8px;font-size:12.5px;color:var(--muted)}
+  details.cdef{margin:16px 0 4px;border-top:1px solid var(--rule);padding-top:12px}
+  details.cdef summary{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);cursor:pointer;margin-bottom:4px}
+  details.cdef summary span{text-transform:none;letter-spacing:0}
+  .cscat{margin:6px 0 20px}
+  .cscat svg{display:block;max-width:100%;height:auto;overflow:visible}
+  .cscat .ax{stroke:var(--rule);stroke-width:1}
+  .cscat .pt{fill:var(--mark);fill-opacity:.5}
+  .cscat .fit{stroke:var(--mark);stroke-width:1.5;stroke-dasharray:4 3;fill:none}
+  .cscat .axl{font-size:10px;fill:var(--muted)}
+  .cpick{display:flex;flex-wrap:wrap;gap:6px 8px;margin:9px 0}
+  @media (max-width:640px){
+    .crow{grid-template-columns:1.8em 1fr 4em;gap:8px}
+    .crow .cbar{display:none}
+  }
   @media (max-width:640px){ .cf{display:none} th:nth-child(3),td:nth-child(3){display:none} }
 </style>
 </head>
@@ -163,7 +271,7 @@
 <header>
   <div class="bar">
     <h1>Recursive Rankings <span class="sport">football</span></h1>
-    <nav><a href="./" aria-current="page">Rankings</a><a href="#slates">Slates</a><a href="#backtest">Backtest</a><a href="about.html">About</a><a href="ncaam/">NCAAM</a><a href="ncaaw/">NCAAW</a></nav>
+    <nav><a href="./" aria-current="page">Rankings</a><a href="#stats">Stats</a><a href="#corr">Correlations</a><a href="#slates">Slates</a><a href="#backtest">Backtest</a><a href="about.html">About</a><a href="ncaam/">NCAAM</a><a href="ncaaw/">NCAAW</a></nav>
     <button class="iconbtn" id="gearbtn" title="Settings" aria-label="Settings">&#9881;</button>
     <button class="iconbtn" id="helpbtn" title="How this works" aria-label="How this works">?</button>
   </div>
@@ -321,6 +429,8 @@ them feeds the ranking.</p>
 <div id="teamview" hidden></div>
 <div id="slatesview" hidden></div>
 <div id="btview" hidden></div>
+<div id="statsview" hidden></div>
+<div id="corrview" hidden></div>
 
 <footer>Game results and polls from
 <a href="https://collegefootballdata.com">collegefootballdata.com</a>.
@@ -545,6 +655,8 @@ function parseHash(){
   m=/^#slates(?:=(\d+))?$/.exec(location.hash);
   if(m) return {kind:'slates',bucket:m[1]?+m[1]:null};
   if(/^#backtest$/.test(location.hash)) return {kind:'backtest'};
+  if(/^#stats$/.test(location.hash)) return {kind:'stats'};
+  if(/^#corr$/.test(location.hash)) return {kind:'corr'};
   return {kind:'list'};
 }
 const sameView=(a,b)=>a.kind===b.kind&&a.team===b.team&&a.bucket===b.bucket;
@@ -553,12 +665,16 @@ function showView(which){
   $('teamview').hidden=which!=='team';
   $('slatesview').hidden=which!=='slates';
   $('btview').hidden=which!=='backtest';
+  $('statsview').hidden=which!=='stats';
+  $('corrview').hidden=which!=='corr';
 }
 function render(){
   if(!SEASON) return;
   if(VIEW.kind==='team') renderTeam(VIEW.team);
   else if(VIEW.kind==='slates') renderSlates(VIEW.bucket);
   else if(VIEW.kind==='backtest') renderBacktest();
+  else if(VIEW.kind==='stats') renderStats();
+  else if(VIEW.kind==='corr') renderCorr();
   else renderList();
 }
 
@@ -1108,6 +1224,614 @@ function renderTeam(team){
    scores averaged — so it is worth being able to look at directly. Ordering is
    always by the raw vector; opponent weighting rescales scores afterwards and
    would reorder the list, so it is deliberately not applied here. */
+/* ---- combining two or three columns -------------------------------------
+   Two modes, because "combine these stats" means two different things and
+   only one of them is always valid.
+
+   AVERAGE OF RANKS is the general case. Raw values cannot be averaged -- PPG
+   83.0 and FG% 47.6 are points and percent, and their mean is arithmetic on
+   nothing. Each team's PLACE on each chosen column is unit-free, and because
+   a column's place already respects its own direction (fewest points allowed
+   is 1st), low-is-better columns need no special handling here. A team
+   missing any chosen figure is left out rather than given a default, which
+   would invent a standing it has not earned.
+
+   RATIO is the special case, and is offered only when it means something:
+   exactly two columns, both per-game counts of the same kind of thing. APG
+   divided by TO is the assist-to-turnover ratio, a real basketball figure.
+   PPG divided by FG% is not a figure at all, so the control disables rather
+   than producing a number nobody should read. RATIOABLE is the whitelist. */
+const RATIOABLE=new Set(['ppg','oppg','opp','rpg','apg','topg','spg','bpg','marg','mar']);
+let comboKeys=[], comboMode='avg';
+
+function comboState(C){
+  const picked=comboKeys.filter(k=>C.some(c=>c.k===k));
+  const canRatio=picked.length===2&&picked.every(k=>RATIOABLE.has(k));
+  return {picked,canRatio,mode:(comboMode==='ratio'&&canRatio)?'ratio':'avg'};
+}
+
+/* Place on one column, over the teams that have a figure for it. Ties share a
+   place, as everywhere else on this site. */
+function placesFor(data,col){
+  const vals=data.filter(r=>col.v(r)!=null).map(r=>[r,col.v(r)]);
+  vals.sort((a,b)=>col.low?a[1]-b[1]:b[1]-a[1]);
+  const m=new Map(); let place=1;
+  vals.forEach(([r,v],i)=>{
+    if(i>0&&Math.abs(v-vals[i-1][1])>1e-9) place=i+1;
+    m.set(r.team,place);
+  });
+  return m;
+}
+
+/* {team -> {score, detail}} for the current selection, or null if fewer than
+   two columns are chosen. */
+function comboScores(data,C){
+  const st=comboState(C);
+  if(st.picked.length<2) return null;
+  const cols=st.picked.map(k=>C.find(c=>c.k===k));
+  if(st.mode==='ratio'){
+    const [a,b]=cols;
+    const out=new Map();
+    for(const r of data){
+      const x=a.v(r), y=b.v(r);
+      if(x==null||y==null||y===0) continue;
+      out.set(r.team,{score:x/y,
+        detail:`${a.h} ${x.toFixed(1)} ÷ ${b.h} ${y.toFixed(1)}`});
+    }
+    return {mode:'ratio',low:false,map:out,
+      label:`${a.h} ÷ ${b.h}`,cols};
+  }
+  const places=cols.map(c=>placesFor(data,c));
+  const out=new Map();
+  for(const r of data){
+    const ps=places.map(m=>m.get(r.team));
+    if(ps.some(p=>p==null)) continue;      // incomplete, so not placed
+    out.set(r.team,{score:ps.reduce((a,b)=>a+b,0)/ps.length,
+      detail:cols.map((c,i)=>`${c.h} #${ps[i]}`).join(' · ')});
+  }
+  return {mode:'avg',low:true,map:out,
+    label:cols.map(c=>c.h).join(' + '),cols};
+}
+
+/* The picker: a checkbox per sortable numeric column, plus the mode toggle. */
+function comboUI(C,combo){
+  const st=comboState(C);
+  const able=C.filter(c=>!c.text&&c.k!=='rank');
+  return '<div class="combo"><div class="combohd">combine columns '+
+    '<span class="nr">— tick two or three to rank on them together</span></div>'+
+    '<div class="combobox">'+able.map(c=>{
+      const on=st.picked.includes(c.k);
+      const full=st.picked.length>=3&&!on;
+      return `<label class="cb${on?' on':''}${full?' off':''}">`+
+        `<input type="checkbox" data-ck="${c.k}"${on?' checked':''}`+
+        `${full?' disabled':''}> ${esc(c.h)}</label>`;
+    }).join('')+'</div>'+
+    '<div class="combomode">'+
+      `<label class="cb${st.mode==='avg'?' on':''}">`+
+        `<input type="radio" name="cmode" value="avg"${st.mode==='avg'?' checked':''}> `+
+        `average of ranks</label>`+
+      `<label class="cb${st.mode==='ratio'?' on':''}${st.canRatio?'':' off'}" `+
+        `title="${esc(st.canRatio?'Divide the first by the second.':
+          'A ratio needs exactly two columns that are both per-game counts — '+
+          'dividing points by a percentage is not a figure anybody should read.')}">`+
+        `<input type="radio" name="cmode" value="ratio"`+
+        `${st.mode==='ratio'?' checked':''}${st.canRatio?'':' disabled'}> `+
+        `ratio A ÷ B</label>`+
+      (combo?`<span class="combonote">ranking ${combo.map.size} teams on `+
+        `<b>${esc(combo.label)}</b></span>`:
+        '<span class="combonote nr">pick two to begin</span>')+
+    '</div></div>';
+}
+
+/* ---- correlations -------------------------------------------------------
+   How strongly does one column move with another, across the whole field?
+
+   Pearson r on the VALUES, not on the ranks. The combiner above averages
+   places because it has to -- the mean of 83.0 points and 47.6 percent is
+   arithmetic on nothing. Correlation has no such problem: r is already
+   unit-free, so it can use the figures themselves, and "how correlated" in
+   ordinary use means Pearson. Spearman (the same formula on ranks) is
+   computed too and shown on hover: where the two part company the
+   relationship is not a straight line, which is worth knowing and would be
+   invisible if only one were given.
+
+   DIRECTION IS LEFT ALONE. A column's lowBest flag is a display convention
+   for sorting, and folding it in here would flip signs and make every
+   relationship look positive. Fewest turnovers and best record genuinely
+   correlate NEGATIVELY -- more turnovers, worse record -- and that is the
+   honest reading. The sign means what it says in every row.
+
+   WHY "OBVIOUS" IS COMPUTED RATHER THAN LISTED. Margin is defined as PPG
+   minus Opp PPG, so its correlation with either is arithmetic restating
+   itself, not a discovery. The same goes for ORtg against FG%, and for
+   total rebounds against the offensive ones they contain. Those pairs are
+   the strongest on the board and they teach nothing, so they are separated
+   out -- but DEMOTED, not deleted: a correlation page that silently omitted
+   record-against-margin would look like it had failed to find it. They sit
+   in a collapsed block with the reason attached.
+
+   DERIVES names, for each column, the columns it is built from. A pair is
+   definitional when either side derives from the other.  */
+const DERIVES={
+  /* Total yards IS the rushing and passing yards added together, and yards
+     per play is that same total over the plays that produced it. The yardage
+     columns and the efficiency columns are two readings of the SAME snaps:
+     success rate counts whether a play cleared a bar, PPA weights it by what
+     it was worth, and yards per play averages the raw gain. A high
+     correlation between any two of them is three descriptions of one set of
+     downs agreeing with itself, not a discovery, so the whole family is
+     declared here and the page holds it back together. */
+  ypg:['rush','pass','ypp','oppa','osucc','third'],
+  ypp:['ypg','rush','pass','oppa','osucc','oexpl','oppo'],
+  oypg:['orush','opass','oypp','dppa','dsucc','othird'],
+  oypp:['oypg','orush','opass','dppa','dsucc','dexpl','dppo'],
+  /* PPA, success rate and points per opportunity are the same efficiency
+     measured three ways; explosiveness is the value of the plays the success
+     rate counted. */
+  oppa:['osucc','oppo','oexpl','third'],
+  dppa:['dsucc','dppo','dexpl','othird'],
+  oppo:['osucc','oppa'], dppo:['dsucc','dppa'],
+  /* Line yards are computed from the same carries the stuff rate counts and
+     the yards-per-carry figure averages. */
+  olin:['ostuf','ypc','rush'], dlin:['dstuf','orush'],
+  /* Yards per carry is rushing yards over the attempts that produced them. */
+  ypc:['rush','olin'],
+  /* Turnover margin is the subtraction of the two turnover columns. */
+  tom:['to'],
+  /* Sacks are a subset of tackles for loss, by definition. */
+  sack:['tfl'],
+  /* Third-down conversion is one of the inputs to the success rate. */
+  third:['osucc','oppa','ypg'], othird:['dsucc','dppa','oypg'],
+  /* From results, not from the box score. */
+  rec:[],
+  /* The rating is computed FROM results, so its agreement with win
+     percentage is the system restating itself. Its agreement with the
+     box-score columns is exactly what this page exists to show. */
+  key:['rec'],
+};
+/* Shares a component without either deriving from the other: both sides of
+   these are built on the same underlying count, so a strong r is partly
+   bookkeeping. Flagged but left in the main list. */
+const OVERLAP=[['ypg','top'],['rush','top'],['oppa','fpos'],
+               ['dhav','dstuf'],['dhav','tfl'],['ohav','ostuf'],
+               ['pen','tfl']];
+
+function pairKind(a,b){
+  const da=DERIVES[a]||[], db=DERIVES[b]||[];
+  if(da.includes(b)||db.includes(a)) return 'def';
+  /* Both derived from the same parent -- ORtg and DRtg both carry pace. */
+  if(da.length&&db.length&&da.some(x=>db.includes(x))) return 'over';
+  if(OVERLAP.some(([x,y])=>(x===a&&y===b)||(x===b&&y===a))) return 'over';
+  return null;
+}
+
+/* Pearson r. Returns null when either column is constant or too thin. */
+function pearson(xs,ys){
+  const n=xs.length;
+  if(n<12) return null;
+  let mx=0,my=0;
+  for(let i=0;i<n;i++){ mx+=xs[i]; my+=ys[i]; }
+  mx/=n; my/=n;
+  let sxy=0,sxx=0,syy=0;
+  for(let i=0;i<n;i++){
+    const dx=xs[i]-mx, dy=ys[i]-my;
+    sxy+=dx*dy; sxx+=dx*dx; syy+=dy*dy;
+  }
+  if(sxx<=0||syy<=0) return null;
+  return sxy/Math.sqrt(sxx*syy);
+}
+/* Fractional ranks, ties sharing the mean of the places they span, which is
+   what Spearman requires -- giving tied values distinct places would invent
+   an order the data does not have. */
+function ranksOf(v){
+  const idx=v.map((x,i)=>i).sort((i,j)=>v[i]-v[j]);
+  const r=new Array(v.length);
+  let i=0;
+  while(i<idx.length){
+    let j=i;
+    while(j+1<idx.length && v[idx[j+1]]===v[idx[i]]) j++;
+    const mean=(i+j)/2+1;
+    for(let k=i;k<=j;k++) r[idx[k]]=mean;
+    i=j+1;
+  }
+  return r;
+}
+const spearman=(xs,ys)=>pearson(ranksOf(xs),ranksOf(ys));
+
+/* Every pair of numeric columns, strongest first. Pairs are scored on |r|,
+   and the definitional ones are split off rather than mixed in. */
+function correlate(data,C){
+  const cols=C.filter(c=>!c.text&&c.k!=='rank'&&c.k!=='combo');
+  const out=[];
+  for(let i=0;i<cols.length;i++) for(let j=i+1;j<cols.length;j++){
+    const a=cols[i], b=cols[j];
+    const xs=[],ys=[],teams=[];
+    for(const r of data){
+      const x=a.v(r), y=b.v(r);
+      if(x==null||y==null||!Number.isFinite(x)||!Number.isFinite(y)) continue;
+      xs.push(x); ys.push(y); teams.push(r.team);
+    }
+    const r=pearson(xs,ys);
+    if(r==null) continue;
+    out.push({a,b,r,rho:spearman(xs,ys),n:xs.length,
+      kind:pairKind(a.k,b.k),xs,ys,teams});
+  }
+  out.sort((p,q)=>Math.abs(q.r)-Math.abs(p.r)||p.a.h.localeCompare(q.a.h));
+  return out;
+}
+
+/* A plain-language gloss. Deliberately hedged: r measures how together two
+   columns move, and nothing here establishes that either causes the other. */
+function strengthWord(r){
+  const m=Math.abs(r);
+  return m>=0.8?'very strong':m>=0.6?'strong':m>=0.4?'moderate'
+        :m>=0.2?'weak':'almost none';
+}
+function corrTip(p){
+  const sign=p.r>0?'together':'in opposite directions';
+  const d=Math.abs(p.r-p.rho)>=0.12
+    ? ` Spearman (rank) r is ${p.rho.toFixed(2)}, which differs enough from Pearson `+
+      `to say the relationship is not a straight line \u2014 the ranks agree more `+
+      `than the raw figures do, or the reverse.`
+    : ` Spearman (rank) r is ${p.rho.toFixed(2)}, close to Pearson, so a `+
+      `straight line describes it fairly.`;
+  return `${p.a.h} and ${p.b.h} move ${sign}: r = ${p.r>0?'+':'\u2212'}`+
+    `${Math.abs(p.r).toFixed(3)} over `+
+    `${p.n} teams, a ${strengthWord(p.r)} relationship. r runs from −1 to +1; `+
+    `0 means the two columns say nothing about each other.${d} `+
+    `Correlation is not cause: both may follow from something else entirely, `+
+    `such as simply being a better team.`;
+}
+
+/* The bar: signed magnitude from a centre line, so sign survives at a glance. */
+function corrBar(r){
+  const w=Math.min(Math.abs(r),1)*50;
+  return `<div class="cbar"><i class="${r>0?'pos':'neg'}" style="width:${w.toFixed(1)}%"></i><u></u></div>`;
+}
+function corrRow(p,i){
+  const tag = p.kind==='def'
+    ? `<span class="ctag" title="${esc(p.a.h+' and '+p.b.h+' are not independent: one is '+
+        'computed from the other, so a high r here is arithmetic restating itself '+
+        'rather than anything the season taught.')}">definitional</span>`
+    : p.kind==='over'
+    ? `<span class="ctag" title="${esc('These two share a component, so part of this '+
+        'relationship is bookkeeping rather than basketball.')}">shares a part</span>`
+    : '';
+  return `<div class="crow"><span class="cn">${i}</span>`+
+    `<span class="cpair"><button class="tm2" data-a="${p.a.k}" data-b="${p.b.k}">`+
+    `<b>${esc(p.a.h)}</b><span class="vs">vs</span><b>${esc(p.b.h)}</b></button>${tag}</span>`+
+    corrBar(p.r)+
+    `<span class="cr ${p.r>0?'pos':'neg'}" title="${esc(corrTip(p))}">`+
+    `${p.r>0?'+':'−'}${Math.abs(p.r).toFixed(3)}</span></div>`;
+}
+
+/* A figure's useful precision depends on its size: PPA runs in hundredths
+   and yards per game in hundreds, so a fixed one decimal would print an
+   offensive rating of 0.186 as "0.2" and lose the column entirely. */
+const fmtv=v=>Math.abs(v)>=100?v.toFixed(0):Math.abs(v)>=10?v.toFixed(1)
+  :Math.abs(v)>=1?v.toFixed(2):v.toFixed(3);
+
+/* A scatter of the chosen pair with its least-squares line. Drawn in SVG at a
+   fixed viewBox and scaled by CSS, so it stays sharp and needs no measuring. */
+function corrScatter(p){
+  /* PT leaves a band above the plot for the y-axis label, which would
+     otherwise sit on top of the highest tick value in the corner. */
+  const W=620,H=310,PL=52,PR=12,PT=26,PB=34;
+  const xs=p.xs, ys=p.ys;
+  const x0=Math.min(...xs), x1=Math.max(...xs);
+  const y0=Math.min(...ys), y1=Math.max(...ys);
+  const sx=v=>PL+(x1===x0?0.5:(v-x0)/(x1-x0))*(W-PL-PR);
+  const sy=v=>H-PB-(y1===y0?0.5:(v-y0)/(y1-y0))*(H-PT-PB);
+  const n=xs.length;
+  let mx=0,my=0; for(let i=0;i<n;i++){mx+=xs[i];my+=ys[i];} mx/=n; my/=n;
+  let sxy=0,sxx=0;
+  for(let i=0;i<n;i++){ sxy+=(xs[i]-mx)*(ys[i]-my); sxx+=(xs[i]-mx)**2; }
+  const slope=sxx>0?sxy/sxx:0, icpt=my-slope*mx;
+  const pts=xs.map((x,i)=>
+    `<circle class="pt" cx="${sx(x).toFixed(1)}" cy="${sy(ys[i]).toFixed(1)}" r="2.6">`+
+    `<title>${esc(p.teams[i]+' — '+p.a.h+' '+fmtv(x)+', '+p.b.h+' '+fmtv(ys[i]))}</title>`+
+    `</circle>`).join('');
+  const fit=`<line class="fit" x1="${sx(x0).toFixed(1)}" y1="${sy(slope*x0+icpt).toFixed(1)}" `+
+    `x2="${sx(x1).toFixed(1)}" y2="${sy(slope*x1+icpt).toFixed(1)}"/>`;
+  const num=v=>Math.abs(v)>=100?v.toFixed(0):v.toFixed(1);
+  return `<div class="cscat"><svg viewBox="0 0 ${W} ${H}" role="img" `+
+    `aria-label="${esc('Scatter plot of '+p.a.h+' against '+p.b.h+' for '+n+' teams')}">`+
+    `<line class="ax" x1="${PL}" y1="${PT}" x2="${PL}" y2="${H-PB}"/>`+
+    `<line class="ax" x1="${PL}" y1="${H-PB}" x2="${W-PR}" y2="${H-PB}"/>`+
+    pts+fit+
+    `<text class="axl" x="${PL}" y="${H-PB+15}">${esc(num(x0))}</text>`+
+    `<text class="axl" x="${W-PR}" y="${H-PB+15}" text-anchor="end">${esc(num(x1))}</text>`+
+    `<text class="axl" x="${(PL+W-PR)/2}" y="${H-6}" text-anchor="middle">${esc(p.a.h)} →</text>`+
+    `<text class="axl" x="${PL-6}" y="${H-PB}" text-anchor="end">${esc(num(y0))}</text>`+
+    `<text class="axl" x="${PL-6}" y="${PT+8}" text-anchor="end">${esc(num(y1))}</text>`+
+    `<text class="axl" x="0" y="12">${esc(p.b.h)} ↑</text>`+
+    `</svg></div>`;
+}
+
+let corrPair=null;   // [aKey,bKey] of the pair shown in the scatter, or null
+let corrAll=false;   // show every pair rather than the leading ones
+
+/* The rows and the column set, shared by the stats table and the
+   correlations view. One definition, because two would drift: a column
+   added to the table should appear in the correlations without a second
+   edit, and the tooltips should agree.
+
+   FBS ONLY, AND THE PAGE SAYS SO. The feed behind these figures covers the
+   top division and nothing else -- 138 teams against the 700-odd this
+   ranking places. Every other view on this site shows the whole field, so
+   the gap is stated in the lede rather than left for a reader to infer from
+   a short table.
+
+   TOTALS COME DOWN, RATES COME THROUGH. The season file carries counting
+   stats as totals with `games` beside them, so the division happens here;
+   success rate, PPA, explosiveness and havoc are already rates upstream and
+   are passed through untouched. */
+function statRows(){
+  const {rows}=current();
+  const TS=SEASON.teamStats;
+  const data=[];
+  for(const r of rows){
+    const t=TS.get(r.team);
+    if(!t||!t.games) continue;
+    const g=t.games;
+    const per=k=>t[k]==null?null:t[k]/g;
+    const pct=(a,b)=>(t[a]==null||!t[b])?null:100*t[a]/t[b];
+    data.push({team:r.team,conference:r.conference,rank:r.rank,key:r.key,
+      wins:r.wins,losses:r.losses,games:g,
+      /* Yards per play rather than per game: the per-game figure mostly
+         measures how often a team had the ball, which pace already says. */
+      ypp:(t.yards!=null&&t.offPlays)?t.yards/t.offPlays:null,
+      oppYpp:(t.oppYards!=null&&t.defPlays)?t.oppYards/t.defPlays:null,
+      ypg:per('yards'), oppYpg:per('oppYards'),
+      rushYpg:per('rushYards'), passYpg:per('passYards'),
+      oppRushYpg:per('oppRushYards'), oppPassYpg:per('oppPassYards'),
+      ypc:(t.rushYards!=null&&t.rushAtt)?t.rushYards/t.rushAtt:null,
+      compPct:pct('passComp','passAtt'),
+      thirdPct:pct('thirdConv','thirdDowns'),
+      oppThirdPct:pct('oppThirdConv','oppThirdDowns'),
+      toPg:per('turnovers'), oppToPg:per('oppTurnovers'),
+      /* Takeaways minus giveaways, the figure every broadcast quotes. */
+      toMargin:(t.turnovers!=null&&t.oppTurnovers!=null)
+        ?(t.oppTurnovers-t.turnovers)/g:null,
+      sacksPg:per('sacks'), tflPg:per('tfl'),
+      penYdsPg:per('penaltyYards'),
+      topMin:t.possSeconds==null?null:t.possSeconds/g/60,
+      offPpa:t.offPpa??null, defPpa:t.defPpa??null,
+      offSuccess:t.offSuccess==null?null:100*t.offSuccess,
+      defSuccess:t.defSuccess==null?null:100*t.defSuccess,
+      offExpl:t.offExpl??null, defExpl:t.defExpl??null,
+      offStuff:t.offStuff==null?null:100*t.offStuff,
+      defStuff:t.defStuff==null?null:100*t.defStuff,
+      offLineYards:t.offLineYards??null, defLineYards:t.defLineYards??null,
+      offHavoc:t.offHavoc==null?null:100*t.offHavoc,
+      defHavoc:t.defHavoc==null?null:100*t.defHavoc,
+      offPpo:t.offPpo??null, defPpo:t.defPpo??null,
+      offFieldPos:t.offFieldPos??null});
+  }
+  const f1=v=>v==null?null:v.toFixed(1);
+  const f2=v=>v==null?null:v.toFixed(2);
+  const f3=v=>v==null?null:v.toFixed(3);
+  const pc=v=>v==null?null:v.toFixed(1)+'%';
+  const sg=v=>v==null?null:(v>0?'+':'')+v.toFixed(1);
+  const C=[
+    {k:'rank', h:'#',          cls:'rk',  low:true,  v:r=>r.rank,  d:r=>r.rank,
+     tip:'Place in this ranking — the same number as the Rankings page, carried here so the two can be read against each other. Computed from results alone, and from nothing on this table.'},
+    {k:'team', h:'Team',       cls:'',    low:true,  v:r=>r.team,  d:r=>`<button class="tm" data-t="${esc(r.team)}">${esc(r.team)}</button>`, text:true},
+    {k:'conf', h:'Conference', cls:'cf',  low:true,  v:r=>r.conference||'', d:r=>esc(r.conference||''), text:true},
+    {k:'rec',  h:'Rec',        cls:'num', low:false, v:r=>r.games?r.wins/(r.wins+r.losses):0, d:r=>`${r.wins}‑${r.losses}`,
+     tip:'Wins and losses through the chosen week. Sorts on win percentage.'},
+    {k:'key',  h:'Rating',     cls:'num', low:false, v:r=>r.key, d:r=>`<b>${r.key.toFixed(1)}</b>`,
+     tip:'This ranking’s own rating: the mean of a team’s graded games, each scored as a percentile among everyone who played that week. Not a box-score figure — it is here as the anchor the rest of the table can be sorted against.'},
+    {k:'ypp',  h:'Yds/play',   cls:'num', low:false, v:r=>r.ypp, d:r=>f2(r.ypp),
+     tip:'Total yards divided by offensive plays. Preferred to yards per game, which mostly measures how often a team had the ball.'},
+    {k:'oypp', h:'Opp yds/play',cls:'num',low:true,  v:r=>r.oppYpp, d:r=>f2(r.oppYpp),
+     tip:'What opponents averaged per play. Lower is better, so the first click sorts ascending.'},
+    {k:'ypg',  h:'Yds/game',   cls:'num', low:false, v:r=>r.ypg, d:r=>f1(r.ypg), tip:'Total yards per game.'},
+    {k:'oypg', h:'Opp yds/game',cls:'num',low:true,  v:r=>r.oppYpg, d:r=>f1(r.oppYpg), tip:'Yards allowed per game. Lower is better.'},
+    {k:'rush', h:'Rush/game',  cls:'num', low:false, v:r=>r.rushYpg, d:r=>f1(r.rushYpg), tip:'Rushing yards per game.'},
+    {k:'pass', h:'Pass/game',  cls:'num', low:false, v:r=>r.passYpg, d:r=>f1(r.passYpg), tip:'Net passing yards per game — sack yardage already deducted.'},
+    {k:'orush',h:'Opp rush',   cls:'num', low:true,  v:r=>r.oppRushYpg, d:r=>f1(r.oppRushYpg), tip:'Rushing yards allowed per game. Lower is better.'},
+    {k:'opass',h:'Opp pass',   cls:'num', low:true,  v:r=>r.oppPassYpg, d:r=>f1(r.oppPassYpg), tip:'Net passing yards allowed per game. Lower is better.'},
+    {k:'ypc',  h:'Yds/carry',  cls:'num', low:false, v:r=>r.ypc, d:r=>f2(r.ypc), tip:'Rushing yards per attempt.'},
+    {k:'cmp',  h:'Comp%',      cls:'num', low:false, v:r=>r.compPct, d:r=>pc(r.compPct), tip:'Completions over attempts, season to date.'},
+    {k:'third',h:'3rd down',   cls:'num', low:false, v:r=>r.thirdPct, d:r=>pc(r.thirdPct), tip:'Third downs converted, as a percentage of third downs faced.'},
+    {k:'othird',h:'Opp 3rd',   cls:'num', low:true,  v:r=>r.oppThirdPct, d:r=>pc(r.oppThirdPct), tip:'Third downs the defence allowed to be converted. Lower is better.'},
+    {k:'to',   h:'TO/game',    cls:'num', low:true,  v:r=>r.toPg, d:r=>f2(r.toPg), tip:'Turnovers committed per game. Lower is better.'},
+    {k:'tom',  h:'TO margin',  cls:'num', low:false, v:r=>r.toMargin, d:r=>sg(r.toMargin),
+     tip:'Takeaways minus giveaways, per game. Positive means the team wins the turnover battle.'},
+    {k:'sack', h:'Sacks',      cls:'num', low:false, v:r=>r.sacksPg, d:r=>f2(r.sacksPg), tip:'Sacks recorded per game.'},
+    {k:'tfl',  h:'TFL',        cls:'num', low:false, v:r=>r.tflPg, d:r=>f2(r.tflPg), tip:'Tackles for loss per game.'},
+    {k:'pen',  h:'Pen yds',    cls:'num', low:true,  v:r=>r.penYdsPg, d:r=>f1(r.penYdsPg), tip:'Penalty yards per game. Lower is better.'},
+    {k:'top',  h:'Time of poss',cls:'num',low:false, v:r=>r.topMin, d:r=>f1(r.topMin), tip:'Average time of possession, in minutes.'},
+    {k:'oppa', h:'Off PPA',    cls:'num', low:false, v:r=>r.offPpa, d:r=>f3(r.offPpa),
+     tip:'Predicted points added per play on offence — how much the average snap improved the team’s expected points. The single best summary figure on this table, and the strongest correlate of winning.'},
+    {k:'dppa', h:'Def PPA',    cls:'num', low:true,  v:r=>r.defPpa, d:r=>f3(r.defPpa),
+     tip:'Predicted points added per play allowed. Lower is better: a negative figure means opponents lost ground on the average snap.'},
+    {k:'osucc',h:'Off succ%',  cls:'num', low:false, v:r=>r.offSuccess, d:r=>pc(r.offSuccess),
+     tip:'Share of plays that count as successful — 50% of needed yards on first down, 70% on second, all of it on third or fourth.'},
+    {k:'dsucc',h:'Def succ%',  cls:'num', low:true,  v:r=>r.defSuccess, d:r=>pc(r.defSuccess), tip:'Success rate allowed. Lower is better.'},
+    {k:'oexpl',h:'Off expl',   cls:'num', low:false, v:r=>r.offExpl, d:r=>f2(r.offExpl),
+     tip:'Explosiveness: the average value of the plays that did succeed. A team can be efficient without being explosive, and the two columns often disagree.'},
+    {k:'dexpl',h:'Def expl',   cls:'num', low:true,  v:r=>r.defExpl, d:r=>f2(r.defExpl), tip:'Explosiveness allowed on successful plays against. Lower is better.'},
+    {k:'ohav', h:'Off havoc',  cls:'num', low:true,  v:r=>r.offHavoc, d:r=>pc(r.offHavoc),
+     tip:'Share of plays on which the OFFENCE was disrupted — a tackle for loss, a pass defensed, a forced fumble against it. Lower is better here: this is havoc suffered, not caused.'},
+    {k:'dhav', h:'Def havoc',  cls:'num', low:false, v:r=>r.defHavoc, d:r=>pc(r.defHavoc),
+     tip:'Share of plays on which the DEFENCE disrupted the opponent. Higher is better. One of the few figures here that correlates with winning without simply restating yardage.'},
+    {k:'ostuf',h:'Off stuff%', cls:'num', low:true,  v:r=>r.offStuff, d:r=>pc(r.offStuff), tip:'Share of runs stopped at or behind the line. Lower is better for an offence.'},
+    {k:'dstuf',h:'Def stuff%', cls:'num', low:false, v:r=>r.defStuff, d:r=>pc(r.defStuff), tip:'Share of opponent runs stopped at or behind the line. Higher is better.'},
+    {k:'olin', h:'Off line yds',cls:'num',low:false, v:r=>r.offLineYards, d:r=>f2(r.offLineYards),
+     tip:'Line yards: the share of each run credited to the blocking rather than the back, by a standard weighting of the first few yards.'},
+    {k:'dlin', h:'Def line yds',cls:'num',low:true,  v:r=>r.defLineYards, d:r=>f2(r.defLineYards), tip:'Line yards allowed. Lower is better.'},
+    {k:'oppo', h:'Pts/opp',    cls:'num', low:false, v:r=>r.offPpo, d:r=>f2(r.offPpo),
+     tip:'Points per scoring opportunity — per drive that reached the opponent’s 40. Measures finishing rather than moving the ball.'},
+    {k:'dppo', h:'Opp pts/opp',cls:'num', low:true,  v:r=>r.defPpo, d:r=>f2(r.defPpo), tip:'Points allowed per opponent scoring opportunity. Lower is better.'},
+    {k:'fpos', h:'Field pos',  cls:'num', low:true,  v:r=>r.offFieldPos, d:r=>f1(r.offFieldPos),
+     tip:'Average starting field position on offence, measured as yards from the opponent’s goal line — so a LOWER number is a shorter field and the better result. Checked against this season rather than assumed: the figure correlates −0.54 with win percentage, and the teams starting closest are the ones winning.'},
+  ];
+  return {data,C};
+}
+
+let statKey='rank', statAsc=true;
+
+function renderStats(){
+  const {h,rows}=current();
+  showView('stats');
+  $('wkv').textContent=isCombined()?weekName(h):h;
+  const TS=SEASON.teamStats;
+  const back='<p><button class="back" id="back">&larr; Rankings</button> '+
+    '<button class="back" id="tocorr">What moves with what &rarr;</button></p>';
+  if(!TS||!TS.size){
+    $('statsview').innerHTML=back+'<p class="msg">No team statistics in this season’s '+
+      'file. They are pulled separately from the results and only the seasons that have '+
+      'been re-fetched carry them — the ranking itself is unaffected.</p>';
+    $('back').onclick=()=>go(null);
+    $('tocorr').onclick=()=>go({kind:'corr'});
+    return;
+  }
+  const {data,C}=statRows();
+  const combo=comboScores(data,C);
+  if(combo)
+    C.push({k:'combo',h:combo.mode==='ratio'?'Ratio':'Combined',cls:'num',
+      low:combo.low,v:r=>{const e=combo.map.get(r.team);return e?e.score:null;},
+      d:r=>{const e=combo.map.get(r.team);
+        return e?`<b class="cmb" title="${esc(e.detail)}">`+
+          `${combo.mode==='ratio'?e.score.toFixed(2):e.score.toFixed(1)}</b>`:null;},
+      tip:combo.mode==='ratio'
+        ?`${combo.label}, each team’s first figure divided by its second. Hover a value for the two numbers behind it.`
+        :`The mean of each team’s PLACE on ${combo.label}. Raw values cannot be averaged across different units, so places are averaged instead — which also means a column where low is better needs no special handling, its place already says so. Lower is better. A team missing any of the chosen figures is left out rather than given a default.`});
+  if(combo&&statKey!=='combo'&&!C.some(c=>c.k===statKey)) statKey='combo';
+  const col=C.find(c=>c.k===statKey)||C[0];
+  const dir=statAsc?1:-1;
+  const sorted=[...data].sort((x,y)=>{
+    const a=col.v(x), b=col.v(y);
+    if(a==null&&b==null) return x.rank-y.rank;
+    if(a==null) return 1;
+    if(b==null) return -1;
+    const c=col.text?String(a).localeCompare(String(b)):a-b;
+    return c*dir || x.rank-y.rank;
+  });
+  const stack=t=>{const i=String(t).indexOf(' ');
+    return i<0?esc(t):esc(t.slice(0,i))+' <br>'+esc(t.slice(i+1));};
+  let html=back+
+    `<div class="thead"><h2>Team stats</h2><span class="sub">${sorted.length} FBS teams `+
+    `through ${isCombined()?weekName(h):'week '+h}</span></div>`+
+    '<p class="slateintro"><b>FBS only.</b> The feed behind these figures covers the top '+
+    'division and nothing else, so this table holds about a fifth of the teams the '+
+    'ranking places — every other view on this site shows the whole field. Everything '+
+    'right of <b>Rating</b> comes from the box score and <b>none of it feeds the '+
+    'ranking</b>: this site grades who beat whom, and yardage is not that. Sort by '+
+    '<b>Rating</b> to see the order the Rankings page gives, then by anything else to '+
+    'see how little it has to do with it. Click a heading to sort; click again to '+
+    'reverse. Hover any heading for what the figure is and where it came from.</p>'+
+    comboUI(C,combo)+
+    '<div class="scroll"><table id="stbl"><thead><tr>'+
+    C.map(c=>`<th class="${c.cls} sortable${c.k===statKey?' sorted'+(statAsc?' asc':''):''}"`+
+      ` data-k="${c.k}"${c.tip?` title="${esc(c.tip)}"`:''}>${stack(c.h)}</th>`).join('')+
+    '</tr></thead><tbody>';
+  for(const r of sorted)
+    html+='<tr>'+C.map(c=>{
+      const v=c.d(r);
+      return `<td class="${c.cls}${v==null?' nr':''}">${v==null?'—':v}</td>`;
+    }).join('')+'</tr>';
+  $('statsview').innerHTML=html+'</tbody></table></div>';
+  $('back').onclick=()=>go(null);
+  $('tocorr').onclick=()=>go({kind:'corr'});
+  $('stbl').querySelectorAll('th.sortable').forEach(th=>th.onclick=()=>{
+    const k=th.dataset.k, c=C.find(x=>x.k===k);
+    if(k===statKey) statAsc=!statAsc; else { statKey=k; statAsc=c.low; }
+    renderStats();
+  });
+  $('statsview').querySelectorAll('input[data-ck]').forEach(cb=>cb.onchange=()=>{
+    const k=cb.dataset.ck;
+    /* Filter first, so re-ticking a column that is already chosen moves it
+       to the end rather than listing it twice -- a duplicate would read as
+       "Off PPA + Off PPA" and would weight that column double in the mean. */
+    comboKeys=cb.checked?[...comboKeys.filter(x=>x!==k),k].slice(-3)
+                        :comboKeys.filter(x=>x!==k);
+    if(comboKeys.length>=2){ statKey='combo'; statAsc=true; }
+    else if(statKey==='combo') statKey='rank';
+    renderStats();
+  });
+  $('statsview').querySelectorAll('input[name=cmode]').forEach(rb=>rb.onchange=()=>{
+    comboMode=rb.value;
+    if(comboKeys.length>=2){ statKey='combo'; statAsc=comboMode!=='ratio'; }
+    renderStats();
+  });
+  wire($('statsview'));
+}
+
+function renderCorr(){
+  const {h}=current();
+  showView('corr');
+  $('wkv').textContent=isCombined()?weekName(h):h;
+  const TS=SEASON.teamStats;
+  const host=$('corrview');
+  const back='<p><button class="back" id="back">&larr; Rankings</button> '+
+    '<button class="back" id="tostats">Stats table &rarr;</button></p>';
+  const wire2=()=>{ $('back').onclick=()=>go(null);
+                    $('tostats').onclick=()=>go({kind:'stats'}); };
+  if(!TS||!TS.size){
+    host.innerHTML=back+'<p class="msg">No team statistics in this season’s file, '+
+      'so there is nothing to correlate.</p>';
+    wire2(); return;
+  }
+  const {data,C}=statRows();
+  const pairs=correlate(data,C);
+  if(!pairs.length){
+    host.innerHTML=back+'<p class="msg">Not enough teams carry two comparable figures '+
+      'in this season yet.</p>';
+    wire2(); return;
+  }
+  const real=pairs.filter(p=>p.kind!=='def');
+  const defs=pairs.filter(p=>p.kind==='def');
+  const shown=corrAll?real:real.slice(0,18);
+  const sel=corrPair&&real.concat(defs).find(p=>p.a.k===corrPair[0]&&p.b.k===corrPair[1]);
+
+  let html=back+
+    `<div class="thead"><h2>What moves with what</h2><span class="sub">`+
+    `${pairs.length} pairs over ${data.length} FBS teams, through ${isCombined()?weekName(h):'week '+h}</span></div>`+
+    '<p class="slateintro"><b>FBS only</b>, like the stats table it is built from. Every '+
+    'pair of columns there, ranked by how strongly the two move together across the '+
+    'division. <b>r</b> runs from −1 to +1: at +1 the two rise in perfect step, at '+
+    '−1 one falls as the other rises, and at 0 they tell you nothing about each '+
+    'other. A negative sign is not a fault — fewer turnovers and a better record '+
+    '<i>should</i> run opposite. Pairs where one column is <b>computed from</b> the '+
+    'other are held back at the bottom, because their high scores are arithmetic rather '+
+    'than anything the season taught. Click any pair to plot it. Hover a figure for the '+
+    'rank-based reading and the caveat that none of this shows cause.</p>';
+
+  if(sel) html+=corrScatter(sel)+
+    `<p class="cdetail">${esc(sel.a.h)} against ${esc(sel.b.h)} — `+
+    `r = ${sel.r>0?'+':'−'}${Math.abs(sel.r).toFixed(3)} over ${sel.n} teams `+
+    `(${strengthWord(sel.r)}). Each dot is a team; hover one to name it. `+
+    `The dashed line is the least-squares fit.</p>`;
+
+  html+=`<div class="combohd" style="margin-top:14px">strongest relationships `+
+    `<span class="nr">— excluding the definitional pairs</span></div>`+
+    '<div class="cgrid">'+shown.map((p,i)=>corrRow(p,i+1)).join('')+'</div>';
+  if(real.length>18)
+    html+=`<p><button class="back" id="more">${corrAll?'Show the leading 18 only'
+      :'Show all '+real.length+' pairs'}</button></p>`;
+  if(defs.length)
+    html+='<details class="cdef"><summary>definitional pairs '+
+      `<span>— ${defs.length} held back, and why</span></summary>`+
+      '<p class="slateintro">In each of these one column is built out of the other, so '+
+      'the correlation is restating a definition. Yards per play and offensive PPA are '+
+      'two readings of the same snaps; total yards contains the rushing and passing '+
+      'yards it is made of. They are listed rather than hidden so that the page cannot '+
+      'be accused of missing its own strongest numbers.</p>'+
+      '<div class="cgrid">'+defs.map((p,i)=>corrRow(p,i+1)).join('')+'</div></details>';
+
+  host.innerHTML=html;
+  wire2();
+  const m=$('more'); if(m) m.onclick=()=>{ corrAll=!corrAll; renderCorr(); };
+  host.querySelectorAll('button.tm2').forEach(b=>b.onclick=()=>{
+    const k=[b.dataset.a,b.dataset.b];
+    corrPair=(corrPair&&corrPair[0]===k[0]&&corrPair[1]===k[1])?null:k;
+    renderCorr();
+  });
+}
+
 function renderSlates(bucket){
   const h=+$('wk').value;
   $('wkv').textContent=isCombined()?weekName(h):h;
@@ -1392,6 +2116,8 @@ function go(v){
   VIEW = (typeof v==='string') ? {kind:'team',team:v} : (v||{kind:'list'});
   const want = VIEW.kind==='team' ? 't='+encodeURIComponent(VIEW.team)
              : VIEW.kind==='slates' ? 'slates'+(VIEW.bucket?'='+VIEW.bucket:'')
+             : VIEW.kind==='stats' ? 'stats'
+             : VIEW.kind==='corr' ? 'corr'
              : VIEW.kind==='backtest' ? 'backtest'
              : '';
   if(want) location.hash=want;

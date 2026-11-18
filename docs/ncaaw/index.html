@@ -1407,6 +1407,12 @@ function corrRow(p,i){
     `${p.r>0?'+':'−'}${Math.abs(p.r).toFixed(3)}</span></div>`;
 }
 
+/* A figure's useful precision depends on its size: PPA runs in hundredths
+   and yards per game in hundreds, so a fixed one decimal would print an
+   offensive rating of 0.186 as "0.2" and lose the column entirely. */
+const fmtv=v=>Math.abs(v)>=100?v.toFixed(0):Math.abs(v)>=10?v.toFixed(1)
+  :Math.abs(v)>=1?v.toFixed(2):v.toFixed(3);
+
 /* A scatter of the chosen pair with its least-squares line. Drawn in SVG at a
    fixed viewBox and scaled by CSS, so it stays sharp and needs no measuring. */
 function corrScatter(p){
@@ -1425,7 +1431,7 @@ function corrScatter(p){
   const slope=sxx>0?sxy/sxx:0, icpt=my-slope*mx;
   const pts=xs.map((x,i)=>
     `<circle class="pt" cx="${sx(x).toFixed(1)}" cy="${sy(ys[i]).toFixed(1)}" r="2.6">`+
-    `<title>${esc(p.teams[i]+' — '+p.a.h+' '+x.toFixed(1)+', '+p.b.h+' '+ys[i].toFixed(1))}</title>`+
+    `<title>${esc(p.teams[i]+' — '+p.a.h+' '+fmtv(x)+', '+p.b.h+' '+fmtv(ys[i]))}</title>`+
     `</circle>`).join('');
   const fit=`<line class="fit" x1="${sx(x0).toFixed(1)}" y1="${sy(slope*x0+icpt).toFixed(1)}" `+
     `x2="${sx(x1).toFixed(1)}" y2="${sy(slope*x1+icpt).toFixed(1)}"/>`;
@@ -1673,7 +1679,11 @@ function renderStats(){
   });
   $('statsview').querySelectorAll('input[data-ck]').forEach(cb=>cb.onchange=()=>{
     const k=cb.dataset.ck;
-    comboKeys=cb.checked?[...comboKeys,k].slice(-3):comboKeys.filter(x=>x!==k);
+    /* Filter first, so re-ticking a column that is already chosen moves it
+       to the end rather than listing it twice -- a duplicate would read as
+       "Off PPA + Off PPA" and would weight that column double in the mean. */
+    comboKeys=cb.checked?[...comboKeys.filter(x=>x!==k),k].slice(-3)
+                        :comboKeys.filter(x=>x!==k);
     /* Sorting follows the selection: tick two columns and the table should
        already be ordered by them, rather than making the reader find and
        click a heading that only just appeared. */

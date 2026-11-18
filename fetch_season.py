@@ -498,6 +498,145 @@ def build_fpi(raw, teams, top="FBS"):
     return out
 
 
+
+# ----------------------------------------------------------------------------
+# Team statistics
+# ----------------------------------------------------------------------------
+def build_team_stats(basic, advanced, teams, top="FBS"):
+    """{team: {...}} of season figures, basic box score and advanced alike.
+
+    THESE NEVER TOUCH THE RANKING, for the same reason the polls and the power
+    index do not: ingest() reads only `games`, so a figure parked in its own
+    key cannot reach a grade even by accident. The separation matters more here
+    than for the polls, because yards and points per opportunity are margin's
+    close relatives, and margin is the input this project refuses -- in the
+    sort order itself since the tiebreak came out.
+
+    TWO FEEDS, ONE ROW PER TEAM. /stats/season returns one row per team per
+    statistic, which is pivoted here into a single record; /stats/season/advanced
+    returns a nested record already. Both are keyed by team name and both cover
+    FBS only, which is why `top` defaults there and the caller says so on the
+    page: this file ranks 700-odd teams and barely a fifth of them have a line
+    in either feed.
+
+    EVERY BASIC FIGURE ARRIVES WITH ITS OPPONENT MIRROR. The feed publishes
+    `rushingYards` and `rushingYardsOpponent` as separate rows, so defence is
+    fetched rather than derived -- unlike the women's basketball file, where no
+    opponent mirror exists and points allowed has to be recovered from the game
+    results. Where a mirror exists it is carried under an `opp` prefix.
+
+    TOTALS, NOT RATES. Counting stats are stored as the feed gives them, with
+    `games` alongside, and the page divides. Storing a per-game figure here
+    would bake in a rounding the page might want differently, and would make
+    the file lie if a team's game count were ever corrected upstream. The
+    exceptions are the figures that are ALREADY rates -- success rate, PPA,
+    explosiveness, havoc -- which have no meaningful total.
+    """
+    # The basic feed is one row per team per statistic.
+    pivot = {}
+    for row in basic or []:
+        name = pick(row, "team", "school")
+        stat = row.get("statName")
+        val = row.get("statValue")
+        if not name or not stat or val is None:
+            continue
+        if (teams.get(name) or {}).get("division") != top:
+            continue
+        pivot.setdefault(name, {})[str(stat)] = val
+
+    def num(v):
+        """Numbers only, and no NaN: a non-number in a stat feed is a blank."""
+        try:
+            f = float(v)
+        except (TypeError, ValueError):
+            return None
+        return None if f != f else f
+
+    out = {}
+    for name, s in pivot.items():
+        games = num(s.get("games"))
+        if not games:
+            continue
+        rec = {"games": int(games)}
+
+        # Counting stats and their opponent mirrors, carried as totals.
+        for key, src in (
+            ("yards", "totalYards"), ("rushYards", "rushingYards"),
+            ("passYards", "netPassingYards"), ("firstDowns", "firstDowns"),
+            ("rushAtt", "rushingAttempts"), ("passAtt", "passAttempts"),
+            ("passComp", "passCompletions"),
+            ("turnovers", "turnovers"), ("sacks", "sacks"),
+            ("tfl", "tacklesForLoss"), ("penalties", "penalties"),
+            ("penaltyYards", "penaltyYards"),
+            ("thirdDowns", "thirdDowns"),
+            ("thirdConv", "thirdDownConversions"),
+            ("fourthDowns", "fourthDowns"),
+            ("fourthConv", "fourthDownConversions"),
+            ("possSeconds", "possessionTime"),
+        ):
+            v = num(s.get(src))
+            if v is not None:
+                rec[key] = v
+            o = num(s.get(src + "Opponent"))
+            if o is not None:
+                rec["opp" + key[0].upper() + key[1:]] = o
+
+        adv = (advanced or {}).get(name)
+        if adv:
+            off = adv.get("offense") or {}
+            dfn = adv.get("defense") or {}
+            for side, blob in (("off", off), ("def", dfn)):
+                for key, src in (("Ppa", "ppa"), ("Success", "successRate"),
+                                 ("Expl", "explosiveness"),
+                                 ("Stuff", "stuffRate"),
+                                 ("LineYards", "lineYards"),
+                                 ("Power", "powerSuccess"),
+                                 ("Ppo", "pointsPerOpportunity"),
+                                 ("Plays", "plays"), ("Drives", "drives")):
+                    v = num(blob.get(src))
+                    if v is not None:
+                        rec[side + key] = v
+                hv = num((blob.get("havoc") or {}).get("total"))
+                if hv is not None:
+                    rec[side + "Havoc"] = hv
+                fp = num((blob.get("fieldPosition") or {}).get("averageStart"))
+                if fp is not None:
+                    rec[side + "FieldPos"] = fp
+        if len(rec) > 1:
+            out[name] = rec
+    return out
+
+
+FIXTURE_STATS_BASIC = [
+    {"team": "Florida", "statName": "games", "statValue": 10},
+    {"team": "Florida", "statName": "totalYards", "statValue": 3941},
+    {"team": "Florida", "statName": "totalYardsOpponent", "statValue": 3541},
+    {"team": "Florida", "statName": "rushingYards", "statValue": 1695},
+    {"team": "Florida", "statName": "turnovers", "statValue": 13},
+    {"team": "Florida", "statName": "possessionTime", "statValue": 18977},
+    {"team": "Florida", "statName": "thirdDowns", "statValue": 129},
+    {"team": "Florida", "statName": "thirdDownConversions", "statValue": 56},
+    # a blank value must not become a zero
+    {"team": "Florida", "statName": "sacks", "statValue": None},
+    # an FCS team is dropped: the feed covers FBS, and so does the page
+    {"team": "Mercer", "statName": "games", "statValue": 10},
+    {"team": "Mercer", "statName": "totalYards", "statValue": 3000},
+    # a team with no games played has nothing to divide by
+    {"team": "Army", "statName": "totalYards", "statValue": 10},
+]
+
+FIXTURE_STATS_ADV = {
+    "Florida": {"team": "Florida",
+                "offense": {"ppa": 0.1855, "successRate": 0.447,
+                            "explosiveness": 1.186, "stuffRate": 0.2,
+                            "lineYards": 2.798, "plays": 689, "drives": 113,
+                            "pointsPerOpportunity": 4.169,
+                            "havoc": {"total": 0.139},
+                            "fieldPosition": {"averageStart": 69.5}},
+                "defense": {"ppa": 0.0559, "successRate": 0.4326,
+                            "havoc": {"total": 0.21}}},
+}
+
 def through_week_map(games):
     """CFBD week -> the renumbered week by which that week's games had been played.
 
@@ -706,6 +845,7 @@ def selftest():
     kept_all, _, _ = build_games(FIXTURE_GAMES, dict(teams), drop_titles=False)
     soon = build_upcoming(FIXTURE_UPCOMING, teams, today=dt.date(2026, 11, 10))
     power = build_fpi(FIXTURE_FPI, teams)
+    st_basic = build_team_stats(FIXTURE_STATS_BASIC, FIXTURE_STATS_ADV, teams)
 
     checks = []
     checks.append(("completed games kept", len(games) == 4))
@@ -884,6 +1024,34 @@ def selftest():
                    build_games(FIXTURE_GAMES, dict(st), tag_cfbd=False)[0][0]["_cfbd"]
                    is None))
 
+    checks.append(("team stats pivot one row per team",
+                   set(st_basic) == {"Florida"}))
+    checks.append(("an FCS team is dropped from the stats",
+                   "Mercer" not in st_basic))
+    checks.append(("a team with no games is dropped from the stats",
+                   "Army" not in st_basic))
+    checks.append(("counting stats are carried as totals, not per game",
+                   st_basic["Florida"]["yards"] == 3941))
+    checks.append(("games rides alongside so the page can divide",
+                   st_basic["Florida"]["games"] == 10))
+    checks.append(("an opponent mirror is carried under an opp prefix",
+                   st_basic["Florida"]["oppYards"] == 3541))
+    checks.append(("a null stat value is omitted rather than zeroed",
+                   "sacks" not in st_basic["Florida"]))
+    checks.append(("advanced offence figures are merged in",
+                   abs(st_basic["Florida"]["offSuccess"] - 0.447) < 1e-9))
+    checks.append(("advanced defence figures are merged in",
+                   abs(st_basic["Florida"]["defPpa"] - 0.0559) < 1e-9))
+    checks.append(("havoc is lifted out of its nested blob",
+                   abs(st_basic["Florida"]["defHavoc"] - 0.21) < 1e-9))
+    checks.append(("field position is lifted out of its nested blob",
+                   abs(st_basic["Florida"]["offFieldPos"] - 69.5) < 1e-9))
+    checks.append(("a team with no advanced row still keeps its basic figures",
+                   build_team_stats(FIXTURE_STATS_BASIC, {}, teams)
+                   ["Florida"]["yards"] == 3941))
+    checks.append(("no advanced feed at all is survivable",
+                   "offPpa" not in build_team_stats(
+                       FIXTURE_STATS_BASIC, None, teams)["Florida"]))
     print("\nself test")
     ok = True
     for name, passed in checks:
@@ -927,6 +1095,8 @@ def main():
     p.add_argument("--no-fcs", action="store_true", help="top division only")
     p.add_argument("--no-polls", action="store_true",
                    help="skip the AP and Coaches poll fetch (saves one API call)")
+    p.add_argument("--no-stats", action="store_true",
+                   help="skip the team statistics")
     p.add_argument("--no-fpi", action="store_true",
                    help="skip the ESPN power index fetch (saves one API call)")
     p.add_argument("--cfbd-weeks", action="store_true",
@@ -1082,6 +1252,35 @@ def main():
         else:
             warn(f"the feed returned no power index for {a.year}; FPI data "
                  f"starts in 2005")
+
+    team_stats = {}
+    if not a.no_stats:
+        print("  team statistics")
+        try:
+            basic = get("/stats/season", {"year": a.year}, key)
+            try:
+                adv_rows = get("/stats/season/advanced", {"year": a.year}, key)
+            except Exception as e:      # the advanced feed is the optional half
+                warn(f"could not read advanced stats ({e}); "
+                     f"writing the basic figures alone")
+                adv_rows = []
+            adv = {pick(r, "team", "school"): r for r in (adv_rows or [])
+                   if pick(r, "team", "school")}
+            team_stats = build_team_stats(basic, adv, teams)
+        except SystemExit:
+            raise
+        except Exception as e:               # missing stats are not fatal
+            warn(f"could not read team statistics ({e}); "
+                 f"writing the season without them")
+        if team_stats:
+            withadv = sum(1 for r in team_stats.values() if "offPpa" in r)
+            print(f"     {len(team_stats)} teams, {withadv} with advanced figures")
+            if withadv < len(team_stats):
+                warn(f"{len(team_stats) - withadv} teams have no advanced row; "
+                     f"those cells will read as blank")
+        else:
+            warn(f"the feed returned no team statistics for {a.year}")
+
     for g in games:
         g.pop("_date", None)
         g.pop("_cfbd", None)
@@ -1089,6 +1288,12 @@ def main():
     payload = {"teams": ordered_teams(teams, 'FBS'), "games": games}
     if polls:
         payload["polls"] = polls
+    if team_stats:
+        # Its own key, exactly as the polls and the power index are, and for a
+        # sharper reason: these figures include yards and points per
+        # opportunity, which are margin's close relatives. ingest() reads only
+        # `games`, so nothing here can reach a grade.
+        payload["teamStats"] = team_stats
     if fpi:
         # Its own key, beside the polls and well clear of `games`. The day is
         # stamped because the feed has no week: without it the page cannot tell
