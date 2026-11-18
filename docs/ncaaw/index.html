@@ -117,6 +117,13 @@
     border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:13px 0}
   .fact b{display:block;font-family:var(--mono);font-size:21px;font-weight:600;letter-spacing:-.02em}
   .fact span{font-size:11.5px;color:var(--muted);letter-spacing:.03em}
+  /* The résumé block below the headline tiles. The men's page has a second,
+     dashed block for box-score figures; there is none here because wehoop
+     publishes no box scores for this sport, so the styles for it are absent
+     too rather than sitting unused. */
+  .tierh{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);margin:22px 0 -6px}
+  .tiers .facts{margin-top:10px}
   .g{border-bottom:1px solid var(--rule);padding:13px 0}
   .g:last-child{border-bottom:0}
   .grow{display:flex;gap:13px;align-items:baseline;flex-wrap:wrap}
@@ -801,9 +808,20 @@ function renderTeam(team){
     `<div class="thead"><h2>${esc(team)}</h2>`+
     `<span class="sub">${esc(info.conference||'')}</span></div>`;
   html+='<div class="facts">'+
-    `<div class="fact"><b>#${me.rank}</b><span>HERE</span></div>`+
-    `<div class="fact"><b>${me.wins}‑${me.losses}</b><span>RECORD</span></div>`+
-    `<div class="fact"><b>${me.key.toFixed(1)}</b><span>RATING</span></div>`+
+    `<div class="fact" title="${esc('Where this ranking places the team through the '+
+      'chosen day, out of '+rows.length+' Division I sides. Computed in your browser from '+
+      'the game results alone \u2014 no poll, no preseason estimate, no margin of victory. '+
+      'Teams level on rating share a place.')}"><b>#${me.rank}</b><span>HERE</span></div>`+
+    `<div class="fact" title="${esc('Wins and losses over every game played through this '+
+      'day, including games against teams outside Division I. The rating beside it counts '+
+      'only the games the chosen field scores, so the two can disagree \u2014 that is why '+
+      'both are shown.')}"><b>${me.wins}‑${me.losses}</b><span>RECORD</span></div>`+
+    `<div class="fact" title="${esc('The mean of this team\u2019s scored games, each graded '+
+      '0\u2013100 as a percentile among everyone who played that day. '+(W
+        ?'Opponent weighting is on, so each game is scaled by how good its opponent proved '+
+         'to be, iterated until the ratings stop moving.'
+        :'Opponent weighting is off, so this is the raw percentile mean.')+
+      ' Higher is better.')}"><b>${me.key.toFixed(1)}</b><span>RATING</span></div>`+
     (ST?`<div class="fact" title="${esc(SI.tip(team))}"><b>#${SI.order.get(team)}`+
         `<span class="nr" style="font-size:14px;font-weight:400"> (${ST.sos.toFixed(1)})</span>`+
         `</b><span>SCHEDULE</span></div>`:'')+
@@ -826,7 +844,11 @@ function renderTeam(team){
         `<b>${PT.loss.toFixed(1)}</b><span>LOSS SCORE</span></div>`:'')+
     (hasPolls()?`<div class="fact"><b>${apR.has(team)?'#'+apR.get(team):'NR'}</b><span>AP</span></div>`+
       `<div class="fact"><b>${coR.has(team)?'#'+coR.get(team):'NR'}</b><span>COACHES</span></div>`:'')+
-    `<div class="fact"><b>${bw&&Number.isFinite(bw.bestWin)?'#'+bw.bestWin:'—'}</b><span>BEST WIN</span></div>`+
+    `<div class="fact" title="${esc('The best place, in THIS ranking, of any team this one '+
+      'has beaten. Only ranked opponents count \u2014 a win outside the division proves '+
+      'nothing, so it is skipped rather than counted as worst. A dash means no ranked team '+
+      'has been beaten yet.')}">`+
+      `<b>${bw&&Number.isFinite(bw.bestWin)?'#'+bw.bestWin:'—'}</b><span>BEST WIN</span></div>`+
     (bw?`<div class="fact" title="${esc(bw.worstLoss==null
         ?'Unbeaten through this day, so there is no worst loss to report.'
         :(bw.worstLossNR
@@ -843,6 +865,58 @@ function renderTeam(team){
           BR.champion===team?'WON IT':BR.finalFour.has(team)?'FINAL FOUR':'MADE IT'
         }</b><span>NCAA</span></div>`:'')+
     '</div>';
+
+  /* Record against each tier of the ranking. This needs nothing but the order
+     already on screen, which is why it works here: the men's page pairs it
+     with box-score figures pulled from an API, and wehoop publishes no box
+     scores for the women's game, so this side gets the half that is computed
+     rather than fetched. That half is the one that was always the point --
+     these are résumé figures, and a résumé is what this site grades.
+
+     Computed live from `rows` rather than stored, so it moves with the
+     scoring, the field, the weighting and the day, and can never disagree
+     with the table it was read from. */
+  const tierRows=(()=>{
+    const place=new Map(rows.map(r=>[r.team,r.rank]));
+    const games=(ENG.gamesOf.get(team)||[]).filter(g=>g.week<=h);
+    const tally=pred=>{
+      let w=0,l=0;
+      for(const g of games){
+        const p=place.get(g.opp);
+        if(p==null||!pred(p)) continue;
+        g.res===WIN?w++:l++;
+      }
+      return {w,l,n:w+l};
+    };
+    const SRC='Counted from THIS ranking\u2019s order, never from a poll \u2014 and no poll '+
+      'is published with this sport\u2019s data at all. An opponent\u2019s place is the one on '+
+      'the table you just came from, so these figures move when you change the scoring, the '+
+      'field, the weighting or the day. ';
+    const CUM='Cumulative \u2014 a win over #3 is counted here and in every wider tier below.';
+    return [
+      ['vs TOP 10',  tally(p=>p<=10),
+       SRC+'Record against the teams this ranking places 1st to 10th through the chosen day. '+
+       'A dash means nobody in that band has been played yet.'],
+      ['vs TOP 25',  tally(p=>p<=25), SRC+'Against places 1\u201325. '+CUM],
+      ['vs TOP 50',  tally(p=>p<=50), SRC+'Against places 1\u201350. '+CUM],
+      ['vs TOP 100', tally(p=>p<=100),
+       SRC+'Against places 1\u2013100. '+CUM+' In November this is often the only band with '+
+       'anything in it, because the hard games have not been played.'],
+      ['QUAD 1',     tally(p=>p<=30),
+       'The selection committee argues in quadrants built on the NET, which this site does not '+
+       'use. This is the same IDEA drawn on this ranking instead: the top 30, regardless of '+
+       'venue. Read it as the shape of the argument rather than a reproduction of their table.'],
+      ['QUAD 4',     tally(p=>p>200),
+       'Games against teams this ranking places outside the top 200 \u2014 the ones that can '+
+       'only cost you. A loss here is the worst thing on a r\u00e9sum\u00e9; a win is worth '+
+       'close to nothing. Our order, not the NET.'],
+    ];
+  })();
+  html+='<div class="tiers"><div class="tierh">record by tier</div><div class="facts">'+
+    tierRows.map(([label,t,tip])=>
+      `<div class="fact" title="${esc(tip)}"><b>${t.n?`${t.w}\u2011${t.l}`:'\u2014'}</b>`+
+      `<span>${esc(label)}</span></div>`).join('')+
+    '</div></div>';
   /* What the record says about March, and only when the record can say it.
      Measured over the five tournaments stored here: of teams finishing a
      regular season in the top four, 8 of 20 reached a Final Four; 5 of 30 from

@@ -797,9 +797,20 @@ function renderTeam(team){
     `<div class="thead"><h2>${esc(team)}</h2>`+
     `<span class="sub">${esc(info.conference||'')}</span></div>`;
   html+='<div class="facts">'+
-    `<div class="fact"><b>#${me.rank}</b><span>HERE</span></div>`+
-    `<div class="fact"><b>${me.wins}‑${me.losses}</b><span>RECORD</span></div>`+
-    `<div class="fact"><b>${me.key.toFixed(1)}</b><span>RATING</span></div>`+
+    `<div class="fact" title="${esc('Where this ranking places the team through the '+
+      'chosen day, out of '+rows.length+' Division I sides. Computed in your browser from '+
+      'the game results alone \u2014 no poll, no preseason estimate, no margin of victory. '+
+      'Teams level on rating share a place.')}"><b>#${me.rank}</b><span>HERE</span></div>`+
+    `<div class="fact" title="${esc('Wins and losses over every game played through this '+
+      'day, including games against teams outside Division I. The rating beside it counts '+
+      'only the games the chosen field scores, so the two can disagree \u2014 that is why '+
+      'both are shown.')}"><b>${me.wins}‑${me.losses}</b><span>RECORD</span></div>`+
+    `<div class="fact" title="${esc('The mean of this team\u2019s scored games, each graded '+
+      '0\u2013100 as a percentile among everyone who played that day. '+(W
+        ?'Opponent weighting is on, so each game is scaled by how good its opponent proved '+
+         'to be, iterated until the ratings stop moving.'
+        :'Opponent weighting is off, so this is the raw percentile mean.')+
+      ' Higher is better.')}"><b>${me.key.toFixed(1)}</b><span>RATING</span></div>`+
     (ST?`<div class="fact" title="${esc(SI.tip(team))}"><b>#${SI.order.get(team)}`+
         `<span class="nr" style="font-size:14px;font-weight:400"> (${ST.sos.toFixed(1)})</span>`+
         `</b><span>SCHEDULE</span></div>`:'')+
@@ -820,9 +831,20 @@ function renderTeam(team){
       ?`<div class="fact" title="${esc('Mean of the '+PT.nLoss+' scored defeat'+(PT.nLoss===1?'':'s')+
           '. Higher is better here too: losing to a strong side keeps most of the raw figure.')}">`+
         `<b>${PT.loss.toFixed(1)}</b><span>LOSS SCORE</span></div>`:'')+
-    `<div class="fact"><b>${apR.has(team)?'#'+apR.get(team):'NR'}</b><span>AP</span></div>`+
-    `<div class="fact"><b>${coR.has(team)?'#'+coR.get(team):'NR'}</b><span>COACHES</span></div>`+
-    `<div class="fact"><b>${bw&&Number.isFinite(bw.bestWin)?'#'+bw.bestWin:'—'}</b><span>BEST WIN</span></div>`+
+    `<div class="fact" title="${esc('The Associated Press poll \u2014 a vote of sportswriters, '+
+      'shown for comparison and feeding nothing here. Published weekly, so it reflects games '+
+      'through the day named in the line above the table, usually a day or two behind this '+
+      'page. NR means outside its top 25.')}">`+
+      `<b>${apR.has(team)?'#'+apR.get(team):'NR'}</b><span>AP</span></div>`+
+    `<div class="fact" title="${esc('The coaches\u2019 poll, on the same terms as the AP beside '+
+      'it: a human vote, shown for comparison, feeding nothing. Where the two disagree, the gap '+
+      'is between two rooms of voters rather than between two methods.')}">`+
+      `<b>${coR.has(team)?'#'+coR.get(team):'NR'}</b><span>COACHES</span></div>`+
+    `<div class="fact" title="${esc('The best place, in THIS ranking, of any team this one '+
+      'has beaten. Only ranked opponents count \u2014 a win outside the division proves '+
+      'nothing, so it is skipped rather than counted as worst. A dash means no ranked team '+
+      'has been beaten yet.')}">`+
+      `<b>${bw&&Number.isFinite(bw.bestWin)?'#'+bw.bestWin:'—'}</b><span>BEST WIN</span></div>`+
     (bw?`<div class="fact" title="${esc(bw.worstLoss==null
         ?'Unbeaten through this day, so there is no worst loss to report.'
         :(bw.worstLossNR
@@ -863,13 +885,30 @@ function renderTeam(team){
       }
       return {w,l,n:w+l};
     };
+    const SRC='Counted from THIS ranking\u2019s order, never from a poll: an opponent\u2019s '+
+      'place is the one on the table you just came from, so these figures move when you change '+
+      'the scoring, the field, the weighting or the day. ';
+    const CUM='Cumulative \u2014 a win over #3 is counted here and in every wider tier below.';
     return [
-      ['vs TOP 10',  tally(p=>p<=10),  'Record against teams this ranking places in its top 10.'],
-      ['vs TOP 25',  tally(p=>p<=25),  'Against the top 25. Cumulative: a top-10 win is counted here too.'],
-      ['vs TOP 50',  tally(p=>p<=50),  'Against the top 50.'],
-      ['vs TOP 100', tally(p=>p<=100), 'Against the top 100.'],
-      ['QUAD 1',     tally(p=>p<=30),  'The committee argues in quadrants; these are the same idea drawn on THIS ranking rather than on the NET. Quad 1 is the top 30.'],
-      ['QUAD 4',     tally(p=>p>200),  'Outside the top 200 \u2014 the games that can only hurt.'],
+      ['vs TOP 10',  tally(p=>p<=10),
+       SRC+'Record against the teams this ranking places 1st to 10th through the chosen day. '+
+       'A dash means nobody in that band has been played yet.'],
+      ['vs TOP 25',  tally(p=>p<=25),
+       SRC+'Against places 1\u201325. '+CUM],
+      ['vs TOP 50',  tally(p=>p<=50),
+       SRC+'Against places 1\u201350. '+CUM],
+      ['vs TOP 100', tally(p=>p<=100),
+       SRC+'Against places 1\u2013100. '+CUM+' In November this is often the only band with '+
+       'anything in it, because the hard games have not been played.'],
+      ['QUAD 1',     tally(p=>p<=30),
+       'The selection committee argues in quadrants built on the NET, which this site does not '+
+       'use. This is the same IDEA drawn on this ranking instead: the top 30, regardless of '+
+       'venue. The committee\u2019s own Quad 1 also widens for road games; this one does not, '+
+       'so read it as the shape of the argument rather than a reproduction of their table.'],
+      ['QUAD 4',     tally(p=>p>200),
+       'Games against teams this ranking places outside the top 200 \u2014 the ones that can '+
+       'only cost you. A loss here is the worst thing on a r\u00e9sum\u00e9; a win is worth '+
+       'close to nothing. Same caveat as Quad 1: our order, not the NET.'],
     ];
   })();
   html+='<div class="tiers"><div class="tierh">record by tier</div><div class="facts">'+
@@ -889,16 +928,41 @@ function renderTeam(team){
   if(TS&&TS.games){
     const per=(v,d=1)=>v==null?null:(v/TS.games).toFixed(d);
     const pct=v=>v==null?null:v.toFixed(1)+'%';
+    /* Every tooltip here names its own arithmetic and its source, because the
+       whole block is a borrowed figure rather than a computed one and the page
+       should not blur that. */
+    const FEED='Pulled from CollegeBasketballData, stored in its own key and never '+
+      'read by the ranking.';
+    const N=TS.games, over=` Divided by the ${N} game${N===1?'':'s'} played through this day.`;
     const box=[
-      ['PPG',     per(TS.points),    'Points per game. Descriptive only \u2014 subtract the next one and you have scoring margin, which this ranking refuses as evidence.'],
-      ['OPP PPG', per(TS.oppPoints), 'Points allowed per game.'],
-      ['RPG',     per(TS.rebounds),  'Total rebounds per game.'],
-      ['APG',     per(TS.assists),   'Assists per game.'],
-      ['TOPG',    per(TS.turnovers), 'Turnovers per game. Lower is better, unlike every other figure in this block.'],
-      ['FG%',     pct(TS.fgPct),     'Field-goal percentage over the season so far.'],
-      ['3P%',     pct(TS.threePct),  'Three-point percentage.'],
-      ['OPP FG%', pct(TS.oppFgPct),  'What opponents shot against this team.'],
-      ['PACE',    TS.pace==null?null:TS.pace.toFixed(1), 'Possessions per 40 minutes. A fast team scores more without being better, which is most of why PPG is not evidence here.'],
+      ['PPG',     per(TS.points),
+       `Points scored, ${TS.points} in total, divided by ${N}.`+' '+FEED+
+       ' Subtract OPP PPG beside it and you have scoring margin \u2014 the one input this '+
+       'ranking refuses, which is why this block sits behind a line.'],
+      ['OPP PPG', per(TS.oppPoints),
+       `Points allowed, ${TS.oppPoints} in total, divided by ${N}.`+' '+FEED+
+       ' Lower is better, unlike PPG to its left.'],
+      ['RPG',     per(TS.rebounds),
+       `Total rebounds, offensive and defensive, ${TS.rebounds} in all.`+over+' '+FEED],
+      ['APG',     per(TS.assists),
+       `Assists, ${TS.assists} in all.`+over+' '+FEED],
+      ['TOPG',    per(TS.turnovers),
+       `Turnovers committed, ${TS.turnovers} in all.`+over+
+       ' Lower is better, unlike every other figure in this block. '+FEED],
+      ['FG%',     pct(TS.fgPct),
+       'Field goals made as a share of field goals attempted, across the season so far, '+
+       'counting twos and threes together. Not a per-game average \u2014 it is the season '+
+       'total over the season total. '+FEED],
+      ['3P%',     pct(TS.threePct),
+       'Three-pointers made over three-pointers attempted, season to date. '+FEED],
+      ['OPP FG%', pct(TS.oppFgPct),
+       'What opponents shot against this team from the field, season to date. The closest '+
+       'thing here to a defensive figure, though it says nothing about who those opponents '+
+       'were. '+FEED],
+      ['PACE',    TS.pace==null?null:TS.pace.toFixed(1),
+       'Possessions per 40 minutes, as the feed computes it. This is the number that makes '+
+       'PPG misleading: a fast team scores more without being better, and two teams with the '+
+       'same PPG can be playing very different basketball. '+FEED],
     ].filter(([,v])=>v!=null);
     if(box.length)
       html+='<div class="boxs"><div class="boxh">box score '+
