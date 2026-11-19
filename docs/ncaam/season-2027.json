@@ -10068,6 +10068,13 @@
    "homePoints": 76,
    "awayPoints": 74,
    "week": 18
+  },
+  {
+   "home": "West Virginia",
+   "away": "Florida",
+   "homePoints": 72,
+   "awayPoints": 85,
+   "week": 19
   }
  ],
  "dates": [
@@ -10088,7 +10095,8 @@
   "2026-11-15",
   "2026-11-16",
   "2026-11-17",
-  "2026-11-18"
+  "2026-11-18",
+  "2026-11-19"
  ],
  "polls": [
   {
@@ -12634,26 +12642,26 @@
    "dRating": 107.5
   },
   "Florida": {
-   "games": 6,
-   "wins": 5,
+   "games": 7,
+   "wins": 6,
    "losses": 1,
-   "pace": 66.8,
-   "points": 491,
-   "oppPoints": 414,
-   "rebounds": 240,
-   "oppRebounds": 164,
-   "offRebounds": 79,
-   "assists": 98,
-   "turnovers": 78,
-   "steals": 30,
-   "blocks": 24,
-   "fgPct": 48,
-   "threePct": 43.1,
-   "ftPct": 71.8,
-   "oppFgPct": 41.7,
-   "efgPct": 57.5,
-   "oRating": 122.4,
-   "dRating": 103.5
+   "pace": 66.6,
+   "points": 576,
+   "oppPoints": 486,
+   "rebounds": 275,
+   "oppRebounds": 187,
+   "offRebounds": 89,
+   "assists": 113,
+   "turnovers": 96,
+   "steals": 36,
+   "blocks": 29,
+   "fgPct": 49.3,
+   "threePct": 44,
+   "ftPct": 72.6,
+   "oppFgPct": 41.9,
+   "efgPct": 59.1,
+   "oRating": 123.6,
+   "dRating": 104.3
   },
   "Florida Gulf Coast": {
    "games": 6,
@@ -18332,26 +18340,26 @@
    "dRating": 101.7
   },
   "West Virginia": {
-   "games": 5,
+   "games": 6,
    "wins": 4,
-   "losses": 1,
-   "pace": 68.6,
-   "points": 415,
-   "oppPoints": 316,
-   "rebounds": 196,
-   "oppRebounds": 159,
-   "offRebounds": 64,
-   "assists": 64,
-   "turnovers": 49,
-   "steals": 39,
+   "losses": 2,
+   "pace": 68.1,
+   "points": 487,
+   "oppPoints": 401,
+   "rebounds": 219,
+   "oppRebounds": 194,
+   "offRebounds": 75,
+   "assists": 72,
+   "turnovers": 59,
+   "steals": 48,
    "blocks": 9,
-   "fgPct": 45.5,
-   "threePct": 33.1,
-   "ftPct": 76,
-   "oppFgPct": 42.1,
-   "efgPct": 53.2,
-   "oRating": 120.6,
-   "dRating": 92.4
+   "fgPct": 45.1,
+   "threePct": 32.9,
+   "ftPct": 76.2,
+   "oppFgPct": 44.5,
+   "efgPct": 52.5,
+   "oRating": 118.8,
+   "dRating": 98.5
   },
   "Western Carolina": {
    "games": 5,
