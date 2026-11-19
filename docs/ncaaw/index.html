@@ -90,6 +90,31 @@
   .modal-body p{margin:0 0 13px;font-size:14px;line-height:1.62}
   .modal-body p:last-child{margin:0}
   .modal-body a{color:var(--mark)}
+  /* the clickable agreement tiles and their plot */
+  .fact.live{cursor:pointer;border:0;background:none;padding:0;margin:0;
+    text-align:left;font:inherit;color:inherit;border-radius:6px;
+    transition:background .12s}
+  .fact.live:hover{background:var(--soft)}
+  .fact.live:hover b{color:var(--mark)}
+  .fact.live:focus-visible{outline:2px solid var(--mark);outline-offset:3px}
+  .fact .zoom{font-size:10px;letter-spacing:.04em;color:var(--mark);
+    margin-left:6px;opacity:0;transition:opacity .12s}
+  .fact.live:hover .zoom,.fact.live:focus-visible .zoom{opacity:1}
+  dialog#pollmodal{
+    border:1px solid var(--rule);border-radius:10px;background:var(--panel);color:var(--ink);
+    padding:0;max-width:min(78ch,calc(100vw - 32px));width:100%;
+    box-shadow:0 18px 50px rgba(0,0,0,.22)}
+  dialog#pollmodal::backdrop{background:rgba(20,20,18,.45);backdrop-filter:blur(2px)}
+  .pollscat svg .diag{stroke:var(--mark);stroke-width:1.5;stroke-dasharray:5 4;opacity:.55}
+  .pollscat svg .pt{fill:var(--muted);fill-opacity:.55}
+  .pollscat svg .pt.far{fill:var(--mark);fill-opacity:.95}
+  .pollscat svg .tick{font-size:9.5px;opacity:.75}
+  .pollscat svg .lbl{font-size:10px;fill:var(--ink);paint-order:stroke;
+    stroke:var(--panel);stroke-width:3px;stroke-linejoin:round}
+  .crow.pollrow{grid-template-columns:2.1em 1fr 3.4em auto}
+  dialog#pollmodal .modal-body{max-height:min(76vh,680px)}
+  dialog#pollmodal .cdetail{margin:0 0 10px}
+  dialog#pollmodal .cscat{margin:4px 0 12px}
   /* clickable teams */
   .tm{font-weight:600}
   button.tm{background:none;border:0;padding:0;font:inherit;font-weight:600;
@@ -306,6 +331,14 @@ none — <a href="about.html#no-polls">why</a>.</p>
     </div>
 
   </div>
+</dialog>
+
+<dialog id="pollmodal" aria-labelledby="polltitle">
+  <div class="modal-head">
+    <h2 id="polltitle">Agreement</h2>
+    <button class="modal-close" id="pollclose" aria-label="Close">&times;</button>
+  </div>
+  <div class="modal-body" id="pollbody"></div>
 </dialog>
 
 <dialog id="helpmodal" aria-labelledby="helptitle">
@@ -674,16 +707,35 @@ function renderList(){
   const refCO=refB?pollAt(SEASON,'Coaches Poll',refB):null;
   const ref=(refAP&&refCO)
     ?agreement(refAP.ranks,new Map(refCO.ranks.map(r=>[r.team,r.rank]))):null;
-  const fact=(v,k,tip)=>`<div class="fact" title="${esc(tip)}"><b>${v}</b><span>${k}</span></div>`;
+  /* A tile with a plot behind it becomes a button; one without stays a div,
+     so nothing advertises an interaction it does not have. */
+  const fact=(v,k,tip,plot)=>plot
+    ? `<button type="button" class="fact live" data-plot="${esc(plot)}" title="${esc(tip)} — click to plot it.">`+
+      `<b>${v}</b><span>${k}<span class="zoom">◱ plot</span></span></button>`
+    : `<div class="fact" title="${esc(tip)}"><b>${v}</b><span>${k}</span></div>`;
+  const PLOTS={};
+  const reg=(key,poll,mine,rho,n,label,other)=>{
+    PLOTS[key]={key,label,other,rho,n,pairs:pollPairs(poll,mine)};
+    return key;
+  };
   $('pollfacts').innerHTML = (sAP||sCO||ref)
     ? (sAP?fact(sAP.rho.toFixed(3),'RANK CORRELATION WITH AP',
-        `Spearman over the ${sAP.n} teams the AP ranks. +1 means the two orders agree exactly, 0 means no relation, −1 means they are reversed. Measured against the full ranking, so the victors gate does not move it. Where either side ties, the tied teams take the mean of the places they span, so a tie contributes no order that was not there.`):'')
+        `Spearman over the ${sAP.n} teams the AP ranks. +1 means the two orders agree exactly, 0 means no relation, −1 means they are reversed. Measured against the full ranking, so the victors gate does not move it. Where either side ties, the tied teams take the mean of the places they span, so a tie contributes no order that was not there.`,
+        reg('ap',ap.ranks,fullRank,sAP.rho,sAP.n,'This ranking against the AP poll','AP')):'')
       +(sCO?fact(sCO.rho.toFixed(3),'RANK CORRELATION WITH COACHES',
-        `Spearman over the ${sCO.n} teams the Coaches poll ranks.`):'')
+        `Spearman over the ${sCO.n} teams the Coaches poll ranks.`,
+        reg('co',co.ranks,fullRank,sCO.rho,sCO.n,'This ranking against the Coaches poll','Coaches')):'')
       +(ref?fact(ref.rho.toFixed(3),'AP AGAINST COACHES — HOW MUCH TWO VOTES AGREE',
         `The same measure applied to the two human polls against each other, over the ${ref.n} teams both rank. It is the yardstick: this is how closely two rooms of voters looking at the same season agree with one another.`+
-        (refB<h?` Both are taken from ${fmtDay(dayOf(refB))}, the last day they both cover, so this compares two rooms rather than two dates.`:'')):'')
+        (refB<h?` Both are taken from ${fmtDay(dayOf(refB))}, the last day they both cover, so this compares two rooms rather than two dates.`:''),
+        reg('refs',refAP.ranks,new Map(refCO.ranks.map(r=>[r.team,r.rank])),ref.rho,ref.n,
+            'The AP poll against the Coaches poll','Coaches')):'')
     : '';
+  if(PLOTS.refs) PLOTS.refs.mineLabel='AP';
+  $('pollfacts').querySelectorAll('button.fact').forEach(b=>b.onclick=()=>{
+    const p=PLOTS[b.dataset.plot];
+    if(p) showPollPlot(p);
+  });
 
   if(!shown.length){
     /* Two different emptinesses. Nothing scored at all -- the first bucket of
@@ -1699,6 +1751,146 @@ function renderStats(){
   wire($('statsview'));
 }
 
+/* ---- the poll-agreement plot -------------------------------------------
+   The figures above the table say how closely this ranking agrees with each
+   poll. The number alone cannot say WHERE they disagree, and that is usually
+   the interesting part: a rho of 0.82 could be a steady drift or two teams
+   the two sides read completely differently. Clicking a tile plots it.
+
+   RANK AGAINST RANK, so the reference line is the DIAGONAL rather than a
+   least-squares fit. On the stats correlations a fitted line is the right
+   guide because the two axes carry different units; here both axes are
+   places in an ordering, perfect agreement IS y=x, and drawing a fitted
+   line instead would quietly redefine "agreement" as "correlates with"
+   -- a poll that ranked every team exactly ten places lower than this
+   ranking would sit on a perfect fitted line while agreeing with nothing.
+
+   BOTH AXES RUN WITH #1 AT THE TOP LEFT, like a printed poll, rather than
+   with the smallest number at the bottom as an ordinary plot would. The
+   axes are places, and a reader looking for "who is top" should find it in
+   the corner where a ranking puts it.
+
+   Distance from the diagonal is the disagreement, and it is signed: above
+   the line this ranking is higher on a team than the poll is. */
+let pollPlot=null;    // {key,label,pairs,rho,n,other} or null
+
+/* The vertical axis is usually this ranking, but the yardstick tile sets two
+   POLLS against each other, so the name is carried rather than assumed. */
+const vAxis=p=>p.mineLabel||'this ranking';
+
+function pollPairs(pollRanks, mine){
+  const out=[];
+  for(const r of pollRanks){
+    const m=mine.get(r.team);
+    if(m!=null) out.push({team:r.team,poll:r.rank,ours:m});
+  }
+  return out.sort((a,b)=>a.poll-b.poll);
+}
+
+function pollScatter(p){
+  const W=620,H=340,PL=52,PR=18,PT=18,PB=42;
+  const pairs=p.pairs;
+  /* The axes span the places actually plotted, not 1..365: a 25-team poll
+     against a 365-team ranking would otherwise crush every point into the
+     top corner. The ranking axis still starts at 1 so the top of the field
+     is visible even when no ranked team sits there. */
+  const maxP=Math.max(...pairs.map(d=>d.poll));
+  const maxO=Math.max(...pairs.map(d=>d.ours));
+  /* Each axis scales to its OWN depth. A 25-team poll against a ranking that
+     places one of those teams 177th would otherwise spend a quarter of its
+     width on the poll and leave the rest blank. The diagonal is then no
+     longer y=x in pixels, so it is drawn from the shared rank range -- it
+     still marks exact agreement, which is what it is for. */
+  const hiP=maxP, hiO=maxO, hi=Math.max(maxP,maxO);
+  /* A SQUARE-ROOT axis, not a linear one. Early in a basketball season this
+     ranking can place an AP team near 180 while most of the poll sits inside
+     the top 40, and a linear scale then spends nine tenths of its width on
+     one outlier and crushes everything else into the corner. Rank is ordinal,
+     so stretching the crowded head of the field costs nothing a reader needs:
+     order is preserved, #1 still sits at the origin, and the diagonal is
+     still exact agreement because the same transform is applied to both axes.
+     Where the field is shallow the two scales are near enough identical. */
+  const tr=v=>Math.sqrt(v-1);
+  const spanP=tr(hiP)||1, spanO=tr(hiO)||1;
+  const sx=v=>PL+(tr(v)/spanP)*(W-PL-PR);
+  const sy=v=>PT+(tr(v)/spanO)*(H-PT-PB);
+  /* Ticks at readable places rather than only the two ends, since a
+     non-linear axis needs them to be legible. Each axis gets its own. */
+  const tk=m=>{const t=[1,5,10,25,50,100,200,300].filter(x=>x<=m);
+    if(t[t.length-1]!==m) t.push(m); return t;};
+  const tkX=tk(hiP), tkY=tk(hiO);
+  const dots=pairs.map(d=>{
+    const off=d.poll-d.ours;          // positive: we are higher on them
+    const cls=Math.abs(off)>=Math.max(6,hi*0.12)?'pt far':'pt';
+    return `<circle class="${cls}" cx="${sx(d.poll).toFixed(1)}" cy="${sy(d.ours).toFixed(1)}" r="3">`+
+      `<title>${esc(`${d.team} — ${p.other} #${d.poll}, ${vAxis(p)} #${d.ours}`+
+        /* "we" only reads right when one side IS this ranking; the
+           yardstick plot sets two polls against each other. */
+        (off===0?' (exact agreement)':off>0
+          ?` (${p.mineLabel?p.mineLabel+' is':'we are'} ${off} place${off===1?'':'s'} higher)`
+          :` (${p.mineLabel?p.mineLabel+' is':'we are'} ${-off} place${off===-1?'':'s'} lower)`))}</title></circle>`;
+  }).join('');
+  /* Name the half-dozen furthest from the diagonal: the plot's whole point
+     is which teams the two sides read differently, and a reader should not
+     have to hunt for them one hover at a time. */
+  const far=[...pairs].sort((a,b)=>Math.abs(b.poll-b.ours)-Math.abs(a.poll-a.ours)).slice(0,6);
+  const labels=far.map(d=>{
+    const x=sx(d.poll), y=sy(d.ours);
+    const right=x<W*0.62;
+    return `<text class="lbl" x="${(right?x+6:x-6).toFixed(1)}" y="${(y+3.5).toFixed(1)}"`+
+      ` text-anchor="${right?'start':'end'}">${esc(d.team)}</text>`;
+  }).join('');
+  return `<div class="cscat pollscat"><svg viewBox="0 0 ${W} ${H}" role="img" `+
+    `aria-label="${esc(`Scatter of ${p.other} rank against this ranking for ${pairs.length} teams`)}">`+
+    `<line class="diag" x1="${sx(1)}" y1="${sy(1)}" x2="${sx(Math.min(hiP,hiO)).toFixed(1)}" y2="${sy(Math.min(hiP,hiO)).toFixed(1)}"/>`+
+    `<line class="ax" x1="${PL}" y1="${PT}" x2="${PL}" y2="${H-PB}"/>`+
+    `<line class="ax" x1="${PL}" y1="${H-PB}" x2="${W-PR}" y2="${H-PB}"/>`+
+    dots+labels+
+    tkX.map(t=>`<text class="axl tick" x="${sx(t).toFixed(1)}" y="${H-PB+15}" text-anchor="middle">${t}</text>`).join('')+
+    tkY.map(t=>`<text class="axl tick" x="${PL-6}" y="${(sy(t)+3.5).toFixed(1)}" text-anchor="end">${t}</text>`).join('')+
+    `<text class="axl" x="${(PL+W-PR)/2}" y="${H-6}" text-anchor="middle">${esc(p.other)} rank →</text>`+
+    `<text class="axl" x="2" y="${PT-4}">${esc(vAxis(p))} ↓</text>`+
+    `</svg></div>`;
+}
+
+function showPollPlot(p){
+  pollPlot=p;
+  const d=$('pollmodal');
+  const above=p.pairs.filter(x=>x.poll>x.ours).length;
+  const below=p.pairs.filter(x=>x.poll<x.ours).length;
+  const exact=p.pairs.filter(x=>x.poll===x.ours).length;
+  const far=[...p.pairs].sort((a,b)=>Math.abs(b.poll-b.ours)-Math.abs(a.poll-a.ours)).slice(0,5);
+  $('polltitle').textContent=p.label;
+  $('pollbody').innerHTML=
+    `<p class="cdetail">Spearman <b>ρ = ${p.rho.toFixed(3)}</b> over the `+
+    `${p.n} teams ${p.other} ranks. Each dot is a team: the dashed diagonal is `+
+    `exact agreement, and a dot’s distance from it is how far the two sides `+
+    `differ on that team. Above the line ${esc(vAxis(p))} is <b>higher</b> on a team `+
+    `than ${p.other} is; below it, lower. Hover any dot for the two places.</p>`+
+    pollScatter(p)+
+    `<p class="cdetail">${exact} team${exact===1?'':'s'} placed identically, `+
+    `${above} rated higher by ${esc(vAxis(p))} than by ${p.other}, ${below} rated lower.</p>`+
+    `<div class="combohd">furthest apart</div>`+
+    '<div class="cgrid">'+far.map((d,i)=>{
+      const off=d.poll-d.ours;
+      return `<div class="crow pollrow"><span class="cn">${i+1}</span>`+
+        `<span class="cpair"><button class="tm" data-t="${esc(d.team)}">${esc(d.team)}</button></span>`+
+        `<span class="cr ${off>0?'pos':'neg'}">${off>0?'+':'−'}${Math.abs(off)}</span>`+
+        `<span class="cn">${p.other} #${d.poll} · ${esc(vAxis(p))} #${d.ours}</span></div>`;
+    }).join('')+'</div>'+
+    (p.mineLabel
+      ? `<p class="cdetail nr">Both sides here are human polls, so this is the `+
+        `yardstick rather than a comparison with this ranking: it is how closely `+
+        `two rooms of voters looking at the same season agree with each other.</p>`
+      : `<p class="cdetail nr">A poll is a forecast as much as a record — voters `+
+        `carry preseason expectation and what they have watched. This ranking reads `+
+        `results alone. The gap is the comparison, not a fault in either.</p>`);
+  d.showModal();
+  $('pollbody').querySelectorAll('button.tm').forEach(b=>b.onclick=()=>{
+    d.close(); go(b.dataset.t);
+  });
+}
+
 function renderSlates(bucket){
   const h=+$('wk').value;
   $('wkv').textContent=fmtDay(dayOf(h));
@@ -1879,6 +2071,11 @@ $('wmode').onchange=render;
 $('gn').onchange=render;
 /* A dialog rather than an inline panel: Escape and focus handling come free,
    and opening it no longer pushes the table down the page. */
+{
+  const d=$('pollmodal');
+  $('pollclose').onclick=()=>d.close();
+  d.onclick=e=>{ if(e.target===d) d.close(); };
+}
 for(const [btn,dlg,close] of [['helpbtn','helpmodal','helpclose'],
                               ['gearbtn','settings','setclose']]){
   const d=$(dlg);
