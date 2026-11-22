@@ -230,6 +230,10 @@
   .cbar i.neg{right:50%;background:var(--loss)}
   .cbar u{position:absolute;top:-1px;bottom:-1px;left:50%;width:1px;
     background:var(--rule);text-decoration:none}
+  /* A defined word is hoverable, and should look it. */
+  .cpair b[title],.cdetail b.defn{cursor:help;
+    border-bottom:1px dotted var(--rule)}
+  .cpair b[title]:hover,.cdetail b.defn:hover{border-bottom-color:var(--mark)}
   .ctag{font-size:10px;letter-spacing:.05em;text-transform:uppercase;
     color:var(--muted);border:1px solid var(--rule);border-radius:3px;
     padding:1px 4px;margin-left:7px;cursor:help;white-space:nowrap}
@@ -1487,9 +1491,17 @@ function corrRow(p,i){
     ? `<span class="ctag" title="${esc('These two share a component, so part of this '+
         'relationship is bookkeeping rather than basketball.')}">shares a part</span>`
     : '';
+  /* Each stat NAME carries its own definition, the same text the stats table
+     puts on that column's heading. A reader meeting "Off PPA" or "stuff rate"
+     for the first time on this page should not have to go and find the other
+     table to learn what it is. The button around them keeps its own tooltip
+     for what clicking does, so the two do not fight: the hint sits on the
+     button, the definitions sit on the words. */
+  const name=c=>`<b${c.tip?` title="${esc(c.h+' \u2014 '+c.tip)}"`:''}>${esc(c.h)}</b>`;
   return `<div class="crow"><span class="cn">${i}</span>`+
-    `<span class="cpair"><button class="tm2" data-a="${p.a.k}" data-b="${p.b.k}">`+
-    `<b>${esc(p.a.h)}</b><span class="vs">vs</span><b>${esc(p.b.h)}</b></button>${tag}</span>`+
+    `<span class="cpair"><button class="tm2" data-a="${p.a.k}" data-b="${p.b.k}" `+
+    `title="${esc('Plot '+p.a.h+' against '+p.b.h+'.')}">`+
+    `${name(p.a)}<span class="vs">vs</span>${name(p.b)}</button>${tag}</span>`+
     corrBar(p.r)+
     `<span class="cr ${p.r>0?'pos':'neg'}" title="${esc(corrTip(p))}">`+
     `${p.r>0?'+':'−'}${Math.abs(p.r).toFixed(3)}</span></div>`;
@@ -1531,10 +1543,15 @@ function corrScatter(p){
     pts+fit+
     `<text class="axl" x="${PL}" y="${H-PB+15}">${esc(num(x0))}</text>`+
     `<text class="axl" x="${W-PR}" y="${H-PB+15}" text-anchor="end">${esc(num(x1))}</text>`+
-    `<text class="axl" x="${(PL+W-PR)/2}" y="${H-6}" text-anchor="middle">${esc(p.a.h)} →</text>`+
+    /* The axis labels define their stat too, so the plot stands on its own
+       without the reader scrolling back to the row that opened it. SVG <text>
+       takes no title attribute, so the definition goes in a child <title>. */
+    `<text class="axl" x="${(PL+W-PR)/2}" y="${H-6}" text-anchor="middle">${esc(p.a.h)} →`+
+      (p.a.tip?`<title>${esc(p.a.h+' — '+p.a.tip)}</title>`:'')+`</text>`+
     `<text class="axl" x="${PL-6}" y="${H-PB}" text-anchor="end">${esc(num(y0))}</text>`+
     `<text class="axl" x="${PL-6}" y="${PT+8}" text-anchor="end">${esc(num(y1))}</text>`+
-    `<text class="axl" x="0" y="12">${esc(p.b.h)} ↑</text>`+
+    `<text class="axl" x="0" y="12">${esc(p.b.h)} ↑`+
+      (p.b.tip?`<title>${esc(p.b.h+' — '+p.b.tip)}</title>`:'')+`</text>`+
     `</svg></div>`;
 }
 
@@ -1586,7 +1603,11 @@ function renderCorr(){
     'the caveat that none of this shows cause.</p>';
 
   if(sel) html+=corrScatter(sel)+
-    `<p class="cdetail">${esc(sel.a.h)} against ${esc(sel.b.h)} — `+
+    `<p class="cdetail">`+
+    `<b${sel.a.tip?` title="${esc(sel.a.h+' — '+sel.a.tip)}" class="defn"`:''}>${esc(sel.a.h)}</b>`+
+    ` against `+
+    `<b${sel.b.tip?` title="${esc(sel.b.h+' — '+sel.b.tip)}" class="defn"`:''}>${esc(sel.b.h)}</b>`+
+    ` — `+
     `r = ${sel.r>0?'+':'−'}${Math.abs(sel.r).toFixed(3)} over ${sel.n} teams `+
     `(${strengthWord(sel.r)}). Each dot is a team; hover one to name it. `+
     `The dashed line is the least-squares fit.</p>`;
