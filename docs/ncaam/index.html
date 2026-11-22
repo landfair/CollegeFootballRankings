@@ -115,6 +115,38 @@
   dialog#pollmodal .modal-body{max-height:min(76vh,680px)}
   dialog#pollmodal .cdetail{margin:0 0 10px}
   dialog#pollmodal .cscat{margin:4px 0 12px}
+  /* a team against its own other seasons */
+  .hist{margin:26px 0 4px;border-top:1px solid var(--rule);padding-top:14px}
+  table.htbl{width:100%;border-collapse:collapse;font-size:13px}
+  table.htbl th{text-align:right;padding:4px 10px 7px;color:var(--muted);
+    font-size:11px;letter-spacing:.04em;text-transform:uppercase;font-weight:600;
+    white-space:nowrap;border-bottom:1px solid var(--rule)}
+  table.htbl td{padding:5px 10px;border-bottom:1px solid var(--rule);text-align:right;
+    font-family:var(--mono);font-size:12.5px;white-space:nowrap}
+  table.htbl tr:last-child td{border-bottom:0}
+  table.htbl tr[data-best] td{background:var(--soft)}
+  table.htbl tr[data-best] b{color:var(--mark)}
+  .htbl .hof{color:var(--muted);font-size:10.5px;margin-left:3px}
+  .htbl .hyr{background:none;border:0;padding:0;cursor:pointer;color:var(--mark);
+    font:inherit;text-decoration:underline;text-decoration-style:dotted;
+    text-underline-offset:2px}
+  .htbl .hyr:hover{text-decoration-style:solid}
+  .htbl .hnow{font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--muted);border:1px solid var(--rule);border-radius:3px;
+    padding:0 3px;margin-left:5px}
+  .htbl .hpath{background:none;border:1px solid var(--rule);border-radius:4px;
+    padding:1px 7px;cursor:pointer;color:var(--muted);font:inherit;font-size:11px}
+  .htbl .hpath:hover{color:var(--ink);border-color:var(--mark)}
+  .htbl .hpath:disabled{opacity:.5;cursor:default}
+  .htbl .hspark{width:106px}
+  .htbl svg.hsp{display:block;width:96px;height:26px;overflow:visible}
+  .htbl svg.hsp path{fill:none;stroke:var(--mark);stroke-width:1.3;
+    stroke-linejoin:round;stroke-linecap:round}
+  .htbl svg.hsp circle{fill:var(--mark)}
+  @media (max-width:640px){
+    table.htbl th:nth-child(7),table.htbl td:nth-child(7){display:none}
+    .htbl .hspark{width:auto}
+  }
   /* clickable teams */
   .tm{font-weight:600}
   button.tm{background:none;border:0;padding:0;font:inherit;font-weight:600;
@@ -1259,9 +1291,13 @@ function renderTeam(team){
     html+='</div>';
   }
 
+  html+='<div id="histbox"></div>';
   $('teamview').innerHTML=html;
   $('back').onclick=()=>go(null);
   wire($('teamview'));
+  /* After the page paints: reading and grading the other seasons takes about
+     a second, and nothing else on the page should wait for it. */
+  renderHistory(team);
   $('status').innerHTML=`Through <b>${fmtFull(dayOf(h))}</b> · each line is what that game is worth now, `+
     `and how that has moved since it was played`;
 }
@@ -1971,6 +2007,216 @@ function showPollPlot(p){
   d.showModal();
   $('pollbody').querySelectorAll('button.tm').forEach(b=>b.onclick=()=>{
     d.close(); go(b.dataset.t);
+  });
+}
+
+/* ---- a team against its own other seasons --------------------------------
+   The block at the foot of a team page: every season this team appears in,
+   ordered by where it finished.
+
+   WHAT THIS CAN AND CANNOT SAY. A rating is a percentile among the teams that
+   played that same season, so two ratings from different years do not sit on
+   one scale: no game links 2015 to 2026, and nothing here can know whether the
+   sport as a whole was stronger in either. The honest comparison is therefore
+   the RANK -- where the team stood among its contemporaries -- and the size of
+   the field is printed beside it, because 7th of 130 is not 7th of 138. The
+   rating rides along as the figure behind the place rather than as a
+   cross-season score, and the note under the table says so rather than leaving
+   a reader to assume otherwise.
+
+   COST, AND WHY THE PATHS ARE LAZY. Each season must be fetched and graded to
+   learn where the team finished, roughly 50ms apiece, so football's thirteen
+   come in around 0.7s -- done after the page paints, not before it. A
+   week-by-week path is far dearer: a rank compares against the whole field, so
+   one season's line means grading every week of that season, about 350ms.
+   Thirteen would be four seconds spent on something most readers never open,
+   so each row fetches its own path on demand and keeps it afterwards.
+
+   SETTINGS ARE FOLLOWED, NOT FIXED. Scoring and pool come from the page's own
+   controls, so a reader who changes them sees the history move too. The
+   victors gate is the exception and is deliberately OFF: its tier schedule is
+   tuned to how far a season has got, and applying a late-season rule to every
+   finished year would drop teams out of their own history for a reason that
+   has nothing to do with the season being described. */
+
+const HIST=new Map();       // team -> {rows, built}
+const HISTSPARK=new Map();  // `${year}|${team}` -> svg html
+let histToken=0;            // guards against a slow load landing on a new team
+
+/* The picker is the source of truth for which seasons exist AND for what to
+   call them: football lists bare years, basketball lists "2026-27". Taking
+   both from the control means neither page needs its own label rule. */
+const histYears=()=>[...$('season').options]
+  .filter(o=>/^\d{4}$/.test(o.value))
+  .map(o=>({year:+o.value,label:o.textContent.trim()}))
+  .sort((a,b)=>b.year-a.year);
+const histLabel=y=>(histYears().find(o=>o.year===y)||{}).label||String(y);
+
+/* One finished season's standing for one team, using the shared season cache
+   the picker already fills, so a year the reader has visited costs nothing. */
+async function histOne(year,team){
+  if(!CACHE.has(year)){
+    const res=await fetch('season-'+year+'.json',{cache:'no-cache'});
+    if(!res.ok) return null;
+    CACHE.set(year,{season:ingest(await res.json()),eng:{}});
+  }
+  const c=CACHE.get(year);
+  const m=$('smode').value, pl=$('pmode').value;
+  const k=m+'|'+pl+'|1';
+  if(!c.eng[k]) c.eng[k]={eng:engine(c.season,{scoring:m,pool:pl}),season:c.season};
+  const {eng,season}=c.eng[k];
+  const h=Math.max(...eng.byWeek.keys());
+  if(!Number.isFinite(h)) return null;
+  const wm=$('wmode').value;
+  const W=wm==='off'?null:weighted(eng,season,h,{mode:wm});
+  const rows=W?W.rows:rank(eng,season,h);
+  const r=applyGate(eng,rows,'off',0,h).all.find(x=>x.team===team);
+  if(!r) return null;
+  const ap=pollAt(season,'AP Top 25',h);
+  const apR=ap?(ap.ranks.find(x=>x.team===team)||null):null;
+  return {year,team,rank:r.rank,key:r.key,wins:r.wins,losses:r.losses,
+          best:Number.isFinite(r.bestWin)?r.bestWin:null,
+          worst:r.worst??r.worstLoss??null, worstNR:!!r.worstLossNR,
+          field:rows.length, weeks:h, ap:apR?apR.rank:null};
+}
+
+/* The week-by-week path for one season, drawn only when asked for. */
+async function histPath(year,team){
+  const key=year+'|'+team;
+  if(HISTSPARK.has(key)) return HISTSPARK.get(key);
+  const c=CACHE.get(year); if(!c) return null;
+  const m=$('smode').value, pl=$('pmode').value, k=m+'|'+pl+'|1';
+  const {eng,season}=c.eng[k];
+  const h=Math.max(...eng.byWeek.keys());
+  const wm=$('wmode').value;
+  /* SAMPLED, not every bucket. Football's thirteen weeks are cheap to walk,
+     but a finished basketball season is about 130 DAYS, and a rank means
+     grading the whole field at each one -- twenty seconds for a line 96
+     pixels wide that cannot resolve more than a couple of dozen points
+     anyway. So at most ~18 points are taken, always including the first and
+     the last, which is more than the drawing can show and a thirteenth of
+     the work. The hover lists the sampled places, and the row beside it
+     carries the true finish, so nothing claimed is interpolated. */
+  const buckets=[...eng.byWeek.keys()].filter(x=>x<=h).sort((a,b)=>a-b);
+  const step=Math.max(1,Math.ceil(buckets.length/18));
+  const picks=buckets.filter((_,i)=>i%step===0);
+  if(picks[picks.length-1]!==buckets[buckets.length-1])
+    picks.push(buckets[buckets.length-1]);
+  const wo=wm==='off'?null:{mode:wm};
+  const pts=[];
+  for(const b of picks){
+    const rows=wo?weighted(eng,season,b,wo).rows:rank(eng,season,b);
+    const r=rows.find(x=>x.team===team);
+    if(r) pts.push({x:b,rank:r.rank,n:rows.length});
+  }
+  if(!pts.length) return null;
+  /* Rank runs downward: #1 at the top, as every other chart on this site. */
+  const W=96,H=26,P=2;
+  /* Scaled to the range the team actually occupied, not to the whole field.
+     Against all 130-odd places a season spent between 1st and 46th draws as a
+     flat line at the top and says nothing; against its own range the shape of
+     the season is visible. The hover carries the real places, and the row
+     beside it carries the finish, so nothing is lost by not spanning the
+     field. A floor of 10 places keeps a genuinely steady season from being
+     magnified into drama. */
+  const rs=pts.map(p=>p.rank);
+  const lo=Math.min(...rs), span=Math.max(10,Math.max(...rs)-lo);
+  const sx=i=>P+(pts.length<2?W/2:(i/(pts.length-1))*(W-2*P));
+  const sy=r=>P+((r-lo)/span)*(H-2*P);
+  const d=pts.map((p,i)=>`${i?'L':'M'}${sx(i).toFixed(1)} ${sy(p.rank).toFixed(1)}`).join(' ');
+  const last=pts[pts.length-1];
+  const html=`<svg class="hsp" viewBox="0 0 ${W} ${H}" role="img" `+
+    `aria-label="${esc(`Weekly rank through ${year}, finishing ${last.rank} of ${last.n}`)}">`+
+    `<path d="${d}"/>`+
+    `<circle cx="${sx(pts.length-1).toFixed(1)}" cy="${sy(last.rank).toFixed(1)}" r="1.8"/>`+
+    `<title>${esc(pts.map(p=>'wk'+p.x+' #'+p.rank).join(' · '))}</title></svg>`;
+  HISTSPARK.set(key,html);
+  return html;
+}
+
+function histTable(team,rows,note){
+  const cell=(v,cls)=>`<td class="${cls||'num'}${v==null?' nr':''}">${v==null?'—':v}</td>`;
+  const live=rows.length?Math.max(...rows.map(r=>r.year)):null;
+  const best=rows.length?Math.min(...rows.map(r=>r.rank)):null;
+  let html='<div class="hist"><div class="combohd">this team, season by season '+
+    `<span class="nr">— ${rows.length} season${rows.length===1?'':'s'} in the archive, best first</span></div>`+
+    '<div class="scroll"><table class="htbl"><thead><tr>'+
+    '<th class="num">Season</th><th class="num">Finish</th><th class="num">Rating</th>'+
+    '<th class="num">Rec</th><th class="num">Best <br>win</th><th class="num">Worst <br>loss</th>'+
+    '<th class="num">AP</th><th class="num">Path</th></tr></thead><tbody>';
+  for(const d of [...rows].sort((a,b)=>a.rank-b.rank||b.year-a.year)){
+    const spark=HISTSPARK.get(d.year+'|'+d.team);
+    html+=`<tr${d.year===live?' class="hlive"':''}${d.rank===best?' data-best="1"':''}>`+
+      `<td class="num"><button class="hyr" data-y="${d.year}">${esc(histLabel(d.year))}</button>`+
+        (d.year===live?'<span class="hnow" title="Still being played, so this place can still move.">live</span>':'')+'</td>'+
+      `<td class="num"><b>#${d.rank}</b> <span class="hof">of ${d.field}</span></td>`+
+      cell(d.key.toFixed(1))+
+      cell(`${d.wins}‑${d.losses}`)+
+      cell(d.best==null?null:'#'+d.best)+
+      cell(d.worst==null?null:(d.worstNR?'NR':'#'+d.worst))+
+      cell(d.ap==null?null:'#'+d.ap)+
+      `<td class="num hspark">${spark||`<button class="hpath" data-y="${d.year}">show</button>`}</td>`+
+      '</tr>';
+  }
+  html+='</tbody></table></div>'+
+    '<p class="slateintro">Ordered by where the team finished, best first. '+
+    '<b>A rating is a percentile among the teams that played that same season</b>, '+
+    'so the figures in that column are not on one scale across years — no game '+
+    'links one season to another, and nothing here can know whether the sport as a '+
+    'whole was stronger in either. The comparison that holds is the <b>finish</b>, '+
+    'and the field size is printed beside it because 7th of 130 is not 7th of 138. '+
+    'Best win and worst loss are places within that same season. The victors gate '+
+    'is off here: its tiers are tuned to how far a season has got, and applying a '+
+    'late rule to finished years would drop a team out of its own history for a '+
+    'reason that has nothing to do with the year. <b>Show</b> draws that season’s '+
+    'week-by-week path, computed when you ask because a rank means grading the whole '+
+    'field once per week.'+(note?' '+note:'')+'</p></div>';
+  return html;
+}
+
+/* Built after the team page paints. The token guards the case where a reader
+   clicks through to another team while thirteen seasons are still loading. */
+async function renderHistory(team){
+  const host=$('histbox');
+  if(!host) return;
+  const mine=++histToken;
+  const years=histYears().map(o=>o.year);
+  if(years.length<2){ host.innerHTML=''; return; }
+  host.innerHTML='<div class="hist"><div class="combohd">this team, season by season '+
+    `<span class="nr">— reading ${years.length} seasons…</span></div></div>`;
+  const key=team+'|'+$('smode').value+'|'+$('pmode').value+'|'+$('wmode').value;
+  let rows=HIST.get(key);
+  if(!rows){
+    rows=[];
+    for(const y of years){
+      const d=await histOne(y,team);
+      if(mine!==histToken) return;          // reader moved on
+      if(d) rows.push(d);
+    }
+    HIST.set(key,rows);
+  }
+  if(mine!==histToken) return;
+  if(rows.length<2){
+    host.innerHTML='<div class="hist"><p class="msg">'+esc(team)+' appears in only '+
+      (rows.length||'none')+' of the seasons on file, so there is nothing to compare '+
+      'against.</p></div>';
+    return;
+  }
+  host.innerHTML=histTable(team,rows,'');
+  wireHistory(host,team);
+}
+
+function wireHistory(host,team){
+  host.querySelectorAll('button.hyr').forEach(b=>b.onclick=()=>{
+    /* Jump to that season with this team still showing. */
+    $('season').value=b.dataset.y;
+    pick(b.dataset.y).then(()=>go(team));
+  });
+  host.querySelectorAll('button.hpath').forEach(b=>b.onclick=async()=>{
+    b.disabled=true; b.textContent='…';
+    const html=await histPath(+b.dataset.y,team);
+    const td=b.closest('td');
+    if(td) td.innerHTML=html||'<span class="nr">—</span>';
   });
 }
 
