@@ -1,566 +1,8 @@
 {
  "sport": "wbasketball",
  "season": 2027,
- "generated": "2026-11-20",
+ "generated": "2026-11-22",
  "upcoming": [
-  {
-   "date": "2026-11-20",
-   "home": "Akron",
-   "away": "Robert Morris",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Arizona State",
-   "away": "Santa Clara",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Auburn",
-   "away": "Middle Tennessee",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Bellarmine",
-   "away": "Alice Lloyd",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Belmont",
-   "away": "Dayton",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Boston College",
-   "away": "Massachusetts",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "California",
-   "away": "Hawai'i",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Central Arkansas",
-   "away": "Grambling",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Clemson",
-   "away": "UNC Asheville",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Colorado State",
-   "away": "Harvard",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Eastern Kentucky",
-   "away": "Simmons (KY)",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Furman",
-   "away": "Charleston Southern",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Georgia Southern",
-   "away": "Florida Gulf Coast",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Howard",
-   "away": "George Washington",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Jacksonville",
-   "away": "Trinity College of Jacksonville",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Kentucky",
-   "away": "Marshall",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Lamar",
-   "away": "Texas State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Lehigh",
-   "away": "Towson",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Loyola Marymount",
-   "away": "Idaho State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Mississippi Valley State",
-   "away": "West Georgia",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Navy",
-   "away": "North Carolina A&T",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Nevada",
-   "away": "Idaho",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Norfolk State",
-   "away": "Campbell",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "North Dakota",
-   "away": "Jacksonville State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Oklahoma State",
-   "away": "Little Rock",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Oral Roberts",
-   "away": "LSU New Orleans",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Prairie View A&M",
-   "away": "College of Biblical Studies",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Rhode Island",
-   "away": "New Haven",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Sacramento State",
-   "away": "Pacific",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Southern Illinois",
-   "away": "UT Martin",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Southern Indiana",
-   "away": "Miami (OH)",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Tulane",
-   "away": "Alcorn State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "UC Davis",
-   "away": "California Baptist",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "UC Santa Barbara",
-   "away": "Utah Tech",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "UConn",
-   "away": "Seton Hall",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "USC",
-   "away": "Baylor",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Utah",
-   "away": "Utah Valley",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Valparaiso",
-   "away": "South Dakota",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Wagner",
-   "away": "Rider",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Washington",
-   "away": "Stanford",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-20",
-   "home": "Western Michigan",
-   "away": "Milwaukee",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Alaska Anchorage",
-   "away": "Louisville",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "American University",
-   "away": "La Salle",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "BYU",
-   "away": "Northern Colorado",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Binghamton",
-   "away": "Daemen",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Brown",
-   "away": "UMBC",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Bucknell",
-   "away": "Iona",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Chicago State",
-   "away": "Seattle U",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Cleveland State",
-   "away": "Kent State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Columbia",
-   "away": "Duke",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Davidson",
-   "away": "Charlotte",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "DePaul",
-   "away": "IU Indianapolis",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Detroit Mercy",
-   "away": "Sacred Heart",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Duquesne",
-   "away": "Stony Brook",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "East Tennessee State",
-   "away": "Kennesaw State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Evansville",
-   "away": "Lindenwood",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Florida State",
-   "away": "UCF",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "George Mason",
-   "away": "James Madison",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Hawai'i",
-   "away": "Gonzaga",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Houston",
-   "away": "Houston Christian",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Long Island University",
-   "away": "Saint Peter's",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Marquette",
-   "away": "NJIT",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Maryland",
-   "away": "Morgan State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Mercyhurst",
-   "away": "Siena",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Monmouth",
-   "away": "Maryland Eastern Shore",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Mount St. Mary's",
-   "away": "St. Mary's (MD)",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Murray State",
-   "away": "Eastern Illinois",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "New Mexico",
-   "away": "New Mexico State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Niagara",
-   "away": "Le Moyne",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Nicholls",
-   "away": "Tarleton State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "North Carolina",
-   "away": "Alabama",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Northeastern",
-   "away": "Bryant",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Northwestern",
-   "away": "Northern Illinois",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Ohio",
-   "away": "Xavier",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Oregon State",
-   "away": "Fairfield",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Pittsburgh",
-   "away": "Canisius",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Providence",
-   "away": "South Carolina",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Queens University",
-   "away": "Coker",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Rutgers",
-   "away": "Delaware State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "SMU",
-   "away": "Grand Canyon",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Saint Louis",
-   "away": "Southeast Missouri State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "San Diego",
-   "away": "UC Irvine",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "San Jos\u00e9 State",
-   "away": "Long Beach State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Tennessee Tech",
-   "away": "South Carolina Upstate",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Texas A&M",
-   "away": "Incarnate Word",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Texas Tech",
-   "away": "Purdue",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "UAlbany",
-   "away": "Cornell",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "UIC",
-   "away": "Ball State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "UNLV",
-   "away": "Cincinnati",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "UTEP",
-   "away": "Texas Southern",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "UTSA",
-   "away": "North Dakota State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Western Illinois",
-   "away": "Loyola Chicago",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-21",
-   "home": "Wofford",
-   "away": "Presbyterian",
-   "tbd": false
-  },
   {
    "date": "2026-11-22",
    "home": "Arkansas State",
@@ -589,6 +31,12 @@
    "date": "2026-11-22",
    "home": "Butler",
    "away": "Eastern Michigan",
+   "tbd": false
+  },
+  {
+   "date": "2026-11-22",
+   "home": "Chicago State",
+   "away": "Alaska Anchorage",
    "tbd": false
   },
   {
@@ -775,6 +223,12 @@
    "date": "2026-11-22",
    "home": "San Francisco",
    "away": "Cal State Bakersfield",
+   "tbd": false
+  },
+  {
+   "date": "2026-11-22",
+   "home": "Seattle U",
+   "away": "Louisville",
    "tbd": false
   },
   {
@@ -1889,12 +1343,6 @@
   },
   {
    "date": "2026-11-26",
-   "home": "UCF",
-   "away": "Charlotte",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-26",
    "home": "Washington State",
    "away": "Kansas",
    "tbd": false
@@ -1997,6 +1445,12 @@
   },
   {
    "date": "2026-11-27",
+   "home": "East Carolina",
+   "away": "Gardner-Webb",
+   "tbd": false
+  },
+  {
+   "date": "2026-11-27",
    "home": "Florida Atlantic",
    "away": "Western Kentucky",
    "tbd": false
@@ -2017,12 +1471,6 @@
    "date": "2026-11-27",
    "home": "Fresno State",
    "away": "UL Monroe",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-27",
-   "home": "Gardner-Webb",
-   "away": "East Carolina",
    "tbd": false
   },
   {
@@ -2298,7 +1746,7 @@
   {
    "date": "2026-11-27",
    "home": "UCF",
-   "away": "Central Michigan",
+   "away": "Charlotte",
    "tbd": false
   },
   {
@@ -2399,12 +1847,6 @@
   },
   {
    "date": "2026-11-28",
-   "home": "Cal State Northridge",
-   "away": "Idaho",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-28",
    "home": "California Baptist",
    "away": "St. Thomas",
    "tbd": false
@@ -2467,6 +1909,12 @@
    "date": "2026-11-28",
    "home": "Hawai'i",
    "away": "Columbia",
+   "tbd": false
+  },
+  {
+   "date": "2026-11-28",
+   "home": "Idaho",
+   "away": "Cal State Northridge",
    "tbd": false
   },
   {
@@ -2675,6 +2123,12 @@
   },
   {
    "date": "2026-11-28",
+   "home": "South Carolina State",
+   "away": "Charleston Southern",
+   "tbd": false
+  },
+  {
+   "date": "2026-11-28",
    "home": "South Carolina Upstate",
    "away": "Georgia Southern-East Georgia",
    "tbd": false
@@ -2719,6 +2173,12 @@
    "date": "2026-11-28",
    "home": "UC Irvine",
    "away": "Utah State",
+   "tbd": false
+  },
+  {
+   "date": "2026-11-28",
+   "home": "UCF",
+   "away": "Central Michigan",
    "tbd": false
   },
   {
@@ -8201,6 +7661,12 @@
   },
   {
    "date": "2026-12-20",
+   "home": "Akron",
+   "away": "Lake Erie",
+   "tbd": false
+  },
+  {
+   "date": "2026-12-20",
    "home": "Alabama",
    "away": "Chattanooga",
    "tbd": false
@@ -8659,12 +8125,6 @@
    "date": "2026-12-21",
    "home": "Abilene Christian",
    "away": "Florida Gulf Coast",
-   "tbd": false
-  },
-  {
-   "date": "2026-12-21",
-   "home": "Akron",
-   "away": "Lake Erie",
    "tbd": false
   },
   {
