@@ -11303,6 +11303,13 @@
    "week": 22
   },
   {
+   "home": "Loyola Chicago",
+   "away": "San Jos\u00e9 State",
+   "homePoints": 72,
+   "awayPoints": 63,
+   "week": 22
+  },
+  {
    "home": "Loyola Marymount",
    "away": "UC Irvine",
    "homePoints": 72,
@@ -11334,7 +11341,7 @@
    "home": "Minnesota",
    "away": "Utah",
    "homePoints": 77,
-   "awayPoints": 59,
+   "awayPoints": 62,
    "week": 22
   },
   {
@@ -11504,6 +11511,20 @@
    "homePoints": 63,
    "awayPoints": 75,
    "week": 22
+  },
+  {
+   "home": "App State",
+   "away": "St. Bonaventure",
+   "homePoints": 65,
+   "awayPoints": 71,
+   "week": 23
+  },
+  {
+   "home": "Davidson",
+   "away": "Northern Iowa",
+   "homePoints": 79,
+   "awayPoints": 48,
+   "week": 23
   }
  ],
  "dates": [
@@ -11528,7 +11549,8 @@
   "2026-11-19",
   "2026-11-20",
   "2026-11-21",
-  "2026-11-22"
+  "2026-11-22",
+  "2026-11-23"
  ],
  "polls": [
   {
@@ -12178,6 +12200,222 @@
      "team": "LSU"
     }
    ]
+  },
+  {
+   "poll": "AP Top 25",
+   "week": 4,
+   "pollDate": "2026-11-23",
+   "throughWeek": 22,
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "Houston"
+    },
+    {
+     "rank": 2,
+     "team": "Virginia"
+    },
+    {
+     "rank": 3,
+     "team": "Florida"
+    },
+    {
+     "rank": 4,
+     "team": "Illinois"
+    },
+    {
+     "rank": 5,
+     "team": "Texas Tech"
+    },
+    {
+     "rank": 6,
+     "team": "UCLA"
+    },
+    {
+     "rank": 7,
+     "team": "Texas"
+    },
+    {
+     "rank": 8,
+     "team": "Arizona"
+    },
+    {
+     "rank": 9,
+     "team": "Tennessee"
+    },
+    {
+     "rank": 10,
+     "team": "UConn"
+    },
+    {
+     "rank": 11,
+     "team": "Michigan State"
+    },
+    {
+     "rank": 12,
+     "team": "Kansas"
+    },
+    {
+     "rank": 13,
+     "team": "St. John's"
+    },
+    {
+     "rank": 14,
+     "team": "Vanderbilt"
+    },
+    {
+     "rank": 15,
+     "team": "Alabama"
+    },
+    {
+     "rank": 16,
+     "team": "Duke"
+    },
+    {
+     "rank": 17,
+     "team": "Miami"
+    },
+    {
+     "rank": 18,
+     "team": "USC"
+    },
+    {
+     "rank": 19,
+     "team": "BYU"
+    },
+    {
+     "rank": 20,
+     "team": "LSU"
+    },
+    {
+     "rank": 21,
+     "team": "Nebraska"
+    },
+    {
+     "rank": 22,
+     "team": "Gonzaga"
+    },
+    {
+     "rank": 23,
+     "team": "Indiana"
+    },
+    {
+     "rank": 24,
+     "team": "Memphis"
+    },
+    {
+     "rank": 25,
+     "team": "Louisville"
+    }
+   ]
+  },
+  {
+   "poll": "Coaches Poll",
+   "week": 4,
+   "pollDate": "2026-11-23",
+   "throughWeek": 22,
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "Houston"
+    },
+    {
+     "rank": 2,
+     "team": "Virginia"
+    },
+    {
+     "rank": 3,
+     "team": "Florida"
+    },
+    {
+     "rank": 4,
+     "team": "Illinois"
+    },
+    {
+     "rank": 5,
+     "team": "Texas"
+    },
+    {
+     "rank": 6,
+     "team": "Texas Tech"
+    },
+    {
+     "rank": 7,
+     "team": "UConn"
+    },
+    {
+     "rank": 8,
+     "team": "Arizona"
+    },
+    {
+     "rank": 9,
+     "team": "UCLA"
+    },
+    {
+     "rank": 10,
+     "team": "Michigan State"
+    },
+    {
+     "rank": 11,
+     "team": "Tennessee"
+    },
+    {
+     "rank": 12,
+     "team": "Kansas"
+    },
+    {
+     "rank": 13,
+     "team": "St. John's"
+    },
+    {
+     "rank": 14,
+     "team": "Vanderbilt"
+    },
+    {
+     "rank": 15,
+     "team": "Alabama"
+    },
+    {
+     "rank": 16,
+     "team": "Duke"
+    },
+    {
+     "rank": 17,
+     "team": "Miami"
+    },
+    {
+     "rank": 18,
+     "team": "Nebraska"
+    },
+    {
+     "rank": 19,
+     "team": "USC"
+    },
+    {
+     "rank": 20,
+     "team": "Gonzaga"
+    },
+    {
+     "rank": 21,
+     "team": "BYU"
+    },
+    {
+     "rank": 22,
+     "team": "LSU"
+    },
+    {
+     "rank": 23,
+     "team": "Louisville"
+    },
+    {
+     "rank": 24,
+     "team": "Indiana"
+    },
+    {
+     "rank": 25,
+     "team": "Memphis"
+    }
+   ]
   }
  ],
  "teamStats": {
@@ -12366,27 +12604,27 @@
    "possessions": 402.1
   },
   "App State": {
-   "games": 5,
+   "games": 6,
    "wins": 4,
    "losses": 1,
-   "pace": 64.8,
-   "points": 371,
-   "oppPoints": 302,
-   "rebounds": 207,
-   "oppRebounds": 179,
-   "offRebounds": 69,
-   "assists": 68,
-   "turnovers": 51,
-   "steals": 30,
-   "blocks": 18,
-   "fgPct": 44.1,
+   "pace": 64.3,
+   "points": 436,
+   "oppPoints": 373,
+   "rebounds": 236,
+   "oppRebounds": 208,
+   "offRebounds": 78,
+   "assists": 78,
+   "turnovers": 64,
+   "steals": 36,
+   "blocks": 20,
+   "fgPct": 43.8,
    "threePct": 34.9,
-   "ftPct": 62.5,
-   "oppFgPct": 36,
-   "efgPct": 52.8,
-   "oRating": 114.5,
-   "dRating": 93.2,
-   "possessions": 324.0
+   "ftPct": 66.7,
+   "oppFgPct": 38.6,
+   "efgPct": 52.4,
+   "oRating": 113.1,
+   "dRating": 96.7,
+   "possessions": 385.6
   },
   "Arizona State": {
    "games": 5,
@@ -13608,27 +13846,27 @@
    "possessions": 434.2
   },
   "Davidson": {
-   "games": 5,
-   "wins": 3,
+   "games": 6,
+   "wins": 4,
    "losses": 2,
-   "pace": 66.0,
-   "points": 350,
-   "oppPoints": 319,
-   "rebounds": 199,
-   "oppRebounds": 180,
-   "offRebounds": 63,
-   "assists": 63,
-   "turnovers": 53,
-   "steals": 34,
-   "blocks": 18,
-   "fgPct": 43.4,
-   "threePct": 34.8,
-   "ftPct": 60.5,
-   "oppFgPct": 39.9,
-   "efgPct": 50,
-   "oRating": 106.0,
-   "dRating": 96.6,
-   "possessions": 330.2
+   "pace": 65.7,
+   "points": 429,
+   "oppPoints": 367,
+   "rebounds": 233,
+   "oppRebounds": 209,
+   "offRebounds": 69,
+   "assists": 84,
+   "turnovers": 62,
+   "steals": 41,
+   "blocks": 25,
+   "fgPct": 45.4,
+   "threePct": 33.6,
+   "ftPct": 62.2,
+   "oppFgPct": 39,
+   "efgPct": 51.9,
+   "oRating": 108.9,
+   "dRating": 93.2,
+   "possessions": 394.0
   },
   "Dayton": {
    "games": 7,
@@ -15632,27 +15870,27 @@
    "possessions": 285.0
   },
   "Loyola Chicago": {
-   "games": 5,
-   "wins": 3,
+   "games": 6,
+   "wins": 4,
    "losses": 2,
-   "pace": 71.4,
-   "points": 394,
-   "oppPoints": 349,
-   "rebounds": 176,
-   "oppRebounds": 174,
-   "offRebounds": 58,
-   "assists": 86,
-   "turnovers": 56,
-   "steals": 44,
-   "blocks": 14,
-   "fgPct": 46.8,
-   "threePct": 31.5,
-   "ftPct": 65.2,
-   "oppFgPct": 38.5,
-   "efgPct": 53.2,
-   "oRating": 110.4,
-   "dRating": 97.8,
-   "possessions": 356.9
+   "pace": 71.8,
+   "points": 466,
+   "oppPoints": 412,
+   "rebounds": 206,
+   "oppRebounds": 202,
+   "offRebounds": 63,
+   "assists": 101,
+   "turnovers": 76,
+   "steals": 54,
+   "blocks": 15,
+   "fgPct": 47.2,
+   "threePct": 31.3,
+   "ftPct": 68.4,
+   "oppFgPct": 37.4,
+   "efgPct": 53.6,
+   "oRating": 108.2,
+   "dRating": 95.7,
+   "possessions": 430.6
   },
   "Loyola Maryland": {
    "games": 6,
@@ -16139,11 +16377,11 @@
   },
   "Minnesota": {
    "games": 7,
-   "wins": 6,
+   "wins": 7,
    "losses": 0,
    "pace": 66.1,
    "points": 576,
-   "oppPoints": 426,
+   "oppPoints": 429,
    "rebounds": 269,
    "oppRebounds": 204,
    "offRebounds": 74,
@@ -16154,11 +16392,11 @@
    "fgPct": 51.7,
    "threePct": 42.3,
    "ftPct": 74,
-   "oppFgPct": 38.7,
+   "oppFgPct": 38.8,
    "efgPct": 62.1,
-   "oRating": 124.5,
-   "dRating": 92.1,
-   "possessions": 462.5
+   "oRating": 124.4,
+   "dRating": 92.6,
+   "possessions": 463.0
   },
   "Mississippi State": {
    "games": 6,
@@ -16966,27 +17204,27 @@
    "possessions": 462.8
   },
   "Northern Iowa": {
-   "games": 6,
+   "games": 7,
    "wins": 3,
-   "losses": 3,
-   "pace": 73.8,
-   "points": 507,
-   "oppPoints": 504,
-   "rebounds": 191,
-   "oppRebounds": 228,
-   "offRebounds": 66,
-   "assists": 84,
-   "turnovers": 75,
-   "steals": 58,
-   "blocks": 19,
-   "fgPct": 47.6,
-   "threePct": 34.7,
-   "ftPct": 71.7,
-   "oppFgPct": 46.3,
-   "efgPct": 54.7,
-   "oRating": 114.5,
-   "dRating": 113.8,
-   "possessions": 442.9
+   "losses": 4,
+   "pace": 72.4,
+   "points": 555,
+   "oppPoints": 583,
+   "rebounds": 220,
+   "oppRebounds": 262,
+   "offRebounds": 75,
+   "assists": 90,
+   "turnovers": 89,
+   "steals": 65,
+   "blocks": 20,
+   "fgPct": 45.9,
+   "threePct": 33.9,
+   "ftPct": 69.4,
+   "oppFgPct": 47.7,
+   "efgPct": 52.8,
+   "oRating": 109.5,
+   "dRating": 115.0,
+   "possessions": 506.8
   },
   "Northern Kentucky": {
    "games": 6,
@@ -18139,27 +18377,27 @@
    "possessions": 340.7
   },
   "San Jos\u00e9 State": {
-   "games": 5,
+   "games": 6,
    "wins": 3,
-   "losses": 2,
-   "pace": 70.7,
-   "points": 421,
-   "oppPoints": 399,
-   "rebounds": 162,
-   "oppRebounds": 143,
-   "offRebounds": 47,
-   "assists": 91,
-   "turnovers": 75,
-   "steals": 35,
-   "blocks": 8,
-   "fgPct": 52.7,
-   "threePct": 41.9,
-   "ftPct": 75.7,
+   "losses": 3,
+   "pace": 71.2,
+   "points": 484,
+   "oppPoints": 471,
+   "rebounds": 190,
+   "oppRebounds": 173,
+   "offRebounds": 57,
+   "assists": 101,
+   "turnovers": 92,
+   "steals": 46,
+   "blocks": 11,
+   "fgPct": 49.5,
+   "threePct": 38.5,
+   "ftPct": 75,
    "oppFgPct": 50,
-   "efgPct": 61.7,
-   "oRating": 119.1,
-   "dRating": 112.9,
-   "possessions": 353.5
+   "efgPct": 57.6,
+   "oRating": 113.3,
+   "dRating": 110.3,
+   "possessions": 427.2
   },
   "Santa Clara": {
    "games": 6,
@@ -18530,27 +18768,27 @@
    "possessions": 450.9
   },
   "St. Bonaventure": {
-   "games": 5,
+   "games": 6,
    "wins": 4,
    "losses": 1,
-   "pace": 67.9,
-   "points": 406,
-   "oppPoints": 319,
-   "rebounds": 219,
-   "oppRebounds": 157,
-   "offRebounds": 71,
-   "assists": 86,
-   "turnovers": 53,
-   "steals": 36,
+   "pace": 66.8,
+   "points": 477,
+   "oppPoints": 384,
+   "rebounds": 248,
+   "oppRebounds": 186,
+   "offRebounds": 79,
+   "assists": 106,
+   "turnovers": 63,
+   "steals": 42,
    "blocks": 32,
-   "fgPct": 49.8,
-   "threePct": 34,
-   "ftPct": 60.9,
-   "oppFgPct": 36.6,
-   "efgPct": 55.2,
-   "oRating": 119.6,
-   "dRating": 94.0,
-   "possessions": 339.5
+   "fgPct": 50.4,
+   "threePct": 34.2,
+   "ftPct": 60.1,
+   "oppFgPct": 37.4,
+   "efgPct": 56,
+   "oRating": 118.9,
+   "dRating": 95.7,
+   "possessions": 401.1
   },
   "St. John's": {
    "games": 5,
@@ -19751,25 +19989,25 @@
   "Utah": {
    "games": 6,
    "wins": 3,
-   "losses": 2,
-   "pace": 65.5,
-   "points": 390,
+   "losses": 3,
+   "pace": 65.6,
+   "points": 393,
    "oppPoints": 395,
    "rebounds": 211,
    "oppRebounds": 192,
    "offRebounds": 63,
-   "assists": 82,
+   "assists": 83,
    "turnovers": 81,
    "steals": 45,
    "blocks": 16,
-   "fgPct": 43,
-   "threePct": 26.9,
+   "fgPct": 43.2,
+   "threePct": 27.4,
    "ftPct": 64.1,
    "oppFgPct": 44,
-   "efgPct": 49.1,
-   "oRating": 99.2,
-   "dRating": 100.5,
-   "possessions": 393.1
+   "efgPct": 49.4,
+   "oRating": 99.8,
+   "dRating": 100.3,
+   "possessions": 393.6
   },
   "Utah Valley": {
    "games": 5,
@@ -19853,7 +20091,7 @@
    "assists": 56,
    "turnovers": 55,
    "steals": 42,
-   "blocks": 21,
+   "blocks": 22,
    "fgPct": 46.4,
    "threePct": 30.6,
    "ftPct": 69.5,
