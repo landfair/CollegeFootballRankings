@@ -502,7 +502,7 @@ def build_fpi(raw, teams, top="FBS"):
 # ----------------------------------------------------------------------------
 # Team statistics
 # ----------------------------------------------------------------------------
-def build_team_stats(basic, advanced, teams, top="FBS"):
+def build_team_stats(basic, advanced, teams, top="FBS", havoc=True):
     """{team: {...}} of season figures, basic box score and advanced alike.
 
     THESE NEVER TOUCH THE RANKING, for the same reason the polls and the power
@@ -596,7 +596,14 @@ def build_team_stats(basic, advanced, teams, top="FBS"):
                     v = num(blob.get(src))
                     if v is not None:
                         rec[side + key] = v
-                hv = num((blob.get("havoc") or {}).get("total"))
+                # The feed's havoc rate before 2016 is on another scale --
+                # a league average near 0.02 against about 0.16 from 2016 on,
+                # so it counts far fewer events -- and it does not compare
+                # with the later seasons or even rank a season's teams
+                # sensibly (its r with the rating was 0.16 in 2014, against
+                # 0.5 in every later year). The caller leaves it out there,
+                # and the page shows a blank rather than a wrong figure.
+                hv = num((blob.get("havoc") or {}).get("total")) if havoc else None
                 if hv is not None:
                     rec[side + "Havoc"] = hv
                 fp = num((blob.get("fieldPosition") or {}).get("averageStart"))
@@ -1165,6 +1172,11 @@ def main():
 
     print("  games, regular season")
     raw = get("/games", {"year": a.year, "seasonType": "regular"}, key)
+    # The feed's own number for the last regular-season week, kept before
+    # `raw` is reused for the postseason: the team statistics stop there, so
+    # they describe the same games the ranking grades (see below).
+    reg_end = max((int(w) for w in (pick(g, "week") for g in raw)
+                   if w is not None), default=None)
     games, skipped, dropped = build_games(raw, teams, drop_titles=not a.include_title_games)
 
     # Built here, from the same rows, before `raw` is reused for the postseason.
@@ -1257,16 +1269,24 @@ def main():
     if not a.no_stats:
         print("  team statistics")
         try:
-            basic = get("/stats/season", {"year": a.year}, key)
+            # Without an end week the feed's season totals include bowls and
+            # the playoff, which the ranking never grades: a finished season's
+            # stats would describe sixteen games for a team rated on twelve.
+            # endWeek holds them to the regular season, championship weekend
+            # included, unless --postseason has put those games in the file.
+            sp = {"year": a.year}
+            if reg_end and not a.postseason:
+                sp["endWeek"] = reg_end
+            basic = get("/stats/season", sp, key)
             try:
-                adv_rows = get("/stats/season/advanced", {"year": a.year}, key)
+                adv_rows = get("/stats/season/advanced", sp, key)
             except Exception as e:      # the advanced feed is the optional half
                 warn(f"could not read advanced stats ({e}); "
                      f"writing the basic figures alone")
                 adv_rows = []
             adv = {pick(r, "team", "school"): r for r in (adv_rows or [])
                    if pick(r, "team", "school")}
-            team_stats = build_team_stats(basic, adv, teams)
+            team_stats = build_team_stats(basic, adv, teams, havoc=a.year >= 2016)
         except SystemExit:
             raise
         except Exception as e:               # missing stats are not fatal
