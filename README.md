@@ -25,7 +25,7 @@ team page survives the move.
 | `recursive-rankings.html` | The research build — slates, the draft triangle, per-game revision history, poll comparison, backtesting. Open it directly; it loads a season through its own file picker. |
 | `fetch_season.py` | Pulls a football season from CollegeFootballData.com. |
 | `build_combined.py` | Rebuilds `docs/season-all.json` from the season files. Run it after every football pull. |
-| `build_logos.py` | Writes `logos.json` in each section: team name to ESPN id, for the logos on the scatter-plot hover cards. The images are CollegeFootballData's, fetched by the reader's browser only when a card shows. Re-run when a team joins a division; a missing entry just means a card without a picture. |
+| `build_logos.py` | Writes `logos.json` in each section: team name to ESPN id, for the logo drawn beside every team name. Only logos checked to load on CollegeFootballData's CDN are kept (every top-division team, and most lower-division opponents); the reader's browser fetches them from there, lazily, as rows come into view. Re-run when a new team appears; a team without an entry gets an empty space of the same width. |
 | `fetch_basketball.py` | Pulls a men's basketball season from CollegeBasketballData.com. The same API key works for both. |
 | `fetch_wbasketball.py` | Pulls a women's basketball season from the wehoop data repository. No API key; needs `pyarrow`. |
 

@@ -157,6 +157,12 @@
      strike when the pointer lands on it. */
   tr.gated td{opacity:.6}
   tr.gated button.tm,tr.gated button.tm:hover{text-decoration:line-through}
+  /* Team logos, set before the name wherever a team is named. The box is the
+     same size whether or not there is an image in it, so a team without a
+     logo still lines up with the names above and below it. */
+  .lg{display:inline-block;width:18px;height:18px;vertical-align:-4px;
+    margin-right:7px;object-fit:contain}
+  .lg.lgh{width:36px;height:36px;vertical-align:-8px;margin-right:12px}
   /* team page */
   .slatenav{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0 14px}
   .slatenav select{font:inherit;font-size:13px;padding:3px 6px}
@@ -611,6 +617,49 @@ function showView(which){
   $('statsview').hidden=which!=='stats';
   $('corrview').hidden=which!=='corr';
 }
+/* ---- team logos ---------------------------------------------------------
+   Every team named on the page carries its logo: the table, a team page and
+   its games and fixtures, the slates, the stats table, the poll lists and the
+   scatter cards.
+
+   logos.json, beside the page and written by build_logos.py, maps a team name
+   to its ESPN id; the image is CollegeFootballData's, from its CDN, in the
+   dark variant when the page is dark. The file lists only logos that were
+   checked to load, so a team without one is simply absent and gets an empty
+   box of the same size instead. An image that fails anyway is hidden, not
+   removed, for the same reason.
+
+   The file is asked for at once, beside the season, and the view is drawn
+   again when it lands: a slow CDN costs the logos for a moment and never
+   holds up the table. The images are the one thing this page asks a third
+   party for while it is being read, and loading="lazy" keeps that to the
+   rows actually on screen. */
+let LOGOS=null, LOGOP=null;
+const loadLogos=()=>LOGOP||(LOGOP=fetch('logos.json')
+  .then(r=>r.ok?r.json():null).then(d=>{ if(d&&d.src&&d.ids) LOGOS=d; })
+  .catch(()=>{}));
+const darkPage=()=>document.documentElement.dataset.theme!=='light'&&
+  !!window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches;
+/* px is the size fetched, about twice the size drawn: 48 beside a name, 64
+   on a card, 96 for a team page's heading. */
+const logoSrc=(team,px)=>{
+  const id=LOGOS&&LOGOS.ids[team];
+  return id?`${LOGOS.src}${darkPage()?'-dark':''}/${px}/${id}.png`:null;
+};
+const logo=(team,big)=>{
+  const u=logoSrc(team,big?96:48), c=big?'lg lgh':'lg';
+  return u?`<img class="${c}" src="${esc(u)}" alt="" loading="lazy" decoding="async">`
+    :`<span class="${c}"></span>`;
+};
+document.addEventListener('error',e=>{
+  const t=e.target;
+  if(t&&t.tagName==='IMG'&&t.classList.contains('lg')) t.style.visibility='hidden';
+},true);
+loadLogos().then(()=>{ if(LOGOS) render(); });
+/* The light and dark logos differ, so a change of system theme redraws. */
+if(window.matchMedia) matchMedia('(prefers-color-scheme: dark)')
+  .addEventListener?.('change',()=>{ if(LOGOS) render(); });
+
 function render(){
   if(!SEASON) return;
   if(VIEW.kind==='team') renderTeam(VIEW.team);
@@ -908,7 +957,7 @@ function renderList(){
     html+=`<tr${x?' class="gated"':''}><td class="rk">${r.rank}</td>`+
       `<td><button class="tm" data-t="${esc(r.team)}"`+
       (x?` title="${esc(gtip)}" aria-label="${esc(r.team)}, excluded by the victors gate"`:'')+
-      `>${esc(r.team)}</button></td>`+
+      `>${logo(r.team)}${esc(r.team)}</button></td>`+
       `<td class="cf">${esc(r.conference||'')}</td>`+
       `<td class="num">${r.wins}‑${r.losses}</td>`+
       `<td class="num"><b>${r.key.toFixed(1)}</b></td>`+
@@ -970,7 +1019,7 @@ function renderTeam(team){
   const bw=gated.all.find(r=>r.team===team);
 
   let html='<p><button class="back" id="back">&larr; All teams</button></p>'+
-    `<div class="thead"><h2>${esc(team)}</h2>`+
+    `<div class="thead"><h2>${logo(team,true)}${esc(team)}</h2>`+
     `<span class="sub">${esc(info.conference||'')}</span></div>`;
   html+='<div class="facts">'+
     `<div class="fact" title="${esc('Where this ranking places the team through the '+
@@ -1270,7 +1319,7 @@ function renderTeam(team){
     html+='<div class="g"><div class="grow">'+
       `<span class="gw">${fmtDay(dayOf(w))}</span>`+
       `<span class="res ${e.res===WIN?'w':'l'}">${e.res===WIN?'beat':'lost to'}</span>`+
-      `<button class="tm" data-t="${esc(e.opp)}">${esc(e.opp)}</button>`+
+      `<button class="tm" data-t="${esc(e.opp)}">${logo(e.opp)}${esc(e.opp)}</button>`+
       `<span class="cf">${oppRank?'#'+oppRank:'unranked'} · ${ow}‑${others.length-ow} in their other games</span>`+
       `<span class="gsc${W&&p?' wtd':''}"${W&&p?` title="${esc(weightTip(W,p,e))}"`:''}>`+
       `${p?(W?(W.adjust(p.score,e.opp,e.res===WIN)).toFixed(1):p.score.toFixed(1)):'—'}`+
@@ -1299,7 +1348,7 @@ function renderTeam(team){
       html+='<div class="g"><div class="grow">'+
         `<span class="gw">${fmtDay(gm.date)}</span>`+
         `<span class="res" style="background:none;color:inherit;opacity:.65">${say(gm)}</span>`+
-        `<button class="tm" data-t="${esc(gm.opp)}">${esc(gm.opp)}</button>`+
+        `<button class="tm" data-t="${esc(gm.opp)}">${logo(gm.opp)}${esc(gm.opp)}</button>`+
         `<span class="cf">${rk?'#'+rk:'unranked'}`+
           `${gm.conf?' · conference':''}${gm.neutral?' · neutral site':''}`+
           `${gm.tbd?' · tbd':''}</span>`+
@@ -1640,23 +1689,9 @@ const fmtv=v=>Math.abs(v)>=100?v.toFixed(0):Math.abs(v)>=10?v.toFixed(1)
    data-d / data-e for the card's two lines), so the plot functions know
    nothing about the hover and the hover nothing about what was plotted.
 
-   LOGOS come from logos.json beside the page, written by build_logos.py: team
-   name to ESPN id, the image itself on CollegeFootballData's CDN, in its dark
-   variant when the page is dark. Fetched once, on the first plot, and only
-   then; a team with no entry, or an image that fails to load, simply gets a
-   card without a picture. Showing a logo is the one moment this page asks a
-   third party for anything while it is being read. */
+   The card's logo is the one the rest of the page uses (see "team logos"),
+   fetched at card size; a team without one gets a card without a picture. */
 const REACH=28;
-let LOGOS=null, LOGOP=null;
-const loadLogos=()=>LOGOP||(LOGOP=fetch('logos.json')
-  .then(r=>r.ok?r.json():null).then(d=>{ if(d&&d.src&&d.ids) LOGOS=d; })
-  .catch(()=>{}));
-const darkPage=()=>document.documentElement.dataset.theme!=='light'&&
-  !!window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches;
-const logoURL=team=>{
-  const id=LOGOS&&LOGOS.ids[team];
-  return id?`${LOGOS.src}${darkPage()?'-dark':''}/64/${id}.png`:null;
-};
 function wireScatter(root){
   loadLogos();
   root.querySelectorAll('.cscat').forEach(box=>{
@@ -1687,7 +1722,7 @@ function wireScatter(root){
         hot.setAttribute('r',(+hot.dataset.r0+2.2).toFixed(1));
         hot.classList.add('hot');
         hot.parentNode.appendChild(hot);   // drawn last, so on top of its neighbours
-        const t=hot.dataset.t, src=logoURL(t);
+        const t=hot.dataset.t, src=logoSrc(t,64);
         tip.innerHTML=(src?`<img src="${esc(src)}" alt="">`:'')+
           `<div><b>${esc(t)}</b><span>${esc(hot.dataset.d||'')}</span>`+
           (hot.dataset.e?`<span>${esc(hot.dataset.e)}</span>`:'')+`</div>`;
@@ -1872,7 +1907,7 @@ function statRows(){
   const C=[
     {k:'rank', h:'#',          cls:'rk',  low:true,  v:r=>r.rank,   d:r=>r.rank,
      tip:'Place in this ranking — the same number as the Rankings page, carried here so the two can be read against each other. Computed from results alone.'},
-    {k:'team', h:'Team',       cls:'',    low:true,  v:r=>r.team,   d:r=>`<button class="tm" data-t="${esc(r.team)}">${esc(r.team)}</button>`, text:true},
+    {k:'team', h:'Team',       cls:'',    low:true,  v:r=>r.team,   d:r=>`<button class="tm" data-t="${esc(r.team)}">${logo(r.team)}${esc(r.team)}</button>`, text:true},
     {k:'conf', h:'Conference', cls:'cf',  low:true,  v:r=>r.conference||'', d:r=>esc(r.conference||''), text:true},
     {k:'rec',  h:'Rec',        cls:'num', low:false, v:r=>r.games?r.wins/r.games:0, d:r=>`${r.wins}‑${r.losses}`,
      tip:'Wins and losses over every game played through the chosen day. Sorts on win percentage.'},
@@ -2124,7 +2159,7 @@ function showPollPlot(p){
     '<div class="cgrid">'+far.map((d,i)=>{
       const off=d.poll-d.ours;
       return `<div class="crow pollrow"><span class="cn">${i+1}</span>`+
-        `<span class="cpair"><button class="tm" data-t="${esc(d.team)}">${esc(d.team)}</button></span>`+
+        `<span class="cpair"><button class="tm" data-t="${esc(d.team)}">${logo(d.team)}${esc(d.team)}</button></span>`+
         `<span class="cr ${off>0?'pos':'neg'}">${off>0?'+':'−'}${Math.abs(off)}</span>`+
         `<span class="cn">${p.other} #${d.poll} · ${esc(vAxis(p))} #${d.ours}</span></div>`;
     }).join('')+'</div>'+
@@ -2470,9 +2505,9 @@ function renderSlates(bucket){
         : `<td class="num">${r.score.toFixed(1)}</td>`)+
       `<td class="num nr">${r.rank}</td>`+
       `<td class="rk nr">${esc(String(fmtDay(dayOf(r.week))))}</td>`+
-      `<td><button class="tm" data-t="${esc(r.team)}">${esc(r.team)}</button></td>`+
+      `<td><button class="tm" data-t="${esc(r.team)}">${logo(r.team)}${esc(r.team)}</button></td>`+
       `<td><span class="res ${r.e.res===WIN?'w':'l'}">${r.e.res===WIN?'beat':'lost to'}</span></td>`+
-      `<td><button class="tm" data-t="${esc(r.e.opp)}">${esc(r.e.opp)}</button></td>`+
+      `<td><button class="tm" data-t="${esc(r.e.opp)}">${logo(r.e.opp)}${esc(r.e.opp)}</button></td>`+
       `<td class="num nr">${rankOf.has(r.e.opp)?'#'+rankOf.get(r.e.opp):'&mdash;'}</td>`+
       `<td class="num cf">${ow}\u2011${others.length-ow}</td>`+
       `<td class="num">${r.val[1].toFixed(3)}</td>`+
