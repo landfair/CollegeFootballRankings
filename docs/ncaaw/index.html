@@ -269,7 +269,9 @@
      strong negative reads as far from the middle as a strong positive and the
      sign stays visible without reading the figure. */
   .cgrid{display:grid;grid-template-columns:1fr;gap:0;margin:2px 0 18px}
-  .crow{display:grid;grid-template-columns:2.1em 1fr 4.4em 5.2em;gap:11px;
+  /* The bar takes up to 11em when there is room: comparing lengths down the
+     list is the quickest reading of it, and a short bar hides the difference. */
+  .crow{display:grid;grid-template-columns:2.1em minmax(0,1fr) minmax(4.4em,11em) 5.2em;gap:11px;
     align-items:center;padding:7px 0;border-bottom:1px solid var(--rule)}
   .crow:last-child{border-bottom:0}
   .crow .cn{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:right}
@@ -297,6 +299,32 @@
   details.cdef summary{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
     color:var(--muted);cursor:pointer;margin-bottom:4px}
   details.cdef summary span{text-transform:none;letter-spacing:0}
+  /* Two ways into the correlations, and the controls for each. */
+  .cmodes{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 10px}
+  .cmode{background:none;border:1px solid var(--rule);border-radius:999px;padding:5px 14px;
+    font:inherit;font-size:13px;color:var(--muted);cursor:pointer}
+  .cmode:hover{color:var(--ink);border-color:var(--muted)}
+  .cmode[aria-selected=true],.cmode[aria-pressed=true]{background:var(--ink);
+    border-color:var(--ink);color:var(--bg)}
+  .cmode.sm{padding:2px 10px;font-size:12px}
+  .cctl{display:flex;align-items:center;gap:10px 18px;flex-wrap:wrap;margin:4px 0 14px;
+    font-size:13.5px;color:var(--muted)}
+  .cctl label{display:flex;align-items:center;gap:8px}
+  .cctl select,.cctl input{font:inherit;font-size:14px;color:var(--ink);background:var(--panel);
+    border:1px solid var(--rule);border-radius:6px;padding:5px 8px}
+  .cctl input{min-width:16em}
+  .csort{display:flex;align-items:center;gap:6px}
+  .cpair button.tm2{background:none;border:0;padding:0;font:inherit;color:inherit;
+    cursor:pointer;text-align:left}
+  .cpair button.tm2:hover b{color:var(--mark)}
+  .ccen{background:none;border:1px solid var(--rule);border-radius:4px;padding:0 6px;
+    margin-left:8px;font:inherit;font-size:11px;color:var(--muted);cursor:pointer}
+  .ccen:hover{color:var(--mark);border-color:var(--mark)}
+  .cread{display:block;font-size:12px;color:var(--muted);margin-top:1px}
+  .crow.on{background:var(--soft)}
+  .crow.cdefrow{opacity:.62}
+  .cexp{padding:6px 0 4px;border-bottom:1px solid var(--rule)}
+  .cexp .cscat{margin:4px 0 8px}
   .cscat{margin:6px 0 20px}
   .cscat svg{display:block;max-width:100%;height:auto;overflow:visible}
   .cscat .ax{stroke:var(--rule);stroke-width:1}
@@ -1785,7 +1813,7 @@ function corrBar(r){
   const w=Math.min(Math.abs(r),1)*50;
   return `<div class="cbar"><i class="${r>0?'pos':'neg'}" style="width:${w.toFixed(1)}%"></i><u></u></div>`;
 }
-function corrRow(p,i){
+function corrRow(p,i,on){
   const tag = p.kind==='def'
     ? `<span class="ctag" title="${esc(p.a.h+' and '+p.b.h+' are not independent: one is '+
         'computed from the other, so a high r here is arithmetic restating itself '+
@@ -1801,7 +1829,7 @@ function corrRow(p,i){
      for what clicking does, so the two do not fight: the hint sits on the
      button, the definitions sit on the words. */
   const name=c=>`<b${c.tip?` title="${esc(c.h+' \u2014 '+c.tip)}"`:''}>${esc(c.h)}</b>`;
-  return `<div class="crow"><span class="cn">${i}</span>`+
+  return `<div class="crow${on?' on':''}"><span class="cn">${i}</span>`+
     `<span class="cpair"><button class="tm2" data-a="${p.a.k}" data-b="${p.b.k}" `+
     `title="${esc('Plot '+p.a.h+' against '+p.b.h+'.')}">`+
     `${name(p.a)}<span class="vs">vs</span>${name(p.b)}</button>${tag}</span>`+
@@ -1930,6 +1958,135 @@ function corrScatter(p){
 
 let corrPair=null;   // [aKey,bKey] of the pair shown in the scatter, or null
 let corrAll=false;   // show every pair rather than the leading ones
+/* The view opens on ONE column against all the others, Rating first, because
+   the question a reader usually brings is "what tracks this?" -- does a
+   rushing defence or a passing defence go with the rating more closely --
+   and the list of every pair, strongest first, answers it only by making the
+   reader hunt down each pair that mentions the column. The all-pairs list is
+   still there as the second mode, with a find box. */
+let corrMode='one';      // 'one' (one column against the rest) or 'pairs'
+let corrAnchor='key';    // the column 'one' is centred on
+let corrPrev=null;       // the column centred on before, for the way back
+let corrSort='strength'; // 'strength' or 'table' (the stats table's order)
+let corrFind='';         // the all-pairs filter
+
+function corrTag(p){
+  return p.kind==='def'
+    ? `<span class="ctag" title="${esc(p.a.h+' and '+p.b.h+' are not independent: one is '+
+        'computed from the other, so a high r here is arithmetic restating itself '+
+        'rather than anything the season taught.')}">definitional</span>`
+    : p.kind==='over'
+    ? `<span class="ctag" title="${esc('These two share a component, so part of this '+
+        'relationship is bookkeeping rather than anything the season taught.')}">shares a part</span>`
+    : '';
+}
+const corrSame=(p,k)=>!!k&&((p.a.k===k[0]&&p.b.k===k[1])||(p.a.k===k[1]&&p.b.k===k[0]));
+
+/* One row of the one-column view: the OTHER column, read against the one in
+   the centre. The reading under its name says which way the two go together,
+   in words, because a sign is easy to misread when half the columns are
+   better low: "lower Opp rush goes with higher Rating" says the same as
+   r = -0.6 and cannot be taken the wrong way round. */
+function corrOneRow(p,A,i,on){
+  const S=p.a.k===A.k?p.b:p.a;
+  const read=Math.abs(p.r)<0.2?'barely related'
+    :`${p.r>0?'higher':'lower'} ${S.h} goes with higher ${A.h}`;
+  return `<div class="crow${on?' on':''}${p.kind==='def'?' cdefrow':''}"><span class="cn">${i}</span>`+
+    `<span class="cpair"><button class="tm2" data-a="${A.k}" data-b="${S.k}" `+
+    `title="${esc((on?'Close the plot of ':'Plot ')+A.h+' against '+S.h+'.')}">`+
+    `<b${S.tip?` title="${esc(S.h+' — '+S.tip)}"`:''}>${esc(S.h)}</b></button>${corrTag(p)}`+
+    `<button class="ccen" data-k="${S.k}" title="${esc('Centre on '+S.h+': every other '+
+      'column ranked against it instead.')}">centre</button>`+
+    `<span class="cread">${esc(read)}</span></span>`+
+    corrBar(p.r)+
+    `<span class="cr ${p.r>0?'pos':'neg'}" title="${esc(corrTip(p))}">`+
+    `${p.r>0?'+':'−'}${Math.abs(p.r).toFixed(3)}</span></div>`;
+}
+
+/* The plot opens under the row that asked for it rather than at the top of
+   the page, so a reader working down a list never loses their place. In the
+   one-column view the centred column goes on the vertical axis, so every plot
+   in that list reads the same way up. */
+function corrExpand(p,A){
+  const q=A&&p.a.k===A.k?{...p,a:p.b,b:p.a,xs:p.ys,ys:p.xs}:p;
+  const nm=c=>`<b${c.tip?` title="${esc(c.h+' — '+c.tip)}" class="defn"`:''}>${esc(c.h)}</b>`;
+  return '<div class="cexp">'+corrScatter(q)+
+    `<p class="cdetail">${nm(q.b)} against ${nm(q.a)} — `+
+    `r = ${q.r>0?'+':'−'}${Math.abs(q.r).toFixed(3)} over ${q.n} teams `+
+    `(${strengthWord(q.r)}). Each dot is a team; point at or near one to name it. `+
+    `The dashed line is the least-squares fit.</p></div>`;
+}
+
+function corrListHTML(pairs,cols){
+  if(corrMode==='one'){
+    const A=cols.find(c=>c.k===corrAnchor);
+    const other=p=>p.a.k===A.k?p.b:p.a;
+    const mine=pairs.filter(p=>p.a.k===A.k||p.b.k===A.k);
+    const order=corrSort==='table'
+      ? (x,y)=>cols.indexOf(other(x))-cols.indexOf(other(y))
+      : (x,y)=>Math.abs(y.r)-Math.abs(x.r);
+    const real=mine.filter(p=>p.kind!=='def').sort(order);
+    const defs=mine.filter(p=>p.kind==='def').sort(order);
+    const rows=list=>'<div class="cgrid">'+list.map((p,i)=>{
+      const on=corrSame(p,corrPair);
+      return corrOneRow(p,A,i+1,on)+(on?corrExpand(p,A):'');
+    }).join('')+'</div>';
+    let html=`<div class="combohd">every column against ${esc(A.h)} `+
+      `<span class="nr">— ${real.length} of them, ${corrSort==='table'
+        ?'in the stats table’s order':'closest relationship first'}</span></div>`+rows(real);
+    if(defs.length) html+=`<div class="combohd">computed from ${esc(A.h)}, or it from them `+
+      `<span class="nr">— arithmetic, not a finding</span></div>`+rows(defs);
+    return html;
+  }
+  const q=corrFind.trim().toLowerCase();
+  const hit=p=>!q||p.a.h.toLowerCase().includes(q)||p.b.h.toLowerCase().includes(q);
+  const real=pairs.filter(p=>p.kind!=='def'&&hit(p));
+  const defs=pairs.filter(p=>p.kind==='def'&&hit(p));
+  const shown=(corrAll||q)?real:real.slice(0,18);
+  const rows=list=>'<div class="cgrid">'+list.map((p,i)=>{
+    const on=corrSame(p,corrPair);
+    return corrRow(p,i+1,on)+(on?corrExpand(p,null):'');
+  }).join('')+'</div>';
+  let html=`<div class="combohd" style="margin-top:4px">`+
+    (q?`${real.length} pair${real.length===1?'':'s'} mentioning “${esc(corrFind.trim())}”`
+      :'strongest relationships')+
+    ` <span class="nr">— excluding the definitional pairs</span></div>`+
+    (shown.length?rows(shown):'<p class="msg">No pair matches.</p>');
+  if(!q&&real.length>18)
+    html+=`<p><button class="back" id="more">${corrAll?'Show the leading 18 only'
+      :'Show all '+real.length+' pairs'}</button></p>`;
+  if(defs.length)
+    html+=`<details class="cdef"${q||defs.some(p=>corrSame(p,corrPair))?' open':''}>`+
+      '<summary>definitional pairs '+
+      `<span>— ${defs.length} held back, and why</span></summary>`+
+      '<p class="slateintro">In each of these one column is built out of the other, so '+
+      'the correlation is restating a definition. '+
+      'Margin <i>is</i> PPG minus Opp PPG; ORtg is points per 100 possessions. '+
+      'They are listed rather than hidden so that the page cannot be accused of missing '+
+      'its own strongest numbers.</p>'+rows(defs)+'</details>';
+  return html;
+}
+
+function drawCorrList(pairs,cols){
+  const list=$('clist'); if(!list) return;
+  list.innerHTML=corrListHTML(pairs,cols);
+  wire(list);
+  wireScatter(list);
+  list.querySelectorAll('button.tm2').forEach(b=>b.onclick=()=>{
+    const k=[b.dataset.a,b.dataset.b];
+    corrPair=(corrPair&&new Set(corrPair).has(k[0])&&new Set(corrPair).has(k[1]))?null:k;
+    drawCorrList(pairs,cols);
+  });
+  list.querySelectorAll('button.ccen').forEach(b=>b.onclick=()=>corrCentre(b.dataset.k));
+  const m=$('more'); if(m) m.onclick=()=>{ corrAll=!corrAll; drawCorrList(pairs,cols); };
+}
+function corrCentre(k){
+  if(k===corrAnchor) return;
+  corrPrev=corrAnchor; corrAnchor=k; corrMode='one'; corrPair=null;
+  renderCorr();
+  const pick=document.querySelector('#corrview .cmodes');
+  if(pick&&pick.getBoundingClientRect().top<0) pick.scrollIntoView({block:'start'});
+}
 
 function renderCorr(){
   const {h}=current();
@@ -1939,77 +2096,79 @@ function renderCorr(){
   const host=$('corrview');
   const back='<p><button class="back" id="back">&larr; Rankings</button> '+
     '<button class="back" id="tostats">Stats table &rarr;</button></p>';
+  const wire2=()=>{ $('back').onclick=()=>go(null);
+                    $('tostats').onclick=()=>go({kind:'stats'}); };
   if(!TS||!TS.size){
-    host.innerHTML=back+'<p class="msg">No box-score figures in this season’s file, '+
-      'so there is nothing to correlate. They are pulled separately from the results '+
-      'and only the seasons that have been re-fetched carry them.</p>';
-    $('back').onclick=()=>go(null);
-    $('tostats').onclick=()=>go({kind:'stats'});
-    return;
+    host.innerHTML=back+'<p class="msg">'+'No box-score figures in this season’s file, so there is nothing to correlate. '+
+      'They are pulled separately from the results and only the seasons that have '+
+      'been re-fetched carry them.'+'</p>';
+    wire2(); return;
   }
   const {data,C}=statRows();
   const pairs=correlate(data,C);
   if(!pairs.length){
     host.innerHTML=back+'<p class="msg">Not enough teams carry two comparable figures '+
       'in this season yet.</p>';
-    $('back').onclick=()=>go(null);
-    $('tostats').onclick=()=>go({kind:'stats'});
-    return;
+    wire2(); return;
   }
-  const real=pairs.filter(p=>p.kind!=='def');
-  const defs=pairs.filter(p=>p.kind==='def');
-  const shown=corrAll?real:real.slice(0,18);
-  const sel=corrPair&&real.concat(defs).find(p=>p.a.k===corrPair[0]&&p.b.k===corrPair[1]);
+  /* The columns that made it into at least one pair, in the table's order. */
+  const cols=C.filter(c=>pairs.some(p=>p.a.k===c.k||p.b.k===c.k));
+  if(!cols.some(c=>c.k===corrAnchor))
+    corrAnchor=cols.some(c=>c.k==='key')?'key':cols[0].k;
+  if(corrPrev&&(corrPrev===corrAnchor||!cols.some(c=>c.k===corrPrev))) corrPrev=null;
+  const one=corrMode==='one';
+  const nameOf=k=>(cols.find(c=>c.k===k)||{}).h||k;
 
   let html=back+
     `<div class="thead"><h2>What moves with what</h2><span class="sub">`+
-    `${pairs.length} pairs over ${data.length} teams, `+
-    `through ${esc(fmtFull(dayOf(h))||('day '+h))}</span></div>`+
-    '<p class="slateintro">Every pair of columns on the stats table, ranked by how '+
-    'strongly the two move together across the whole field. <b>r</b> runs from '+
-    '−1 to +1: at +1 the two rise in perfect step, at −1 one falls as the other '+
-    'rises, and at 0 they tell you nothing about each other. A negative sign is not a '+
-    'fault — fewer turnovers and a better record <i>should</i> run opposite. '+
-    'Pairs where one column is <b>computed from</b> the other are held back at the '+
-    'bottom, because their high scores are arithmetic rather than anything the season '+
-    'taught. Click any pair to plot it. Hover a figure for the rank-based reading and '+
-    'the caveat that none of this shows cause.</p>';
-
-  if(sel) html+=corrScatter(sel)+
-    `<p class="cdetail">`+
-    `<b${sel.a.tip?` title="${esc(sel.a.h+' — '+sel.a.tip)}" class="defn"`:''}>${esc(sel.a.h)}</b>`+
-    ` against `+
-    `<b${sel.b.tip?` title="${esc(sel.b.h+' — '+sel.b.tip)}" class="defn"`:''}>${esc(sel.b.h)}</b>`+
-    ` — `+
-    `r = ${sel.r>0?'+':'−'}${Math.abs(sel.r).toFixed(3)} over ${sel.n} teams `+
-    `(${strengthWord(sel.r)}). Each dot is a team; point at or near one to name it. `+
-    `The dashed line is the least-squares fit.</p>`;
-
-  html+=`<div class="combohd" style="margin-top:14px">strongest relationships `+
-    `<span class="nr">— excluding the definitional pairs</span></div>`+
-    '<div class="cgrid">'+shown.map((p,i)=>corrRow(p,i+1)).join('')+'</div>';
-  if(real.length>18)
-    html+=`<p><button class="back" id="more">${corrAll?'Show the leading 18 only'
-      :'Show all '+real.length+' pairs'}</button></p>`;
-  if(defs.length)
-    html+='<details class="cdef"><summary>definitional pairs '+
-      `<span>— ${defs.length} held back, and why</span></summary>`+
-      '<p class="slateintro">In each of these one column is built out of the other, so '+
-      'the correlation is restating a definition. Margin <i>is</i> PPG minus Opp PPG; '+
-      'ORtg is points per 100 possessions. They are listed rather than hidden so that '+
-      'the page cannot be accused of missing its own strongest numbers.</p>'+
-      '<div class="cgrid">'+defs.map((p,i)=>corrRow(p,i+1)).join('')+'</div></details>';
-
+    `${pairs.length} pairs over ${data.length} teams, through ${esc(fmtFull(dayOf(h))||('day '+h))}`+`</span></div>`+
+    '<p class="slateintro">'+
+    'Pick one column and every other is ranked by how closely it moves with it '+
+    '— which side of the ball tracks the rating more closely, say — or switch '+
+    'to every pair at once. <b>r</b> runs from −1 to +1: at +1 the two rise in '+
+    'perfect step, at −1 one falls as the other rises, and at 0 they tell you '+
+    'nothing about each other. A negative sign is not a fault — fewer turnovers '+
+    'and a better record <i>should</i> run opposite. Click a row to plot it under the '+
+    'row; <b>centre</b> makes that column the one the list is measured against. Pairs '+
+    'where one column is <b>computed from</b> the other are set apart, because their '+
+    'high scores are arithmetic rather than anything the season taught. Hover a figure '+
+    'for the rank-based reading and the caveat that none of this shows cause.</p>'+
+    '<div class="cmodes" role="tablist">'+
+    `<button class="cmode" role="tab" data-m="one" aria-selected="${one}">One stat against the rest</button>`+
+    `<button class="cmode" role="tab" data-m="pairs" aria-selected="${!one}">Strongest pairs overall</button>`+
+    '</div>';
+  html+=one
+    ? '<div class="cctl"><label>Centre on <select id="canchor">'+
+        cols.map(c=>`<option value="${c.k}"${c.k===corrAnchor?' selected':''}>${esc(c.h)}</option>`).join('')+
+        '</select></label>'+
+        (corrPrev?`<button class="back" id="cprev">&larr; back to ${esc(nameOf(corrPrev))}</button>`:'')+
+        '<span class="csort">Order '+
+        `<button class="cmode sm" data-s="strength" aria-pressed="${corrSort!=='table'}">closest first</button>`+
+        `<button class="cmode sm" data-s="table" aria-pressed="${corrSort==='table'}">as in the table</button>`+
+        '</span></div>'
+    : '<div class="cctl"><label>Find <input id="cfind" type="search" autocomplete="off" '+
+        `placeholder="a stat, e.g. ${esc(cols[Math.min(3,cols.length-1)].h)}" value="${esc(corrFind)}"></label></div>`;
+  html+='<div id="clist"></div>';
   host.innerHTML=html;
-  wireScatter(host);
-  $('back').onclick=()=>go(null);
-  $('tostats').onclick=()=>go({kind:'stats'});
-  const m=$('more'); if(m) m.onclick=()=>{ corrAll=!corrAll; renderCorr(); };
-  host.querySelectorAll('button.tm2').forEach(b=>b.onclick=()=>{
-    const k=[b.dataset.a,b.dataset.b];
-    corrPair=(corrPair&&corrPair[0]===k[0]&&corrPair[1]===k[1])?null:k;
-    renderCorr();
+  wire2();
+  host.querySelectorAll('.cmodes button.cmode').forEach(b=>b.onclick=()=>{
+    if(b.dataset.m===corrMode) return;
+    corrMode=b.dataset.m; corrPair=null; renderCorr();
   });
+  const sel=$('canchor');
+  if(sel) sel.onchange=()=>corrCentre(sel.value);
+  const pv=$('cprev');
+  if(pv) pv.onclick=()=>corrCentre(corrPrev);
+  host.querySelectorAll('.csort button').forEach(b=>b.onclick=()=>{
+    corrSort=b.dataset.s;
+    host.querySelectorAll('.csort button').forEach(x=>
+      x.setAttribute('aria-pressed',x.dataset.s===corrSort?'true':'false'));
+    drawCorrList(pairs,cols);
+  });
+  /* Typing redraws the list alone, so the box keeps its focus and caret. */
+  const fd=$('cfind');
+  if(fd) fd.oninput=()=>{ corrFind=fd.value; drawCorrList(pairs,cols); };
+  drawCorrList(pairs,cols);
 }
 
 /* The rows and the column set, shared by the stats table and the
