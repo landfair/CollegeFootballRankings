@@ -893,15 +893,23 @@ export const BACKTEST_METHODS=[
   {key:'unweighted', label:'This ranking, unweighted'},
   {key:'winpct',     label:'Win percentage'},
   {key:'ap',         label:'AP Top 25'},
+  {key:'coaches',    label:'Coaches Poll'},
   {key:'cfp',        label:'CFP committee'},
   {key:'home',       label:'Home team always'},
 ];
 
 /* entries: [{year, season, eng}] — the caller supplies engines so a page can
    reuse whatever it has already built. onSeason() is called after each one so
-   a long run can yield to the browser. */
+   a long run can yield to the browser.
+
+   games is which games are scored: 'all' (every game between two eligible
+   teams) or 'ranked' (only those where both teams sit in the AP Top 25 AND
+   the Coaches Poll as they stood before the game). The second puts this
+   ranking and both polls on exactly the same games -- each poll can call
+   every one of them -- so their hit rates compare directly rather than
+   across different sets of games. */
 export function backtest(entries,opts={}){
-  const {start=4,wmode='B',onSeason=null}=opts;
+  const {start=4,wmode='B',onSeason=null,games='all'}=opts;
   const keys=BACKTEST_METHODS.map(m=>m.key);
   const logs=Object.fromEntries(keys.map(k=>[k,new Map()]));
   const tally=Object.fromEntries(keys.map(k=>[k,{h:0,t:0}]));
@@ -918,6 +926,7 @@ export function backtest(entries,opts={}){
         unweighted:new Map(rank(eng,season,N).map(r=>[r.team,r.rank])),
         winpct:winPctRanks(eng,N,eligible),
         ap:new Map((pollAt(season,'AP Top 25',N)?.ranks||[]).map(r=>[r.team,r.rank])),
+        coaches:new Map((pollAt(season,'Coaches Poll',N)?.ranks||[]).map(r=>[r.team,r.rank])),
         cfp:new Map((pollAt(season,'CFP Rankings',N)?.ranks||[]).map(r=>[r.team,r.rank])),
       };
       const wk=Object.fromEntries(keys.map(k=>[k,{h:0,t:0}]));
@@ -928,6 +937,8 @@ export function backtest(entries,opts={}){
         const won=g.res===WIN, win=won?t:g.opp, lose=won?g.opp:t;
         /* Both sides must be rankable, or the test rewards beating nobody. */
         if(!eligible.has(win)||!eligible.has(lose)) continue;
+        if(games==='ranked'&&!(order.ap.has(win)&&order.ap.has(lose)
+                               &&order.coaches.has(win)&&order.coaches.has(lose))) continue;
         const id=year+'|'+g.id;
         for(const k of keys){
           let ok;
