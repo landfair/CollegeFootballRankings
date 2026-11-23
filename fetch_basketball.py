@@ -425,6 +425,36 @@ def build_team_stats(raw, teams, top="D1"):
                "oppFgPct": dig(os_, "fieldGoals", "pct"),
                "efgPct": dig(ts, "fourFactors", "effectiveFieldGoalPct"),
                "oRating": ts.get("rating"), "dRating": os_.get("rating")}
+
+        # POSSESSIONS FROM THE BOX SCORE, not the feed's own count. The feed
+        # counts possessions from play-by-play, and where that coverage is
+        # thin the count collapses while the box score stays whole: 2021-22
+        # South Carolina State has 1,168 possessions over 31 games -- 38 a
+        # game, where Division I plays 60 to 75 -- so its rating reads 190.7.
+        # Across the six seasons on file 248 Division I team-seasons sit
+        # more than 5% below the estimate, 236 of them before 2025-26, which
+        # made ORtg's link to the ranking look as if it strengthened every
+        # year when it was the data improving. The standard estimate -- attempts less
+        # offensive rebounds, plus turnovers and 0.475 of free-throw attempts,
+        # averaged over the two sides -- needs only the box score, and pace
+        # and both ratings follow from it. Where a box score lacks one of
+        # those figures the feed's own numbers stand.
+        def poss(s):
+            parts = (dig(s, "fieldGoals", "attempted"), dig(s, "rebounds", "offensive"),
+                     dig(s, "turnovers", "total"), dig(s, "freeThrows", "attempted"))
+            if any(v is None for v in parts):
+                return None
+            fga, orb, tov, fta = parts
+            return fga - orb + tov + 0.475 * fta
+        pt, po = poss(ts), poss(os_)
+        if (pt and po and rec.get("games") and rec.get("points") is not None
+                and rec.get("oppPoints") is not None):
+            p = (pt + po) / 2
+            mins = row.get("totalMinutes")
+            rec["possessions"] = round(p, 1)
+            rec["pace"] = round(p * 40 / mins if mins else p / rec["games"], 1)
+            rec["oRating"] = round(100 * rec["points"] / p, 1)
+            rec["dRating"] = round(100 * rec["oppPoints"] / p, 1)
         rec = {k: v for k, v in rec.items() if v is not None}
         if rec.get("games"):
             out[name] = rec
@@ -550,6 +580,19 @@ FIXTURE_STATS = [
      "opponentStats": {"rating": 81.4, "points": {"total": 194},
                        "rebounds": {"total": 98},
                        "fieldGoals": {"pct": 33.7}}},
+    # a full box score on both sides, and a feed possession count that has
+    # collapsed: pace and both ratings must come from the box score instead
+    {"team": "Gonzaga", "games": 2, "wins": 2, "losses": 0, "totalMinutes": 80,
+     "pace": 35.0,
+     "teamStats": {"rating": 225.0, "possessions": 71,
+                   "points": {"total": 160},
+                   "fieldGoals": {"attempted": 120},
+                   "freeThrows": {"attempted": 40},
+                   "rebounds": {"offensive": 20}, "turnovers": {"total": 25}},
+     "opponentStats": {"rating": 197.0, "points": {"total": 140},
+                       "fieldGoals": {"attempted": 118},
+                       "freeThrows": {"attempted": 30},
+                       "rebounds": {"offensive": 18}, "turnovers": {"total": 26}}},
     # a lower-division side: present in the feed, never ranked, must be dropped
     {"team": "Tiny College", "games": 2, "wins": 0, "losses": 2,
      "teamStats": {"points": {"total": 90}}},
@@ -564,13 +607,24 @@ FIXTURE_STATS = [
 def _stats_checks():
     teams = {"Kansas": {"name": "Kansas", "division": "D1"},
              "Duke": {"name": "Duke", "division": "D1"},
+             "Gonzaga": {"name": "Gonzaga", "division": "D1"},
              "Tiny College": {"name": "Tiny College", "division": "OTHER"}}
     st = build_team_stats(FIXTURE_STATS, teams)
     k = st.get("Kansas", {})
+    g = st.get("Gonzaga", {})
     return [
-        ("only ranked divisions get a stats row", set(st) == {"Kansas"}),
+        ("only ranked divisions get a stats row", set(st) == {"Kansas", "Gonzaga"}),
         ("a team with no games played gets no row", "Duke" not in st),
-        ("a nameless row is dropped", len(st) == 1),
+        ("a nameless row is dropped", len(st) == 2),
+        # (120-20+25+0.475*40 + 118-18+26+0.475*30) / 2 = 142.125 possessions
+        ("possessions come from the box score, not the feed's count",
+         g.get("possessions") == 142.1),
+        ("pace and both ratings follow from the box-score possessions",
+         g.get("pace") == 71.1 and g.get("oRating") == 112.6
+         and g.get("dRating") == 98.5),
+        ("without the attempts the feed's own pace and ratings stand",
+         k.get("pace") == 73.5 and k.get("oRating") == 123.5
+         and k.get("dRating") == 81.4),
         ("points and opponent points both survive",
          k.get("points") == 273 and k.get("oppPoints") == 194),
         ("rebounds, assists and turnovers survive",

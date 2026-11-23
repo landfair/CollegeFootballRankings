@@ -48393,7 +48393,7 @@
    "games": 36,
    "wins": 25,
    "losses": 11,
-   "pace": 70.7,
+   "pace": 71.8,
    "points": 2761,
    "oppPoints": 2432,
    "rebounds": 1155,
@@ -48408,14 +48408,15 @@
    "ftPct": 75.4,
    "oppFgPct": 43.9,
    "efgPct": 49.6,
-   "oRating": 107.1,
-   "dRating": 94.2
+   "oRating": 105.3,
+   "dRating": 92.8,
+   "possessions": 2621.4
   },
   "Air Force": {
    "games": 29,
    "wins": 11,
    "losses": 18,
-   "pace": 62.8,
+   "pace": 63.4,
    "points": 1712,
    "oppPoints": 1915,
    "rebounds": 770,
@@ -48430,14 +48431,15 @@
    "ftPct": 64.9,
    "oppFgPct": 46.3,
    "efgPct": 50.9,
-   "oRating": 94,
-   "dRating": 105.2
+   "oRating": 93.1,
+   "dRating": 104.1,
+   "possessions": 1839.4
   },
   "Akron": {
    "games": 34,
    "wins": 24,
    "losses": 10,
-   "pace": 63.1,
+   "pace": 64.1,
    "points": 2402,
    "oppPoints": 2130,
    "rebounds": 1188,
@@ -48452,14 +48454,15 @@
    "ftPct": 68.9,
    "oppFgPct": 42.2,
    "efgPct": 53.3,
-   "oRating": 111.5,
-   "dRating": 99.1
+   "oRating": 109.9,
+   "dRating": 97.4,
+   "possessions": 2186.0
   },
   "Alabama A&M": {
    "games": 30,
    "wins": 12,
    "losses": 18,
-   "pace": 58.6,
+   "pace": 68.3,
    "points": 1843,
    "oppPoints": 2010,
    "rebounds": 1134,
@@ -48474,14 +48477,15 @@
    "ftPct": 71.3,
    "oppFgPct": 40.1,
    "efgPct": 41.2,
-   "oRating": 103.4,
-   "dRating": 112.2
+   "oRating": 88.5,
+   "dRating": 96.5,
+   "possessions": 2083.3
   },
   "Alabama": {
    "games": 33,
    "wins": 19,
    "losses": 14,
-   "pace": 72.5,
+   "pace": 73.2,
    "points": 2623,
    "oppPoints": 2523,
    "rebounds": 1307,
@@ -48496,14 +48500,15 @@
    "ftPct": 72.8,
    "oppFgPct": 43.7,
    "efgPct": 51.3,
-   "oRating": 109.2,
-   "dRating": 105.1
+   "oRating": 108.1,
+   "dRating": 104.0,
+   "possessions": 2426.2
   },
   "Alabama State": {
    "games": 30,
    "wins": 9,
    "losses": 21,
-   "pace": 62.9,
+   "pace": 71.2,
    "points": 2069,
    "oppPoints": 2267,
    "rebounds": 1022,
@@ -48518,14 +48523,15 @@
    "ftPct": 70.5,
    "oppFgPct": 44.2,
    "efgPct": 47.7,
-   "oRating": 108.6,
-   "dRating": 119.4
+   "oRating": 96.1,
+   "dRating": 105.3,
+   "possessions": 2153.3
   },
   "Alcorn State": {
    "games": 34,
    "wins": 17,
    "losses": 17,
-   "pace": 49.3,
+   "pace": 68.8,
    "points": 2262,
    "oppPoints": 2417,
    "rebounds": 1218,
@@ -48540,14 +48546,15 @@
    "ftPct": 69.2,
    "oppFgPct": 44.8,
    "efgPct": 45.8,
-   "oRating": 133.8,
-   "dRating": 143.5
+   "oRating": 95.9,
+   "dRating": 102.5,
+   "possessions": 2357.5
   },
   "American University": {
    "games": 32,
    "wins": 10,
    "losses": 22,
-   "pace": 59.9,
+   "pace": 65.6,
    "points": 2031,
    "oppPoints": 2270,
    "rebounds": 983,
@@ -48562,14 +48569,15 @@
    "ftPct": 69.4,
    "oppFgPct": 47.3,
    "efgPct": 49.6,
-   "oRating": 105.2,
-   "dRating": 117.6
+   "oRating": 96.0,
+   "dRating": 107.3,
+   "possessions": 2116.2
   },
   "App State": {
    "games": 34,
    "wins": 19,
    "losses": 15,
-   "pace": 64.7,
+   "pace": 65.5,
    "points": 2281,
    "oppPoints": 2146,
    "rebounds": 1199,
@@ -48584,14 +48592,15 @@
    "ftPct": 65.9,
    "oppFgPct": 41.9,
    "efgPct": 49,
-   "oRating": 103.2,
-   "dRating": 97.4
+   "oRating": 102.1,
+   "dRating": 96.1,
+   "possessions": 2233.7
   },
   "Arizona State": {
    "games": 31,
    "wins": 14,
    "losses": 17,
-   "pace": 66.9,
+   "pace": 67.9,
    "points": 2027,
    "oppPoints": 2084,
    "rebounds": 1102,
@@ -48606,14 +48615,15 @@
    "ftPct": 66.1,
    "oppFgPct": 40,
    "efgPct": 47.1,
-   "oRating": 96.2,
-   "dRating": 98.9
+   "oRating": 94.7,
+   "dRating": 97.4,
+   "possessions": 2140.0
   },
   "Arizona": {
    "games": 37,
    "wins": 33,
    "losses": 4,
-   "pace": 71.7,
+   "pace": 72.7,
    "points": 3107,
    "oppPoints": 2518,
    "rebounds": 1531,
@@ -48628,14 +48638,15 @@
    "ftPct": 73.9,
    "oppFgPct": 38.7,
    "efgPct": 55.6,
-   "oRating": 116.5,
-   "dRating": 94.2
+   "oRating": 114.7,
+   "dRating": 92.9,
+   "possessions": 2709.4
   },
   "Arkansas": {
    "games": 37,
    "wins": 28,
    "losses": 9,
-   "pace": 71.4,
+   "pace": 71.9,
    "points": 2810,
    "oppPoints": 2527,
    "rebounds": 1399,
@@ -48650,14 +48661,15 @@
    "ftPct": 76,
    "oppFgPct": 41.2,
    "efgPct": 48.6,
-   "oRating": 105.5,
-   "dRating": 95.2
+   "oRating": 104.9,
+   "dRating": 94.3,
+   "possessions": 2679.1
   },
   "Arkansas State": {
    "games": 29,
    "wins": 18,
    "losses": 11,
-   "pace": 68.8,
+   "pace": 69.5,
    "points": 2055,
    "oppPoints": 1974,
    "rebounds": 1044,
@@ -48672,14 +48684,15 @@
    "ftPct": 74.5,
    "oppFgPct": 42.8,
    "efgPct": 49.8,
-   "oRating": 102.6,
-   "dRating": 98.6
+   "oRating": 101.5,
+   "dRating": 97.5,
+   "possessions": 2024.7
   },
   "Arkansas-Pine Bluff": {
    "games": 31,
    "wins": 7,
    "losses": 24,
-   "pace": 61.7,
+   "pace": 69.3,
    "points": 2055,
    "oppPoints": 2426,
    "rebounds": 913,
@@ -48694,14 +48707,15 @@
    "ftPct": 71.5,
    "oppFgPct": 49.5,
    "efgPct": 47,
-   "oRating": 107.1,
-   "dRating": 126.4
+   "oRating": 95.2,
+   "dRating": 112.4,
+   "possessions": 2158.3
   },
   "Army": {
    "games": 31,
    "wins": 15,
    "losses": 16,
-   "pace": 67.7,
+   "pace": 69.8,
    "points": 2183,
    "oppPoints": 2182,
    "rebounds": 1154,
@@ -48716,14 +48730,15 @@
    "ftPct": 63,
    "oppFgPct": 44.2,
    "efgPct": 49.4,
-   "oRating": 103.3,
-   "dRating": 103.1
+   "oRating": 100.1,
+   "dRating": 100.1,
+   "possessions": 2180.1
   },
   "Auburn": {
    "games": 34,
    "wins": 28,
    "losses": 6,
-   "pace": 71,
+   "pace": 71.3,
    "points": 2660,
    "oppPoints": 2285,
    "rebounds": 1375,
@@ -48738,14 +48753,15 @@
    "ftPct": 73.1,
    "oppFgPct": 38.6,
    "efgPct": 49.9,
-   "oRating": 108.5,
-   "dRating": 93.4
+   "oRating": 108.1,
+   "dRating": 92.9,
+   "possessions": 2459.8
   },
   "Austin Peay": {
    "games": 29,
    "wins": 12,
    "losses": 17,
-   "pace": 65.3,
+   "pace": 66.0,
    "points": 1875,
    "oppPoints": 2004,
    "rebounds": 952,
@@ -48760,14 +48776,15 @@
    "ftPct": 70.6,
    "oppFgPct": 46.5,
    "efgPct": 47.8,
-   "oRating": 97.7,
-   "dRating": 104.7
+   "oRating": 96.7,
+   "dRating": 103.3,
+   "possessions": 1939.6
   },
   "BYU": {
    "games": 35,
    "wins": 24,
    "losses": 11,
-   "pace": 67.2,
+   "pace": 69.0,
    "points": 2599,
    "oppPoints": 2392,
    "rebounds": 1376,
@@ -48782,14 +48799,15 @@
    "ftPct": 71.8,
    "oppFgPct": 41.9,
    "efgPct": 52.4,
-   "oRating": 109.6,
-   "dRating": 101
+   "oRating": 106.8,
+   "dRating": 98.3,
+   "possessions": 2433.4
   },
   "Ball State": {
    "games": 31,
    "wins": 14,
    "losses": 17,
-   "pace": 61.5,
+   "pace": 71.6,
    "points": 2304,
    "oppPoints": 2380,
    "rebounds": 1105,
@@ -48804,14 +48822,15 @@
    "ftPct": 69.4,
    "oppFgPct": 44.5,
    "efgPct": 51.6,
-   "oRating": 120.2,
-   "dRating": 124.5
+   "oRating": 103.4,
+   "dRating": 106.8,
+   "possessions": 2228.1
   },
   "Baylor": {
    "games": 34,
    "wins": 27,
    "losses": 7,
-   "pace": 68,
+   "pace": 68.6,
    "points": 2619,
    "oppPoints": 2178,
    "rebounds": 1264,
@@ -48826,14 +48845,15 @@
    "ftPct": 69.7,
    "oppFgPct": 42.3,
    "efgPct": 52.8,
-   "oRating": 112.5,
-   "dRating": 93.4
+   "oRating": 111.5,
+   "dRating": 92.7,
+   "possessions": 2349.6
   },
   "Bellarmine": {
    "games": 33,
    "wins": 20,
    "losses": 13,
-   "pace": 63.1,
+   "pace": 63.7,
    "points": 2314,
    "oppPoints": 2217,
    "rebounds": 1001,
@@ -48848,14 +48868,15 @@
    "ftPct": 75.3,
    "oppFgPct": 44.1,
    "efgPct": 54.5,
-   "oRating": 110.6,
-   "dRating": 106
+   "oRating": 109.6,
+   "dRating": 105.0,
+   "possessions": 2111.2
   },
   "Belmont": {
    "games": 33,
    "wins": 25,
    "losses": 8,
-   "pace": 69.2,
+   "pace": 70.3,
    "points": 2583,
    "oppPoints": 2264,
    "rebounds": 1104,
@@ -48870,14 +48891,15 @@
    "ftPct": 74.3,
    "oppFgPct": 43,
    "efgPct": 56,
-   "oRating": 112.4,
-   "dRating": 98.3
+   "oRating": 110.6,
+   "dRating": 96.9,
+   "possessions": 2336.3
   },
   "Bethune-Cookman": {
    "games": 30,
    "wins": 9,
    "losses": 21,
-   "pace": 60.1,
+   "pace": 67.3,
    "points": 1901,
    "oppPoints": 2086,
    "rebounds": 978,
@@ -48892,14 +48914,15 @@
    "ftPct": 68.9,
    "oppFgPct": 44.8,
    "efgPct": 45.9,
-   "oRating": 104.5,
-   "dRating": 114.8
+   "oRating": 93.3,
+   "dRating": 102.4,
+   "possessions": 2036.8
   },
   "Binghamton": {
    "games": 29,
    "wins": 12,
    "losses": 17,
-   "pace": 66.5,
+   "pace": 67.3,
    "points": 1962,
    "oppPoints": 1983,
    "rebounds": 1045,
@@ -48914,14 +48937,15 @@
    "ftPct": 66.1,
    "oppFgPct": 42.9,
    "efgPct": 50.4,
-   "oRating": 101.2,
-   "dRating": 102.4
+   "oRating": 100.1,
+   "dRating": 101.2,
+   "possessions": 1960.1
   },
   "Boise State": {
    "games": 35,
    "wins": 27,
    "losses": 8,
-   "pace": 64.1,
+   "pace": 64.9,
    "points": 2389,
    "oppPoints": 2130,
    "rebounds": 1219,
@@ -48936,14 +48960,15 @@
    "ftPct": 65,
    "oppFgPct": 42.7,
    "efgPct": 51.2,
-   "oRating": 105.5,
-   "dRating": 93.9
+   "oRating": 104.1,
+   "dRating": 92.8,
+   "possessions": 2295.9
   },
   "Boston College": {
    "games": 33,
    "wins": 13,
    "losses": 20,
-   "pace": 64.8,
+   "pace": 65.5,
    "points": 2209,
    "oppPoints": 2248,
    "rebounds": 1131,
@@ -48958,14 +48983,15 @@
    "ftPct": 70.4,
    "oppFgPct": 44.9,
    "efgPct": 47.8,
-   "oRating": 101.7,
-   "dRating": 103.7
+   "oRating": 100.7,
+   "dRating": 102.5,
+   "possessions": 2193.2
   },
   "Boston University": {
    "games": 35,
    "wins": 22,
    "losses": 13,
-   "pace": 64.2,
+   "pace": 65.3,
    "points": 2470,
    "oppPoints": 2369,
    "rebounds": 1218,
@@ -48980,14 +49006,15 @@
    "ftPct": 73.9,
    "oppFgPct": 45,
    "efgPct": 52.1,
-   "oRating": 108.9,
-   "dRating": 104.2
+   "oRating": 107.0,
+   "dRating": 102.6,
+   "possessions": 2308.4
   },
   "Bowling Green": {
    "games": 31,
    "wins": 13,
    "losses": 18,
-   "pace": 72.8,
+   "pace": 74.3,
    "points": 2488,
    "oppPoints": 2495,
    "rebounds": 1202,
@@ -49002,14 +49029,15 @@
    "ftPct": 73.9,
    "oppFgPct": 44.8,
    "efgPct": 49.8,
-   "oRating": 109.5,
-   "dRating": 109.6
+   "oRating": 107.2,
+   "dRating": 107.5,
+   "possessions": 2320.6
   },
   "Bradley": {
    "games": 31,
    "wins": 17,
    "losses": 14,
-   "pace": 65,
+   "pace": 67.9,
    "points": 2185,
    "oppPoints": 2021,
    "rebounds": 1202,
@@ -49024,14 +49052,15 @@
    "ftPct": 68.9,
    "oppFgPct": 40.5,
    "efgPct": 51.1,
-   "oRating": 108.3,
-   "dRating": 99.7
+   "oRating": 103.3,
+   "dRating": 95.6,
+   "possessions": 2114.2
   },
   "Brown": {
    "games": 29,
    "wins": 13,
    "losses": 16,
-   "pace": 66.6,
+   "pace": 69.7,
    "points": 2058,
    "oppPoints": 2015,
    "rebounds": 1029,
@@ -49046,14 +49075,15 @@
    "ftPct": 70.9,
    "oppFgPct": 44.1,
    "efgPct": 49.7,
-   "oRating": 106.3,
-   "dRating": 104.6
+   "oRating": 101.8,
+   "dRating": 99.7,
+   "possessions": 2021.3
   },
   "Bryant": {
    "games": 32,
    "wins": 22,
    "losses": 10,
-   "pace": 71.4,
+   "pace": 73.0,
    "points": 2497,
    "oppPoints": 2348,
    "rebounds": 1322,
@@ -49068,14 +49098,15 @@
    "ftPct": 73.2,
    "oppFgPct": 41.4,
    "efgPct": 50.2,
-   "oRating": 108.5,
-   "dRating": 101.9
+   "oRating": 106.1,
+   "dRating": 99.8,
+   "possessions": 2353.5
   },
   "Bucknell": {
    "games": 32,
    "wins": 9,
    "losses": 23,
-   "pace": 65.9,
+   "pace": 68.1,
    "points": 2277,
    "oppPoints": 2541,
    "rebounds": 1014,
@@ -49090,14 +49121,15 @@
    "ftPct": 76.5,
    "oppFgPct": 46.6,
    "efgPct": 52.8,
-   "oRating": 105.5,
-   "dRating": 117.7
+   "oRating": 102.0,
+   "dRating": 113.9,
+   "possessions": 2231.8
   },
   "Buffalo": {
    "games": 30,
    "wins": 19,
    "losses": 11,
-   "pace": 71.3,
+   "pace": 72.4,
    "points": 2398,
    "oppPoints": 2168,
    "rebounds": 1273,
@@ -49112,14 +49144,15 @@
    "ftPct": 70.9,
    "oppFgPct": 42.3,
    "efgPct": 52,
-   "oRating": 112.2,
-   "dRating": 101.4
+   "oRating": 110.4,
+   "dRating": 99.8,
+   "possessions": 2172.9
   },
   "Butler": {
    "games": 33,
    "wins": 14,
    "losses": 19,
-   "pace": 64,
+   "pace": 64.9,
    "points": 2107,
    "oppPoints": 2209,
    "rebounds": 1083,
@@ -49134,14 +49167,15 @@
    "ftPct": 69.6,
    "oppFgPct": 43.4,
    "efgPct": 48,
-   "oRating": 98.5,
-   "dRating": 103.6
+   "oRating": 97.2,
+   "dRating": 102.0,
+   "possessions": 2166.6
   },
   "Cal Poly": {
    "games": 28,
    "wins": 7,
    "losses": 21,
-   "pace": 64.4,
+   "pace": 65.5,
    "points": 1721,
    "oppPoints": 1885,
    "rebounds": 979,
@@ -49156,14 +49190,15 @@
    "ftPct": 72.8,
    "oppFgPct": 41.4,
    "efgPct": 46,
-   "oRating": 94.2,
-   "dRating": 103.3
+   "oRating": 92.5,
+   "dRating": 101.4,
+   "possessions": 1859.8
   },
   "Cal State Bakersfield": {
    "games": 27,
    "wins": 8,
    "losses": 19,
-   "pace": 61.6,
+   "pace": 65.2,
    "points": 1729,
    "oppPoints": 1798,
    "rebounds": 931,
@@ -49178,14 +49213,15 @@
    "ftPct": 70.9,
    "oppFgPct": 44,
    "efgPct": 45.3,
-   "oRating": 103.8,
-   "dRating": 108.2
+   "oRating": 98.2,
+   "dRating": 102.1,
+   "possessions": 1760.4
   },
   "Cal State Fullerton": {
    "games": 32,
    "wins": 21,
    "losses": 11,
-   "pace": 62.8,
+   "pace": 67.2,
    "points": 2239,
    "oppPoints": 2129,
    "rebounds": 1070,
@@ -49200,14 +49236,15 @@
    "ftPct": 76.6,
    "oppFgPct": 44,
    "efgPct": 49.4,
-   "oRating": 111.3,
-   "dRating": 105.9
+   "oRating": 104.2,
+   "dRating": 99.0,
+   "possessions": 2149.5
   },
   "Cal State Northridge": {
    "games": 30,
    "wins": 7,
    "losses": 23,
-   "pace": 64.7,
+   "pace": 65.7,
    "points": 1847,
    "oppPoints": 2137,
    "rebounds": 952,
@@ -49222,14 +49259,15 @@
    "ftPct": 68.2,
    "oppFgPct": 45.2,
    "efgPct": 44.8,
-   "oRating": 93.9,
-   "dRating": 108.7
+   "oRating": 92.5,
+   "dRating": 107.1,
+   "possessions": 1995.7
   },
   "California Baptist": {
    "games": 34,
    "wins": 18,
    "losses": 16,
-   "pace": 66.9,
+   "pace": 69.2,
    "points": 2402,
    "oppPoints": 2284,
    "rebounds": 1260,
@@ -49244,14 +49282,15 @@
    "ftPct": 67.3,
    "oppFgPct": 41.5,
    "efgPct": 50.9,
-   "oRating": 105.4,
-   "dRating": 100
+   "oRating": 101.7,
+   "dRating": 96.7,
+   "possessions": 2362.3
   },
   "California": {
    "games": 32,
    "wins": 12,
    "losses": 20,
-   "pace": 58.8,
+   "pace": 65.0,
    "points": 2018,
    "oppPoints": 2114,
    "rebounds": 1121,
@@ -49266,14 +49305,15 @@
    "ftPct": 72.7,
    "oppFgPct": 42.1,
    "efgPct": 46.9,
-   "oRating": 106.3,
-   "dRating": 111.7
+   "oRating": 96.3,
+   "dRating": 100.9,
+   "possessions": 2095.1
   },
   "Campbell": {
    "games": 29,
    "wins": 16,
    "losses": 13,
-   "pace": 63,
+   "pace": 63.7,
    "points": 1919,
    "oppPoints": 1798,
    "rebounds": 924,
@@ -49288,14 +49328,15 @@
    "ftPct": 68,
    "oppFgPct": 42.7,
    "efgPct": 51.9,
-   "oRating": 104.1,
-   "dRating": 97.6
+   "oRating": 102.9,
+   "dRating": 96.4,
+   "possessions": 1864.4
   },
   "Canisius": {
    "games": 32,
    "wins": 11,
    "losses": 21,
-   "pace": 66.2,
+   "pace": 69.6,
    "points": 2192,
    "oppPoints": 2288,
    "rebounds": 1135,
@@ -49310,14 +49351,15 @@
    "ftPct": 69.3,
    "oppFgPct": 46,
    "efgPct": 46.1,
-   "oRating": 102.7,
-   "dRating": 107.1
+   "oRating": 97.7,
+   "dRating": 102.0,
+   "possessions": 2243.3
   },
   "Central Arkansas": {
    "games": 31,
    "wins": 11,
    "losses": 20,
-   "pace": 70,
+   "pace": 73.0,
    "points": 2269,
    "oppPoints": 2515,
    "rebounds": 1099,
@@ -49332,14 +49374,15 @@
    "ftPct": 76.1,
    "oppFgPct": 47.3,
    "efgPct": 49.3,
-   "oRating": 103.7,
-   "dRating": 114.9
+   "oRating": 99.4,
+   "dRating": 110.2,
+   "possessions": 2282.7
   },
   "Central Connecticut": {
    "games": 32,
    "wins": 8,
    "losses": 24,
-   "pace": 65.4,
+   "pace": 66.2,
    "points": 1977,
    "oppPoints": 2308,
    "rebounds": 1020,
@@ -49354,14 +49397,15 @@
    "ftPct": 70.8,
    "oppFgPct": 46.1,
    "efgPct": 46,
-   "oRating": 93.3,
-   "dRating": 109
+   "oRating": 92.2,
+   "dRating": 107.6,
+   "possessions": 2144.0
   },
   "Central Michigan": {
    "games": 30,
    "wins": 7,
    "losses": 23,
-   "pace": 67.8,
+   "pace": 68.8,
    "points": 1978,
    "oppPoints": 2309,
    "rebounds": 995,
@@ -49376,14 +49420,15 @@
    "ftPct": 69.2,
    "oppFgPct": 45.7,
    "efgPct": 47.8,
-   "oRating": 96.9,
-   "dRating": 113.1
+   "oRating": 95.4,
+   "dRating": 111.4,
+   "possessions": 2072.9
   },
   "Charleston": {
    "games": 32,
    "wins": 17,
    "losses": 15,
-   "pace": 73.9,
+   "pace": 74.3,
    "points": 2502,
    "oppPoints": 2446,
    "rebounds": 1291,
@@ -49398,14 +49443,15 @@
    "ftPct": 73,
    "oppFgPct": 45.2,
    "efgPct": 50.3,
-   "oRating": 105.1,
-   "dRating": 102.4
+   "oRating": 104.5,
+   "dRating": 102.1,
+   "possessions": 2395.1
   },
   "Charleston Southern": {
    "games": 31,
    "wins": 6,
    "losses": 25,
-   "pace": 68.3,
+   "pace": 71.2,
    "points": 2122,
    "oppPoints": 2356,
    "rebounds": 1121,
@@ -49420,14 +49466,15 @@
    "ftPct": 67.6,
    "oppFgPct": 46.4,
    "efgPct": 47.8,
-   "oRating": 99.8,
-   "dRating": 111
+   "oRating": 95.7,
+   "dRating": 106.3,
+   "possessions": 2217.2
   },
   "Charlotte": {
    "games": 31,
    "wins": 17,
    "losses": 14,
-   "pace": 65.5,
+   "pace": 66.6,
    "points": 2171,
    "oppPoints": 2208,
    "rebounds": 969,
@@ -49442,14 +49489,15 @@
    "ftPct": 79.2,
    "oppFgPct": 46.1,
    "efgPct": 52.9,
-   "oRating": 107.2,
-   "dRating": 108.6
+   "oRating": 105.1,
+   "dRating": 106.9,
+   "possessions": 2065.2
   },
   "Chattanooga": {
    "games": 35,
    "wins": 27,
    "losses": 8,
-   "pace": 62.6,
+   "pace": 66.0,
    "points": 2596,
    "oppPoints": 2253,
    "rebounds": 1264,
@@ -49464,14 +49512,15 @@
    "ftPct": 74.6,
    "oppFgPct": 42.2,
    "efgPct": 53.1,
-   "oRating": 117.7,
-   "dRating": 102
+   "oRating": 111.6,
+   "dRating": 96.9,
+   "possessions": 2325.2
   },
   "Chicago State": {
    "games": 32,
    "wins": 7,
    "losses": 25,
-   "pace": 62.2,
+   "pace": 66.6,
    "points": 1987,
    "oppPoints": 2380,
    "rebounds": 1067,
@@ -49486,14 +49535,15 @@
    "ftPct": 65.4,
    "oppFgPct": 46.3,
    "efgPct": 45.9,
-   "oRating": 99.8,
-   "dRating": 119.5
+   "oRating": 93.2,
+   "dRating": 111.6,
+   "possessions": 2132.2
   },
   "Cincinnati": {
    "games": 33,
    "wins": 18,
    "losses": 15,
-   "pace": 68.1,
+   "pace": 68.6,
    "points": 2291,
    "oppPoints": 2176,
    "rebounds": 1226,
@@ -49508,14 +49558,15 @@
    "ftPct": 66.9,
    "oppFgPct": 40.3,
    "efgPct": 47,
-   "oRating": 101.9,
-   "dRating": 96.9
+   "oRating": 101.2,
+   "dRating": 96.1,
+   "possessions": 2263.5
   },
   "Clemson": {
    "games": 33,
    "wins": 17,
    "losses": 16,
-   "pace": 65.1,
+   "pace": 66.6,
    "points": 2367,
    "oppPoints": 2259,
    "rebounds": 1143,
@@ -49530,14 +49581,15 @@
    "ftPct": 73.6,
    "oppFgPct": 42.6,
    "efgPct": 52.4,
-   "oRating": 109.5,
-   "dRating": 104.1
+   "oRating": 106.8,
+   "dRating": 102.0,
+   "possessions": 2215.5
   },
   "Cleveland State": {
    "games": 31,
    "wins": 20,
    "losses": 11,
-   "pace": 67.7,
+   "pace": 68.6,
    "points": 2336,
    "oppPoints": 2168,
    "rebounds": 1091,
@@ -49552,14 +49604,15 @@
    "ftPct": 67.1,
    "oppFgPct": 42.1,
    "efgPct": 53.4,
-   "oRating": 109.3,
-   "dRating": 100.9
+   "oRating": 107.6,
+   "dRating": 99.9,
+   "possessions": 2170.1
   },
   "Coastal Carolina": {
    "games": 33,
    "wins": 19,
    "losses": 14,
-   "pace": 64.2,
+   "pace": 67.5,
    "points": 2404,
    "oppPoints": 2156,
    "rebounds": 1318,
@@ -49574,14 +49627,15 @@
    "ftPct": 69.6,
    "oppFgPct": 38.9,
    "efgPct": 51.3,
-   "oRating": 112.4,
-   "dRating": 100.5
+   "oRating": 106.7,
+   "dRating": 95.6,
+   "possessions": 2254.1
   },
   "Colgate": {
    "games": 35,
    "wins": 23,
    "losses": 12,
-   "pace": 66.8,
+   "pace": 67.6,
    "points": 2646,
    "oppPoints": 2349,
    "rebounds": 1266,
@@ -49596,14 +49650,15 @@
    "ftPct": 69.7,
    "oppFgPct": 42.5,
    "efgPct": 55.9,
-   "oRating": 112.7,
-   "dRating": 100.3
+   "oRating": 111.5,
+   "dRating": 99.0,
+   "possessions": 2373.8
   },
   "Colorado": {
    "games": 33,
    "wins": 21,
    "losses": 12,
-   "pace": 67.6,
+   "pace": 68.4,
    "points": 2345,
    "oppPoints": 2224,
    "rebounds": 1223,
@@ -49618,14 +49673,15 @@
    "ftPct": 75.6,
    "oppFgPct": 42,
    "efgPct": 50.4,
-   "oRating": 104.5,
-   "dRating": 98.9
+   "oRating": 103.2,
+   "dRating": 97.9,
+   "possessions": 2272.8
   },
   "Colorado State": {
    "games": 31,
    "wins": 25,
    "losses": 6,
-   "pace": 65.3,
+   "pace": 66.0,
    "points": 2275,
    "oppPoints": 2047,
    "rebounds": 982,
@@ -49640,14 +49696,15 @@
    "ftPct": 77.3,
    "oppFgPct": 43,
    "efgPct": 55.1,
-   "oRating": 111.5,
-   "dRating": 100.2
+   "oRating": 110.4,
+   "dRating": 99.3,
+   "possessions": 2061.1
   },
   "Columbia": {
    "games": 26,
    "wins": 4,
    "losses": 22,
-   "pace": 67,
+   "pace": 71.1,
    "points": 1752,
    "oppPoints": 2049,
    "rebounds": 918,
@@ -49662,14 +49719,15 @@
    "ftPct": 62.7,
    "oppFgPct": 46.5,
    "efgPct": 49,
-   "oRating": 99.9,
-   "dRating": 117.4
+   "oRating": 94.3,
+   "dRating": 110.3,
+   "possessions": 1857.7
   },
   "Coppin State": {
    "games": 32,
    "wins": 9,
    "losses": 23,
-   "pace": 70.4,
+   "pace": 74.4,
    "points": 2142,
    "oppPoints": 2390,
    "rebounds": 1094,
@@ -49684,14 +49742,15 @@
    "ftPct": 68.4,
    "oppFgPct": 41.9,
    "efgPct": 46,
-   "oRating": 95.1,
-   "dRating": 106.1
+   "oRating": 90.0,
+   "dRating": 100.4,
+   "possessions": 2380.2
   },
   "Cornell": {
    "games": 26,
    "wins": 15,
    "losses": 11,
-   "pace": 72.1,
+   "pace": 73.5,
    "points": 2059,
    "oppPoints": 1941,
    "rebounds": 985,
@@ -49706,14 +49765,15 @@
    "ftPct": 70.7,
    "oppFgPct": 43,
    "efgPct": 54.6,
-   "oRating": 109.5,
-   "dRating": 102.9
+   "oRating": 107.2,
+   "dRating": 101.1,
+   "possessions": 1920.8
   },
   "Creighton": {
    "games": 35,
    "wins": 23,
    "losses": 12,
-   "pace": 67.1,
+   "pace": 68.1,
    "points": 2422,
    "oppPoints": 2324,
    "rebounds": 1335,
@@ -49728,14 +49788,15 @@
    "ftPct": 73.8,
    "oppFgPct": 39.6,
    "efgPct": 50.6,
-   "oRating": 102.3,
-   "dRating": 97.8
+   "oRating": 100.5,
+   "dRating": 96.4,
+   "possessions": 2409.8
   },
   "Dartmouth": {
    "games": 25,
    "wins": 9,
    "losses": 16,
-   "pace": 62.5,
+   "pace": 66.8,
    "points": 1709,
    "oppPoints": 1705,
    "rebounds": 827,
@@ -49750,14 +49811,15 @@
    "ftPct": 77.2,
    "oppFgPct": 44.5,
    "efgPct": 49.3,
-   "oRating": 107.8,
-   "dRating": 107.6
+   "oRating": 100.8,
+   "dRating": 100.5,
+   "possessions": 1696.2
   },
   "Davidson": {
    "games": 34,
    "wins": 27,
    "losses": 7,
-   "pace": 63.6,
+   "pace": 66.1,
    "points": 2567,
    "oppPoints": 2244,
    "rebounds": 1161,
@@ -49772,14 +49834,15 @@
    "ftPct": 75.4,
    "oppFgPct": 41.9,
    "efgPct": 56.1,
-   "oRating": 118.5,
-   "dRating": 103.3
+   "oRating": 113.8,
+   "dRating": 99.5,
+   "possessions": 2255.0
   },
   "Dayton": {
    "games": 35,
    "wins": 24,
    "losses": 11,
-   "pace": 63.9,
+   "pace": 64.4,
    "points": 2423,
    "oppPoints": 2143,
    "rebounds": 1232,
@@ -49794,14 +49857,15 @@
    "ftPct": 68.3,
    "oppFgPct": 40.8,
    "efgPct": 53.9,
-   "oRating": 107.7,
-   "dRating": 95.6
+   "oRating": 107.1,
+   "dRating": 94.7,
+   "possessions": 2262.6
   },
   "DePaul": {
    "games": 31,
    "wins": 15,
    "losses": 16,
-   "pace": 68.8,
+   "pace": 70.4,
    "points": 2272,
    "oppPoints": 2238,
    "rebounds": 1194,
@@ -49816,14 +49880,15 @@
    "ftPct": 69.3,
    "oppFgPct": 42.8,
    "efgPct": 48.8,
-   "oRating": 106,
-   "dRating": 104.7
+   "oRating": 103.7,
+   "dRating": 102.2,
+   "possessions": 2190.2
   },
   "Delaware": {
    "games": 35,
    "wins": 22,
    "losses": 13,
-   "pace": 66.9,
+   "pace": 67.8,
    "points": 2568,
    "oppPoints": 2456,
    "rebounds": 1138,
@@ -49838,14 +49903,15 @@
    "ftPct": 74.4,
    "oppFgPct": 43,
    "efgPct": 53.6,
-   "oRating": 108.9,
-   "dRating": 104.1
+   "oRating": 107.4,
+   "dRating": 102.7,
+   "possessions": 2391.1
   },
   "Delaware State": {
    "games": 28,
    "wins": 2,
    "losses": 26,
-   "pace": 62.7,
+   "pace": 70.9,
    "points": 1757,
    "oppPoints": 2058,
    "rebounds": 987,
@@ -49860,14 +49926,15 @@
    "ftPct": 67.2,
    "oppFgPct": 41.7,
    "efgPct": 45.8,
-   "oRating": 99.3,
-   "dRating": 117.1
+   "oRating": 88.1,
+   "dRating": 103.2,
+   "possessions": 1993.9
   },
   "Denver": {
    "games": 32,
    "wins": 11,
    "losses": 21,
-   "pace": 67.2,
+   "pace": 68.4,
    "points": 2257,
    "oppPoints": 2380,
    "rebounds": 1032,
@@ -49882,14 +49949,15 @@
    "ftPct": 69.7,
    "oppFgPct": 44.8,
    "efgPct": 52.6,
-   "oRating": 103.8,
-   "dRating": 109.5
+   "oRating": 102.0,
+   "dRating": 107.5,
+   "possessions": 2213.8
   },
   "Detroit Mercy": {
    "games": 30,
    "wins": 14,
    "losses": 16,
-   "pace": 65,
+   "pace": 65.8,
    "points": 2122,
    "oppPoints": 2115,
    "rebounds": 948,
@@ -49904,14 +49972,15 @@
    "ftPct": 77.6,
    "oppFgPct": 46.6,
    "efgPct": 53,
-   "oRating": 108.9,
-   "dRating": 108.5
+   "oRating": 107.5,
+   "dRating": 107.2,
+   "possessions": 1973.4
   },
   "Drake": {
    "games": 36,
    "wins": 25,
    "losses": 11,
-   "pace": 63.9,
+   "pace": 66.3,
    "points": 2660,
    "oppPoints": 2391,
    "rebounds": 1249,
@@ -49926,14 +49995,15 @@
    "ftPct": 75.5,
    "oppFgPct": 42.9,
    "efgPct": 52,
-   "oRating": 113.5,
-   "dRating": 101.7
+   "oRating": 109.2,
+   "dRating": 98.2,
+   "possessions": 2436.1
   },
   "Drexel": {
    "games": 29,
    "wins": 15,
    "losses": 14,
-   "pace": 66,
+   "pace": 68.0,
    "points": 2112,
    "oppPoints": 2038,
    "rebounds": 993,
@@ -49948,14 +50018,15 @@
    "ftPct": 71,
    "oppFgPct": 45,
    "efgPct": 52.5,
-   "oRating": 109.4,
-   "dRating": 105.5
+   "oRating": 106.2,
+   "dRating": 102.5,
+   "possessions": 1988.3
   },
   "Duke": {
    "games": 39,
    "wins": 32,
    "losses": 7,
-   "pace": 67.4,
+   "pace": 68.2,
    "points": 3122,
    "oppPoints": 2643,
    "rebounds": 1479,
@@ -49970,14 +50041,15 @@
    "ftPct": 73.8,
    "oppFgPct": 41.7,
    "efgPct": 55.7,
-   "oRating": 118.4,
-   "dRating": 100.3
+   "oRating": 117.0,
+   "dRating": 99.1,
+   "possessions": 2667.7
   },
   "Duquesne": {
    "games": 30,
    "wins": 6,
    "losses": 24,
-   "pace": 64.4,
+   "pace": 66.9,
    "points": 1956,
    "oppPoints": 2202,
    "rebounds": 1024,
@@ -49992,14 +50064,15 @@
    "ftPct": 70.7,
    "oppFgPct": 47.6,
    "efgPct": 45.4,
-   "oRating": 99.6,
-   "dRating": 111.9
+   "oRating": 95.9,
+   "dRating": 108.0,
+   "possessions": 2039.6
   },
   "East Carolina": {
    "games": 30,
    "wins": 15,
    "losses": 15,
-   "pace": 63.2,
+   "pace": 68.8,
    "points": 2063,
    "oppPoints": 2128,
    "rebounds": 1056,
@@ -50014,14 +50087,15 @@
    "ftPct": 75.4,
    "oppFgPct": 43.3,
    "efgPct": 47.1,
-   "oRating": 107.8,
-   "dRating": 111.2
+   "oRating": 99.1,
+   "dRating": 102.2,
+   "possessions": 2081.6
   },
   "East Tennessee State": {
    "games": 32,
    "wins": 15,
    "losses": 17,
-   "pace": 64.3,
+   "pace": 66.6,
    "points": 2306,
    "oppPoints": 2336,
    "rebounds": 1115,
@@ -50036,14 +50110,15 @@
    "ftPct": 72.5,
    "oppFgPct": 44.9,
    "efgPct": 51.7,
-   "oRating": 111.5,
-   "dRating": 113.2
+   "oRating": 107.8,
+   "dRating": 109.3,
+   "possessions": 2138.2
   },
   "Eastern Illinois": {
    "games": 31,
    "wins": 5,
    "losses": 26,
-   "pace": 65.9,
+   "pace": 66.6,
    "points": 1746,
    "oppPoints": 2205,
    "rebounds": 912,
@@ -50058,14 +50133,15 @@
    "ftPct": 63.8,
    "oppFgPct": 45.5,
    "efgPct": 45.7,
-   "oRating": 85.3,
-   "dRating": 108.3
+   "oRating": 84.6,
+   "dRating": 106.8,
+   "possessions": 2064.1
   },
   "Eastern Kentucky": {
    "games": 31,
    "wins": 13,
    "losses": 18,
-   "pace": 72.2,
+   "pace": 72.9,
    "points": 2457,
    "oppPoints": 2327,
    "rebounds": 1122,
@@ -50080,14 +50156,15 @@
    "ftPct": 70.6,
    "oppFgPct": 46.5,
    "efgPct": 50.3,
-   "oRating": 107.4,
-   "dRating": 102.2
+   "oRating": 106.6,
+   "dRating": 101.0,
+   "possessions": 2304.7
   },
   "Eastern Michigan": {
    "games": 31,
    "wins": 10,
    "losses": 21,
-   "pace": 67.7,
+   "pace": 70.6,
    "points": 2143,
    "oppPoints": 2356,
    "rebounds": 1079,
@@ -50102,14 +50179,15 @@
    "ftPct": 69.5,
    "oppFgPct": 44.9,
    "efgPct": 48.5,
-   "oRating": 99.6,
-   "dRating": 109.7
+   "oRating": 95.6,
+   "dRating": 105.1,
+   "possessions": 2241.9
   },
   "Eastern Washington": {
    "games": 34,
    "wins": 18,
    "losses": 16,
-   "pace": 70.6,
+   "pace": 71.6,
    "points": 2613,
    "oppPoints": 2536,
    "rebounds": 1247,
@@ -50124,14 +50202,15 @@
    "ftPct": 75.3,
    "oppFgPct": 42.8,
    "efgPct": 52.9,
-   "oRating": 107.9,
-   "dRating": 105
+   "oRating": 106.6,
+   "dRating": 103.5,
+   "possessions": 2450.8
   },
   "Elon": {
    "games": 32,
    "wins": 10,
    "losses": 22,
-   "pace": 66.9,
+   "pace": 67.3,
    "points": 2147,
    "oppPoints": 2311,
    "rebounds": 1061,
@@ -50146,14 +50225,15 @@
    "ftPct": 73.7,
    "oppFgPct": 43.3,
    "efgPct": 50.1,
-   "oRating": 100.1,
-   "dRating": 108.3
+   "oRating": 99.8,
+   "dRating": 107.4,
+   "possessions": 2152.1
   },
   "Evansville": {
    "games": 30,
    "wins": 6,
    "losses": 24,
-   "pace": 63,
+   "pace": 64.0,
    "points": 1775,
    "oppPoints": 2122,
    "rebounds": 816,
@@ -50168,14 +50248,15 @@
    "ftPct": 70.8,
    "oppFgPct": 49.6,
    "efgPct": 47.5,
-   "oRating": 92.1,
-   "dRating": 109.8
+   "oRating": 90.5,
+   "dRating": 108.2,
+   "possessions": 1961.0
   },
   "Fairfield": {
    "games": 33,
    "wins": 15,
    "losses": 18,
-   "pace": 61.1,
+   "pace": 65.5,
    "points": 2239,
    "oppPoints": 2177,
    "rebounds": 1141,
@@ -50190,14 +50271,15 @@
    "ftPct": 70.4,
    "oppFgPct": 42.7,
    "efgPct": 50,
-   "oRating": 110,
-   "dRating": 106.6
+   "oRating": 102.5,
+   "dRating": 99.7,
+   "possessions": 2184.4
   },
   "Fairleigh Dickinson": {
    "games": 26,
    "wins": 4,
    "losses": 22,
-   "pace": 69.7,
+   "pace": 70.4,
    "points": 1748,
    "oppPoints": 2058,
    "rebounds": 860,
@@ -50212,14 +50294,15 @@
    "ftPct": 70.8,
    "oppFgPct": 47.7,
    "efgPct": 46.4,
-   "oRating": 95.5,
-   "dRating": 112.6
+   "oRating": 94.6,
+   "dRating": 111.4,
+   "possessions": 1847.9
   },
   "Florida A&M": {
    "games": 30,
    "wins": 13,
    "losses": 17,
-   "pace": 59.7,
+   "pace": 67.1,
    "points": 1952,
    "oppPoints": 2064,
    "rebounds": 978,
@@ -50234,14 +50317,15 @@
    "ftPct": 70.5,
    "oppFgPct": 42.3,
    "efgPct": 47,
-   "oRating": 108,
-   "dRating": 114.3
+   "oRating": 96.1,
+   "dRating": 101.6,
+   "possessions": 2030.8
   },
   "Florida Atlantic": {
    "games": 34,
    "wins": 19,
    "losses": 15,
-   "pace": 65.9,
+   "pace": 68.7,
    "points": 2519,
    "oppPoints": 2315,
    "rebounds": 1234,
@@ -50256,14 +50340,15 @@
    "ftPct": 71.2,
    "oppFgPct": 44.4,
    "efgPct": 52.7,
-   "oRating": 112,
-   "dRating": 103
+   "oRating": 107.5,
+   "dRating": 98.8,
+   "possessions": 2343.6
   },
   "Florida": {
    "games": 34,
    "wins": 20,
    "losses": 14,
-   "pace": 66.5,
+   "pace": 66.8,
    "points": 2400,
    "oppPoints": 2261,
    "rebounds": 1144,
@@ -50278,14 +50363,15 @@
    "ftPct": 73.5,
    "oppFgPct": 44.1,
    "efgPct": 49.6,
-   "oRating": 105.4,
-   "dRating": 99.4
+   "oRating": 104.8,
+   "dRating": 98.8,
+   "possessions": 2289.2
   },
   "Florida Gulf Coast": {
    "games": 34,
    "wins": 22,
    "losses": 12,
-   "pace": 68.9,
+   "pace": 70.3,
    "points": 2641,
    "oppPoints": 2505,
    "rebounds": 1319,
@@ -50300,14 +50386,15 @@
    "ftPct": 67.6,
    "oppFgPct": 43.7,
    "efgPct": 53.7,
-   "oRating": 110.3,
-   "dRating": 104.5
+   "oRating": 108.1,
+   "dRating": 102.5,
+   "possessions": 2443.8
   },
   "Florida International": {
    "games": 32,
    "wins": 15,
    "losses": 17,
-   "pace": 59.9,
+   "pace": 68.9,
    "points": 2264,
    "oppPoints": 2274,
    "rebounds": 1121,
@@ -50322,14 +50409,15 @@
    "ftPct": 70.2,
    "oppFgPct": 42.8,
    "efgPct": 51.1,
-   "oRating": 115.7,
-   "dRating": 116.6
+   "oRating": 100.8,
+   "dRating": 101.2,
+   "possessions": 2247.0
   },
   "Florida State": {
    "games": 31,
    "wins": 17,
    "losses": 14,
-   "pace": 68.2,
+   "pace": 68.6,
    "points": 2201,
    "oppPoints": 2230,
    "rebounds": 1081,
@@ -50344,14 +50432,15 @@
    "ftPct": 70.8,
    "oppFgPct": 44.4,
    "efgPct": 49,
-   "oRating": 103.2,
-   "dRating": 104.8
+   "oRating": 102.7,
+   "dRating": 104.0,
+   "possessions": 2143.3
   },
   "Fordham": {
    "games": 32,
    "wins": 16,
    "losses": 16,
-   "pace": 66.7,
+   "pace": 68.6,
    "points": 2115,
    "oppPoints": 2137,
    "rebounds": 1179,
@@ -50366,14 +50455,15 @@
    "ftPct": 72.7,
    "oppFgPct": 42.6,
    "efgPct": 45.7,
-   "oRating": 97.6,
-   "dRating": 98.6
+   "oRating": 94.9,
+   "dRating": 95.8,
+   "possessions": 2229.8
   },
   "Fresno State": {
    "games": 36,
    "wins": 23,
    "losses": 13,
-   "pace": 61.8,
+   "pace": 62.4,
    "points": 2384,
    "oppPoints": 2139,
    "rebounds": 1226,
@@ -50388,14 +50478,15 @@
    "ftPct": 71.1,
    "oppFgPct": 40.9,
    "efgPct": 51.1,
-   "oRating": 105.4,
-   "dRating": 94.6
+   "oRating": 104.3,
+   "dRating": 93.6,
+   "possessions": 2284.7
   },
   "Furman": {
    "games": 34,
    "wins": 22,
    "losses": 12,
-   "pace": 63.9,
+   "pace": 66.1,
    "points": 2640,
    "oppPoints": 2336,
    "rebounds": 1126,
@@ -50410,14 +50501,15 @@
    "ftPct": 75.7,
    "oppFgPct": 45.2,
    "efgPct": 56.2,
-   "oRating": 119,
-   "dRating": 105.2
+   "oRating": 115.0,
+   "dRating": 101.7,
+   "possessions": 2295.8
   },
   "Gardner-Webb": {
    "games": 31,
    "wins": 18,
    "losses": 13,
-   "pace": 67.4,
+   "pace": 68.5,
    "points": 2154,
    "oppPoints": 1989,
    "rebounds": 1143,
@@ -50432,14 +50524,15 @@
    "ftPct": 70.1,
    "oppFgPct": 39,
    "efgPct": 50.9,
-   "oRating": 103.2,
-   "dRating": 95.1
+   "oRating": 101.4,
+   "dRating": 93.6,
+   "possessions": 2124.7
   },
   "George Mason": {
    "games": 30,
    "wins": 14,
    "losses": 16,
-   "pace": 65.3,
+   "pace": 66.6,
    "points": 2122,
    "oppPoints": 2056,
    "rebounds": 1042,
@@ -50454,14 +50547,15 @@
    "ftPct": 69.4,
    "oppFgPct": 42.3,
    "efgPct": 52.9,
-   "oRating": 106.2,
-   "dRating": 102.7
+   "oRating": 104.1,
+   "dRating": 100.8,
+   "possessions": 2039.1
   },
   "George Washington": {
    "games": 30,
    "wins": 12,
    "losses": 18,
-   "pace": 68.6,
+   "pace": 69.7,
    "points": 2051,
    "oppPoints": 2185,
    "rebounds": 999,
@@ -50476,14 +50570,15 @@
    "ftPct": 69.6,
    "oppFgPct": 44.3,
    "efgPct": 48.9,
-   "oRating": 98.4,
-   "dRating": 104.8
+   "oRating": 96.9,
+   "dRating": 103.3,
+   "possessions": 2116.1
   },
   "Georgetown": {
    "games": 31,
    "wins": 6,
    "losses": 25,
-   "pace": 70.3,
+   "pace": 71.0,
    "points": 2192,
    "oppPoints": 2388,
    "rebounds": 1155,
@@ -50498,14 +50593,15 @@
    "ftPct": 74.4,
    "oppFgPct": 45.9,
    "efgPct": 46.2,
-   "oRating": 100.6,
-   "dRating": 109.5
+   "oRating": 99.5,
+   "dRating": 108.4,
+   "possessions": 2202.1
   },
   "Georgia": {
    "games": 32,
    "wins": 6,
    "losses": 26,
-   "pace": 69.5,
+   "pace": 69.8,
    "points": 2234,
    "oppPoints": 2512,
    "rebounds": 1046,
@@ -50520,14 +50616,15 @@
    "ftPct": 74.7,
    "oppFgPct": 47.3,
    "efgPct": 50.2,
-   "oRating": 100.4,
-   "dRating": 113.1
+   "oRating": 100.0,
+   "dRating": 112.4,
+   "possessions": 2234.1
   },
   "Georgia Southern": {
    "games": 29,
    "wins": 13,
    "losses": 16,
-   "pace": 63.7,
+   "pace": 67.0,
    "points": 1927,
    "oppPoints": 1903,
    "rebounds": 1005,
@@ -50542,14 +50639,15 @@
    "ftPct": 68,
    "oppFgPct": 41,
    "efgPct": 50,
-   "oRating": 103.6,
-   "dRating": 102
+   "oRating": 98.3,
+   "dRating": 97.1,
+   "possessions": 1959.9
   },
   "Georgia State": {
    "games": 29,
    "wins": 18,
    "losses": 11,
-   "pace": 65.4,
+   "pace": 68.6,
    "points": 2049,
    "oppPoints": 1906,
    "rebounds": 1084,
@@ -50564,14 +50662,15 @@
    "ftPct": 72,
    "oppFgPct": 41.7,
    "efgPct": 46.1,
-   "oRating": 106.6,
-   "dRating": 99.3
+   "oRating": 101.7,
+   "dRating": 94.6,
+   "possessions": 2014.8
   },
   "Georgia Tech": {
    "games": 32,
    "wins": 12,
    "losses": 20,
-   "pace": 67.7,
+   "pace": 68.6,
    "points": 2195,
    "oppPoints": 2264,
    "rebounds": 1088,
@@ -50586,14 +50685,15 @@
    "ftPct": 69.8,
    "oppFgPct": 43.6,
    "efgPct": 50.2,
-   "oRating": 99.8,
-   "dRating": 103
+   "oRating": 98.5,
+   "dRating": 101.6,
+   "possessions": 2229.4
   },
   "Gonzaga": {
    "games": 32,
    "wins": 28,
    "losses": 4,
-   "pace": 73.2,
+   "pace": 73.8,
    "points": 2790,
    "oppPoints": 2119,
    "rebounds": 1340,
@@ -50608,14 +50708,15 @@
    "ftPct": 71.3,
    "oppFgPct": 38,
    "efgPct": 58.7,
-   "oRating": 119.7,
-   "dRating": 90.1
+   "oRating": 118.1,
+   "dRating": 89.7,
+   "possessions": 2362.4
   },
   "Grambling": {
    "games": 32,
    "wins": 12,
    "losses": 20,
-   "pace": 43.5,
+   "pace": 70.5,
    "points": 2092,
    "oppPoints": 2273,
    "rebounds": 1145,
@@ -50630,14 +50731,15 @@
    "ftPct": 71,
    "oppFgPct": 42.1,
    "efgPct": 45.1,
-   "oRating": 149.9,
-   "dRating": 163.6
+   "oRating": 92.8,
+   "dRating": 100.8,
+   "possessions": 2254.4
   },
   "Grand Canyon": {
    "games": 31,
    "wins": 23,
    "losses": 8,
-   "pace": 65.9,
+   "pace": 67.5,
    "points": 2204,
    "oppPoints": 1898,
    "rebounds": 1249,
@@ -50652,14 +50754,15 @@
    "ftPct": 67.9,
    "oppFgPct": 38.5,
    "efgPct": 50,
-   "oRating": 108.1,
-   "dRating": 92.8
+   "oRating": 105.3,
+   "dRating": 90.7,
+   "possessions": 2093.8
   },
   "Green Bay": {
    "games": 30,
    "wins": 5,
    "losses": 25,
-   "pace": 54.3,
+   "pace": 64.8,
    "points": 1852,
    "oppPoints": 2068,
    "rebounds": 901,
@@ -50674,14 +50777,15 @@
    "ftPct": 71.4,
    "oppFgPct": 46.8,
    "efgPct": 46.8,
-   "oRating": 113.8,
-   "dRating": 126.9
+   "oRating": 95.2,
+   "dRating": 106.3,
+   "possessions": 1944.7
   },
   "Hampton": {
    "games": 28,
    "wins": 9,
    "losses": 19,
-   "pace": 64.3,
+   "pace": 69.2,
    "points": 1814,
    "oppPoints": 1946,
    "rebounds": 966,
@@ -50696,14 +50800,15 @@
    "ftPct": 70,
    "oppFgPct": 41.7,
    "efgPct": 45,
-   "oRating": 99.7,
-   "dRating": 107.2
+   "oRating": 92.8,
+   "dRating": 99.6,
+   "possessions": 1954.6
   },
   "Harvard": {
    "games": 26,
    "wins": 13,
    "losses": 13,
-   "pace": 68.8,
+   "pace": 69.8,
    "points": 1858,
    "oppPoints": 1797,
    "rebounds": 903,
@@ -50718,14 +50823,15 @@
    "ftPct": 69.2,
    "oppFgPct": 44.1,
    "efgPct": 50.4,
-   "oRating": 102.5,
-   "dRating": 99
+   "oRating": 101.0,
+   "dRating": 97.7,
+   "possessions": 1840.1
   },
   "Hawai'i": {
    "games": 28,
    "wins": 17,
    "losses": 11,
-   "pace": 62.4,
+   "pace": 66.0,
    "points": 1928,
    "oppPoints": 1796,
    "rebounds": 985,
@@ -50740,14 +50846,15 @@
    "ftPct": 74.4,
    "oppFgPct": 41.8,
    "efgPct": 51.6,
-   "oRating": 110.2,
-   "dRating": 102.9
+   "oRating": 104.3,
+   "dRating": 97.1,
+   "possessions": 1849.1
   },
   "High Point": {
    "games": 32,
    "wins": 14,
    "losses": 18,
-   "pace": 62.1,
+   "pace": 67.5,
    "points": 2225,
    "oppPoints": 2232,
    "rebounds": 1142,
@@ -50762,14 +50869,15 @@
    "ftPct": 64,
    "oppFgPct": 43.1,
    "efgPct": 49.9,
-   "oRating": 108.9,
-   "dRating": 109.3
+   "oRating": 100.2,
+   "dRating": 100.5,
+   "possessions": 2220.7
   },
   "Hofstra": {
    "games": 32,
    "wins": 21,
    "losses": 11,
-   "pace": 70.1,
+   "pace": 70.5,
    "points": 2494,
    "oppPoints": 2333,
    "rebounds": 1062,
@@ -50784,14 +50892,15 @@
    "ftPct": 79.7,
    "oppFgPct": 45.2,
    "efgPct": 53.9,
-   "oRating": 110.5,
-   "dRating": 103.1
+   "oRating": 109.7,
+   "dRating": 102.6,
+   "possessions": 2273.3
   },
   "Holy Cross": {
    "games": 31,
    "wins": 9,
    "losses": 22,
-   "pace": 66.8,
+   "pace": 67.7,
    "points": 2022,
    "oppPoints": 2192,
    "rebounds": 1050,
@@ -50806,14 +50915,15 @@
    "ftPct": 70.8,
    "oppFgPct": 46.4,
    "efgPct": 46.4,
-   "oRating": 97.6,
-   "dRating": 106
+   "oRating": 96.3,
+   "dRating": 104.4,
+   "possessions": 2099.4
   },
   "Houston Christian": {
    "games": 29,
    "wins": 11,
    "losses": 18,
-   "pace": 71.4,
+   "pace": 72.0,
    "points": 2190,
    "oppPoints": 2220,
    "rebounds": 1049,
@@ -50828,14 +50938,15 @@
    "ftPct": 71.1,
    "oppFgPct": 46.7,
    "efgPct": 50.4,
-   "oRating": 104,
-   "dRating": 105.4
+   "oRating": 103.0,
+   "dRating": 104.5,
+   "possessions": 2125.4
   },
   "Houston": {
    "games": 38,
    "wins": 32,
    "losses": 6,
-   "pace": 64.5,
+   "pace": 65.0,
    "points": 2844,
    "oppPoints": 2233,
    "rebounds": 1482,
@@ -50850,14 +50961,15 @@
    "ftPct": 66.7,
    "oppFgPct": 37.1,
    "efgPct": 53.1,
-   "oRating": 115.2,
-   "dRating": 90
+   "oRating": 113.9,
+   "dRating": 89.5,
+   "possessions": 2495.8
   },
   "Howard": {
    "games": 29,
    "wins": 16,
    "losses": 13,
-   "pace": 51.9,
+   "pace": 73.3,
    "points": 2215,
    "oppPoints": 2019,
    "rebounds": 998,
@@ -50872,14 +50984,15 @@
    "ftPct": 74.5,
    "oppFgPct": 42.7,
    "efgPct": 51,
-   "oRating": 146.6,
-   "dRating": 133.5
+   "oRating": 103.7,
+   "dRating": 94.5,
+   "possessions": 2136.0
   },
   "IU Indianapolis": {
    "games": 29,
    "wins": 3,
    "losses": 26,
-   "pace": 58.2,
+   "pace": 63.4,
    "points": 1521,
    "oppPoints": 1947,
    "rebounds": 913,
@@ -50894,14 +51007,15 @@
    "ftPct": 66.7,
    "oppFgPct": 44.6,
    "efgPct": 43,
-   "oRating": 89.9,
-   "dRating": 115.5
+   "oRating": 82.7,
+   "dRating": 105.9,
+   "possessions": 1839.2
   },
   "Idaho State": {
    "games": 30,
    "wins": 7,
    "losses": 23,
-   "pace": 63.2,
+   "pace": 65.8,
    "points": 1931,
    "oppPoints": 2146,
    "rebounds": 982,
@@ -50916,14 +51030,15 @@
    "ftPct": 68.4,
    "oppFgPct": 46.8,
    "efgPct": 48.4,
-   "oRating": 101.4,
-   "dRating": 112.7
+   "oRating": 97.4,
+   "dRating": 108.3,
+   "possessions": 1982.4
   },
   "Idaho": {
    "games": 31,
    "wins": 9,
    "losses": 22,
-   "pace": 70.7,
+   "pace": 71.3,
    "points": 2263,
    "oppPoints": 2468,
    "rebounds": 1060,
@@ -50938,14 +51053,15 @@
    "ftPct": 73.5,
    "oppFgPct": 48,
    "efgPct": 51.2,
-   "oRating": 102.3,
-   "dRating": 111.8
+   "oRating": 101.6,
+   "dRating": 110.8,
+   "possessions": 2227.4
   },
   "Illinois": {
    "games": 33,
    "wins": 23,
    "losses": 10,
-   "pace": 66.6,
+   "pace": 67.9,
    "points": 2456,
    "oppPoints": 2218,
    "rebounds": 1271,
@@ -50960,14 +51076,15 @@
    "ftPct": 70.6,
    "oppFgPct": 41.3,
    "efgPct": 52.5,
-   "oRating": 111.2,
-   "dRating": 100
+   "oRating": 108.8,
+   "dRating": 98.2,
+   "possessions": 2258.3
   },
   "Illinois State": {
    "games": 33,
    "wins": 13,
    "losses": 20,
-   "pace": 66.2,
+   "pace": 69.1,
    "points": 2447,
    "oppPoints": 2466,
    "rebounds": 1164,
@@ -50982,14 +51099,15 @@
    "ftPct": 74.5,
    "oppFgPct": 44.1,
    "efgPct": 51.8,
-   "oRating": 108.9,
-   "dRating": 110.1
+   "oRating": 104.6,
+   "dRating": 105.4,
+   "possessions": 2339.3
   },
   "Incarnate Word": {
    "games": 32,
    "wins": 7,
    "losses": 25,
-   "pace": 63.8,
+   "pace": 68.4,
    "points": 2145,
    "oppPoints": 2445,
    "rebounds": 949,
@@ -51004,14 +51122,15 @@
    "ftPct": 78.4,
    "oppFgPct": 49.6,
    "efgPct": 49.4,
-   "oRating": 105,
-   "dRating": 120
+   "oRating": 97.9,
+   "dRating": 111.6,
+   "possessions": 2189.9
   },
   "Indiana": {
    "games": 35,
    "wins": 21,
    "losses": 14,
-   "pace": 66.7,
+   "pace": 67.9,
    "points": 2478,
    "oppPoints": 2316,
    "rebounds": 1264,
@@ -51026,14 +51145,15 @@
    "ftPct": 70,
    "oppFgPct": 39.6,
    "efgPct": 50.6,
-   "oRating": 104.9,
-   "dRating": 98.2
+   "oRating": 103.2,
+   "dRating": 96.5,
+   "possessions": 2400.7
   },
   "Indiana State": {
    "games": 31,
    "wins": 11,
    "losses": 20,
-   "pace": 66,
+   "pace": 69.3,
    "points": 2184,
    "oppPoints": 2230,
    "rebounds": 1055,
@@ -51048,14 +51168,15 @@
    "ftPct": 77.8,
    "oppFgPct": 43.9,
    "efgPct": 51.8,
-   "oRating": 104.6,
-   "dRating": 107
+   "oRating": 99.7,
+   "dRating": 101.8,
+   "possessions": 2191.3
   },
   "Iona": {
    "games": 33,
    "wins": 25,
    "losses": 8,
-   "pace": 69.2,
+   "pace": 70.2,
    "points": 2482,
    "oppPoints": 2264,
    "rebounds": 1220,
@@ -51070,14 +51191,15 @@
    "ftPct": 69.3,
    "oppFgPct": 41.6,
    "efgPct": 50.7,
-   "oRating": 107.8,
-   "dRating": 98.4
+   "oRating": 106.3,
+   "dRating": 97.0,
+   "possessions": 2334.5
   },
   "Iowa": {
    "games": 36,
    "wins": 26,
    "losses": 10,
-   "pace": 69.3,
+   "pace": 70.3,
    "points": 2995,
    "oppPoints": 2562,
    "rebounds": 1344,
@@ -51092,14 +51214,15 @@
    "ftPct": 74.9,
    "oppFgPct": 43.7,
    "efgPct": 53.3,
-   "oRating": 119.1,
-   "dRating": 102
+   "oRating": 117.6,
+   "dRating": 100.6,
+   "possessions": 2547.4
   },
   "Iowa State": {
    "games": 35,
    "wins": 22,
    "losses": 13,
-   "pace": 66.7,
+   "pace": 67.2,
    "points": 2296,
    "oppPoints": 2189,
    "rebounds": 1134,
@@ -51114,14 +51237,15 @@
    "ftPct": 68.3,
    "oppFgPct": 42.5,
    "efgPct": 49.1,
-   "oRating": 97.7,
-   "dRating": 93.1
+   "oRating": 96.9,
+   "dRating": 92.4,
+   "possessions": 2369.6
   },
   "Jackson State": {
    "games": 30,
    "wins": 11,
    "losses": 19,
-   "pace": 60.2,
+   "pace": 65.9,
    "points": 1829,
    "oppPoints": 1964,
    "rebounds": 1054,
@@ -51136,14 +51260,15 @@
    "ftPct": 63.4,
    "oppFgPct": 43,
    "efgPct": 45.3,
-   "oRating": 100.9,
-   "dRating": 108.3
+   "oRating": 92.1,
+   "dRating": 98.9,
+   "possessions": 1984.9
   },
   "Jacksonville": {
    "games": 31,
    "wins": 21,
    "losses": 10,
-   "pace": 58.2,
+   "pace": 63.1,
    "points": 2081,
    "oppPoints": 1839,
    "rebounds": 1129,
@@ -51158,14 +51283,15 @@
    "ftPct": 70.8,
    "oppFgPct": 39.6,
    "efgPct": 50.5,
-   "oRating": 114.7,
-   "dRating": 101.6
+   "oRating": 106.0,
+   "dRating": 93.7,
+   "possessions": 1963.0
   },
   "Jacksonville State": {
    "games": 32,
    "wins": 21,
    "losses": 11,
-   "pace": 61.8,
+   "pace": 66.9,
    "points": 2353,
    "oppPoints": 2151,
    "rebounds": 1177,
@@ -51180,14 +51306,15 @@
    "ftPct": 68.6,
    "oppFgPct": 40.9,
    "efgPct": 54.9,
-   "oRating": 117.7,
-   "dRating": 107.3
+   "oRating": 108.7,
+   "dRating": 99.3,
+   "possessions": 2165.2
   },
   "James Madison": {
    "games": 29,
    "wins": 15,
    "losses": 14,
-   "pace": 69.6,
+   "pace": 70.5,
    "points": 2178,
    "oppPoints": 2123,
    "rebounds": 970,
@@ -51202,14 +51329,15 @@
    "ftPct": 69.7,
    "oppFgPct": 44.3,
    "efgPct": 52.5,
-   "oRating": 106.5,
-   "dRating": 103.9
+   "oRating": 105.1,
+   "dRating": 102.5,
+   "possessions": 2071.7
   },
   "Kansas City": {
    "games": 31,
    "wins": 19,
    "losses": 12,
-   "pace": 65.2,
+   "pace": 69.2,
    "points": 2311,
    "oppPoints": 2085,
    "rebounds": 967,
@@ -51224,14 +51352,15 @@
    "ftPct": 67.6,
    "oppFgPct": 44.1,
    "efgPct": 54.1,
-   "oRating": 114.5,
-   "dRating": 103
+   "oRating": 107.7,
+   "dRating": 97.2,
+   "possessions": 2145.7
   },
   "Kansas": {
    "games": 40,
    "wins": 34,
    "losses": 6,
-   "pace": 68.7,
+   "pace": 69.5,
    "points": 3129,
    "oppPoints": 2690,
    "rebounds": 1515,
@@ -51246,14 +51375,15 @@
    "ftPct": 71.7,
    "oppFgPct": 40.6,
    "efgPct": 53.8,
-   "oRating": 112.8,
-   "dRating": 97
+   "oRating": 111.5,
+   "dRating": 95.8,
+   "possessions": 2806.5
   },
   "Kansas State": {
    "games": 31,
    "wins": 14,
    "losses": 17,
-   "pace": 66.3,
+   "pace": 67.4,
    "points": 2139,
    "oppPoints": 2091,
    "rebounds": 1030,
@@ -51268,14 +51398,15 @@
    "ftPct": 72.6,
    "oppFgPct": 43.4,
    "efgPct": 49.4,
-   "oRating": 103.1,
-   "dRating": 101.2
+   "oRating": 101.5,
+   "dRating": 99.2,
+   "possessions": 2107.8
   },
   "Kennesaw State": {
    "games": 31,
    "wins": 13,
    "losses": 18,
-   "pace": 65.5,
+   "pace": 68.3,
    "points": 2319,
    "oppPoints": 2206,
    "rebounds": 1102,
@@ -51290,14 +51421,15 @@
    "ftPct": 66.2,
    "oppFgPct": 44.2,
    "efgPct": 53.3,
-   "oRating": 112.3,
-   "dRating": 106.9
+   "oRating": 107.7,
+   "dRating": 102.5,
+   "possessions": 2152.7
   },
   "Kent State": {
    "games": 34,
    "wins": 23,
    "losses": 11,
-   "pace": 66.2,
+   "pace": 67.5,
    "points": 2423,
    "oppPoints": 2217,
    "rebounds": 1220,
@@ -51312,14 +51444,15 @@
    "ftPct": 74.6,
    "oppFgPct": 41.2,
    "efgPct": 50.8,
-   "oRating": 107.8,
-   "dRating": 98.3
+   "oRating": 105.6,
+   "dRating": 96.6,
+   "possessions": 2295.3
   },
   "Kentucky": {
    "games": 34,
    "wins": 26,
    "losses": 8,
-   "pace": 68.6,
+   "pace": 69.3,
    "points": 2701,
    "oppPoints": 2263,
    "rebounds": 1365,
@@ -51334,14 +51467,15 @@
    "ftPct": 72.6,
    "oppFgPct": 41.4,
    "efgPct": 53.1,
-   "oRating": 115.1,
-   "dRating": 96.3
+   "oRating": 113.9,
+   "dRating": 95.4,
+   "possessions": 2371.9
   },
   "LSU": {
    "games": 34,
    "wins": 22,
    "losses": 12,
-   "pace": 67.7,
+   "pace": 70.4,
    "points": 2467,
    "oppPoints": 2156,
    "rebounds": 1257,
@@ -51356,14 +51490,15 @@
    "ftPct": 73.1,
    "oppFgPct": 38.6,
    "efgPct": 49.3,
-   "oRating": 106.3,
-   "dRating": 93.1
+   "oRating": 102.3,
+   "dRating": 89.4,
+   "possessions": 2411.6
   },
   "La Salle": {
    "games": 30,
    "wins": 11,
    "losses": 19,
-   "pace": 67.2,
+   "pace": 68.4,
    "points": 2025,
    "oppPoints": 2146,
    "rebounds": 1094,
@@ -51378,14 +51513,15 @@
    "ftPct": 68.7,
    "oppFgPct": 43.4,
    "efgPct": 47.7,
-   "oRating": 99.2,
-   "dRating": 105.2
+   "oRating": 97.4,
+   "dRating": 103.3,
+   "possessions": 2078.3
   },
   "Lafayette": {
    "games": 30,
    "wins": 10,
    "losses": 20,
-   "pace": 65,
+   "pace": 65.8,
    "points": 2034,
    "oppPoints": 2185,
    "rebounds": 958,
@@ -51400,14 +51536,15 @@
    "ftPct": 68.4,
    "oppFgPct": 46.2,
    "efgPct": 50.8,
-   "oRating": 102.2,
-   "dRating": 109.9
+   "oRating": 100.9,
+   "dRating": 108.4,
+   "possessions": 2016.3
   },
   "Lamar": {
    "games": 29,
    "wins": 2,
    "losses": 27,
-   "pace": 66.9,
+   "pace": 67.5,
    "points": 1778,
    "oppPoints": 2116,
    "rebounds": 1009,
@@ -51422,14 +51559,15 @@
    "ftPct": 68.8,
    "oppFgPct": 44.5,
    "efgPct": 44.7,
-   "oRating": 91.4,
-   "dRating": 109.4
+   "oRating": 90.9,
+   "dRating": 108.1,
+   "possessions": 1956.6
   },
   "Lehigh": {
    "games": 32,
    "wins": 13,
    "losses": 19,
-   "pace": 67.6,
+   "pace": 68.5,
    "points": 2190,
    "oppPoints": 2284,
    "rebounds": 1067,
@@ -51444,14 +51582,15 @@
    "ftPct": 74.1,
    "oppFgPct": 44.2,
    "efgPct": 52,
-   "oRating": 101,
-   "dRating": 105
+   "oRating": 99.5,
+   "dRating": 103.8,
+   "possessions": 2200.6
   },
   "Liberty": {
    "games": 33,
    "wins": 22,
    "losses": 11,
-   "pace": 63.2,
+   "pace": 66.0,
    "points": 2421,
    "oppPoints": 2094,
    "rebounds": 1131,
@@ -51466,14 +51605,15 @@
    "ftPct": 75.6,
    "oppFgPct": 40.3,
    "efgPct": 56.7,
-   "oRating": 115.4,
-   "dRating": 99.4
+   "oRating": 110.3,
+   "dRating": 95.4,
+   "possessions": 2194.4
   },
   "Lipscomb": {
    "games": 33,
    "wins": 14,
    "losses": 19,
-   "pace": 68.7,
+   "pace": 71.4,
    "points": 2442,
    "oppPoints": 2536,
    "rebounds": 1186,
@@ -51488,14 +51628,15 @@
    "ftPct": 72.9,
    "oppFgPct": 43.3,
    "efgPct": 52.9,
-   "oRating": 107.9,
-   "dRating": 111.8
+   "oRating": 103.6,
+   "dRating": 107.6,
+   "possessions": 2357.8
   },
   "Little Rock": {
    "games": 28,
    "wins": 9,
    "losses": 19,
-   "pace": 64.9,
+   "pace": 67.8,
    "points": 1868,
    "oppPoints": 2047,
    "rebounds": 881,
@@ -51510,14 +51651,15 @@
    "ftPct": 73.5,
    "oppFgPct": 47.1,
    "efgPct": 48.5,
-   "oRating": 101.1,
-   "dRating": 110.6
+   "oRating": 96.6,
+   "dRating": 105.9,
+   "possessions": 1933.1
   },
   "Long Beach State": {
    "games": 33,
    "wins": 20,
    "losses": 13,
-   "pace": 70.9,
+   "pace": 71.6,
    "points": 2437,
    "oppPoints": 2409,
    "rebounds": 1165,
@@ -51532,14 +51674,15 @@
    "ftPct": 72.9,
    "oppFgPct": 44.5,
    "efgPct": 49.2,
-   "oRating": 103,
-   "dRating": 101.8
+   "oRating": 101.9,
+   "dRating": 100.8,
+   "possessions": 2391.0
   },
   "Long Island University": {
    "games": 30,
    "wins": 16,
    "losses": 14,
-   "pace": 72.2,
+   "pace": 73.3,
    "points": 2245,
    "oppPoints": 2204,
    "rebounds": 1182,
@@ -51554,14 +51697,15 @@
    "ftPct": 68,
    "oppFgPct": 41.2,
    "efgPct": 49.1,
-   "oRating": 102.9,
-   "dRating": 100.8
+   "oRating": 101.2,
+   "dRating": 99.4,
+   "possessions": 2217.9
   },
   "Longwood": {
    "games": 33,
    "wins": 26,
    "losses": 7,
-   "pace": 64.8,
+   "pace": 67.7,
    "points": 2499,
    "oppPoints": 2170,
    "rebounds": 1217,
@@ -51576,14 +51720,15 @@
    "ftPct": 72.6,
    "oppFgPct": 43.4,
    "efgPct": 52.1,
-   "oRating": 116.1,
-   "dRating": 100.8
+   "oRating": 111.0,
+   "dRating": 96.4,
+   "possessions": 2251.1
   },
   "Louisiana": {
    "games": 31,
    "wins": 16,
    "losses": 15,
-   "pace": 69.4,
+   "pace": 70.4,
    "points": 2203,
    "oppPoints": 2151,
    "rebounds": 1203,
@@ -51598,14 +51743,15 @@
    "ftPct": 70.3,
    "oppFgPct": 41,
    "efgPct": 49.1,
-   "oRating": 101.6,
-   "dRating": 99.1
+   "oRating": 100.1,
+   "dRating": 97.7,
+   "possessions": 2200.6
   },
   "Louisiana Tech": {
    "games": 34,
    "wins": 24,
    "losses": 10,
-   "pace": 67.2,
+   "pace": 70.0,
    "points": 2558,
    "oppPoints": 2312,
    "rebounds": 1230,
@@ -51620,14 +51766,15 @@
    "ftPct": 72.5,
    "oppFgPct": 41.3,
    "efgPct": 52.5,
-   "oRating": 112,
-   "dRating": 101.1
+   "oRating": 107.4,
+   "dRating": 97.1,
+   "possessions": 2381.4
   },
   "Louisville": {
    "games": 32,
    "wins": 13,
    "losses": 19,
-   "pace": 66.8,
+   "pace": 67.5,
    "points": 2154,
    "oppPoints": 2243,
    "rebounds": 1167,
@@ -51642,14 +51789,15 @@
    "ftPct": 67.4,
    "oppFgPct": 43.7,
    "efgPct": 48.8,
-   "oRating": 100,
-   "dRating": 104.2
+   "oRating": 98.9,
+   "dRating": 103.0,
+   "possessions": 2178.2
   },
   "Loyola Chicago": {
    "games": 33,
    "wins": 25,
    "losses": 8,
-   "pace": 62.7,
+   "pace": 65.6,
    "points": 2403,
    "oppPoints": 2029,
    "rebounds": 1116,
@@ -51664,14 +51812,15 @@
    "ftPct": 71.2,
    "oppFgPct": 41,
    "efgPct": 55.8,
-   "oRating": 114.3,
-   "dRating": 96.7
+   "oRating": 109.4,
+   "dRating": 92.3,
+   "possessions": 2197.2
   },
   "Loyola Maryland": {
    "games": 30,
    "wins": 14,
    "losses": 16,
-   "pace": 64.2,
+   "pace": 66.5,
    "points": 1984,
    "oppPoints": 1970,
    "rebounds": 963,
@@ -51686,14 +51835,15 @@
    "ftPct": 68.4,
    "oppFgPct": 44.1,
    "efgPct": 50.4,
-   "oRating": 102.2,
-   "dRating": 101.3
+   "oRating": 98.6,
+   "dRating": 97.9,
+   "possessions": 2013.1
   },
   "Loyola Marymount": {
    "games": 29,
    "wins": 11,
    "losses": 18,
-   "pace": 66,
+   "pace": 67.5,
    "points": 2010,
    "oppPoints": 2148,
    "rebounds": 861,
@@ -51708,14 +51858,15 @@
    "ftPct": 71.9,
    "oppFgPct": 48,
    "efgPct": 52.1,
-   "oRating": 104,
-   "dRating": 111.4
+   "oRating": 101.8,
+   "dRating": 108.8,
+   "possessions": 1975.1
   },
   "Maine": {
    "games": 29,
    "wins": 6,
    "losses": 23,
-   "pace": 65.8,
+   "pace": 66.5,
    "points": 1811,
    "oppPoints": 2063,
    "rebounds": 911,
@@ -51730,14 +51881,15 @@
    "ftPct": 71,
    "oppFgPct": 46.8,
    "efgPct": 47.3,
-   "oRating": 94.8,
-   "dRating": 108.1
+   "oRating": 94.0,
+   "dRating": 107.0,
+   "possessions": 1927.5
   },
   "Manhattan": {
    "games": 30,
    "wins": 15,
    "losses": 15,
-   "pace": 68.4,
+   "pace": 69.5,
    "points": 2126,
    "oppPoints": 2179,
    "rebounds": 999,
@@ -51752,14 +51904,15 @@
    "ftPct": 73.5,
    "oppFgPct": 46.2,
    "efgPct": 49.1,
-   "oRating": 102.3,
-   "dRating": 104.9
+   "oRating": 100.8,
+   "dRating": 103.3,
+   "possessions": 2109.7
   },
   "Marist": {
    "games": 30,
    "wins": 14,
    "losses": 16,
-   "pace": 63.4,
+   "pace": 66.9,
    "points": 2063,
    "oppPoints": 2045,
    "rebounds": 1054,
@@ -51774,14 +51927,15 @@
    "ftPct": 71.9,
    "oppFgPct": 41.5,
    "efgPct": 50.4,
-   "oRating": 106.9,
-   "dRating": 106.3
+   "oRating": 101.5,
+   "dRating": 100.6,
+   "possessions": 2033.4
   },
   "Marquette": {
    "games": 32,
    "wins": 19,
    "losses": 13,
-   "pace": 70.5,
+   "pace": 71.6,
    "points": 2369,
    "oppPoints": 2292,
    "rebounds": 1113,
@@ -51796,14 +51950,15 @@
    "ftPct": 74.1,
    "oppFgPct": 41.2,
    "efgPct": 52.1,
-   "oRating": 104.3,
-   "dRating": 100.8
+   "oRating": 102.7,
+   "dRating": 99.3,
+   "possessions": 2307.6
   },
   "Marshall": {
    "games": 33,
    "wins": 12,
    "losses": 21,
-   "pace": 72.8,
+   "pace": 73.3,
    "points": 2442,
    "oppPoints": 2523,
    "rebounds": 1226,
@@ -51818,14 +51973,15 @@
    "ftPct": 70.5,
    "oppFgPct": 45.1,
    "efgPct": 49.5,
-   "oRating": 101.7,
-   "dRating": 105.1
+   "oRating": 100.9,
+   "dRating": 104.2,
+   "possessions": 2420.5
   },
   "Maryland Eastern Shore": {
    "games": 27,
    "wins": 11,
    "losses": 16,
-   "pace": 54.1,
+   "pace": 70.1,
    "points": 1778,
    "oppPoints": 1792,
    "rebounds": 935,
@@ -51840,14 +51996,15 @@
    "ftPct": 64.4,
    "oppFgPct": 43.2,
    "efgPct": 47.1,
-   "oRating": 120.5,
-   "dRating": 121.6
+   "oRating": 93.1,
+   "dRating": 93.8,
+   "possessions": 1910.4
   },
   "Maryland": {
    "games": 32,
    "wins": 15,
    "losses": 17,
-   "pace": 65.7,
+   "pace": 67.4,
    "points": 2270,
    "oppPoints": 2263,
    "rebounds": 1126,
@@ -51862,14 +52019,15 @@
    "ftPct": 75.9,
    "oppFgPct": 43.3,
    "efgPct": 49.4,
-   "oRating": 107.3,
-   "dRating": 106.7
+   "oRating": 104.4,
+   "dRating": 104.1,
+   "possessions": 2173.9
   },
   "Massachusetts": {
    "games": 32,
    "wins": 15,
    "losses": 17,
-   "pace": 60.6,
+   "pace": 69.2,
    "points": 2422,
    "oppPoints": 2498,
    "rebounds": 1079,
@@ -51884,14 +52042,15 @@
    "ftPct": 75.8,
    "oppFgPct": 48.5,
    "efgPct": 51.3,
-   "oRating": 123.9,
-   "dRating": 127.1
+   "oRating": 108.1,
+   "dRating": 111.5,
+   "possessions": 2240.3
   },
   "McNeese": {
    "games": 33,
    "wins": 11,
    "losses": 22,
-   "pace": 73.5,
+   "pace": 74.2,
    "points": 2579,
    "oppPoints": 2555,
    "rebounds": 1336,
@@ -51906,14 +52065,15 @@
    "ftPct": 65.9,
    "oppFgPct": 44.8,
    "efgPct": 50.2,
-   "oRating": 103.7,
-   "dRating": 103.3
+   "oRating": 103.0,
+   "dRating": 102.1,
+   "possessions": 2502.7
   },
   "Memphis": {
    "games": 33,
    "wins": 22,
    "losses": 11,
-   "pace": 70.2,
+   "pace": 71.0,
    "points": 2480,
    "oppPoints": 2255,
    "rebounds": 1280,
@@ -51928,14 +52088,15 @@
    "ftPct": 69.4,
    "oppFgPct": 39.7,
    "efgPct": 52.3,
-   "oRating": 106.8,
-   "dRating": 97.5
+   "oRating": 105.8,
+   "dRating": 96.2,
+   "possessions": 2343.5
   },
   "Mercer": {
    "games": 33,
    "wins": 16,
    "losses": 17,
-   "pace": 37.7,
+   "pace": 66.2,
    "points": 2325,
    "oppPoints": 2328,
    "rebounds": 1060,
@@ -51950,14 +52111,15 @@
    "ftPct": 77,
    "oppFgPct": 44.7,
    "efgPct": 53.1,
-   "oRating": 185.9,
-   "dRating": 185.5
+   "oRating": 105.6,
+   "dRating": 105.7,
+   "possessions": 2201.5
   },
   "Merrimack": {
    "games": 30,
    "wins": 14,
    "losses": 16,
-   "pace": 63.1,
+   "pace": 64.0,
    "points": 1843,
    "oppPoints": 1931,
    "rebounds": 855,
@@ -51972,14 +52134,15 @@
    "ftPct": 67.5,
    "oppFgPct": 42.9,
    "efgPct": 48.8,
-   "oRating": 96.5,
-   "dRating": 101.3
+   "oRating": 95.2,
+   "dRating": 99.7,
+   "possessions": 1936.4
   },
   "Miami (OH)": {
    "games": 32,
    "wins": 14,
    "losses": 18,
-   "pace": 67.3,
+   "pace": 68.9,
    "points": 2408,
    "oppPoints": 2351,
    "rebounds": 1107,
@@ -51994,14 +52157,15 @@
    "ftPct": 78.7,
    "oppFgPct": 44.6,
    "efgPct": 51.3,
-   "oRating": 111,
-   "dRating": 108.3
+   "oRating": 108.3,
+   "dRating": 105.7,
+   "possessions": 2223.6
   },
   "Miami": {
    "games": 37,
    "wins": 26,
    "losses": 11,
-   "pace": 67.2,
+   "pace": 67.8,
    "points": 2736,
    "oppPoints": 2603,
    "rebounds": 1132,
@@ -52016,14 +52180,15 @@
    "ftPct": 74.2,
    "oppFgPct": 45.9,
    "efgPct": 53.3,
-   "oRating": 110,
-   "dRating": 104.1
+   "oRating": 108.6,
+   "dRating": 103.3,
+   "possessions": 2518.7
   },
   "Michigan State": {
    "games": 36,
    "wins": 23,
    "losses": 13,
-   "pace": 67.1,
+   "pace": 67.9,
    "points": 2601,
    "oppPoints": 2485,
    "rebounds": 1329,
@@ -52038,14 +52203,15 @@
    "ftPct": 75,
    "oppFgPct": 42.1,
    "efgPct": 52,
-   "oRating": 107.7,
-   "dRating": 102.9
+   "oRating": 106.4,
+   "dRating": 101.7,
+   "possessions": 2443.5
   },
   "Michigan": {
    "games": 34,
    "wins": 19,
    "losses": 15,
-   "pace": 66.4,
+   "pace": 67.5,
    "points": 2470,
    "oppPoints": 2360,
    "rebounds": 1215,
@@ -52060,14 +52226,15 @@
    "ftPct": 74.6,
    "oppFgPct": 44.1,
    "efgPct": 52.1,
-   "oRating": 109.4,
-   "dRating": 104.7
+   "oRating": 107.7,
+   "dRating": 102.9,
+   "possessions": 2293.4
   },
   "Middle Tennessee": {
    "games": 37,
    "wins": 26,
    "losses": 11,
-   "pace": 67.1,
+   "pace": 68.2,
    "points": 2771,
    "oppPoints": 2486,
    "rebounds": 1306,
@@ -52082,14 +52249,15 @@
    "ftPct": 75.6,
    "oppFgPct": 41.3,
    "efgPct": 52.1,
-   "oRating": 109.5,
-   "dRating": 98
+   "oRating": 107.6,
+   "dRating": 96.5,
+   "possessions": 2574.9
   },
   "Milwaukee": {
    "games": 32,
    "wins": 10,
    "losses": 22,
-   "pace": 64.7,
+   "pace": 67.9,
    "points": 2073,
    "oppPoints": 2264,
    "rebounds": 1149,
@@ -52104,14 +52272,15 @@
    "ftPct": 71.7,
    "oppFgPct": 40.1,
    "efgPct": 47.7,
-   "oRating": 100.1,
-   "dRating": 109.5
+   "oRating": 95.4,
+   "dRating": 104.2,
+   "possessions": 2173.4
   },
   "Minnesota": {
    "games": 30,
    "wins": 13,
    "losses": 17,
-   "pace": 64.7,
+   "pace": 65.4,
    "points": 2010,
    "oppPoints": 2076,
    "rebounds": 920,
@@ -52126,14 +52295,15 @@
    "ftPct": 71.8,
    "oppFgPct": 45.4,
    "efgPct": 50.7,
-   "oRating": 102.5,
-   "dRating": 106.1
+   "oRating": 101.6,
+   "dRating": 104.9,
+   "possessions": 1978.4
   },
   "Mississippi State": {
    "games": 34,
    "wins": 18,
    "losses": 16,
-   "pace": 65.7,
+   "pace": 66.6,
    "points": 2396,
    "oppPoints": 2252,
    "rebounds": 1234,
@@ -52148,14 +52318,15 @@
    "ftPct": 72.1,
    "oppFgPct": 43,
    "efgPct": 49.6,
-   "oRating": 106.1,
-   "dRating": 99.7
+   "oRating": 104.6,
+   "dRating": 98.3,
+   "possessions": 2289.8
   },
   "Mississippi Valley State": {
    "games": 28,
    "wins": 2,
    "losses": 26,
-   "pace": 57.1,
+   "pace": 72.7,
    "points": 1882,
    "oppPoints": 2323,
    "rebounds": 886,
@@ -52170,14 +52341,15 @@
    "ftPct": 65.5,
    "oppFgPct": 50.4,
    "efgPct": 44.4,
-   "oRating": 115,
-   "dRating": 142.3
+   "oRating": 90.5,
+   "dRating": 111.7,
+   "possessions": 2080.4
   },
   "Missouri State": {
    "games": 34,
    "wins": 23,
    "losses": 11,
-   "pace": 66.1,
+   "pace": 67.9,
    "points": 2628,
    "oppPoints": 2342,
    "rebounds": 1199,
@@ -52192,14 +52364,15 @@
    "ftPct": 79.7,
    "oppFgPct": 42,
    "efgPct": 55.3,
-   "oRating": 116.2,
-   "dRating": 103.5
+   "oRating": 113.0,
+   "dRating": 100.7,
+   "possessions": 2325.0
   },
   "Missouri": {
    "games": 33,
    "wins": 12,
    "losses": 21,
-   "pace": 66.9,
+   "pace": 67.3,
    "points": 2160,
    "oppPoints": 2325,
    "rebounds": 1155,
@@ -52214,14 +52387,15 @@
    "ftPct": 73.6,
    "oppFgPct": 44.3,
    "efgPct": 47.2,
-   "oRating": 97.7,
-   "dRating": 104.8
+   "oRating": 96.8,
+   "dRating": 104.2,
+   "possessions": 2230.6
   },
   "Monmouth": {
    "games": 34,
    "wins": 21,
    "losses": 13,
-   "pace": 66.3,
+   "pace": 67.1,
    "points": 2333,
    "oppPoints": 2289,
    "rebounds": 1241,
@@ -52236,14 +52410,15 @@
    "ftPct": 72.8,
    "oppFgPct": 40.7,
    "efgPct": 47.5,
-   "oRating": 102.9,
-   "dRating": 100.7
+   "oRating": 101.5,
+   "dRating": 99.6,
+   "possessions": 2298.6
   },
   "Montana": {
    "games": 32,
    "wins": 18,
    "losses": 14,
-   "pace": 64.3,
+   "pace": 67.5,
    "points": 2310,
    "oppPoints": 2141,
    "rebounds": 980,
@@ -52258,14 +52433,15 @@
    "ftPct": 78.5,
    "oppFgPct": 44,
    "efgPct": 51.7,
-   "oRating": 111.4,
-   "dRating": 103.9
+   "oRating": 106.5,
+   "dRating": 98.7,
+   "possessions": 2168.9
   },
   "Montana State": {
    "games": 35,
    "wins": 27,
    "losses": 8,
-   "pace": 68.2,
+   "pace": 69.5,
    "points": 2679,
    "oppPoints": 2425,
    "rebounds": 1228,
@@ -52280,14 +52456,15 @@
    "ftPct": 75.4,
    "oppFgPct": 42.8,
    "efgPct": 54.1,
-   "oRating": 111.1,
-   "dRating": 100.5
+   "oRating": 108.9,
+   "dRating": 98.6,
+   "possessions": 2459.6
   },
   "Morehead State": {
    "games": 34,
    "wins": 23,
    "losses": 11,
-   "pace": 63.8,
+   "pace": 66.5,
    "points": 2379,
    "oppPoints": 2158,
    "rebounds": 1246,
@@ -52302,14 +52479,15 @@
    "ftPct": 66.7,
    "oppFgPct": 40.8,
    "efgPct": 53,
-   "oRating": 109.5,
-   "dRating": 99
+   "oRating": 104.9,
+   "dRating": 95.1,
+   "possessions": 2268.2
   },
   "Morgan State": {
    "games": 28,
    "wins": 13,
    "losses": 15,
-   "pace": 65.5,
+   "pace": 75.7,
    "points": 2100,
    "oppPoints": 2025,
    "rebounds": 1030,
@@ -52324,14 +52502,15 @@
    "ftPct": 67.7,
    "oppFgPct": 43.6,
    "efgPct": 48.6,
-   "oRating": 113.8,
-   "dRating": 110
+   "oRating": 98.7,
+   "dRating": 95.1,
+   "possessions": 2128.2
   },
   "Mount St. Mary's": {
    "games": 30,
    "wins": 14,
    "losses": 16,
-   "pace": 63.3,
+   "pace": 65.2,
    "points": 1984,
    "oppPoints": 1958,
    "rebounds": 1050,
@@ -52346,14 +52525,15 @@
    "ftPct": 68.8,
    "oppFgPct": 42.9,
    "efgPct": 49.6,
-   "oRating": 103.5,
-   "dRating": 102.2
+   "oRating": 100.6,
+   "dRating": 99.3,
+   "possessions": 1972.7
   },
   "Murray State": {
    "games": 34,
    "wins": 31,
    "losses": 3,
-   "pace": 67.3,
+   "pace": 68.2,
    "points": 2690,
    "oppPoints": 2150,
    "rebounds": 1328,
@@ -52368,14 +52548,15 @@
    "ftPct": 69.2,
    "oppFgPct": 41.2,
    "efgPct": 54.2,
-   "oRating": 117.4,
-   "dRating": 93.4
+   "oRating": 115.5,
+   "dRating": 92.3,
+   "possessions": 2328.4
   },
   "NC State": {
    "games": 32,
    "wins": 11,
    "losses": 21,
-   "pace": 67.2,
+   "pace": 67.9,
    "points": 2336,
    "oppPoints": 2419,
    "rebounds": 1115,
@@ -52390,14 +52571,15 @@
    "ftPct": 72.5,
    "oppFgPct": 47.2,
    "efgPct": 47.9,
-   "oRating": 106.3,
-   "dRating": 110.7
+   "oRating": 105.4,
+   "dRating": 109.1,
+   "possessions": 2216.8
   },
   "NJIT": {
    "games": 29,
    "wins": 11,
    "losses": 18,
-   "pace": 65.1,
+   "pace": 67.2,
    "points": 1826,
    "oppPoints": 2030,
    "rebounds": 995,
@@ -52412,14 +52594,15 @@
    "ftPct": 65.9,
    "oppFgPct": 43.3,
    "efgPct": 46.7,
-   "oRating": 95.6,
-   "dRating": 105.9
+   "oRating": 92.6,
+   "dRating": 102.9,
+   "possessions": 1972.9
   },
   "Navy": {
    "games": 32,
    "wins": 21,
    "losses": 11,
-   "pace": 63.9,
+   "pace": 64.5,
    "points": 2079,
    "oppPoints": 1924,
    "rebounds": 1194,
@@ -52434,14 +52617,15 @@
    "ftPct": 65.5,
    "oppFgPct": 40.6,
    "efgPct": 48.1,
-   "oRating": 101,
-   "dRating": 93.4
+   "oRating": 99.9,
+   "dRating": 92.4,
+   "possessions": 2081.2
   },
   "Nebraska": {
    "games": 32,
    "wins": 10,
    "losses": 22,
-   "pace": 71.1,
+   "pace": 71.9,
    "points": 2345,
    "oppPoints": 2513,
    "rebounds": 1059,
@@ -52456,14 +52640,15 @@
    "ftPct": 73.1,
    "oppFgPct": 44.5,
    "efgPct": 50.3,
-   "oRating": 101.3,
-   "dRating": 108.1
+   "oRating": 99.9,
+   "dRating": 107.1,
+   "possessions": 2347.2
   },
   "Nevada": {
    "games": 31,
    "wins": 13,
    "losses": 18,
-   "pace": 69.8,
+   "pace": 71.2,
    "points": 2249,
    "oppPoints": 2284,
    "rebounds": 1077,
@@ -52478,14 +52663,15 @@
    "ftPct": 74.9,
    "oppFgPct": 44.1,
    "efgPct": 51,
-   "oRating": 103.7,
-   "dRating": 105.7
+   "oRating": 101.9,
+   "dRating": 103.5,
+   "possessions": 2207.5
   },
   "New Hampshire": {
    "games": 28,
    "wins": 15,
    "losses": 13,
-   "pace": 59.7,
+   "pace": 63.5,
    "points": 1925,
    "oppPoints": 1819,
    "rebounds": 1004,
@@ -52500,14 +52686,15 @@
    "ftPct": 66.9,
    "oppFgPct": 43.1,
    "efgPct": 51.5,
-   "oRating": 115,
-   "dRating": 108.9
+   "oRating": 108.3,
+   "dRating": 102.3,
+   "possessions": 1777.7
   },
   "New Mexico": {
    "games": 32,
    "wins": 13,
    "losses": 19,
-   "pace": 68.3,
+   "pace": 71.4,
    "points": 2376,
    "oppPoints": 2411,
    "rebounds": 1088,
@@ -52522,14 +52709,15 @@
    "ftPct": 75,
    "oppFgPct": 45.6,
    "efgPct": 49.9,
-   "oRating": 107.8,
-   "dRating": 109.4
+   "oRating": 103.2,
+   "dRating": 104.7,
+   "possessions": 2303.0
   },
   "New Mexico State": {
    "games": 34,
    "wins": 27,
    "losses": 7,
-   "pace": 62,
+   "pace": 68.3,
    "points": 2464,
    "oppPoints": 2197,
    "rebounds": 1298,
@@ -52544,14 +52732,15 @@
    "ftPct": 70.2,
    "oppFgPct": 38.9,
    "efgPct": 52.4,
-   "oRating": 116.4,
-   "dRating": 104
+   "oRating": 105.8,
+   "dRating": 94.3,
+   "possessions": 2329.3
   },
   "New Orleans": {
    "games": 32,
    "wins": 18,
    "losses": 14,
-   "pace": 73.9,
+   "pace": 75.0,
    "points": 2469,
    "oppPoints": 2385,
    "rebounds": 1171,
@@ -52566,14 +52755,15 @@
    "ftPct": 73.1,
    "oppFgPct": 42.7,
    "efgPct": 50.1,
-   "oRating": 103.6,
-   "dRating": 100.2
+   "oRating": 102.1,
+   "dRating": 98.6,
+   "possessions": 2419.3
   },
   "Niagara": {
    "games": 30,
    "wins": 14,
    "losses": 16,
-   "pace": 62.2,
+   "pace": 65.6,
    "points": 2022,
    "oppPoints": 1965,
    "rebounds": 971,
@@ -52588,14 +52778,15 @@
    "ftPct": 73.1,
    "oppFgPct": 41.6,
    "efgPct": 50.1,
-   "oRating": 106.9,
-   "dRating": 104.3
+   "oRating": 101.4,
+   "dRating": 98.5,
+   "possessions": 1994.1
   },
   "Nicholls": {
    "games": 33,
    "wins": 21,
    "losses": 12,
-   "pace": 68.3,
+   "pace": 72.5,
    "points": 2590,
    "oppPoints": 2352,
    "rebounds": 1263,
@@ -52610,14 +52801,15 @@
    "ftPct": 62.5,
    "oppFgPct": 41.6,
    "efgPct": 53.1,
-   "oRating": 114,
-   "dRating": 103.7
+   "oRating": 107.5,
+   "dRating": 97.6,
+   "possessions": 2409.0
   },
   "Norfolk State": {
    "games": 31,
    "wins": 24,
    "losses": 7,
-   "pace": 65.4,
+   "pace": 70.8,
    "points": 2302,
    "oppPoints": 1997,
    "rebounds": 1195,
@@ -52632,14 +52824,15 @@
    "ftPct": 69.9,
    "oppFgPct": 37.9,
    "efgPct": 52.2,
-   "oRating": 113.6,
-   "dRating": 98.4
+   "oRating": 104.9,
+   "dRating": 91.0,
+   "possessions": 2193.6
   },
   "North Alabama": {
    "games": 30,
    "wins": 9,
    "losses": 21,
-   "pace": 67.5,
+   "pace": 70.5,
    "points": 2081,
    "oppPoints": 2056,
    "rebounds": 1084,
@@ -52654,14 +52847,15 @@
    "ftPct": 75.3,
    "oppFgPct": 42.3,
    "efgPct": 46,
-   "oRating": 101.8,
-   "dRating": 101
+   "oRating": 97.5,
+   "dRating": 96.4,
+   "possessions": 2133.3
   },
   "North Carolina A&T": {
    "games": 32,
    "wins": 12,
    "losses": 20,
-   "pace": 60.9,
+   "pace": 68.7,
    "points": 2167,
    "oppPoints": 2250,
    "rebounds": 1135,
@@ -52676,14 +52870,15 @@
    "ftPct": 65.4,
    "oppFgPct": 42.9,
    "efgPct": 47.8,
-   "oRating": 110.6,
-   "dRating": 114.1
+   "oRating": 97.9,
+   "dRating": 101.6,
+   "possessions": 2214.5
   },
   "North Carolina Central": {
    "games": 31,
    "wins": 16,
    "losses": 15,
-   "pace": 65.6,
+   "pace": 70.7,
    "points": 2256,
    "oppPoints": 2120,
    "rebounds": 1120,
@@ -52698,14 +52893,15 @@
    "ftPct": 66.8,
    "oppFgPct": 42.3,
    "efgPct": 50.5,
-   "oRating": 109.4,
-   "dRating": 103.3
+   "oRating": 101.7,
+   "dRating": 95.6,
+   "possessions": 2218.4
   },
   "North Carolina": {
    "games": 39,
    "wins": 29,
    "losses": 10,
-   "pace": 68.9,
+   "pace": 70.3,
    "points": 3038,
    "oppPoints": 2780,
    "rebounds": 1608,
@@ -52720,14 +52916,15 @@
    "ftPct": 76.4,
    "oppFgPct": 42.5,
    "efgPct": 51.5,
-   "oRating": 112.2,
-   "dRating": 102.4
+   "oRating": 109.7,
+   "dRating": 100.4,
+   "possessions": 2768.8
   },
   "North Dakota": {
    "games": 31,
    "wins": 6,
    "losses": 25,
-   "pace": 65.6,
+   "pace": 69.2,
    "points": 2178,
    "oppPoints": 2444,
    "rebounds": 1099,
@@ -52742,14 +52939,15 @@
    "ftPct": 73.4,
    "oppFgPct": 48.8,
    "efgPct": 48.1,
-   "oRating": 106.4,
-   "dRating": 120
+   "oRating": 101.1,
+   "dRating": 113.4,
+   "possessions": 2154.4
   },
   "North Dakota State": {
    "games": 33,
    "wins": 23,
    "losses": 10,
-   "pace": 67,
+   "pace": 68.0,
    "points": 2469,
    "oppPoints": 2267,
    "rebounds": 1234,
@@ -52764,14 +52962,15 @@
    "ftPct": 76.1,
    "oppFgPct": 42,
    "efgPct": 52.8,
-   "oRating": 110.1,
-   "dRating": 100.8
+   "oRating": 108.3,
+   "dRating": 99.5,
+   "possessions": 2279.1
   },
   "North Florida": {
    "games": 31,
    "wins": 11,
    "losses": 20,
-   "pace": 67.2,
+   "pace": 69.1,
    "points": 2124,
    "oppPoints": 2206,
    "rebounds": 1049,
@@ -52786,14 +52985,15 @@
    "ftPct": 72.7,
    "oppFgPct": 42.3,
    "efgPct": 50.1,
-   "oRating": 100.9,
-   "dRating": 105.2
+   "oRating": 98.4,
+   "dRating": 102.2,
+   "possessions": 2158.2
   },
   "North Texas": {
    "games": 32,
    "wins": 25,
    "losses": 7,
-   "pace": 58.7,
+   "pace": 60.5,
    "points": 2083,
    "oppPoints": 1783,
    "rebounds": 1091,
@@ -52808,14 +53008,15 @@
    "ftPct": 65,
    "oppFgPct": 41.4,
    "efgPct": 51.8,
-   "oRating": 110.3,
-   "dRating": 94
+   "oRating": 106.7,
+   "dRating": 91.3,
+   "possessions": 1952.7
   },
   "Northeastern": {
    "games": 31,
    "wins": 9,
    "losses": 22,
-   "pace": 61.7,
+   "pace": 65.4,
    "points": 1993,
    "oppPoints": 2142,
    "rebounds": 992,
@@ -52830,14 +53031,15 @@
    "ftPct": 73.4,
    "oppFgPct": 45.4,
    "efgPct": 50.1,
-   "oRating": 103.4,
-   "dRating": 111
+   "oRating": 97.5,
+   "dRating": 104.8,
+   "possessions": 2044.5
   },
   "Northern Arizona": {
    "games": 32,
    "wins": 9,
    "losses": 23,
-   "pace": 66.1,
+   "pace": 67.7,
    "points": 2161,
    "oppPoints": 2347,
    "rebounds": 1175,
@@ -52852,14 +53054,15 @@
    "ftPct": 66.4,
    "oppFgPct": 45.5,
    "efgPct": 49.2,
-   "oRating": 101.4,
-   "dRating": 110.2
+   "oRating": 99.0,
+   "dRating": 107.5,
+   "possessions": 2183.8
   },
   "Northern Colorado": {
    "games": 38,
    "wins": 22,
    "losses": 16,
-   "pace": 66.9,
+   "pace": 70.6,
    "points": 2962,
    "oppPoints": 2924,
    "rebounds": 1302,
@@ -52874,14 +53077,15 @@
    "ftPct": 70.9,
    "oppFgPct": 45.9,
    "efgPct": 56.3,
-   "oRating": 115.3,
-   "dRating": 114
+   "oRating": 109.3,
+   "dRating": 107.9,
+   "possessions": 2708.9
   },
   "Northern Illinois": {
    "games": 30,
    "wins": 9,
    "losses": 21,
-   "pace": 67.5,
+   "pace": 68.6,
    "points": 1923,
    "oppPoints": 2146,
    "rebounds": 969,
@@ -52896,14 +53100,15 @@
    "ftPct": 67.5,
    "oppFgPct": 44.7,
    "efgPct": 47.2,
-   "oRating": 94.4,
-   "dRating": 105.7
+   "oRating": 93.1,
+   "dRating": 103.9,
+   "possessions": 2065.6
   },
   "Northern Iowa": {
    "games": 32,
    "wins": 20,
    "losses": 12,
-   "pace": 65.7,
+   "pace": 67.5,
    "points": 2383,
    "oppPoints": 2273,
    "rebounds": 1044,
@@ -52918,14 +53123,15 @@
    "ftPct": 78.9,
    "oppFgPct": 45,
    "efgPct": 53.7,
-   "oRating": 111.5,
-   "dRating": 105.8
+   "oRating": 108.1,
+   "dRating": 103.1,
+   "possessions": 2203.8
   },
   "Northern Kentucky": {
    "games": 32,
    "wins": 20,
    "losses": 12,
-   "pace": 64.6,
+   "pace": 65.5,
    "points": 2237,
    "oppPoints": 2083,
    "rebounds": 1137,
@@ -52940,14 +53146,15 @@
    "ftPct": 71.4,
    "oppFgPct": 42.7,
    "efgPct": 50.3,
-   "oRating": 106.7,
-   "dRating": 99.1
+   "oRating": 105.1,
+   "dRating": 97.8,
+   "possessions": 2129.1
   },
   "Northwestern State": {
    "games": 32,
    "wins": 9,
    "losses": 23,
-   "pace": 72.5,
+   "pace": 73.6,
    "points": 2363,
    "oppPoints": 2573,
    "rebounds": 1152,
@@ -52962,14 +53169,15 @@
    "ftPct": 69.4,
    "oppFgPct": 46.3,
    "efgPct": 50.3,
-   "oRating": 101.9,
-   "dRating": 110.9
+   "oRating": 100.4,
+   "dRating": 109.3,
+   "possessions": 2354.4
   },
   "Northwestern": {
    "games": 31,
    "wins": 15,
    "losses": 16,
-   "pace": 65.9,
+   "pace": 68.8,
    "points": 2262,
    "oppPoints": 2168,
    "rebounds": 1100,
@@ -52984,14 +53192,15 @@
    "ftPct": 71.9,
    "oppFgPct": 42.8,
    "efgPct": 49.5,
-   "oRating": 108.8,
-   "dRating": 104.6
+   "oRating": 104.4,
+   "dRating": 100.0,
+   "possessions": 2167.4
   },
   "Notre Dame": {
    "games": 35,
    "wins": 24,
    "losses": 11,
-   "pace": 63,
+   "pace": 65.9,
    "points": 2540,
    "oppPoints": 2349,
    "rebounds": 1190,
@@ -53006,14 +53215,15 @@
    "ftPct": 75.3,
    "oppFgPct": 43.1,
    "efgPct": 54.3,
-   "oRating": 113.9,
-   "dRating": 104.7
+   "oRating": 108.6,
+   "dRating": 100.4,
+   "possessions": 2339.5
   },
   "Oakland": {
    "games": 32,
    "wins": 20,
    "losses": 12,
-   "pace": 68,
+   "pace": 69.0,
    "points": 2381,
    "oppPoints": 2194,
    "rebounds": 1104,
@@ -53028,14 +53238,15 @@
    "ftPct": 79.4,
    "oppFgPct": 43.1,
    "efgPct": 50.2,
-   "oRating": 108.9,
-   "dRating": 100.4
+   "oRating": 107.4,
+   "dRating": 99.0,
+   "possessions": 2216.2
   },
   "Ohio": {
    "games": 35,
    "wins": 25,
    "losses": 10,
-   "pace": 68.1,
+   "pace": 69.0,
    "points": 2591,
    "oppPoints": 2378,
    "rebounds": 1194,
@@ -53050,14 +53261,15 @@
    "ftPct": 72.9,
    "oppFgPct": 44.4,
    "efgPct": 50.7,
-   "oRating": 108.9,
-   "dRating": 99.6
+   "oRating": 107.3,
+   "dRating": 98.5,
+   "possessions": 2414.8
   },
   "Ohio State": {
    "games": 32,
    "wins": 20,
    "losses": 12,
-   "pace": 64.3,
+   "pace": 65.1,
    "points": 2329,
    "oppPoints": 2166,
    "rebounds": 1107,
@@ -53072,14 +53284,15 @@
    "ftPct": 75.7,
    "oppFgPct": 41.5,
    "efgPct": 54.3,
-   "oRating": 112.6,
-   "dRating": 104.2
+   "oRating": 110.9,
+   "dRating": 103.2,
+   "possessions": 2099.7
   },
   "Oklahoma": {
    "games": 35,
    "wins": 19,
    "losses": 16,
-   "pace": 65.4,
+   "pace": 66.1,
    "points": 2417,
    "oppPoints": 2276,
    "rebounds": 1114,
@@ -53094,14 +53307,15 @@
    "ftPct": 74.7,
    "oppFgPct": 43.9,
    "efgPct": 54.8,
-   "oRating": 104.1,
-   "dRating": 97.9
+   "oRating": 102.9,
+   "dRating": 96.9,
+   "possessions": 2347.8
   },
   "Oklahoma State": {
    "games": 30,
    "wins": 15,
    "losses": 15,
-   "pace": 67.8,
+   "pace": 68.8,
    "points": 2051,
    "oppPoints": 1970,
    "rebounds": 1113,
@@ -53116,14 +53330,15 @@
    "ftPct": 66.7,
    "oppFgPct": 39.1,
    "efgPct": 48,
-   "oRating": 98.2,
-   "dRating": 94.6
+   "oRating": 96.9,
+   "dRating": 93.1,
+   "possessions": 2116.1
   },
   "Old Dominion": {
    "games": 32,
    "wins": 13,
    "losses": 19,
-   "pace": 63,
+   "pace": 65.7,
    "points": 2127,
    "oppPoints": 2145,
    "rebounds": 1194,
@@ -53138,14 +53353,15 @@
    "ftPct": 67.2,
    "oppFgPct": 41.9,
    "efgPct": 47.3,
-   "oRating": 104.8,
-   "dRating": 106.2
+   "oRating": 100.8,
+   "dRating": 101.6,
+   "possessions": 2110.3
   },
   "Ole Miss": {
    "games": 32,
    "wins": 13,
    "losses": 19,
-   "pace": 66.5,
+   "pace": 67.0,
    "points": 2180,
    "oppPoints": 2197,
    "rebounds": 1070,
@@ -53160,14 +53376,15 @@
    "ftPct": 71.1,
    "oppFgPct": 45.5,
    "efgPct": 49.6,
-   "oRating": 101.1,
-   "dRating": 102.1
+   "oRating": 100.5,
+   "dRating": 101.3,
+   "possessions": 2168.9
   },
   "Omaha": {
    "games": 30,
    "wins": 5,
    "losses": 25,
-   "pace": 70,
+   "pace": 71.3,
    "points": 2088,
    "oppPoints": 2505,
    "rebounds": 984,
@@ -53182,14 +53399,15 @@
    "ftPct": 73.1,
    "oppFgPct": 48,
    "efgPct": 49.2,
-   "oRating": 99.3,
-   "dRating": 119.5
+   "oRating": 97.6,
+   "dRating": 117.0,
+   "possessions": 2140.4
   },
   "Oral Roberts": {
    "games": 31,
    "wins": 19,
    "losses": 12,
-   "pace": 70.5,
+   "pace": 72.0,
    "points": 2582,
    "oppPoints": 2306,
    "rebounds": 1247,
@@ -53204,14 +53422,15 @@
    "ftPct": 73,
    "oppFgPct": 43.7,
    "efgPct": 54.4,
-   "oRating": 117.6,
-   "dRating": 104.3
+   "oRating": 114.8,
+   "dRating": 102.6,
+   "possessions": 2248.5
   },
   "Oregon": {
    "games": 35,
    "wins": 20,
    "losses": 15,
-   "pace": 67.8,
+   "pace": 68.4,
    "points": 2532,
    "oppPoints": 2440,
    "rebounds": 1228,
@@ -53226,14 +53445,15 @@
    "ftPct": 67.9,
    "oppFgPct": 43.2,
    "efgPct": 51.1,
-   "oRating": 106,
-   "dRating": 102
+   "oRating": 105.0,
+   "dRating": 101.2,
+   "possessions": 2410.4
   },
   "Oregon State": {
    "games": 31,
    "wins": 3,
    "losses": 28,
-   "pace": 64.3,
+   "pace": 67.8,
    "points": 2117,
    "oppPoints": 2422,
    "rebounds": 955,
@@ -53248,14 +53468,15 @@
    "ftPct": 70.9,
    "oppFgPct": 47.9,
    "efgPct": 49.2,
-   "oRating": 104.4,
-   "dRating": 119.6
+   "oRating": 99.1,
+   "dRating": 113.4,
+   "possessions": 2136.3
   },
   "Pacific": {
    "games": 30,
    "wins": 8,
    "losses": 22,
-   "pace": 61.3,
+   "pace": 69.5,
    "points": 1976,
    "oppPoints": 2182,
    "rebounds": 985,
@@ -53270,14 +53491,15 @@
    "ftPct": 68.6,
    "oppFgPct": 45.9,
    "efgPct": 46.8,
-   "oRating": 107,
-   "dRating": 118.3
+   "oRating": 94.3,
+   "dRating": 104.2,
+   "possessions": 2094.4
   },
   "Penn State": {
    "games": 31,
    "wins": 14,
    "losses": 17,
-   "pace": 61.8,
+   "pace": 62.8,
    "points": 2003,
    "oppPoints": 2015,
    "rebounds": 1095,
@@ -53292,14 +53514,15 @@
    "ftPct": 73.5,
    "oppFgPct": 41.6,
    "efgPct": 50.5,
-   "oRating": 103.6,
-   "dRating": 103.7
+   "oRating": 101.6,
+   "dRating": 102.3,
+   "possessions": 1970.6
   },
   "Pennsylvania": {
    "games": 28,
    "wins": 12,
    "losses": 16,
-   "pace": 67.9,
+   "pace": 69.0,
    "points": 2017,
    "oppPoints": 2113,
    "rebounds": 966,
@@ -53314,14 +53537,15 @@
    "ftPct": 72.8,
    "oppFgPct": 45.5,
    "efgPct": 51.3,
-   "oRating": 105.2,
-   "dRating": 110.1
+   "oRating": 103.4,
+   "dRating": 108.4,
+   "possessions": 1949.8
   },
   "Pepperdine": {
    "games": 32,
    "wins": 7,
    "losses": 25,
-   "pace": 71,
+   "pace": 71.7,
    "points": 2183,
    "oppPoints": 2480,
    "rebounds": 1103,
@@ -53336,14 +53560,15 @@
    "ftPct": 71.8,
    "oppFgPct": 46.4,
    "efgPct": 47.8,
-   "oRating": 95.3,
-   "dRating": 108.4
+   "oRating": 94.4,
+   "dRating": 107.2,
+   "possessions": 2312.4
   },
   "Pittsburgh": {
    "games": 32,
    "wins": 11,
    "losses": 21,
-   "pace": 63.6,
+   "pace": 64.2,
    "points": 1969,
    "oppPoints": 2178,
    "rebounds": 1083,
@@ -53358,14 +53583,15 @@
    "ftPct": 69.6,
    "oppFgPct": 44.1,
    "efgPct": 46.7,
-   "oRating": 96.7,
-   "dRating": 107
+   "oRating": 95.8,
+   "dRating": 106.0,
+   "possessions": 2054.8
   },
   "Portland": {
    "games": 34,
    "wins": 19,
    "losses": 15,
-   "pace": 70,
+   "pace": 71.9,
    "points": 2524,
    "oppPoints": 2454,
    "rebounds": 1233,
@@ -53380,14 +53606,15 @@
    "ftPct": 79.1,
    "oppFgPct": 42,
    "efgPct": 50.4,
-   "oRating": 105.9,
-   "dRating": 102.5
+   "oRating": 102.8,
+   "dRating": 100.0,
+   "possessions": 2455.2
   },
   "Portland State": {
    "games": 31,
    "wins": 14,
    "losses": 17,
-   "pace": 71.1,
+   "pace": 72.2,
    "points": 2280,
    "oppPoints": 2237,
    "rebounds": 1050,
@@ -53402,14 +53629,15 @@
    "ftPct": 74.2,
    "oppFgPct": 44.5,
    "efgPct": 48.1,
-   "oRating": 102.4,
-   "dRating": 100.9
+   "oRating": 101.1,
+   "dRating": 99.2,
+   "possessions": 2254.8
   },
   "Prairie View A&M": {
    "games": 27,
    "wins": 8,
    "losses": 19,
-   "pace": 63.7,
+   "pace": 71.8,
    "points": 1877,
    "oppPoints": 2061,
    "rebounds": 945,
@@ -53424,14 +53652,15 @@
    "ftPct": 70.3,
    "oppFgPct": 44.7,
    "efgPct": 48.4,
-   "oRating": 107.6,
-   "dRating": 118.4
+   "oRating": 95.5,
+   "dRating": 104.9,
+   "possessions": 1964.4
   },
   "Presbyterian": {
    "games": 32,
    "wins": 12,
    "losses": 20,
-   "pace": 65.7,
+   "pace": 66.5,
    "points": 2170,
    "oppPoints": 2174,
    "rebounds": 1140,
@@ -53446,14 +53675,15 @@
    "ftPct": 67.2,
    "oppFgPct": 44.9,
    "efgPct": 47,
-   "oRating": 99.7,
-   "dRating": 100
+   "oRating": 98.4,
+   "dRating": 98.6,
+   "possessions": 2204.2
   },
   "Princeton": {
    "games": 30,
    "wins": 23,
    "losses": 7,
-   "pace": 66.7,
+   "pace": 68.7,
    "points": 2395,
    "oppPoints": 2103,
    "rebounds": 1066,
@@ -53468,14 +53698,15 @@
    "ftPct": 63.9,
    "oppFgPct": 45.4,
    "efgPct": 57.5,
-   "oRating": 118.3,
-   "dRating": 103.8
+   "oRating": 114.7,
+   "dRating": 100.7,
+   "possessions": 2088.2
   },
   "Providence": {
    "games": 33,
    "wins": 27,
    "losses": 6,
-   "pace": 64.1,
+   "pace": 65.9,
    "points": 2360,
    "oppPoints": 2184,
    "rebounds": 1241,
@@ -53490,14 +53721,15 @@
    "ftPct": 72.8,
    "oppFgPct": 40.9,
    "efgPct": 50,
-   "oRating": 109.5,
-   "dRating": 101.3
+   "oRating": 106.4,
+   "dRating": 98.5,
+   "possessions": 2217.0
   },
   "Purdue": {
    "games": 37,
    "wins": 29,
    "losses": 8,
-   "pace": 66,
+   "pace": 66.7,
    "points": 2936,
    "oppPoints": 2532,
    "rebounds": 1431,
@@ -53512,14 +53744,15 @@
    "ftPct": 71.1,
    "oppFgPct": 42.4,
    "efgPct": 56.5,
-   "oRating": 119.2,
-   "dRating": 102.5
+   "oRating": 117.8,
+   "dRating": 101.6,
+   "possessions": 2492.0
   },
   "Purdue Fort Wayne": {
    "games": 33,
    "wins": 21,
    "losses": 12,
-   "pace": 68.5,
+   "pace": 69.4,
    "points": 2424,
    "oppPoints": 2298,
    "rebounds": 1019,
@@ -53534,14 +53767,15 @@
    "ftPct": 74.8,
    "oppFgPct": 45.6,
    "efgPct": 54,
-   "oRating": 105.3,
-   "dRating": 100.4
+   "oRating": 104.3,
+   "dRating": 98.9,
+   "possessions": 2324.7
   },
   "Quinnipiac": {
    "games": 31,
    "wins": 14,
    "losses": 17,
-   "pace": 68.4,
+   "pace": 69.3,
    "points": 2226,
    "oppPoints": 2216,
    "rebounds": 1096,
@@ -53556,14 +53790,15 @@
    "ftPct": 76.5,
    "oppFgPct": 43.4,
    "efgPct": 50.7,
-   "oRating": 104.9,
-   "dRating": 103.9
+   "oRating": 103.2,
+   "dRating": 102.7,
+   "possessions": 2157.2
   },
   "Radford": {
    "games": 29,
    "wins": 11,
    "losses": 18,
-   "pace": 64.4,
+   "pace": 65.4,
    "points": 1832,
    "oppPoints": 1955,
    "rebounds": 966,
@@ -53578,14 +53813,15 @@
    "ftPct": 66.9,
    "oppFgPct": 45.5,
    "efgPct": 47.7,
-   "oRating": 96.7,
-   "dRating": 103.3
+   "oRating": 95.3,
+   "dRating": 101.7,
+   "possessions": 1922.0
   },
   "Rhode Island": {
    "games": 31,
    "wins": 15,
    "losses": 16,
-   "pace": 67,
+   "pace": 68.1,
    "points": 2081,
    "oppPoints": 2015,
    "rebounds": 1124,
@@ -53600,14 +53836,15 @@
    "ftPct": 62,
    "oppFgPct": 39.2,
    "efgPct": 50.5,
-   "oRating": 100,
-   "dRating": 97.2
+   "oRating": 98.6,
+   "dRating": 95.4,
+   "possessions": 2111.2
   },
   "Rice": {
    "games": 33,
    "wins": 16,
    "losses": 17,
-   "pace": 66.1,
+   "pace": 68.4,
    "points": 2446,
    "oppPoints": 2421,
    "rebounds": 1174,
@@ -53622,14 +53859,15 @@
    "ftPct": 71.5,
    "oppFgPct": 44.8,
    "efgPct": 53.7,
-   "oRating": 110.3,
-   "dRating": 109.6
+   "oRating": 106.8,
+   "dRating": 105.7,
+   "possessions": 2291.2
   },
   "Richmond": {
    "games": 37,
    "wins": 24,
    "losses": 13,
-   "pace": 65.9,
+   "pace": 67.3,
    "points": 2628,
    "oppPoints": 2532,
    "rebounds": 1194,
@@ -53644,14 +53882,15 @@
    "ftPct": 71.8,
    "oppFgPct": 44.3,
    "efgPct": 51.1,
-   "oRating": 107.2,
-   "dRating": 103.1
+   "oRating": 104.8,
+   "dRating": 100.9,
+   "possessions": 2508.8
   },
   "Rider": {
    "games": 33,
    "wins": 14,
    "losses": 19,
-   "pace": 66.8,
+   "pace": 68.3,
    "points": 2237,
    "oppPoints": 2286,
    "rebounds": 1223,
@@ -53666,14 +53905,15 @@
    "ftPct": 73.6,
    "oppFgPct": 41.6,
    "efgPct": 46,
-   "oRating": 100.2,
-   "dRating": 102.6
+   "oRating": 98.2,
+   "dRating": 100.3,
+   "possessions": 2278.6
   },
   "Robert Morris": {
    "games": 32,
    "wins": 8,
    "losses": 24,
-   "pace": 66.4,
+   "pace": 67.7,
    "points": 2220,
    "oppPoints": 2390,
    "rebounds": 1043,
@@ -53688,14 +53928,15 @@
    "ftPct": 75.9,
    "oppFgPct": 45.9,
    "efgPct": 51.7,
-   "oRating": 103.8,
-   "dRating": 111.6
+   "oRating": 101.7,
+   "dRating": 109.5,
+   "possessions": 2182.2
   },
   "Rutgers": {
    "games": 32,
    "wins": 18,
    "losses": 14,
-   "pace": 64.8,
+   "pace": 65.5,
    "points": 2192,
    "oppPoints": 2129,
    "rebounds": 1140,
@@ -53710,14 +53951,15 @@
    "ftPct": 70,
    "oppFgPct": 41.8,
    "efgPct": 49.9,
-   "oRating": 103.9,
-   "dRating": 101.2
+   "oRating": 102.9,
+   "dRating": 99.9,
+   "possessions": 2130.2
   },
   "SE Louisiana": {
    "games": 34,
    "wins": 19,
    "losses": 15,
-   "pace": 72.4,
+   "pace": 73.4,
    "points": 2679,
    "oppPoints": 2643,
    "rebounds": 1120,
@@ -53732,14 +53974,15 @@
    "ftPct": 75.8,
    "oppFgPct": 46.6,
    "efgPct": 53.6,
-   "oRating": 108.7,
-   "dRating": 106.7
+   "oRating": 107.0,
+   "dRating": 105.5,
+   "possessions": 2504.8
   },
   "SIU Edwardsville": {
    "games": 32,
    "wins": 11,
    "losses": 21,
-   "pace": 66.2,
+   "pace": 69.0,
    "points": 2161,
    "oppPoints": 2238,
    "rebounds": 1231,
@@ -53754,14 +53997,15 @@
    "ftPct": 69.1,
    "oppFgPct": 41.3,
    "efgPct": 46.9,
-   "oRating": 100.9,
-   "dRating": 104.4
+   "oRating": 96.8,
+   "dRating": 100.2,
+   "possessions": 2232.9
   },
   "SMU": {
    "games": 33,
    "wins": 24,
    "losses": 9,
-   "pace": 66,
+   "pace": 69.4,
    "points": 2436,
    "oppPoints": 2215,
    "rebounds": 1246,
@@ -53776,14 +54020,15 @@
    "ftPct": 75,
    "oppFgPct": 39.5,
    "efgPct": 51.5,
-   "oRating": 111.5,
-   "dRating": 101.3
+   "oRating": 105.9,
+   "dRating": 96.3,
+   "possessions": 2300.1
   },
   "Sacramento State": {
    "games": 29,
    "wins": 11,
    "losses": 18,
-   "pace": 65.5,
+   "pace": 66.4,
    "points": 1898,
    "oppPoints": 2035,
    "rebounds": 903,
@@ -53798,14 +54043,15 @@
    "ftPct": 67.8,
    "oppFgPct": 45.6,
    "efgPct": 49.2,
-   "oRating": 99.7,
-   "dRating": 106.4
+   "oRating": 98.1,
+   "dRating": 105.2,
+   "possessions": 1934.2
   },
   "Sacred Heart": {
    "games": 30,
    "wins": 10,
    "losses": 20,
-   "pace": 68.4,
+   "pace": 69.3,
    "points": 2180,
    "oppPoints": 2254,
    "rebounds": 1086,
@@ -53820,14 +54066,15 @@
    "ftPct": 72.5,
    "oppFgPct": 45.8,
    "efgPct": 51.2,
-   "oRating": 105.2,
-   "dRating": 109.1
+   "oRating": 104.0,
+   "dRating": 107.6,
+   "possessions": 2095.6
   },
   "Saint Joseph's": {
    "games": 30,
    "wins": 11,
    "losses": 19,
-   "pace": 67.9,
+   "pace": 68.5,
    "points": 2028,
    "oppPoints": 2072,
    "rebounds": 1128,
@@ -53842,14 +54089,15 @@
    "ftPct": 65.4,
    "oppFgPct": 42.7,
    "efgPct": 49.7,
-   "oRating": 98.6,
-   "dRating": 101.1
+   "oRating": 97.9,
+   "dRating": 100.0,
+   "possessions": 2071.6
   },
   "Saint Louis": {
    "games": 35,
    "wins": 23,
    "losses": 12,
-   "pace": 67.6,
+   "pace": 69.0,
    "points": 2666,
    "oppPoints": 2376,
    "rebounds": 1351,
@@ -53864,14 +54112,15 @@
    "ftPct": 76.3,
    "oppFgPct": 42.2,
    "efgPct": 51.5,
-   "oRating": 111.1,
-   "dRating": 99.5
+   "oRating": 109.2,
+   "dRating": 97.3,
+   "possessions": 2441.6
   },
   "Saint Mary's": {
    "games": 34,
    "wins": 26,
    "losses": 8,
-   "pace": 62.5,
+   "pace": 65.4,
    "points": 2370,
    "oppPoints": 2061,
    "rebounds": 1146,
@@ -53886,14 +54135,15 @@
    "ftPct": 75.8,
    "oppFgPct": 42.7,
    "efgPct": 52.8,
-   "oRating": 111.8,
-   "dRating": 96.8
+   "oRating": 106.5,
+   "dRating": 92.6,
+   "possessions": 2225.1
   },
   "Saint Peter's": {
    "games": 34,
    "wins": 22,
    "losses": 12,
-   "pace": 65.6,
+   "pace": 66.6,
    "points": 2277,
    "oppPoints": 2125,
    "rebounds": 1218,
@@ -53908,14 +54158,15 @@
    "ftPct": 70.1,
    "oppFgPct": 38.6,
    "efgPct": 48,
-   "oRating": 101.4,
-   "dRating": 94.6
+   "oRating": 99.8,
+   "dRating": 93.1,
+   "possessions": 2282.6
   },
   "Sam Houston": {
    "games": 33,
    "wins": 19,
    "losses": 14,
-   "pace": 66.7,
+   "pace": 67.4,
    "points": 2272,
    "oppPoints": 2082,
    "rebounds": 1234,
@@ -53930,14 +54181,15 @@
    "ftPct": 60.5,
    "oppFgPct": 40.8,
    "efgPct": 49.9,
-   "oRating": 102.4,
-   "dRating": 94.6
+   "oRating": 101.7,
+   "dRating": 93.2,
+   "possessions": 2233.5
   },
   "Samford": {
    "games": 32,
    "wins": 21,
    "losses": 11,
-   "pace": 67.4,
+   "pace": 70.6,
    "points": 2390,
    "oppPoints": 2363,
    "rebounds": 1139,
@@ -53952,14 +54204,15 @@
    "ftPct": 73,
    "oppFgPct": 44.1,
    "efgPct": 51.8,
-   "oRating": 109.9,
-   "dRating": 108.9
+   "oRating": 105.0,
+   "dRating": 103.8,
+   "possessions": 2275.4
   },
   "San Diego State": {
    "games": 32,
    "wins": 23,
    "losses": 9,
-   "pace": 64,
+   "pace": 65.3,
    "points": 2093,
    "oppPoints": 1860,
    "rebounds": 1121,
@@ -53974,14 +54227,15 @@
    "ftPct": 69.2,
    "oppFgPct": 38.4,
    "efgPct": 48.7,
-   "oRating": 101.2,
-   "dRating": 89.7
+   "oRating": 99.0,
+   "dRating": 88.0,
+   "possessions": 2114.1
   },
   "San Diego": {
    "games": 31,
    "wins": 15,
    "losses": 16,
-   "pace": 62,
+   "pace": 67.4,
    "points": 2041,
    "oppPoints": 2086,
    "rebounds": 1112,
@@ -53996,14 +54250,15 @@
    "ftPct": 71.5,
    "oppFgPct": 43.7,
    "efgPct": 47.6,
-   "oRating": 105.4,
-   "dRating": 107.7
+   "oRating": 96.8,
+   "dRating": 99.0,
+   "possessions": 2107.4
   },
   "San Francisco": {
    "games": 34,
    "wins": 24,
    "losses": 10,
-   "pace": 68.1,
+   "pace": 70.8,
    "points": 2630,
    "oppPoints": 2304,
    "rebounds": 1288,
@@ -54018,14 +54273,15 @@
    "ftPct": 69.4,
    "oppFgPct": 42.6,
    "efgPct": 53.7,
-   "oRating": 113,
-   "dRating": 99.2
+   "oRating": 108.8,
+   "dRating": 95.3,
+   "possessions": 2416.7
   },
   "San Jos\u00e9 State": {
    "games": 31,
    "wins": 8,
    "losses": 23,
-   "pace": 65.3,
+   "pace": 66.3,
    "points": 1993,
    "oppPoints": 2242,
    "rebounds": 965,
@@ -54040,14 +54296,15 @@
    "ftPct": 65.8,
    "oppFgPct": 46.6,
    "efgPct": 50.7,
-   "oRating": 98,
-   "dRating": 110.3
+   "oRating": 96.6,
+   "dRating": 108.7,
+   "possessions": 2062.9
   },
   "Santa Clara": {
    "games": 33,
    "wins": 21,
    "losses": 12,
-   "pace": 63.5,
+   "pace": 71.2,
    "points": 2550,
    "oppPoints": 2373,
    "rebounds": 1172,
@@ -54062,14 +54319,15 @@
    "ftPct": 76.2,
    "oppFgPct": 42.8,
    "efgPct": 54.5,
-   "oRating": 121.4,
-   "dRating": 112.5
+   "oRating": 108.1,
+   "dRating": 100.6,
+   "possessions": 2358.7
   },
   "Seattle U": {
    "games": 32,
    "wins": 23,
    "losses": 9,
-   "pace": 70.7,
+   "pace": 71.8,
    "points": 2395,
    "oppPoints": 2132,
    "rebounds": 1203,
@@ -54084,14 +54342,15 @@
    "ftPct": 76.6,
    "oppFgPct": 40.3,
    "efgPct": 49.4,
-   "oRating": 105.7,
-   "dRating": 93.8
+   "oRating": 103.8,
+   "dRating": 92.4,
+   "possessions": 2307.3
   },
   "Seton Hall": {
    "games": 32,
    "wins": 21,
    "losses": 11,
-   "pace": 67.6,
+   "pace": 68.6,
    "points": 2302,
    "oppPoints": 2125,
    "rebounds": 1233,
@@ -54106,14 +54365,15 @@
    "ftPct": 75.3,
    "oppFgPct": 40.2,
    "efgPct": 48.1,
-   "oRating": 106.1,
-   "dRating": 97.8
+   "oRating": 104.4,
+   "dRating": 96.4,
+   "possessions": 2205.1
   },
   "Siena": {
    "games": 29,
    "wins": 15,
    "losses": 14,
-   "pace": 65.2,
+   "pace": 67.2,
    "points": 1922,
    "oppPoints": 2006,
    "rebounds": 955,
@@ -54128,14 +54388,15 @@
    "ftPct": 73.3,
    "oppFgPct": 44.1,
    "efgPct": 48.7,
-   "oRating": 100.5,
-   "dRating": 104.7
+   "oRating": 97.4,
+   "dRating": 101.6,
+   "possessions": 1974.0
   },
   "South Alabama": {
    "games": 33,
    "wins": 21,
    "losses": 12,
-   "pace": 65.1,
+   "pace": 67.5,
    "points": 2362,
    "oppPoints": 2111,
    "rebounds": 1137,
@@ -54150,14 +54411,15 @@
    "ftPct": 69.2,
    "oppFgPct": 40.5,
    "efgPct": 51.9,
-   "oRating": 108.9,
-   "dRating": 97.7
+   "oRating": 105.2,
+   "dRating": 94.0,
+   "possessions": 2244.7
   },
   "South Carolina": {
    "games": 31,
    "wins": 18,
    "losses": 13,
-   "pace": 71.1,
+   "pace": 72.1,
    "points": 2200,
    "oppPoints": 2178,
    "rebounds": 1187,
@@ -54172,14 +54434,15 @@
    "ftPct": 67.1,
    "oppFgPct": 41.2,
    "efgPct": 47.9,
-   "oRating": 99.4,
-   "dRating": 98.5
+   "oRating": 98.0,
+   "dRating": 97.1,
+   "possessions": 2244.2
   },
   "South Carolina State": {
    "games": 31,
    "wins": 15,
    "losses": 16,
-   "pace": 37.2,
+   "pace": 74.0,
    "points": 2227,
    "oppPoints": 2249,
    "rebounds": 1296,
@@ -54194,14 +54457,15 @@
    "ftPct": 68.9,
    "oppFgPct": 42.2,
    "efgPct": 44.1,
-   "oRating": 190.7,
-   "dRating": 192.4
+   "oRating": 95.9,
+   "dRating": 96.9,
+   "possessions": 2321.1
   },
   "South Carolina Upstate": {
    "games": 32,
    "wins": 15,
    "losses": 17,
-   "pace": 65.7,
+   "pace": 69.3,
    "points": 2287,
    "oppPoints": 2341,
    "rebounds": 1041,
@@ -54216,14 +54480,15 @@
    "ftPct": 75.6,
    "oppFgPct": 43.9,
    "efgPct": 51.8,
-   "oRating": 108,
-   "dRating": 110.3
+   "oRating": 102.3,
+   "dRating": 104.7,
+   "possessions": 2236.2
   },
   "South Dakota": {
    "games": 31,
    "wins": 19,
    "losses": 12,
-   "pace": 65.2,
+   "pace": 67.3,
    "points": 2329,
    "oppPoints": 2198,
    "rebounds": 1065,
@@ -54238,14 +54503,15 @@
    "ftPct": 75,
    "oppFgPct": 45.3,
    "efgPct": 52.8,
-   "oRating": 114.6,
-   "dRating": 107.8
+   "oRating": 110.7,
+   "dRating": 104.5,
+   "possessions": 2103.3
   },
   "South Dakota State": {
    "games": 35,
    "wins": 30,
    "losses": 5,
-   "pace": 70,
+   "pace": 71.6,
    "points": 3005,
    "oppPoints": 2561,
    "rebounds": 1241,
@@ -54260,14 +54526,15 @@
    "ftPct": 75.8,
    "oppFgPct": 43.7,
    "efgPct": 60,
-   "oRating": 122,
-   "dRating": 104.2
+   "oRating": 119.6,
+   "dRating": 101.9,
+   "possessions": 2513.2
   },
   "South Florida": {
    "games": 31,
    "wins": 8,
    "losses": 23,
-   "pace": 64.8,
+   "pace": 65.8,
    "points": 1781,
    "oppPoints": 2012,
    "rebounds": 1114,
@@ -54282,14 +54549,15 @@
    "ftPct": 66.6,
    "oppFgPct": 41.3,
    "efgPct": 41.3,
-   "oRating": 88.3,
-   "dRating": 100.7
+   "oRating": 87.3,
+   "dRating": 98.6,
+   "possessions": 2040.6
   },
   "Southeast Missouri State": {
    "games": 32,
    "wins": 14,
    "losses": 18,
-   "pace": 68.3,
+   "pace": 72.5,
    "points": 2418,
    "oppPoints": 2473,
    "rebounds": 1062,
@@ -54304,14 +54572,15 @@
    "ftPct": 73.2,
    "oppFgPct": 45.3,
    "efgPct": 51.2,
-   "oRating": 110.2,
-   "dRating": 112.7
+   "oRating": 103.8,
+   "dRating": 106.2,
+   "possessions": 2329.2
   },
   "Southern Illinois": {
    "games": 31,
    "wins": 16,
    "losses": 15,
-   "pace": 57.5,
+   "pace": 62.9,
    "points": 1985,
    "oppPoints": 1902,
    "rebounds": 943,
@@ -54326,14 +54595,15 @@
    "ftPct": 69,
    "oppFgPct": 44.3,
    "efgPct": 52,
-   "oRating": 111.3,
-   "dRating": 106.6
+   "oRating": 101.9,
+   "dRating": 97.6,
+   "possessions": 1948.5
   },
   "Southern": {
    "games": 31,
    "wins": 17,
    "losses": 14,
-   "pace": 68.8,
+   "pace": 72.1,
    "points": 2229,
    "oppPoints": 2105,
    "rebounds": 976,
@@ -54348,14 +54618,15 @@
    "ftPct": 69.6,
    "oppFgPct": 44.3,
    "efgPct": 50,
-   "oRating": 104,
-   "dRating": 98.5
+   "oRating": 99.3,
+   "dRating": 93.8,
+   "possessions": 2244.7
   },
   "Southern Miss": {
    "games": 33,
    "wins": 7,
    "losses": 26,
-   "pace": 65.3,
+   "pace": 68.2,
    "points": 2126,
    "oppPoints": 2471,
    "rebounds": 1107,
@@ -54370,14 +54641,15 @@
    "ftPct": 68.8,
    "oppFgPct": 45.4,
    "efgPct": 47.7,
-   "oRating": 97.7,
-   "dRating": 114
+   "oRating": 93.7,
+   "dRating": 108.9,
+   "possessions": 2268.2
   },
   "Southern Utah": {
    "games": 35,
    "wins": 23,
    "losses": 12,
-   "pace": 67.5,
+   "pace": 70.7,
    "points": 2720,
    "oppPoints": 2538,
    "rebounds": 1316,
@@ -54392,14 +54664,15 @@
    "ftPct": 71.4,
    "oppFgPct": 44,
    "efgPct": 53.1,
-   "oRating": 113.4,
-   "dRating": 106
+   "oRating": 108.4,
+   "dRating": 101.2,
+   "possessions": 2508.4
   },
   "St. Bonaventure": {
    "games": 33,
    "wins": 23,
    "losses": 10,
-   "pace": 65.1,
+   "pace": 66.2,
    "points": 2309,
    "oppPoints": 2194,
    "rebounds": 1109,
@@ -54414,14 +54687,15 @@
    "ftPct": 75.1,
    "oppFgPct": 42.8,
    "efgPct": 50.5,
-   "oRating": 107.3,
-   "dRating": 101.7
+   "oRating": 105.2,
+   "dRating": 100.0,
+   "possessions": 2194.3
   },
   "St. Francis (PA)": {
    "games": 30,
    "wins": 9,
    "losses": 21,
-   "pace": 68.2,
+   "pace": 68.8,
    "points": 2058,
    "oppPoints": 2205,
    "rebounds": 1099,
@@ -54436,14 +54710,15 @@
    "ftPct": 64.8,
    "oppFgPct": 44.9,
    "efgPct": 47.2,
-   "oRating": 99.4,
-   "dRating": 106.5
+   "oRating": 98.5,
+   "dRating": 105.6,
+   "possessions": 2089.0
   },
   "St. John's": {
    "games": 32,
    "wins": 17,
    "losses": 15,
-   "pace": 73.3,
+   "pace": 74.2,
    "points": 2547,
    "oppPoints": 2373,
    "rebounds": 1211,
@@ -54458,14 +54733,15 @@
    "ftPct": 67.7,
    "oppFgPct": 42.4,
    "efgPct": 50.8,
-   "oRating": 107.5,
-   "dRating": 100.6
+   "oRating": 106.4,
+   "dRating": 99.2,
+   "possessions": 2393.2
   },
   "St. Thomas-Minnesota": {
    "games": 30,
    "wins": 10,
    "losses": 20,
-   "pace": 64.1,
+   "pace": 67.3,
    "points": 2241,
    "oppPoints": 2260,
    "rebounds": 887,
@@ -54480,14 +54756,15 @@
    "ftPct": 75.8,
    "oppFgPct": 49,
    "efgPct": 53.3,
-   "oRating": 116.3,
-   "dRating": 118
+   "oRating": 110.9,
+   "dRating": 111.9,
+   "possessions": 2020.0
   },
   "Stanford": {
    "games": 32,
    "wins": 16,
    "losses": 16,
-   "pace": 65.7,
+   "pace": 66.8,
    "points": 2124,
    "oppPoints": 2198,
    "rebounds": 1181,
@@ -54502,14 +54779,15 @@
    "ftPct": 65.9,
    "oppFgPct": 45,
    "efgPct": 49.8,
-   "oRating": 100.5,
-   "dRating": 104.2
+   "oRating": 99.0,
+   "dRating": 102.4,
+   "possessions": 2146.4
   },
   "Stephen F. Austin": {
    "games": 32,
    "wins": 22,
    "losses": 10,
-   "pace": 70.8,
+   "pace": 71.6,
    "points": 2385,
    "oppPoints": 2190,
    "rebounds": 1133,
@@ -54524,14 +54802,15 @@
    "ftPct": 67.8,
    "oppFgPct": 42.9,
    "efgPct": 52.5,
-   "oRating": 104.9,
-   "dRating": 96.2
+   "oRating": 103.7,
+   "dRating": 95.2,
+   "possessions": 2299.5
   },
   "Stetson": {
    "games": 30,
    "wins": 11,
    "losses": 19,
-   "pace": 66,
+   "pace": 67.5,
    "points": 2090,
    "oppPoints": 2144,
    "rebounds": 1068,
@@ -54546,14 +54825,15 @@
    "ftPct": 69,
    "oppFgPct": 45,
    "efgPct": 50.2,
-   "oRating": 103.5,
-   "dRating": 107
+   "oRating": 101.6,
+   "dRating": 104.2,
+   "possessions": 2057.9
   },
   "Stony Brook": {
    "games": 31,
    "wins": 18,
    "losses": 13,
-   "pace": 67.4,
+   "pace": 68.5,
    "points": 2261,
    "oppPoints": 2267,
    "rebounds": 1078,
@@ -54568,14 +54848,15 @@
    "ftPct": 75.2,
    "oppFgPct": 45.5,
    "efgPct": 50.6,
-   "oRating": 108,
-   "dRating": 107.9
+   "oRating": 106.0,
+   "dRating": 106.3,
+   "possessions": 2132.0
   },
   "Syracuse": {
    "games": 33,
    "wins": 16,
    "losses": 17,
-   "pace": 67.9,
+   "pace": 68.5,
    "points": 2553,
    "oppPoints": 2477,
    "rebounds": 1198,
@@ -54590,14 +54871,15 @@
    "ftPct": 73.7,
    "oppFgPct": 42.6,
    "efgPct": 52.5,
-   "oRating": 111.7,
-   "dRating": 108.6
+   "oRating": 110.9,
+   "dRating": 107.6,
+   "possessions": 2302.7
   },
   "TCU": {
    "games": 34,
    "wins": 21,
    "losses": 13,
-   "pace": 66,
+   "pace": 67.2,
    "points": 2328,
    "oppPoints": 2207,
    "rebounds": 1328,
@@ -54612,14 +54894,15 @@
    "ftPct": 67.4,
    "oppFgPct": 42,
    "efgPct": 48.7,
-   "oRating": 103.2,
-   "dRating": 97.5
+   "oRating": 101.1,
+   "dRating": 95.9,
+   "possessions": 2302.5
   },
   "Tarleton State": {
    "games": 31,
    "wins": 14,
    "losses": 17,
-   "pace": 64.8,
+   "pace": 65.7,
    "points": 2002,
    "oppPoints": 2025,
    "rebounds": 946,
@@ -54634,14 +54917,15 @@
    "ftPct": 75.4,
    "oppFgPct": 44.5,
    "efgPct": 46.5,
-   "oRating": 99.3,
-   "dRating": 100.3
+   "oRating": 97.9,
+   "dRating": 99.1,
+   "possessions": 2044.3
   },
   "Temple": {
    "games": 29,
    "wins": 17,
    "losses": 12,
-   "pace": 66.1,
+   "pace": 67.1,
    "points": 1936,
    "oppPoints": 1927,
    "rebounds": 1124,
@@ -54656,14 +54940,15 @@
    "ftPct": 67.9,
    "oppFgPct": 40.1,
    "efgPct": 45.4,
-   "oRating": 100.3,
-   "dRating": 99.7
+   "oRating": 98.6,
+   "dRating": 98.2,
+   "possessions": 1963.2
   },
   "Tennessee State": {
    "games": 32,
    "wins": 14,
    "losses": 18,
-   "pace": 66.4,
+   "pace": 69.8,
    "points": 2282,
    "oppPoints": 2246,
    "rebounds": 1119,
@@ -54678,14 +54963,15 @@
    "ftPct": 71.5,
    "oppFgPct": 43.4,
    "efgPct": 50.3,
-   "oRating": 106.9,
-   "dRating": 105.3
+   "oRating": 101.8,
+   "dRating": 100.2,
+   "possessions": 2241.7
   },
   "Tennessee Tech": {
    "games": 32,
    "wins": 11,
    "losses": 21,
-   "pace": 67.6,
+   "pace": 70.6,
    "points": 2328,
    "oppPoints": 2357,
    "rebounds": 1187,
@@ -54700,14 +54986,15 @@
    "ftPct": 66.1,
    "oppFgPct": 44.4,
    "efgPct": 50.5,
-   "oRating": 106.6,
-   "dRating": 108.2
+   "oRating": 102.3,
+   "dRating": 103.6,
+   "possessions": 2276.2
   },
   "Tennessee": {
    "games": 35,
    "wins": 27,
    "losses": 8,
-   "pace": 67.9,
+   "pace": 68.7,
    "points": 2571,
    "oppPoints": 2203,
    "rebounds": 1291,
@@ -54722,14 +55009,15 @@
    "ftPct": 71.5,
    "oppFgPct": 40.3,
    "efgPct": 50.6,
-   "oRating": 107.5,
-   "dRating": 92
+   "oRating": 106.2,
+   "dRating": 91.0,
+   "possessions": 2420.3
   },
   "Texas A&M": {
    "games": 40,
    "wins": 27,
    "losses": 13,
-   "pace": 68.3,
+   "pace": 68.6,
    "points": 2908,
    "oppPoints": 2643,
    "rebounds": 1420,
@@ -54744,14 +55032,15 @@
    "ftPct": 70.3,
    "oppFgPct": 41.4,
    "efgPct": 49.9,
-   "oRating": 105.4,
-   "dRating": 95.3
+   "oRating": 104.7,
+   "dRating": 95.2,
+   "possessions": 2777.6
   },
   "Texas A&M-Corpus Christi": {
    "games": 35,
    "wins": 23,
    "losses": 12,
-   "pace": 70.1,
+   "pace": 72.3,
    "points": 2682,
    "oppPoints": 2454,
    "rebounds": 1341,
@@ -54766,14 +55055,15 @@
    "ftPct": 73.7,
    "oppFgPct": 41.7,
    "efgPct": 49.5,
-   "oRating": 108.9,
-   "dRating": 99.8
+   "oRating": 105.5,
+   "dRating": 96.6,
+   "possessions": 2541.2
   },
   "Texas": {
    "games": 34,
    "wins": 22,
    "losses": 12,
-   "pace": 63.2,
+   "pace": 64.4,
    "points": 2339,
    "oppPoints": 2062,
    "rebounds": 1131,
@@ -54788,14 +55078,15 @@
    "ftPct": 74.6,
    "oppFgPct": 41.7,
    "efgPct": 50.1,
-   "oRating": 108,
-   "dRating": 95.3
+   "oRating": 106.0,
+   "dRating": 93.4,
+   "possessions": 2206.9
   },
   "Texas Southern": {
    "games": 32,
    "wins": 19,
    "losses": 13,
-   "pace": 68.7,
+   "pace": 69.7,
    "points": 2209,
    "oppPoints": 2115,
    "rebounds": 1263,
@@ -54810,14 +55101,15 @@
    "ftPct": 67.9,
    "oppFgPct": 39.9,
    "efgPct": 48.1,
-   "oRating": 99.8,
-   "dRating": 96.2
+   "oRating": 98.6,
+   "dRating": 94.4,
+   "possessions": 2240.4
   },
   "Texas State": {
    "games": 29,
    "wins": 21,
    "losses": 8,
-   "pace": 64.7,
+   "pace": 65.6,
    "points": 2043,
    "oppPoints": 1834,
    "rebounds": 973,
@@ -54832,14 +55124,15 @@
    "ftPct": 75.2,
    "oppFgPct": 42.1,
    "efgPct": 52,
-   "oRating": 108.6,
-   "dRating": 97.2
+   "oRating": 107.0,
+   "dRating": 96.1,
+   "possessions": 1909.2
   },
   "Texas Tech": {
    "games": 37,
    "wins": 27,
    "losses": 10,
-   "pace": 66.4,
+   "pace": 67.3,
    "points": 2667,
    "oppPoints": 2244,
    "rebounds": 1348,
@@ -54854,14 +55147,15 @@
    "ftPct": 69.8,
    "oppFgPct": 38.6,
    "efgPct": 52.6,
-   "oRating": 108,
-   "dRating": 90
+   "oRating": 106.0,
+   "dRating": 89.2,
+   "possessions": 2516.6
   },
   "The Citadel": {
    "games": 31,
    "wins": 13,
    "losses": 18,
-   "pace": 65.7,
+   "pace": 71.0,
    "points": 2381,
    "oppPoints": 2382,
    "rebounds": 1157,
@@ -54876,14 +55170,15 @@
    "ftPct": 67.2,
    "oppFgPct": 43.1,
    "efgPct": 53.3,
-   "oRating": 114.9,
-   "dRating": 114.3
+   "oRating": 106.1,
+   "dRating": 106.1,
+   "possessions": 2244.6
   },
   "Toledo": {
    "games": 34,
    "wins": 26,
    "losses": 8,
-   "pace": 69.2,
+   "pace": 70.2,
    "points": 2717,
    "oppPoints": 2334,
    "rebounds": 1357,
@@ -54898,14 +55193,15 @@
    "ftPct": 75.4,
    "oppFgPct": 40.4,
    "efgPct": 53.5,
-   "oRating": 115.7,
-   "dRating": 99.1
+   "oRating": 113.8,
+   "dRating": 97.7,
+   "possessions": 2388.0
   },
   "Towson": {
    "games": 34,
    "wins": 25,
    "losses": 9,
-   "pace": 64.6,
+   "pace": 66.1,
    "points": 2478,
    "oppPoints": 2185,
    "rebounds": 1241,
@@ -54920,14 +55216,15 @@
    "ftPct": 71.9,
    "oppFgPct": 41.4,
    "efgPct": 51.6,
-   "oRating": 112.8,
-   "dRating": 98.9
+   "oRating": 109.9,
+   "dRating": 96.9,
+   "possessions": 2254.2
   },
   "Troy": {
    "games": 32,
    "wins": 20,
    "losses": 12,
-   "pace": 63.8,
+   "pace": 68.5,
    "points": 2214,
    "oppPoints": 2100,
    "rebounds": 1188,
@@ -54942,14 +55239,15 @@
    "ftPct": 72.7,
    "oppFgPct": 41.4,
    "efgPct": 49.1,
-   "oRating": 106.5,
-   "dRating": 101.6
+   "oRating": 99.4,
+   "dRating": 94.3,
+   "possessions": 2227.8
   },
   "Tulane": {
    "games": 29,
    "wins": 14,
    "losses": 15,
-   "pace": 66,
+   "pace": 69.3,
    "points": 2121,
    "oppPoints": 2080,
    "rebounds": 917,
@@ -54964,14 +55262,15 @@
    "ftPct": 75.6,
    "oppFgPct": 41.9,
    "efgPct": 51.2,
-   "oRating": 109.4,
-   "dRating": 107.2
+   "oRating": 104.2,
+   "dRating": 102.2,
+   "possessions": 2035.4
   },
   "Tulsa": {
    "games": 31,
    "wins": 11,
    "losses": 20,
-   "pace": 66.2,
+   "pace": 67.3,
    "points": 2089,
    "oppPoints": 2167,
    "rebounds": 1011,
@@ -54986,14 +55285,15 @@
    "ftPct": 72.6,
    "oppFgPct": 44.1,
    "efgPct": 49.6,
-   "oRating": 101.7,
-   "dRating": 105.7
+   "oRating": 100.1,
+   "dRating": 103.8,
+   "possessions": 2087.0
   },
   "UAB": {
    "games": 35,
    "wins": 27,
    "losses": 8,
-   "pace": 69.2,
+   "pace": 70.5,
    "points": 2811,
    "oppPoints": 2336,
    "rebounds": 1338,
@@ -55008,14 +55308,15 @@
    "ftPct": 73.9,
    "oppFgPct": 41.5,
    "efgPct": 53,
-   "oRating": 115.2,
-   "dRating": 95.2
+   "oRating": 112.7,
+   "dRating": 93.6,
+   "possessions": 2495.3
   },
   "UAlbany": {
    "games": 31,
    "wins": 13,
    "losses": 18,
-   "pace": 62.5,
+   "pace": 65.8,
    "points": 1917,
    "oppPoints": 2042,
    "rebounds": 992,
@@ -55030,14 +55331,15 @@
    "ftPct": 70.3,
    "oppFgPct": 43.9,
    "efgPct": 46.2,
-   "oRating": 98.6,
-   "dRating": 105
+   "oRating": 93.6,
+   "dRating": 99.7,
+   "possessions": 2048.1
   },
   "UC Davis": {
    "games": 24,
    "wins": 13,
    "losses": 11,
-   "pace": 66.8,
+   "pace": 67.9,
    "points": 1628,
    "oppPoints": 1593,
    "rebounds": 823,
@@ -55052,14 +55354,15 @@
    "ftPct": 70.5,
    "oppFgPct": 41.4,
    "efgPct": 49.3,
-   "oRating": 101,
-   "dRating": 98.9
+   "oRating": 99.4,
+   "dRating": 97.3,
+   "possessions": 1637.1
   },
   "UC Irvine": {
    "games": 25,
    "wins": 15,
    "losses": 10,
-   "pace": 64,
+   "pace": 66.0,
    "points": 1656,
    "oppPoints": 1507,
    "rebounds": 908,
@@ -55074,14 +55377,15 @@
    "ftPct": 76.5,
    "oppFgPct": 39,
    "efgPct": 48.8,
-   "oRating": 103.3,
-   "dRating": 94.4
+   "oRating": 100.4,
+   "dRating": 91.4,
+   "possessions": 1649.4
   },
   "UC Riverside": {
    "games": 28,
    "wins": 16,
    "losses": 12,
-   "pace": 64.8,
+   "pace": 66.1,
    "points": 1865,
    "oppPoints": 1784,
    "rebounds": 995,
@@ -55096,14 +55400,15 @@
    "ftPct": 72,
    "oppFgPct": 41.7,
    "efgPct": 50.7,
-   "oRating": 101.6,
-   "dRating": 96.9
+   "oRating": 99.5,
+   "dRating": 95.2,
+   "possessions": 1874.6
   },
   "UC San Diego": {
    "games": 29,
    "wins": 13,
    "losses": 16,
-   "pace": 67.5,
+   "pace": 68.5,
    "points": 2036,
    "oppPoints": 2046,
    "rebounds": 886,
@@ -55118,14 +55423,15 @@
    "ftPct": 74.8,
    "oppFgPct": 46.3,
    "efgPct": 52.8,
-   "oRating": 103.7,
-   "dRating": 104.1
+   "oRating": 102.1,
+   "dRating": 102.6,
+   "possessions": 1994.3
   },
   "UC Santa Barbara": {
    "games": 28,
    "wins": 17,
    "losses": 11,
-   "pace": 65.6,
+   "pace": 66.8,
    "points": 2066,
    "oppPoints": 1841,
    "rebounds": 977,
@@ -55140,14 +55446,15 @@
    "ftPct": 70.8,
    "oppFgPct": 42,
    "efgPct": 54.4,
-   "oRating": 110.4,
-   "dRating": 97.8
+   "oRating": 108.0,
+   "dRating": 96.2,
+   "possessions": 1912.8
   },
   "UCF": {
    "games": 30,
    "wins": 18,
    "losses": 12,
-   "pace": 67.4,
+   "pace": 68.1,
    "points": 2095,
    "oppPoints": 2047,
    "rebounds": 1057,
@@ -55162,14 +55469,15 @@
    "ftPct": 70.3,
    "oppFgPct": 42.3,
    "efgPct": 49.9,
-   "oRating": 103.2,
-   "dRating": 100.9
+   "oRating": 102.2,
+   "dRating": 99.8,
+   "possessions": 2050.1
   },
   "UCLA": {
    "games": 35,
    "wins": 27,
    "losses": 8,
-   "pace": 66,
+   "pace": 66.5,
    "points": 2639,
    "oppPoints": 2256,
    "rebounds": 1281,
@@ -55184,14 +55492,15 @@
    "ftPct": 74.1,
    "oppFgPct": 41.5,
    "efgPct": 50.5,
-   "oRating": 112.3,
-   "dRating": 96
+   "oRating": 111.4,
+   "dRating": 95.3,
+   "possessions": 2368.5
   },
   "UConn": {
    "games": 33,
    "wins": 23,
    "losses": 10,
-   "pace": 63.9,
+   "pace": 66.8,
    "points": 2469,
    "oppPoints": 2155,
    "rebounds": 1333,
@@ -55206,14 +55515,15 @@
    "ftPct": 75.3,
    "oppFgPct": 40.3,
    "efgPct": 49.6,
-   "oRating": 114.8,
-   "dRating": 100.2
+   "oRating": 109.9,
+   "dRating": 95.9,
+   "possessions": 2247.5
   },
   "UIC": {
    "games": 30,
    "wins": 14,
    "losses": 16,
-   "pace": 66.2,
+   "pace": 69.4,
    "points": 2159,
    "oppPoints": 2188,
    "rebounds": 1002,
@@ -55228,14 +55538,15 @@
    "ftPct": 70.5,
    "oppFgPct": 45.9,
    "efgPct": 51.4,
-   "oRating": 107.3,
-   "dRating": 108.9
+   "oRating": 102.4,
+   "dRating": 103.8,
+   "possessions": 2107.6
   },
   "UL Monroe": {
    "games": 31,
    "wins": 13,
    "losses": 18,
-   "pace": 69.1,
+   "pace": 69.8,
    "points": 2246,
    "oppPoints": 2304,
    "rebounds": 1004,
@@ -55250,14 +55561,15 @@
    "ftPct": 72.4,
    "oppFgPct": 44.9,
    "efgPct": 51.4,
-   "oRating": 103.8,
-   "dRating": 106.2
+   "oRating": 102.6,
+   "dRating": 105.3,
+   "possessions": 2188.7
   },
   "UMBC": {
    "games": 32,
    "wins": 18,
    "losses": 14,
-   "pace": 62.6,
+   "pace": 68.7,
    "points": 2359,
    "oppPoints": 2307,
    "rebounds": 1048,
@@ -55272,14 +55584,15 @@
    "ftPct": 78.4,
    "oppFgPct": 45.7,
    "efgPct": 52.4,
-   "oRating": 117.3,
-   "dRating": 114.6
+   "oRating": 106.8,
+   "dRating": 104.5,
+   "possessions": 2208.5
   },
   "UMass Lowell": {
    "games": 31,
    "wins": 15,
    "losses": 16,
-   "pace": 65,
+   "pace": 68.8,
    "points": 2191,
    "oppPoints": 2040,
    "rebounds": 1113,
@@ -55294,14 +55607,15 @@
    "ftPct": 70.2,
    "oppFgPct": 41,
    "efgPct": 49.4,
-   "oRating": 107.7,
-   "dRating": 100.6
+   "oRating": 102.0,
+   "dRating": 94.9,
+   "possessions": 2148.9
   },
   "UNC Asheville": {
    "games": 32,
    "wins": 17,
    "losses": 15,
-   "pace": 67.2,
+   "pace": 67.9,
    "points": 2410,
    "oppPoints": 2201,
    "rebounds": 1085,
@@ -55316,14 +55630,15 @@
    "ftPct": 72.6,
    "oppFgPct": 43.9,
    "efgPct": 53,
-   "oRating": 109.6,
-   "dRating": 100
+   "oRating": 108.3,
+   "dRating": 98.9,
+   "possessions": 2224.8
   },
   "UNC Greensboro": {
    "games": 32,
    "wins": 17,
    "losses": 15,
-   "pace": 54.9,
+   "pace": 63.2,
    "points": 2083,
    "oppPoints": 2079,
    "rebounds": 1119,
@@ -55338,14 +55653,15 @@
    "ftPct": 72.1,
    "oppFgPct": 41.9,
    "efgPct": 49.8,
-   "oRating": 117.5,
-   "dRating": 116.8
+   "oRating": 101.8,
+   "dRating": 101.7,
+   "possessions": 2045.2
   },
   "UNC Wilmington": {
    "games": 36,
    "wins": 27,
    "losses": 9,
-   "pace": 65.9,
+   "pace": 66.6,
    "points": 2596,
    "oppPoints": 2483,
    "rebounds": 1205,
@@ -55360,14 +55676,15 @@
    "ftPct": 74.3,
    "oppFgPct": 44,
    "efgPct": 48.5,
-   "oRating": 107.1,
-   "dRating": 102.8
+   "oRating": 106.1,
+   "dRating": 101.4,
+   "possessions": 2447.9
   },
   "UNLV": {
    "games": 32,
    "wins": 18,
    "losses": 14,
-   "pace": 66.7,
+   "pace": 67.0,
    "points": 2236,
    "oppPoints": 2099,
    "rebounds": 1156,
@@ -55382,14 +55699,15 @@
    "ftPct": 73.8,
    "oppFgPct": 40.9,
    "efgPct": 49.6,
-   "oRating": 104.7,
-   "dRating": 98.4
+   "oRating": 104.4,
+   "dRating": 98.0,
+   "possessions": 2142.7
   },
   "USC": {
    "games": 34,
    "wins": 26,
    "losses": 8,
-   "pace": 66.9,
+   "pace": 67.5,
    "points": 2461,
    "oppPoints": 2243,
    "rebounds": 1363,
@@ -55404,14 +55722,15 @@
    "ftPct": 66.4,
    "oppFgPct": 39,
    "efgPct": 51.2,
-   "oRating": 107.5,
-   "dRating": 97.8
+   "oRating": 106.5,
+   "dRating": 97.0,
+   "possessions": 2311.6
   },
   "UT Arlington": {
    "games": 29,
    "wins": 11,
    "losses": 18,
-   "pace": 66,
+   "pace": 66.5,
    "points": 1948,
    "oppPoints": 1993,
    "rebounds": 1067,
@@ -55426,14 +55745,15 @@
    "ftPct": 70.1,
    "oppFgPct": 41.3,
    "efgPct": 47.3,
-   "oRating": 98.3,
-   "dRating": 100.8
+   "oRating": 97.6,
+   "dRating": 99.9,
+   "possessions": 1995.8
   },
   "UT Martin": {
    "games": 30,
    "wins": 8,
    "losses": 22,
-   "pace": 67,
+   "pace": 70.4,
    "points": 2067,
    "oppPoints": 2206,
    "rebounds": 1110,
@@ -55448,14 +55768,15 @@
    "ftPct": 70,
    "oppFgPct": 43.3,
    "efgPct": 47.1,
-   "oRating": 102.8,
-   "dRating": 109.9
+   "oRating": 97.8,
+   "dRating": 104.4,
+   "possessions": 2113.5
   },
   "UT Rio Grande Valley": {
    "games": 31,
    "wins": 8,
    "losses": 23,
-   "pace": 71.3,
+   "pace": 73.0,
    "points": 2212,
    "oppPoints": 2438,
    "rebounds": 1070,
@@ -55470,14 +55791,15 @@
    "ftPct": 69.5,
    "oppFgPct": 44.6,
    "efgPct": 49.8,
-   "oRating": 100.2,
-   "dRating": 110.3
+   "oRating": 97.7,
+   "dRating": 107.7,
+   "possessions": 2263.6
   },
   "UTEP": {
    "games": 34,
    "wins": 20,
    "losses": 14,
-   "pace": 63.3,
+   "pace": 67.9,
    "points": 2352,
    "oppPoints": 2265,
    "rebounds": 1093,
@@ -55492,14 +55814,15 @@
    "ftPct": 76.3,
    "oppFgPct": 44.1,
    "efgPct": 49.7,
-   "oRating": 108.4,
-   "dRating": 104.5
+   "oRating": 101.2,
+   "dRating": 97.4,
+   "possessions": 2324.8
   },
   "UTSA": {
    "games": 32,
    "wins": 10,
    "losses": 22,
-   "pace": 65.2,
+   "pace": 70.0,
    "points": 2153,
    "oppPoints": 2313,
    "rebounds": 1226,
@@ -55514,14 +55837,15 @@
    "ftPct": 68.2,
    "oppFgPct": 45.6,
    "efgPct": 44.5,
-   "oRating": 102.6,
-   "dRating": 110.7
+   "oRating": 95.7,
+   "dRating": 102.8,
+   "possessions": 2249.5
   },
   "Utah State": {
    "games": 34,
    "wins": 18,
    "losses": 16,
-   "pace": 66.5,
+   "pace": 67.3,
    "points": 2497,
    "oppPoints": 2273,
    "rebounds": 1203,
@@ -55536,14 +55860,15 @@
    "ftPct": 72.1,
    "oppFgPct": 42.9,
    "efgPct": 54.5,
-   "oRating": 108.8,
-   "dRating": 99.1
+   "oRating": 107.6,
+   "dRating": 97.9,
+   "possessions": 2321.0
   },
   "Utah Tech": {
    "games": 31,
    "wins": 13,
    "losses": 18,
-   "pace": 70.6,
+   "pace": 73.8,
    "points": 2247,
    "oppPoints": 2296,
    "rebounds": 1193,
@@ -55558,14 +55883,15 @@
    "ftPct": 67.9,
    "oppFgPct": 43.3,
    "efgPct": 48.5,
-   "oRating": 102.2,
-   "dRating": 104.6
+   "oRating": 97.8,
+   "dRating": 99.9,
+   "possessions": 2298.2
   },
   "Utah": {
    "games": 31,
    "wins": 11,
    "losses": 20,
-   "pace": 66.7,
+   "pace": 67.2,
    "points": 2161,
    "oppPoints": 2197,
    "rebounds": 1125,
@@ -55580,14 +55906,15 @@
    "ftPct": 77.4,
    "oppFgPct": 43.6,
    "efgPct": 48.4,
-   "oRating": 103.4,
-   "dRating": 105.8
+   "oRating": 102.9,
+   "dRating": 104.6,
+   "possessions": 2099.7
   },
   "Utah Valley": {
    "games": 32,
    "wins": 20,
    "losses": 12,
-   "pace": 66.6,
+   "pace": 68.1,
    "points": 2279,
    "oppPoints": 2084,
    "rebounds": 1295,
@@ -55602,14 +55929,15 @@
    "ftPct": 71.4,
    "oppFgPct": 39.4,
    "efgPct": 51.2,
-   "oRating": 104.8,
-   "dRating": 96
+   "oRating": 102.6,
+   "dRating": 93.8,
+   "possessions": 2222.0
   },
   "VCU": {
    "games": 32,
    "wins": 22,
    "losses": 10,
-   "pace": 67.2,
+   "pace": 68.6,
    "points": 2146,
    "oppPoints": 1997,
    "rebounds": 1040,
@@ -55624,14 +55952,15 @@
    "ftPct": 70.4,
    "oppFgPct": 39.4,
    "efgPct": 51.4,
-   "oRating": 99.7,
-   "dRating": 92.3
+   "oRating": 97.4,
+   "dRating": 90.6,
+   "possessions": 2203.3
   },
   "VMI": {
    "games": 32,
    "wins": 16,
    "losses": 16,
-   "pace": 66.3,
+   "pace": 69.3,
    "points": 2529,
    "oppPoints": 2375,
    "rebounds": 1165,
@@ -55646,14 +55975,15 @@
    "ftPct": 79.2,
    "oppFgPct": 41.4,
    "efgPct": 56.4,
-   "oRating": 117.9,
-   "dRating": 110.4
+   "oRating": 112.7,
+   "dRating": 105.9,
+   "possessions": 2243.6
   },
   "Valparaiso": {
    "games": 32,
    "wins": 14,
    "losses": 18,
-   "pace": 64.4,
+   "pace": 66.1,
    "points": 2264,
    "oppPoints": 2257,
    "rebounds": 1034,
@@ -55668,14 +55998,15 @@
    "ftPct": 75.9,
    "oppFgPct": 45.6,
    "efgPct": 52.3,
-   "oRating": 106.5,
-   "dRating": 106.4
+   "oRating": 103.8,
+   "dRating": 103.5,
+   "possessions": 2181.6
   },
   "Vanderbilt": {
    "games": 36,
    "wins": 19,
    "losses": 17,
-   "pace": 68.2,
+   "pace": 68.9,
    "points": 2548,
    "oppPoints": 2442,
    "rebounds": 1235,
@@ -55690,14 +56021,15 @@
    "ftPct": 69.7,
    "oppFgPct": 42.6,
    "efgPct": 50.2,
-   "oRating": 103.2,
-   "dRating": 98.8
+   "oRating": 102.0,
+   "dRating": 97.7,
+   "possessions": 2498.9
   },
   "Vermont": {
    "games": 34,
    "wins": 28,
    "losses": 6,
-   "pace": 63.9,
+   "pace": 65.2,
    "points": 2544,
    "oppPoints": 2065,
    "rebounds": 1190,
@@ -55712,14 +56044,15 @@
    "ftPct": 74.2,
    "oppFgPct": 41,
    "efgPct": 57,
-   "oRating": 116.9,
-   "dRating": 94.5
+   "oRating": 114.4,
+   "dRating": 92.9,
+   "possessions": 2223.6
   },
   "Villanova": {
    "games": 38,
    "wins": 30,
    "losses": 8,
-   "pace": 63.3,
+   "pace": 63.6,
    "points": 2726,
    "oppPoints": 2383,
    "rebounds": 1322,
@@ -55734,14 +56067,15 @@
    "ftPct": 83,
    "oppFgPct": 40.8,
    "efgPct": 51.5,
-   "oRating": 113.3,
-   "dRating": 98.6
+   "oRating": 112.4,
+   "dRating": 98.3,
+   "possessions": 2424.5
   },
   "Virginia": {
    "games": 35,
    "wins": 21,
    "losses": 14,
-   "pace": 59.5,
+   "pace": 59.9,
    "points": 2184,
    "oppPoints": 2104,
    "rebounds": 1097,
@@ -55756,14 +56090,15 @@
    "ftPct": 73,
    "oppFgPct": 42.5,
    "efgPct": 49.7,
-   "oRating": 104.5,
-   "dRating": 100.8
+   "oRating": 103.7,
+   "dRating": 99.9,
+   "possessions": 2105.7
   },
   "Virginia Tech": {
    "games": 36,
    "wins": 23,
    "losses": 13,
-   "pace": 62.4,
+   "pace": 63.6,
    "points": 2549,
    "oppPoints": 2261,
    "rebounds": 1152,
@@ -55778,14 +56113,15 @@
    "ftPct": 75.1,
    "oppFgPct": 43,
    "efgPct": 55.1,
-   "oRating": 113.1,
-   "dRating": 100.3
+   "oRating": 111.0,
+   "dRating": 98.4,
+   "possessions": 2296.8
   },
   "Wagner": {
    "games": 27,
    "wins": 21,
    "losses": 6,
-   "pace": 67.2,
+   "pace": 68.2,
    "points": 2010,
    "oppPoints": 1747,
    "rebounds": 1006,
@@ -55800,14 +56136,15 @@
    "ftPct": 72.6,
    "oppFgPct": 41.7,
    "efgPct": 50.6,
-   "oRating": 108.5,
-   "dRating": 94.7
+   "oRating": 107.1,
+   "dRating": 93.1,
+   "possessions": 1876.2
   },
   "Wake Forest": {
    "games": 35,
    "wins": 25,
    "losses": 10,
-   "pace": 65.9,
+   "pace": 71.3,
    "points": 2749,
    "oppPoints": 2452,
    "rebounds": 1287,
@@ -55822,14 +56159,15 @@
    "ftPct": 73,
    "oppFgPct": 41.3,
    "efgPct": 55.6,
-   "oRating": 117.5,
-   "dRating": 104.9
+   "oRating": 108.7,
+   "dRating": 96.9,
+   "possessions": 2529.4
   },
   "Washington": {
    "games": 32,
    "wins": 17,
    "losses": 15,
-   "pace": 68.9,
+   "pace": 70.4,
    "points": 2260,
    "oppPoints": 2314,
    "rebounds": 1069,
@@ -55844,14 +56182,15 @@
    "ftPct": 70.1,
    "oppFgPct": 44.2,
    "efgPct": 46.4,
-   "oRating": 101.5,
-   "dRating": 103.5
+   "oRating": 99.1,
+   "dRating": 101.5,
+   "possessions": 2280.4
   },
   "Washington State": {
    "games": 37,
    "wins": 22,
    "losses": 15,
-   "pace": 66.5,
+   "pace": 67.4,
    "points": 2644,
    "oppPoints": 2400,
    "rebounds": 1375,
@@ -55866,14 +56205,15 @@
    "ftPct": 74.4,
    "oppFgPct": 41.5,
    "efgPct": 47.9,
-   "oRating": 107,
-   "dRating": 97.4
+   "oRating": 105.6,
+   "dRating": 95.9,
+   "possessions": 2503.1
   },
   "Weber State": {
    "games": 33,
    "wins": 21,
    "losses": 12,
-   "pace": 63.6,
+   "pace": 71.1,
    "points": 2513,
    "oppPoints": 2319,
    "rebounds": 1058,
@@ -55888,14 +56228,15 @@
    "ftPct": 74.9,
    "oppFgPct": 44,
    "efgPct": 53.9,
-   "oRating": 119.6,
-   "dRating": 109.9
+   "oRating": 106.8,
+   "dRating": 98.5,
+   "possessions": 2353.7
   },
   "West Virginia": {
    "games": 33,
    "wins": 16,
    "losses": 17,
-   "pace": 67.5,
+   "pace": 68.5,
    "points": 2259,
    "oppPoints": 2276,
    "rebounds": 1064,
@@ -55910,14 +56251,15 @@
    "ftPct": 72.4,
    "oppFgPct": 44.6,
    "efgPct": 46.8,
-   "oRating": 101.5,
-   "dRating": 102.2
+   "oRating": 99.9,
+   "dRating": 100.7,
+   "possessions": 2260.2
   },
   "Western Carolina": {
    "games": 32,
    "wins": 11,
    "losses": 21,
-   "pace": 62.2,
+   "pace": 69.2,
    "points": 2261,
    "oppPoints": 2472,
    "rebounds": 1201,
@@ -55932,14 +56274,15 @@
    "ftPct": 67.3,
    "oppFgPct": 44.4,
    "efgPct": 48.3,
-   "oRating": 112,
-   "dRating": 122.9
+   "oRating": 100.9,
+   "dRating": 110.3,
+   "possessions": 2240.5
   },
   "Western Illinois": {
    "games": 32,
    "wins": 16,
    "losses": 16,
-   "pace": 71.3,
+   "pace": 72.3,
    "points": 2493,
    "oppPoints": 2470,
    "rebounds": 1212,
@@ -55954,14 +56297,15 @@
    "ftPct": 70.8,
    "oppFgPct": 46.4,
    "efgPct": 50.2,
-   "oRating": 107.6,
-   "dRating": 106.4
+   "oRating": 106.1,
+   "dRating": 105.1,
+   "possessions": 2350.0
   },
   "Western Kentucky": {
    "games": 32,
    "wins": 19,
    "losses": 13,
-   "pace": 68.2,
+   "pace": 70.9,
    "points": 2414,
    "oppPoints": 2214,
    "rebounds": 1132,
@@ -55976,14 +56320,15 @@
    "ftPct": 71.4,
    "oppFgPct": 41.7,
    "efgPct": 53.3,
-   "oRating": 110.7,
-   "dRating": 101.4
+   "oRating": 106.4,
+   "dRating": 97.6,
+   "possessions": 2268.4
   },
   "Western Michigan": {
    "games": 31,
    "wins": 8,
    "losses": 23,
-   "pace": 63.3,
+   "pace": 66.4,
    "points": 2027,
    "oppPoints": 2329,
    "rebounds": 1026,
@@ -55998,14 +56343,15 @@
    "ftPct": 70,
    "oppFgPct": 45.9,
    "efgPct": 49.6,
-   "oRating": 102,
-   "dRating": 117.4
+   "oRating": 97.2,
+   "dRating": 111.7,
+   "possessions": 2084.6
   },
   "Wichita State": {
    "games": 28,
    "wins": 15,
    "losses": 13,
-   "pace": 67.2,
+   "pace": 67.8,
    "points": 1917,
    "oppPoints": 1858,
    "rebounds": 1038,
@@ -56020,14 +56366,15 @@
    "ftPct": 75.3,
    "oppFgPct": 41.4,
    "efgPct": 46.7,
-   "oRating": 100.9,
-   "dRating": 97.2
+   "oRating": 99.6,
+   "dRating": 96.5,
+   "possessions": 1924.4
   },
   "William & Mary": {
    "games": 32,
    "wins": 5,
    "losses": 27,
-   "pace": 65.5,
+   "pace": 69.7,
    "points": 2044,
    "oppPoints": 2380,
    "rebounds": 1129,
@@ -56042,14 +56389,15 @@
    "ftPct": 70.5,
    "oppFgPct": 46,
    "efgPct": 46.2,
-   "oRating": 96.5,
-   "dRating": 112.1
+   "oRating": 90.5,
+   "dRating": 105.4,
+   "possessions": 2257.4
   },
   "Winthrop": {
    "games": 32,
    "wins": 23,
    "losses": 9,
-   "pace": 68.3,
+   "pace": 69.2,
    "points": 2407,
    "oppPoints": 2246,
    "rebounds": 1097,
@@ -56064,14 +56412,15 @@
    "ftPct": 70,
    "oppFgPct": 43.1,
    "efgPct": 56.5,
-   "oRating": 108.9,
-   "dRating": 101.6
+   "oRating": 107.5,
+   "dRating": 100.3,
+   "possessions": 2239.8
   },
   "Wisconsin": {
    "games": 33,
    "wins": 25,
    "losses": 8,
-   "pace": 64,
+   "pace": 67.0,
    "points": 2308,
    "oppPoints": 2177,
    "rebounds": 1156,
@@ -56086,14 +56435,15 @@
    "ftPct": 74.3,
    "oppFgPct": 43.5,
    "efgPct": 47.7,
-   "oRating": 109.4,
-   "dRating": 103
+   "oRating": 104.4,
+   "dRating": 98.5,
+   "possessions": 2210.8
   },
   "Wofford": {
    "games": 32,
    "wins": 19,
    "losses": 13,
-   "pace": 59.6,
+   "pace": 65.6,
    "points": 2322,
    "oppPoints": 2120,
    "rebounds": 997,
@@ -56108,14 +56458,15 @@
    "ftPct": 75.8,
    "oppFgPct": 44.9,
    "efgPct": 55.1,
-   "oRating": 121.4,
-   "dRating": 110.7
+   "oRating": 110.3,
+   "dRating": 100.7,
+   "possessions": 2106.0
   },
   "Wright State": {
    "games": 36,
    "wins": 22,
    "losses": 14,
-   "pace": 68.7,
+   "pace": 69.9,
    "points": 2729,
    "oppPoints": 2585,
    "rebounds": 1255,
@@ -56130,14 +56481,15 @@
    "ftPct": 76.8,
    "oppFgPct": 45.2,
    "efgPct": 51.6,
-   "oRating": 110.4,
-   "dRating": 104.4
+   "oRating": 108.4,
+   "dRating": 102.7,
+   "possessions": 2517.9
   },
   "Wyoming": {
    "games": 34,
    "wins": 25,
    "losses": 9,
-   "pace": 65.3,
+   "pace": 66.3,
    "points": 2466,
    "oppPoints": 2227,
    "rebounds": 1212,
@@ -56152,14 +56504,15 @@
    "ftPct": 72.5,
    "oppFgPct": 41.4,
    "efgPct": 53.1,
-   "oRating": 109.6,
-   "dRating": 98.6
+   "oRating": 107.8,
+   "dRating": 97.4,
+   "possessions": 2287.1
   },
   "Xavier": {
    "games": 36,
    "wins": 23,
    "losses": 13,
-   "pace": 68.2,
+   "pace": 69.1,
    "points": 2668,
    "oppPoints": 2492,
    "rebounds": 1335,
@@ -56174,14 +56527,15 @@
    "ftPct": 69.8,
    "oppFgPct": 42.4,
    "efgPct": 50.9,
-   "oRating": 107.4,
-   "dRating": 100
+   "oRating": 105.8,
+   "dRating": 98.8,
+   "possessions": 2522.5
   },
   "Yale": {
    "games": 31,
    "wins": 19,
    "losses": 12,
-   "pace": 66.6,
+   "pace": 70.3,
    "points": 2226,
    "oppPoints": 2143,
    "rebounds": 1112,
@@ -56196,14 +56550,15 @@
    "ftPct": 73.5,
    "oppFgPct": 42.3,
    "efgPct": 50.1,
-   "oRating": 107.1,
-   "dRating": 103.6
+   "oRating": 101.8,
+   "dRating": 98.0,
+   "possessions": 2186.9
   },
   "Youngstown State": {
    "games": 34,
    "wins": 19,
    "losses": 15,
-   "pace": 63.9,
+   "pace": 67.6,
    "points": 2470,
    "oppPoints": 2374,
    "rebounds": 1179,
@@ -56218,14 +56573,15 @@
    "ftPct": 76.1,
    "oppFgPct": 44,
    "efgPct": 51.3,
-   "oRating": 113.3,
-   "dRating": 109
+   "oRating": 107.1,
+   "dRating": 103.0,
+   "possessions": 2305.2
   },
   "Hartford": {
    "games": 32,
    "wins": 12,
    "losses": 20,
-   "pace": 64.1,
+   "pace": 67.0,
    "points": 2234,
    "oppPoints": 2309,
    "rebounds": 1037,
@@ -56240,14 +56596,15 @@
    "ftPct": 69,
    "oppFgPct": 44.7,
    "efgPct": 53.3,
-   "oRating": 108.4,
-   "dRating": 112.3
+   "oRating": 103.7,
+   "dRating": 107.2,
+   "possessions": 2153.6
   },
   "St. Francis Brooklyn": {
    "games": 30,
    "wins": 10,
    "losses": 20,
-   "pace": 67.3,
+   "pace": 68.4,
    "points": 2017,
    "oppPoints": 2116,
    "rebounds": 1058,
@@ -56262,8 +56619,9 @@
    "ftPct": 71.1,
    "oppFgPct": 46,
    "efgPct": 46.6,
-   "oRating": 99.2,
-   "dRating": 103.9
+   "oRating": 97.5,
+   "dRating": 102.3,
+   "possessions": 2069.0
   }
  },
  "postseason": [
