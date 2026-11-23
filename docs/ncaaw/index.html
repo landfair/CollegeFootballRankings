@@ -352,6 +352,16 @@
   .ylg i{display:inline-block;width:12px;height:12px;border-radius:2px;vertical-align:-2px;
     margin-right:6px}
   .ylg i.xo{outline:1.5px solid var(--ink);outline-offset:-1.5px}
+  /* Corner ticks: dark top-right for a row's extreme, gold bottom-left for a
+     column's. Drawn as border triangles so they need no markup of their own. */
+  table.yt td,.ylg i.rmk,.ylg i.cmk{position:relative}
+  table.yt td.rm::after,.ylg i.rmk::after{content:"";position:absolute;top:0;right:0;
+    border-style:solid;border-width:0 8px 8px 0;
+    border-color:transparent var(--ink) transparent transparent;border-top-right-radius:3px}
+  table.yt td.cm::before,.ylg i.cmk::before{content:"";position:absolute;bottom:0;left:0;
+    border-style:solid;border-width:8px 0 0 8px;
+    border-color:transparent transparent transparent var(--mark);border-bottom-left-radius:3px}
+  .ylg i.rmk,.ylg i.cmk{background:var(--soft)}
   .cscat{margin:6px 0 20px}
   .cscat svg{display:block;max-width:100%;height:auto;overflow:visible}
   .cscat .ax{stroke:var(--rule);stroke-width:1}
@@ -2132,10 +2142,17 @@ function corrCentre(k){
    half a season set beside whole ones would move all three for no reason
    but the calendar.
 
-   An outlined cell sits more than two standard errors from the same stat's
-   other complete seasons (Fisher's z, each season's own team count). With a
-   few dozen stats and a dozen seasons some cells are outlined by chance
-   alone, so an outline marks where to look rather than a finding. */
+   Every cell is measured by how far it sits from the same stat's other
+   complete seasons, in standard errors (Fisher's z, each season's own team
+   count). Three marks are read off that one figure: an outline where it
+   passes two, a dark corner on each row's furthest season -- the year that
+   stat behaved least like itself -- and a gold corner on each column's
+   furthest stat -- what was most unusual about that season. Every row and
+   every column has its extreme, but only an outline says the extreme is
+   larger than chance; with a few dozen stats and a dozen seasons some cells
+   pass two by chance alone, so even an outline marks where to look rather
+   than a finding. The season still being played takes a column mark, read
+   as "so far", but never a row mark, for the reason it stays out of Mean. */
 let yrsAnchor='key', yrsSort='mean', yrsDesc=true, yrsToken=0;
 const YRS=new Map();   // settings -> [{year,data,C}] or [{year,none}]
 const yrsLabel=v=>{ const o=[...$('season').options].find(o=>o.value===String(v));
@@ -2234,14 +2251,30 @@ function paintYears(S,live){
       if(fin.length>1)
         sd=Math.sqrt(fin.reduce((s,x)=>s+(x.r-mean)**2,0)/(fin.length-1));
     }
-    const out=cells.map((x,i)=>{
-      if(!x||!done[i]) return false;
-      const o=fin.filter(f=>f.i!==i); if(o.length<3) return false;
+    /* z for every cell, the live season's included: its distance from this
+       stat's OTHER complete seasons, so a season is never measured against
+       itself. */
+    const zs=cells.map((x,i)=>{
+      if(!x) return null;
+      const o=fin.filter(f=>f.i!==i); if(o.length<3) return null;
       const w=o.reduce((s,f)=>s+f.n-3,0);
       const zo=o.reduce((s,f)=>s+(f.n-3)*Math.atanh(f.r),0)/w;
-      return Math.abs((Math.atanh(x.r)-zo)/Math.sqrt(1/(x.n-3)+1/w))>2;
+      return (Math.atanh(x.r)-zo)/Math.sqrt(1/(x.n-3)+1/w);
     });
-    return {c,cells,out,mean,lo,hi,sd,range:lo?hi.r-lo.r:null,kind:pairKind(A.k,c.k)};
+    const out=zs.map((z,i)=>z!=null&&done[i]&&Math.abs(z)>2);
+    let rmax=-1;
+    zs.forEach((z,i)=>{ if(z!=null&&done[i]&&(rmax<0||Math.abs(z)>Math.abs(zs[rmax]))) rmax=i; });
+    return {c,cells,zs,out,rmax,mean,lo,hi,sd,range:lo?hi.r-lo.r:null,kind:pairKind(A.k,c.k)};
+  });
+  /* Each season's most unusual stat. Definitional rows are left out: they
+     are arithmetic, and a column's mark should name something the season did. */
+  const cmax=seasons.map((s,i)=>{
+    let best=null;
+    for(const R of all){
+      if(R.kind==='def'||R.zs[i]==null) continue;
+      if(!best||Math.abs(R.zs[i])>Math.abs(best.zs[i])) best=R;
+    }
+    return best;
   });
 
   const val=R=>yrsSort==='stat'?cols.indexOf(R.c)
@@ -2270,12 +2303,22 @@ function paintYears(S,live){
     (R.kind==='def'?` <span class="ctag" title="${esc(R.c.h+' and '+A.h+' are not '+
       'independent: one is computed from the other, so this row is arithmetic.')}">definitional</span>`:'')+
     '</td>'+
-    R.cells.map((x,i)=>x==null
-      ?`<td class="na" title="${esc(R.c.h+', '+L[i]+': no figure that season')}"></td>`
-      :`<td${R.out[i]?' class="x"':''} style="${tint(x.r)}" title="${esc(
-          `${R.c.h} with ${A.h}, ${L[i]}: r = ${sg(x.r,3)} over ${x.n} teams`+
-          (R.out[i]?'. More than two standard errors from its other seasons.':'')+
-          (seasons[i].year===live?' Season still being played.':''))}">${sg(x.r)}</td>`).join('')+
+    R.cells.map((x,i)=>{
+      if(x==null)
+        return `<td class="na" title="${esc(R.c.h+', '+L[i]+': no figure that season')}"></td>`;
+      const z=R.zs[i], cm=cmax[i]===R, rm=R.rmax===i;
+      const cls=[R.out[i]?'x':'',rm?'rm':'',cm?'cm':''].filter(Boolean).join(' ');
+      /* "Stronger" and "weaker" rather than above and below: for a stat that
+         runs against the rating, a higher r is a weaker relationship. */
+      const way=z==null?'':((z>0)===((R.mean??x.r)>=0)?'stronger':'weaker');
+      return `<td${cls?` class="${cls}"`:''} style="${tint(x.r)}" title="${esc(
+        `${R.c.h} with ${A.h}, ${L[i]}: r = ${sg(x.r,3)} over ${x.n} teams`+
+        (z==null?'.':`, ${Math.abs(z).toFixed(1)} standard errors ${way} than its other seasons.`)+
+        (rm?` The most unusual season for ${R.c.h}.`:'')+
+        (cm?` The most unusual stat in ${L[i]}${seasons[i].year===live?' so far':''}.`:'')+
+        (R.out[i]?' More than two standard errors: larger than chance usually produces.':'')+
+        (seasons[i].year===live?' Season still being played.':''))}">${sg(x.r)}</td>`;
+    }).join('')+
     `<td class="sum gap">${R.mean==null?'—':sg(R.mean)}</td>`+
     `<td${R.lo?` title="${esc(`low ${sg(R.lo.r,3)} in ${L[R.lo.i]}, high ${sg(R.hi.r,3)} in ${L[R.hi.i]}`)}"`:''}>`+
       `${R.range==null?'—':nz(R.range)}</td>`+
@@ -2292,15 +2335,21 @@ function paintYears(S,live){
     `${nDone} complete season${nDone===1?'':'s'}. Chance alone moves r from one season to `+
     `the next by roughly (1 − r²)/√n — about ${nz(noise)} at r = 0.6 `+
     `with ${n0} teams — so an SD near that is a relationship that holds steady. `+
-    'Click a stat’s name to make it the column everything is measured against, and '+
-    'any heading to sort.</p>'+
+    'Each cell is also measured by how many standard errors it sits from the same stat\u2019s '+
+    'other seasons: a dark corner marks each row\u2019s furthest season, a gold corner each '+
+    'column\u2019s furthest stat, and an outline any cell past two \u2014 the corners find '+
+    'every row\u2019s and column\u2019s extreme, the outline says whether it is bigger than '+
+    'chance. Hover a cell for its figures. Click a stat\u2019s name to make it the column '+
+    'everything is measured against, and any heading to sort.</p>'+
     '<div class="cctl"><label>Correlate every stat with <select id="yanchor">'+
     cols.map(c=>`<option value="${c.k}"${c.k===A.k?' selected':''}>${esc(c.h)}</option>`).join('')+
     '</select></label></div>'+
     '<div class="ylg">'+
     `<span><i style="${tint(0.6)}"></i>higher stat, higher ${esc(A.h)}</span>`+
     `<span><i style="${tint(-0.6)}"></i>higher stat, lower ${esc(A.h)}</span>`+
-    '<span><i class="xo"></i>more than two standard errors from that stat’s other seasons</span>'+
+    '<span><i class="rmk"></i>each stat\u2019s most unusual season</span>'+
+    '<span><i class="cmk"></i>each season\u2019s most unusual stat</span>'+
+    '<span><i class="xo"></i>more than two standard errors from that stat\u2019s other seasons</span>'+
     '<span><i style="background:var(--soft)"></i>no figure that season</span>'+
     (live?`<span>* still being played: shown, but left out of Mean, Range and SD</span>`:'')+
     '</div><div class="ytw"><table class="yt"><thead><tr>'+
