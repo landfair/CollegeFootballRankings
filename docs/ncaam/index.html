@@ -372,6 +372,13 @@
     border-style:solid;border-width:8px 0 0 8px;
     border-color:transparent transparent transparent var(--mark);border-bottom-left-radius:3px}
   .ylg i.rmk,.ylg i.cmk{background:var(--soft)}
+  /* The averages mode tints by distance from a stat's usual level, which has
+     no good or bad side, so it uses a pair of colours that say neither. */
+  :root{--cool:#2f6f9f;--warm:#c4661f}
+  @media (prefers-color-scheme:dark){:root:not([data-theme=light]){--cool:#6fb6e8;--warm:#e39a55}}
+  .cctl .chk{display:flex;align-items:center;gap:6px;font-size:13px}
+  .cctl .chk input{margin:0;min-width:0;width:auto;padding:0}
+  .cctl .chk input:disabled+span{opacity:.5}
   .cscat{margin:6px 0 20px}
   .cscat svg{display:block;max-width:100%;height:auto;overflow:visible}
   .cscat .ax{stroke:var(--rule);stroke-width:1}
@@ -2305,7 +2312,7 @@ async function renderYears(){
   const newest=years[years.length-1];
   const soon=await loadSoon(newest);
   if(tok!==yrsToken) return;
-  paintYears(S,Array.isArray(soon)&&soon.length?newest:null);
+  paintYrs(S,Array.isArray(soon)&&soon.length?newest:null);
 }
 const yrsHead=()=>'<p><button class="back" id="back">&larr; Rankings</button> '+
   '<button class="back" id="tocorr2">Correlations &rarr;</button></p>'+
@@ -2427,7 +2434,7 @@ function paintYears(S,live){
       `${R.sd==null?'—':nz(R.sd)}</td></tr>`;
 
   const nDone=done.filter(Boolean).length;
-  let html=yrsHead()+
+  let html=yrsHead()+yrsModes()+
     '<p class="slateintro">How closely every stat moves with one chosen column, season by '+
     'season. Each season is graded at its own final week with the settings above and '+
     'correlated across its own teams; a cell is that season’s <b>r</b>, green where '+
@@ -2463,6 +2470,7 @@ function paintYears(S,live){
     '</tr></thead><tbody>'+real.map(row).join('')+defs.map(row).join('')+'</tbody></table></div>';
   host.innerHTML=html;
   yrsWireHead();
+  yrsWireModes(S,live);
   const sub=$('yrssub');
   if(sub) sub.textContent=`${all.length} stats against ${A.h}, ${seasons.length} seasons`;
   $('yanchor').onchange=e=>{ yrsAnchor=e.target.value; paintYears(S,live); };
@@ -2474,6 +2482,193 @@ function paintYears(S,live){
     const k=b.dataset.s;
     if(k===yrsSort) yrsDesc=!yrsDesc; else { yrsSort=k; yrsDesc=k!=='stat'; }
     paintYears(S,live);
+  });
+}
+
+/* ---- year by year: averages ---------------------------------------------
+   The second mode: every stat's AVERAGE for one group of teams, season by
+   season -- Quad 1's three-point percentage across six seasons, say. A group
+   is a band of this ranking's places at each season's own final week, so
+   its membership changes from year to year with the ranking itself.
+
+   Rows are in different units, so the tint cannot be the value. It is the
+   season's distance from the same stat's other complete seasons, in
+   standard deviations of their spread: blue above the usual level, orange
+   below, deeper the further, and no good or bad side to either. The corners
+   and the outline read that same distance the way the correlation mode
+   reads its standard errors: each row's furthest season, each column's
+   furthest stat, and any cell past two. With five or a dozen seasons the
+   spread itself is a rough estimate, so these say where to look.
+
+   "As a difference from all teams" subtracts the whole field's average the
+   same season before anything else, which takes out the shifts that move
+   everyone at once -- a season the whole sport shot better -- and leaves the
+   group's edge on its own. */
+let yrsMode='corr', yrsGroup='all', yrsVsAll=false, yrsSortA='stat', yrsDescA=false;
+const YRS_GROUPS=[
+  {k:'all', h:'All Division I teams',      test:p=>true},
+  {k:'t10', h:'Top 10',                    test:p=>p<=10},
+  {k:'t25', h:'Top 25',                    test:p=>p<=25},
+  {k:'q1',  h:'Quad 1 (1st–30th)',     test:p=>p<=30},
+  {k:'q2',  h:'Quad 2 (31st–100th)',   test:p=>p>30&&p<=100},
+  {k:'q3',  h:'Quad 3 (101st–200th)',  test:p=>p>100&&p<=200},
+  {k:'q4',  h:'Quad 4 (201st and below)',  test:p=>p>200}];
+function paintYrs(S,live){ (yrsMode==='avg'?paintYearsAvg:paintYears)(S,live); }
+const yrsModes=()=>'<div class="cmodes" role="tablist">'+
+  `<button class="cmode" role="tab" data-ym="corr" aria-selected="${yrsMode==='corr'}">Correlation with one stat</button>`+
+  `<button class="cmode" role="tab" data-ym="avg" aria-selected="${yrsMode==='avg'}">Average for a group of teams</button>`+
+  '</div>';
+function yrsWireModes(S,live){
+  document.querySelectorAll('#yearsview .cmodes button[data-ym]').forEach(b=>b.onclick=()=>{
+    if(b.dataset.ym===yrsMode) return;
+    yrsMode=b.dataset.ym; paintYrs(S,live);
+  });
+}
+function paintYearsAvg(S,live){
+  const host=$('yearsview');
+  const seasons=S.filter(s=>!s.none);
+  if(seasons.length<2){
+    host.innerHTML=yrsHead()+yrsModes()+'<p class="msg">Fewer than two seasons on file carry '+
+      'box-score figures, so there is nothing to compare from year to year.</p>';
+    yrsWireHead(); yrsWireModes(S,live); return;
+  }
+  const C=seasons[seasons.length-1].C;
+  const cols=C.filter(c=>!c.text&&c.k!=='rank'&&c.k!=='combo');
+  const ALL=YRS_GROUPS[0];
+  const G=YRS_GROUPS.find(g=>g.k===yrsGroup)||ALL;
+  const vsAll=yrsVsAll&&G!==ALL;
+  const done=seasons.map(s=>s.year!==live);
+  const L=seasons.map(s=>yrsLabel(s.year));
+  const sg=v=>(v>0?'+':v<0?'−':'')+fmtv(Math.abs(v));
+  const show=v=>vsAll?sg(v):fmtv(v);
+  /* The group's mean of one stat in one season, and how many teams it is over. */
+  const avgOf=(s,c,test)=>{
+    const rc=s.C.find(x=>x.k==='rank'), Cc=s.C.find(x=>x.k===c.k);
+    if(!rc||!Cc) return null;
+    let sum=0,n=0;
+    for(const d of s.data){
+      const p=rc.v(d); if(p==null||!test(p)) continue;
+      const x=Cc.v(d); if(x==null||!Number.isFinite(x)) continue;
+      sum+=x; n++;
+    }
+    return n?{m:sum/n,n}:null;
+  };
+  const all=cols.map(c=>{
+    const cells=seasons.map(s=>{
+      const g=avgOf(s,c,G.test); if(!g) return null;
+      if(!vsAll) return {v:g.m,n:g.n,g:g.m};
+      const a=avgOf(s,c,ALL.test);
+      return a?{v:g.m-a.m,n:g.n,g:g.m,a:a.m}:null;
+    });
+    const fin=cells.map((x,i)=>done[i]&&x?{...x,i}:null).filter(Boolean);
+    let mean=null,lo=null,hi=null,sd=null;
+    if(fin.length){
+      mean=fin.reduce((s,x)=>s+x.v,0)/fin.length;
+      lo=fin.reduce((a,b)=>b.v<a.v?b:a); hi=fin.reduce((a,b)=>b.v>a.v?b:a);
+      if(fin.length>1) sd=Math.sqrt(fin.reduce((s,x)=>s+(x.v-mean)**2,0)/(fin.length-1));
+    }
+    /* Distance from the stat's OTHER complete seasons, in their own spread. */
+    const zs=cells.map((x,i)=>{
+      if(!x) return null;
+      const o=fin.filter(f=>f.i!==i); if(o.length<3) return null;
+      const mo=o.reduce((s,f)=>s+f.v,0)/o.length;
+      const so=Math.sqrt(o.reduce((s,f)=>s+(f.v-mo)**2,0)/(o.length-1));
+      return so>0?(x.v-mo)/so:null;
+    });
+    const out=zs.map((z,i)=>z!=null&&done[i]&&Math.abs(z)>2);
+    let rmax=-1;
+    zs.forEach((z,i)=>{ if(z!=null&&done[i]&&(rmax<0||Math.abs(z)>Math.abs(zs[rmax]))) rmax=i; });
+    return {c,cells,zs,out,rmax,mean,lo,hi,sd,range:lo?hi.v-lo.v:null};
+  });
+  const cmax=seasons.map((s,i)=>{
+    let best=null;
+    for(const R of all){
+      if(R.zs[i]==null) continue;
+      if(!best||Math.abs(R.zs[i])>Math.abs(best.zs[i])) best=R;
+    }
+    return best;
+  });
+  const val=R=>yrsSortA==='stat'?cols.indexOf(R.c)
+    :yrsSortA==='range'?R.range:yrsSortA==='sd'?R.sd:yrsSortA==='mean'?R.mean
+    :(x=>x?x.v:null)(R.cells[+yrsSortA.slice(1)]);
+  const rows=[...all].sort((a,b)=>{
+    const x=val(a), y=val(b);
+    if(x==null&&y==null) return cols.indexOf(a.c)-cols.indexOf(b.c);
+    if(x==null) return 1;
+    if(y==null) return -1;
+    return (yrsDescA?y-x:x-y)||cols.indexOf(a.c)-cols.indexOf(b.c);
+  });
+  const tint=z=>z==null?'':`background:color-mix(in srgb,var(${z>=0?'--cool':'--warm'}) `+
+    `${Math.round(6+16*Math.min(3,Math.abs(z)))}%,transparent)`;
+  const th=(k,label,cls,tip)=>`<th class="${[cls,yrsSortA===k?'on':'',
+      yrsSortA===k&&!yrsDescA?'up':''].filter(Boolean).join(' ')}">`+
+    `<button data-s="${k}"${tip?` title="${esc(tip)}"`:''}>${label}</button></th>`;
+  const row=R=>`<tr><td class="st"${R.c.tip?` title="${esc(R.c.h+' — '+R.c.tip)}"`:''}>`+
+    `${esc(R.c.h)}</td>`+
+    R.cells.map((x,i)=>{
+      if(x==null)
+        return `<td class="na" title="${esc(R.c.h+', '+L[i]+': no figure that season')}"></td>`;
+      const z=R.zs[i], cm=cmax[i]===R, rm=R.rmax===i;
+      const cls=[R.out[i]?'x':'',rm?'rm':'',cm?'cm':''].filter(Boolean).join(' ');
+      return `<td${cls?` class="${cls}"`:''} style="${tint(z)}" title="${esc(
+        `${R.c.h}, ${G.h}, ${L[i]}: `+
+        (vsAll?`${fmtv(x.g)} against ${fmtv(x.a)} for all teams, a difference of ${sg(x.v)}`
+              :`averages ${fmtv(x.v)}`)+` over ${x.n} team${x.n===1?'':'s'}`+
+        (z==null?'.':`, ${Math.abs(z).toFixed(1)} standard deviations ${z>0?'above':'below'} its other seasons.`)+
+        (rm?` The most unusual season for ${R.c.h}.`:'')+
+        (cm?` The most unusual stat in ${L[i]}${seasons[i].year===live?' so far':''}.`:'')+
+        (seasons[i].year===live?' Season still being played.':''))}">${show(x.v)}</td>`;
+    }).join('')+
+    `<td class="sum gap">${R.mean==null?'—':show(R.mean)}</td>`+
+    `<td${R.lo?` title="${esc(`low ${show(R.lo.v)} in ${L[R.lo.i]}, high ${show(R.hi.v)} in ${L[R.hi.i]}`)}"`:''}>`+
+      `${R.range==null?'—':fmtv(R.range)}</td>`+
+    `<td>${R.sd==null?'—':fmtv(R.sd)}</td></tr>`;
+
+  const nDone=done.filter(Boolean).length;
+  host.innerHTML=yrsHead()+yrsModes()+
+    '<p class="slateintro">Every stat’s average for one group of teams, season by season. '+
+    'A group is a band of this ranking’s places at each season’s own final week, graded '+
+    'with the settings above, so its members change from year to year with the ranking. A cell '+
+    'is tinted by how far that season sits from the same stat’s other seasons, in standard '+
+    'deviations of their spread: <b>blue</b> above its usual level, <b>orange</b> below, with '+
+    'neither meaning better. The corners and the outline read the same distance: each row’s '+
+    'furthest season, each column’s furthest stat, and any cell past two. '+
+    `<b>Mean</b>, <b>Range</b> and <b>SD</b> are in the stat’s own units, over the ${nDone} `+
+    `complete season${nDone===1?'':'s'}. Tick the box to subtract the whole field’s average `+
+    'the same season, which takes out shifts that moved everyone at once and leaves the '+
+    'group’s edge on its own.</p>'+
+    '<div class="cctl"><label>Teams <select id="ygroup">'+
+    YRS_GROUPS.map(g=>`<option value="${g.k}"${g===G?' selected':''}>${esc(g.h)}</option>`).join('')+
+    '</select></label>'+
+    `<label class="chk"><input type="checkbox" id="yvsall"${vsAll?' checked':''}${G===ALL?' disabled':''}>`+
+    '<span>as a difference from all teams that season</span></label></div>'+
+    '<div class="ylg">'+
+    `<span><i style="${tint(1.5)}"></i>above that stat’s usual level</span>`+
+    `<span><i style="${tint(-1.5)}"></i>below it</span>`+
+    '<span><i class="rmk"></i>each stat’s most unusual season</span>'+
+    '<span><i class="cmk"></i>each season’s most unusual stat</span>'+
+    '<span><i class="xo"></i>more than two standard deviations from its other seasons</span>'+
+    '<span><i style="background:var(--soft)"></i>no figure that season</span>'+
+    (live?'<span>* still being played: shown, but left out of Mean, Range and SD</span>':'')+
+    '</div><div class="ytw"><table class="yt"><thead><tr>'+
+    th('stat','Stat','st','The stats table’s own order.')+
+    seasons.map((s,i)=>th('y'+i,esc(yrsShort(L[i]))+(s.year===live?'*':''),'',
+      L[i]+(s.year===live?' — still being played':'')+'. Sort by this season’s value.')).join('')+
+    th('mean','Mean','sum gap','Average over the complete seasons, in the stat’s own units.')+
+    th('range','Range','','Highest season minus the lowest. Hover a figure for the two seasons.')+
+    th('sd','SD','','Standard deviation across the complete seasons, in the stat’s own units.')+
+    '</tr></thead><tbody>'+rows.map(row).join('')+'</tbody></table></div>';
+  yrsWireHead();
+  yrsWireModes(S,live);
+  const sub=$('yrssub');
+  if(sub) sub.textContent=`${all.length} stats for ${G===ALL?G.h.charAt(0).toLowerCase()+G.h.slice(1):G.h}`+
+    `${vsAll?' against all teams':''}, ${seasons.length} seasons`;
+  $('ygroup').onchange=e=>{ yrsGroup=e.target.value; paintYearsAvg(S,live); };
+  $('yvsall').onchange=e=>{ yrsVsAll=e.target.checked; paintYearsAvg(S,live); };
+  host.querySelectorAll('table.yt th button').forEach(b=>b.onclick=()=>{
+    const k=b.dataset.s;
+    if(k===yrsSortA) yrsDescA=!yrsDescA; else { yrsSortA=k; yrsDescA=k!=='stat'; }
+    paintYearsAvg(S,live);
   });
 }
 
@@ -2619,9 +2814,9 @@ function statRows(X){
     {k:'ft',   h:'FT%',        cls:'num', low:false, v:r=>r.ft,     d:r=>pc(r.ft), tip:'Free-throw percentage, season to date.'},
     {k:'ofg',  h:'Opp FG%',    cls:'num', low:true,  v:r=>r.oppFg,  d:r=>pc(r.oppFg), tip:'What opponents shot from the field. Lower is better.'},
     {k:'pace', h:'Pace',       cls:'num', low:false, v:r=>r.pace,   d:r=>f1(r.pace),
-     tip:'Possessions per 40 minutes. The figure that makes PPG misleading: a fast team scores more without being better.'},
-    {k:'ortg', h:'ORtg',       cls:'num', low:false, v:r=>r.ortg,   d:r=>f1(r.ortg), tip:'Points per 100 possessions. Pace-adjusted, so it compares a fast team and a slow one more fairly than PPG does.'},
-    {k:'drtg', h:'DRtg',       cls:'num', low:true,  v:r=>r.drtg,   d:r=>f1(r.drtg), tip:'Points allowed per 100 possessions. Lower is better.'},
+     tip:'Possessions per 40 minutes, estimated from the box score (shots, offensive rebounds, turnovers and free throws) rather than taken from play-by-play, which undercounts wherever its coverage is thin. The figure that makes PPG misleading: a fast team scores more without being better.'},
+    {k:'ortg', h:'ORtg',       cls:'num', low:false, v:r=>r.ortg,   d:r=>f1(r.ortg), tip:'Points per 100 possessions, the possessions estimated from the box score as Pace is. Pace-adjusted, so it compares a fast team and a slow one more fairly than PPG does.'},
+    {k:'drtg', h:'DRtg',       cls:'num', low:true,  v:r=>r.drtg,   d:r=>f1(r.drtg), tip:'Points allowed per 100 possessions, on the same box-score estimate. Lower is better.'},
   ];
   return {data,C};
 }
