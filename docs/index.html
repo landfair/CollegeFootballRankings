@@ -2691,8 +2691,8 @@ function paintYears(S,live){
 
    Rows are in different units, so the tint cannot be the value. It is the
    season's distance from the same stat's other complete seasons, in
-   standard deviations of their spread: blue above the usual level, orange
-   below, deeper the further, and no good or bad side to either. The corners
+   standard deviations of their spread: warm orange above the usual level,
+   cool blue below, deeper the further, and no good or bad side to either. The corners
    and the outline read that same distance the way the correlation mode
    reads its standard errors: each row's furthest season, each column's
    furthest stat, and any cell past two. With five or a dozen seasons the
@@ -2795,7 +2795,7 @@ function paintYearsAvg(S,live){
     if(y==null) return -1;
     return (yrsDescA?y-x:x-y)||cols.indexOf(a.c)-cols.indexOf(b.c);
   });
-  const tint=z=>z==null?'':`background:color-mix(in srgb,var(${z>=0?'--cool':'--warm'}) `+
+  const tint=z=>z==null?'':`background:color-mix(in srgb,var(${z>=0?'--warm':'--cool'}) `+
     `${Math.round(6+16*Math.min(3,Math.abs(z)))}%,transparent)`;
   const th=(k,label,cls,tip)=>`<th class="${[cls,yrsSortA===k?'on':'',
       yrsSortA===k&&!yrsDescA?'up':''].filter(Boolean).join(' ')}">`+
@@ -2827,7 +2827,7 @@ function paintYearsAvg(S,live){
     'A group is a band of this ranking’s places at each season’s own final week, graded '+
     'with the settings above, so its members change from year to year with the ranking. A cell '+
     'is tinted by how far that season sits from the same stat’s other seasons, in standard '+
-    'deviations of their spread: <b>blue</b> above its usual level, <b>orange</b> below, with '+
+    'deviations of their spread: <b>orange</b> above its usual level, <b>blue</b> below, with '+
     'neither meaning better. The corners and the outline read the same distance: each row’s '+
     'furthest season, each column’s furthest stat, and any cell past two. '+
     `<b>Mean</b>, <b>Range</b> and <b>SD</b> are in the stat’s own units, over the ${nDone} `+
