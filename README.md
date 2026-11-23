@@ -17,7 +17,7 @@ team page survives the move.
 | `docs/engine.js` | The ranking engine, shared by all three sections. Verified against the research build: 1,974 comparisons, zero differences. |
 | `docs/index.html` | Football rankings, with the AP and Coaches polls and ESPN's power index alongside. |
 | `docs/about.html` | How the method works, and what it can't do. |
-| `docs/season-20XX.json` | Football results, polls and power index, one file per season (2014–2026). |
+| `docs/season-20XX.json` | Football results, polls and box-score team statistics, one file per season (2014–2026); the current season also carries ESPN's power index. The statistics cover the regular season and championship weekend, the same games the ranking grades, and leave out havoc before 2016, where the feed measures it on another scale. |
 | `docs/season-all.json` | Every football season stacked into one, for the **All 13 seasons** view. Built from the files above by `build_combined.py`, never fetched. |
 | `docs/ncaam/` | The same, for men's college basketball (2021–22 through 2026–27). |
 | `docs/ncaaw/` | The same, for women's college basketball (2021–22 through 2026–27). No polls — see below. |
