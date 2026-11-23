@@ -362,16 +362,20 @@
   .ylg i{display:inline-block;width:12px;height:12px;border-radius:2px;vertical-align:-2px;
     margin-right:6px}
   .ylg i.xo{outline:1.5px solid var(--ink);outline-offset:-1.5px}
-  /* Corner ticks: dark top-right for a row's extreme, gold bottom-left for a
-     column's. Drawn as border triangles so they need no markup of their own. */
-  table.yt td,.ylg i.rmk,.ylg i.cmk{position:relative}
-  table.yt td.rm::after,.ylg i.rmk::after{content:"";position:absolute;top:0;right:0;
+  /* Corner ticks: dark on the right for a row's high (top) and low (bottom),
+     gold bottom-left for a column's extreme. Drawn as border triangles so
+     they need no markup of their own. */
+  table.yt td,.ylg i.rhk,.ylg i.rlk,.ylg i.cmk{position:relative}
+  table.yt td.rh::after,.ylg i.rhk::after{content:"";position:absolute;top:0;right:0;
     border-style:solid;border-width:0 8px 8px 0;
     border-color:transparent var(--ink) transparent transparent;border-top-right-radius:3px}
+  table.yt td.rl::after,.ylg i.rlk::after{content:"";position:absolute;bottom:0;right:0;
+    border-style:solid;border-width:0 0 8px 8px;
+    border-color:transparent transparent var(--ink) transparent;border-bottom-right-radius:3px}
   table.yt td.cm::before,.ylg i.cmk::before{content:"";position:absolute;bottom:0;left:0;
     border-style:solid;border-width:8px 0 0 8px;
     border-color:transparent transparent transparent var(--mark);border-bottom-left-radius:3px}
-  .ylg i.rmk,.ylg i.cmk{background:var(--soft)}
+  .ylg i.rhk,.ylg i.rlk,.ylg i.cmk{background:var(--soft)}
   /* The averages mode tints by distance from a stat's usual level, which has
      no good or bad side, so it uses a pair of colours that say neither. */
   :root{--cool:#2f6f9f;--warm:#c4661f}
@@ -2252,11 +2256,12 @@ function corrCentre(k){
 
    Every cell is measured by how far it sits from the same stat's other
    complete seasons, in standard errors (Fisher's z, each season's own team
-   count). Three marks are read off that one figure: an outline where it
-   passes two, a dark corner on each row's furthest season -- the year that
-   stat behaved least like itself -- and a gold corner on each column's
-   furthest stat -- what was most unusual about that season. Every row and
-   every column has its extreme, but only an outline says the extreme is
+   count). The marks are read off that figure: an outline where it passes
+   two, dark corners on each row's strongest season (top right) and weakest
+   (bottom right) -- the two years that stat strayed furthest from itself in
+   either direction -- and a gold corner on each column's furthest stat --
+   what was most unusual about that season. Every row and every column has
+   its extremes, but only an outline says an extreme is
    larger than chance; with a few dozen stats and a dozen seasons some cells
    pass two by chance alone, so even an outline marks where to look rather
    than a finding. The season still being played takes a column mark, read
@@ -2370,9 +2375,18 @@ function paintYears(S,live){
       return (Math.atanh(x.r)-zo)/Math.sqrt(1/(x.n-3)+1/w);
     });
     const out=zs.map((z,i)=>z!=null&&done[i]&&Math.abs(z)>2);
-    let rmax=-1;
-    zs.forEach((z,i)=>{ if(z!=null&&done[i]&&(rmax<0||Math.abs(z)>Math.abs(zs[rmax]))) rmax=i; });
-    return {c,cells,zs,out,rmax,mean,lo,hi,sd,range:lo?hi.r-lo.r:null,kind:pairKind(A.k,c.k)};
+    /* Strongest and weakest complete season, read in the stat's own
+       direction: for one that runs against the anchor, the strongest is the
+       most negative r. */
+    const dir=(mean??0)>=0?1:-1;
+    let rhi=-1, rlo=-1;
+    cells.forEach((x,i)=>{
+      if(!x||!done[i]) return;
+      if(rhi<0||dir*x.r>dir*cells[rhi].r) rhi=i;
+      if(rlo<0||dir*x.r<dir*cells[rlo].r) rlo=i;
+    });
+    if(rhi===rlo) rlo=-1;
+    return {c,cells,zs,out,rhi,rlo,mean,lo,hi,sd,range:lo?hi.r-lo.r:null,kind:pairKind(A.k,c.k)};
   });
   /* Each season's most unusual stat. Definitional rows are left out: they
      are arithmetic, and a column's mark should name something the season did. */
@@ -2414,15 +2428,16 @@ function paintYears(S,live){
     R.cells.map((x,i)=>{
       if(x==null)
         return `<td class="na" title="${esc(R.c.h+', '+L[i]+': no figure that season')}"></td>`;
-      const z=R.zs[i], cm=cmax[i]===R, rm=R.rmax===i;
-      const cls=[R.out[i]?'x':'',rm?'rm':'',cm?'cm':''].filter(Boolean).join(' ');
+      const z=R.zs[i], cm=cmax[i]===R, rh=R.rhi===i, rl=R.rlo===i;
+      const cls=[R.out[i]?'x':'',rh?'rh':'',rl?'rl':'',cm?'cm':''].filter(Boolean).join(' ');
       /* "Stronger" and "weaker" rather than above and below: for a stat that
          runs against the rating, a higher r is a weaker relationship. */
       const way=z==null?'':((z>0)===((R.mean??x.r)>=0)?'stronger':'weaker');
       return `<td${cls?` class="${cls}"`:''} style="${tint(x.r)}" title="${esc(
         `${R.c.h} with ${A.h}, ${L[i]}: r = ${sg(x.r,3)} over ${x.n} teams`+
         (z==null?'.':`, ${Math.abs(z).toFixed(1)} standard errors ${way} than its other seasons.`)+
-        (rm?` The most unusual season for ${R.c.h}.`:'')+
+        (rh?` ${R.c.h}\u2019s strongest season.`:'')+
+        (rl?` ${R.c.h}\u2019s weakest season.`:'')+
         (cm?` The most unusual stat in ${L[i]}${seasons[i].year===live?' so far':''}.`:'')+
         (R.out[i]?' More than two standard errors: larger than chance usually produces.':'')+
         (seasons[i].year===live?' Season still being played.':''))}">${sg(x.r)}</td>`;
@@ -2444,7 +2459,8 @@ function paintYears(S,live){
     `the next by roughly (1 − r²)/√n — about ${nz(noise)} at r = 0.6 `+
     `with ${n0} teams — so an SD near that is a relationship that holds steady. `+
     'Each cell is also measured by how many standard errors it sits from the same stat\u2019s '+
-    'other seasons: a dark corner marks each row\u2019s furthest season, a gold corner each '+
+    'other seasons: dark corners mark each row\u2019s strongest season (top right) and weakest '+
+    '(bottom right), a gold corner each '+
     'column\u2019s furthest stat, and an outline any cell past two \u2014 the corners find '+
     'every row\u2019s and column\u2019s extreme, the outline says whether it is bigger than '+
     'chance. Hover a cell for its figures. Click a stat\u2019s name to make it the column '+
@@ -2455,7 +2471,8 @@ function paintYears(S,live){
     '<div class="ylg">'+
     `<span><i style="${tint(0.6)}"></i>higher stat, higher ${esc(A.h)}</span>`+
     `<span><i style="${tint(-0.6)}"></i>higher stat, lower ${esc(A.h)}</span>`+
-    '<span><i class="rmk"></i>each stat\u2019s most unusual season</span>'+
+    '<span><i class="rhk"></i>each stat\u2019s strongest season</span>'+
+    '<span><i class="rlk"></i>its weakest</span>'+
     '<span><i class="cmk"></i>each season\u2019s most unusual stat</span>'+
     '<span><i class="xo"></i>more than two standard errors from that stat\u2019s other seasons</span>'+
     '<span><i style="background:var(--soft)"></i>no figure that season</span>'+
@@ -2496,8 +2513,8 @@ function paintYears(S,live){
    standard deviations of their spread: warm orange above the usual level,
    cool blue below, deeper the further, and no good or bad side to either. The corners
    and the outline read that same distance the way the correlation mode
-   reads its standard errors: each row's furthest season, each column's
-   furthest stat, and any cell past two. With five or a dozen seasons the
+   reads its standard errors: each row's highest and lowest season, each
+   column's furthest stat, and any cell past two. With five or a dozen seasons the
    spread itself is a rough estimate, so these say where to look.
 
    "As a difference from all teams" subtracts the whole field's average the
@@ -2576,9 +2593,9 @@ function paintYearsAvg(S,live){
       return so>0?(x.v-mo)/so:null;
     });
     const out=zs.map((z,i)=>z!=null&&done[i]&&Math.abs(z)>2);
-    let rmax=-1;
-    zs.forEach((z,i)=>{ if(z!=null&&done[i]&&(rmax<0||Math.abs(z)>Math.abs(zs[rmax]))) rmax=i; });
-    return {c,cells,zs,out,rmax,mean,lo,hi,sd,range:lo?hi.v-lo.v:null};
+    /* Highest and lowest complete season. */
+    const rhi=hi?hi.i:-1, rlo=lo&&lo!==hi?lo.i:-1;
+    return {c,cells,zs,out,rhi,rlo,mean,lo,hi,sd,range:lo?hi.v-lo.v:null};
   });
   const cmax=seasons.map((s,i)=>{
     let best=null;
@@ -2608,14 +2625,15 @@ function paintYearsAvg(S,live){
     R.cells.map((x,i)=>{
       if(x==null)
         return `<td class="na" title="${esc(R.c.h+', '+L[i]+': no figure that season')}"></td>`;
-      const z=R.zs[i], cm=cmax[i]===R, rm=R.rmax===i;
-      const cls=[R.out[i]?'x':'',rm?'rm':'',cm?'cm':''].filter(Boolean).join(' ');
+      const z=R.zs[i], cm=cmax[i]===R, rh=R.rhi===i, rl=R.rlo===i;
+      const cls=[R.out[i]?'x':'',rh?'rh':'',rl?'rl':'',cm?'cm':''].filter(Boolean).join(' ');
       return `<td${cls?` class="${cls}"`:''} style="${tint(z)}" title="${esc(
         `${R.c.h}, ${G.h}, ${L[i]}: `+
         (vsAll?`${fmtv(x.g)} against ${fmtv(x.a)} for all teams, a difference of ${sg(x.v)}`
               :`averages ${fmtv(x.v)}`)+` over ${x.n} team${x.n===1?'':'s'}`+
         (z==null?'.':`, ${Math.abs(z).toFixed(1)} standard deviations ${z>0?'above':'below'} its other seasons.`)+
-        (rm?` The most unusual season for ${R.c.h}.`:'')+
+        (rh?` ${R.c.h}\u2019s highest season.`:'')+
+        (rl?` ${R.c.h}\u2019s lowest season.`:'')+
         (cm?` The most unusual stat in ${L[i]}${seasons[i].year===live?' so far':''}.`:'')+
         (seasons[i].year===live?' Season still being played.':''))}">${show(x.v)}</td>`;
     }).join('')+
@@ -2631,8 +2649,9 @@ function paintYearsAvg(S,live){
     'with the settings above, so its members change from year to year with the ranking. A cell '+
     'is tinted by how far that season sits from the same stat’s other seasons, in standard '+
     'deviations of their spread: <b>orange</b> above its usual level, <b>blue</b> below, with '+
-    'neither meaning better. The corners and the outline read the same distance: each row’s '+
-    'furthest season, each column’s furthest stat, and any cell past two. '+
+    'neither meaning better. Dark corners mark each row’s highest season (top right) and '+
+    'lowest (bottom right), a gold corner each column’s furthest stat, and an outline any '+
+    'cell past two standard deviations. '+
     `<b>Mean</b>, <b>Range</b> and <b>SD</b> are in the stat’s own units, over the ${nDone} `+
     `complete season${nDone===1?'':'s'}. Tick the box to subtract the whole field’s average `+
     'the same season, which takes out shifts that moved everyone at once and leaves the '+
@@ -2645,7 +2664,8 @@ function paintYearsAvg(S,live){
     '<div class="ylg">'+
     `<span><i style="${tint(1.5)}"></i>above that stat’s usual level</span>`+
     `<span><i style="${tint(-1.5)}"></i>below it</span>`+
-    '<span><i class="rmk"></i>each stat’s most unusual season</span>'+
+    '<span><i class="rhk"></i>each stat’s highest season</span>'+
+    '<span><i class="rlk"></i>its lowest</span>'+
     '<span><i class="cmk"></i>each season’s most unusual stat</span>'+
     '<span><i class="xo"></i>more than two standard deviations from its other seasons</span>'+
     '<span><i style="background:var(--soft)"></i>no figure that season</span>'+
