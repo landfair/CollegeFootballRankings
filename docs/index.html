@@ -280,6 +280,20 @@
   .cscat .pt{fill:var(--mark);fill-opacity:.5}
   .cscat .fit{stroke:var(--mark);stroke-width:1.5;stroke-dasharray:4 3;fill:none}
   .cscat .axl{font-size:10px;fill:var(--muted)}
+  /* The hover card on both scatters. It is placed inside .cscat, so that box
+     is the positioning context; pointer-events none keeps it from stealing
+     the pointer from the plot underneath. */
+  .cscat{position:relative}
+  .cscat svg .pt.hot{fill:var(--ink);fill-opacity:1;stroke:var(--panel);stroke-width:1.5}
+  .ctip{position:absolute;z-index:5;pointer-events:none;display:flex;gap:9px;
+    align-items:center;max-width:270px;padding:6px 11px 6px 7px;
+    background:var(--panel);color:var(--ink);border:1px solid var(--rule);
+    border-radius:7px;box-shadow:0 6px 18px rgba(0,0,0,.16);
+    font-size:12px;line-height:1.35}
+  .ctip[hidden]{display:none}
+  .ctip img{width:30px;height:30px;object-fit:contain;flex:none}
+  .ctip b{display:block;font-size:13px}
+  .ctip span{display:block;color:var(--muted)}
   .cpick{display:flex;flex-wrap:wrap;gap:6px 8px;margin:9px 0}
   @media (max-width:640px){
     .crow{grid-template-columns:1.8em 1fr 4em;gap:8px}
@@ -1586,6 +1600,90 @@ function corrRow(p,i){
 const fmtv=v=>Math.abs(v)>=100?v.toFixed(0):Math.abs(v)>=10?v.toFixed(1)
   :Math.abs(v)>=1?v.toFixed(2):v.toFixed(3);
 
+/* ---- scatter hover ------------------------------------------------------
+   A dot is three pixels across, and a native <title> tooltip fires only when
+   the pointer is exactly on one and only after the browser's own delay -- on
+   a crowded plot that is a target to hunt for. So both scatters take the
+   pointer anywhere over the chart and show the NEAREST dot within reach, at
+   once. Reach is measured in screen pixels, so it is the same on a phone as
+   on a wide monitor however the SVG has been scaled. A tap does the same.
+
+   Each dot carries its team and its figures as data attributes (data-t, and
+   data-d / data-e for the card's two lines), so the plot functions know
+   nothing about the hover and the hover nothing about what was plotted.
+
+   LOGOS come from logos.json beside the page, written by build_logos.py: team
+   name to ESPN id, the image itself on CollegeFootballData's CDN, in its dark
+   variant when the page is dark. Fetched once, on the first plot, and only
+   then; a team with no entry, or an image that fails to load, simply gets a
+   card without a picture. Showing a logo is the one moment this page asks a
+   third party for anything while it is being read. */
+const REACH=28;
+let LOGOS=null, LOGOP=null;
+const loadLogos=()=>LOGOP||(LOGOP=fetch('logos.json')
+  .then(r=>r.ok?r.json():null).then(d=>{ if(d&&d.src&&d.ids) LOGOS=d; })
+  .catch(()=>{}));
+const darkPage=()=>document.documentElement.dataset.theme!=='light'&&
+  !!window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches;
+const logoURL=team=>{
+  const id=LOGOS&&LOGOS.ids[team];
+  return id?`${LOGOS.src}${darkPage()?'-dark':''}/64/${id}.png`:null;
+};
+function wireScatter(root){
+  loadLogos();
+  root.querySelectorAll('.cscat').forEach(box=>{
+    const svg=box.querySelector('svg');
+    const dots=svg?[...svg.querySelectorAll('circle.pt[data-t]')]:[];
+    if(!dots.length) return;
+    const tip=document.createElement('div');
+    tip.className='ctip'; tip.hidden=true; tip.setAttribute('aria-hidden','true');
+    box.appendChild(tip);
+    let hot=null;
+    const cool=()=>{ if(!hot) return;
+      hot.classList.remove('hot'); hot.setAttribute('r',hot.dataset.r0); hot=null; };
+    const hide=()=>{ cool(); tip.hidden=true; };
+    const show=ev=>{
+      const m=svg.getScreenCTM(); if(!m) return;
+      let best=null, bd=REACH*REACH;
+      for(const c of dots){
+        const cx=+c.getAttribute('cx'), cy=+c.getAttribute('cy');
+        const x=m.a*cx+m.c*cy+m.e, y=m.b*cx+m.d*cy+m.f;
+        const d=(x-ev.clientX)**2+(y-ev.clientY)**2;
+        if(d<bd){ bd=d; best={c,x,y}; }
+      }
+      if(!best){ hide(); return; }
+      if(best.c!==hot){
+        cool();
+        hot=best.c;
+        if(!hot.dataset.r0) hot.dataset.r0=hot.getAttribute('r');
+        hot.setAttribute('r',(+hot.dataset.r0+2.2).toFixed(1));
+        hot.classList.add('hot');
+        hot.parentNode.appendChild(hot);   // drawn last, so on top of its neighbours
+        const t=hot.dataset.t, src=logoURL(t);
+        tip.innerHTML=(src?`<img src="${esc(src)}" alt="">`:'')+
+          `<div><b>${esc(t)}</b><span>${esc(hot.dataset.d||'')}</span>`+
+          (hot.dataset.e?`<span>${esc(hot.dataset.e)}</span>`:'')+`</div>`;
+        const im=tip.querySelector('img'); if(im) im.onerror=()=>im.remove();
+      }
+      tip.hidden=false;
+      /* Above and to the right of the dot, flipped when that would leave the
+         box, so the card never covers the dot it describes. */
+      const br=box.getBoundingClientRect();
+      const px=best.x-br.left, py=best.y-br.top;
+      let left=px+14, top=py-tip.offsetHeight-10;
+      if(left+tip.offsetWidth>box.clientWidth) left=px-14-tip.offsetWidth;
+      if(top<0) top=py+14;
+      tip.style.left=Math.max(0,left)+'px';
+      tip.style.top=top+'px';
+    };
+    svg.addEventListener('pointermove',show);
+    svg.addEventListener('pointerdown',show);
+    /* A touch ends with a pointerleave as well, which would take the card
+       away the moment the finger lifts; on touch it stays until the next tap. */
+    svg.addEventListener('pointerleave',ev=>{ if(ev.pointerType==='mouse') hide(); });
+  });
+}
+
 /* A scatter of the chosen pair with its least-squares line. Drawn in SVG at a
    fixed viewBox and scaled by CSS, so it stays sharp and needs no measuring. */
 function corrScatter(p){
@@ -1603,9 +1701,9 @@ function corrScatter(p){
   for(let i=0;i<n;i++){ sxy+=(xs[i]-mx)*(ys[i]-my); sxx+=(xs[i]-mx)**2; }
   const slope=sxx>0?sxy/sxx:0, icpt=my-slope*mx;
   const pts=xs.map((x,i)=>
-    `<circle class="pt" cx="${sx(x).toFixed(1)}" cy="${sy(ys[i]).toFixed(1)}" r="2.6">`+
-    `<title>${esc(p.teams[i]+' — '+p.a.h+' '+fmtv(x)+', '+p.b.h+' '+fmtv(ys[i]))}</title>`+
-    `</circle>`).join('');
+    `<circle class="pt" cx="${sx(x).toFixed(1)}" cy="${sy(ys[i]).toFixed(1)}" r="2.6" `+
+    `data-t="${esc(p.teams[i])}" data-d="${esc(p.a.h+' '+fmtv(x))}" `+
+    `data-e="${esc(p.b.h+' '+fmtv(ys[i]))}"/>`).join('');
   const fit=`<line class="fit" x1="${sx(x0).toFixed(1)}" y1="${sy(slope*x0+icpt).toFixed(1)}" `+
     `x2="${sx(x1).toFixed(1)}" y2="${sy(slope*x1+icpt).toFixed(1)}"/>`;
   const num=v=>Math.abs(v)>=100?v.toFixed(0):v.toFixed(1);
@@ -1900,7 +1998,7 @@ function renderCorr(){
     `<b${sel.b.tip?` title="${esc(sel.b.h+' — '+sel.b.tip)}" class="defn"`:''}>${esc(sel.b.h)}</b>`+
     ` — `+
     `r = ${sel.r>0?'+':'−'}${Math.abs(sel.r).toFixed(3)} over ${sel.n} teams `+
-    `(${strengthWord(sel.r)}). Each dot is a team; hover one to name it. `+
+    `(${strengthWord(sel.r)}). Each dot is a team; point at or near one to name it. `+
     `The dashed line is the least-squares fit.</p>`;
 
   html+=`<div class="combohd" style="margin-top:14px">strongest relationships `+
@@ -1921,6 +2019,7 @@ function renderCorr(){
 
   host.innerHTML=html;
   wire2();
+  wireScatter(host);
   const m=$('more'); if(m) m.onclick=()=>{ corrAll=!corrAll; renderCorr(); };
   host.querySelectorAll('button.tm2').forEach(b=>b.onclick=()=>{
     const k=[b.dataset.a,b.dataset.b];
@@ -1981,33 +2080,44 @@ function pollScatter(p){
      longer y=x in pixels, so it is drawn from the shared rank range -- it
      still marks exact agreement, which is what it is for. */
   const hiP=maxP, hiO=maxO, hi=Math.max(maxP,maxO);
-  /* A SQUARE-ROOT axis, not a linear one. Early in a basketball season this
-     ranking can place an AP team near 180 while most of the poll sits inside
-     the top 40, and a linear scale then spends nine tenths of its width on
-     one outlier and crushes everything else into the corner. Rank is ordinal,
-     so stretching the crowded head of the field costs nothing a reader needs:
-     order is preserved, #1 still sits at the origin, and the diagonal is
-     still exact agreement because the same transform is applied to both axes.
-     Where the field is shallow the two scales are near enough identical. */
-  const tr=v=>Math.sqrt(v-1);
+  /* LINEAR THROUGH THE POLL'S OWN DEPTH, and compressed only past it. A plain
+     linear axis fails early in a basketball season, when this ranking can put
+     an AP team near 180 while the rest of the poll sits inside the top 40:
+     nine tenths of the height goes on one outlier. This used to be a square
+     root of the place, which fixed that but stretched the head instead -- a
+     root is steepest at #1, so places 1 to 5 took two fifths of a 25-team
+     axis and the teams most worth comparing were the ones spread furthest
+     apart.
+     So both axes are linear up to the poll's depth L (25, normally) and
+     logarithmic beyond it, joined at the same slope so there is no visible
+     kink. Every poll place is on a linear scale; this ranking's axis is
+     linear wherever it overlaps the poll; only the overflow -- a team the
+     poll has 20th and this ranking 140th -- is pulled in. The diagonal runs
+     from #1 to the shallower depth, which lies wholly in the linear part of
+     both axes, so it is still a straight line and still exact agreement. */
+  const L=Math.max(2,hiP);
+  const tr=v=>v<=L?v-1:(L-1)+L*Math.log(v/L);
   const spanP=tr(hiP)||1, spanO=tr(hiO)||1;
   const sx=v=>PL+(tr(v)/spanP)*(W-PL-PR);
   const sy=v=>PT+(tr(v)/spanO)*(H-PT-PB);
   /* Ticks at readable places rather than only the two ends, since a
      non-linear axis needs them to be legible. Each axis gets its own. */
-  const tk=m=>{const t=[1,5,10,25,50,100,200,300].filter(x=>x<=m);
-    if(t[t.length-1]!==m) t.push(m); return t;};
-  const tkX=tk(hiP), tkY=tk(hiO);
+  /* The deepest place is always labelled, so a tick too close to it to read
+     beside it is dropped rather than printed on top of it. */
+  const tk=(m,s)=>{const t=[1,5,10,15,20,25,50,100,200,300]
+    .filter(x=>x<m&&Math.abs(s(m)-s(x))>=14); t.push(m); return t;};
+  const tkX=tk(hiP,sx), tkY=tk(hiO,sy);
   const dots=pairs.map(d=>{
     const off=d.poll-d.ours;          // positive: we are higher on them
     const cls=Math.abs(off)>=Math.max(6,hi*0.12)?'pt far':'pt';
-    return `<circle class="${cls}" cx="${sx(d.poll).toFixed(1)}" cy="${sy(d.ours).toFixed(1)}" r="3">`+
-      `<title>${esc(`${d.team} — ${p.other} #${d.poll}, ${vAxis(p)} #${d.ours}`+
+    return `<circle class="${cls}" cx="${sx(d.poll).toFixed(1)}" cy="${sy(d.ours).toFixed(1)}" r="3" `+
+      `data-t="${esc(d.team)}" data-d="${esc(`${p.other} #${d.poll} · ${vAxis(p)} #${d.ours}`)}" `+
+      `data-e="${esc(
         /* "we" only reads right when one side IS this ranking; the
            yardstick plot sets two polls against each other. */
-        (off===0?' (exact agreement)':off>0
-          ?` (${p.mineLabel?p.mineLabel+' is':'we are'} ${off} place${off===1?'':'s'} higher)`
-          :` (${p.mineLabel?p.mineLabel+' is':'we are'} ${-off} place${off===-1?'':'s'} lower)`))}</title></circle>`;
+        off===0?'Exact agreement':off>0
+          ?`${p.mineLabel?p.mineLabel+' is':'We are'} ${off} place${off===1?'':'s'} higher`
+          :`${p.mineLabel?p.mineLabel+' is':'We are'} ${-off} place${off===-1?'':'s'} lower`)}"/>`;
   }).join('');
   /* Name the half-dozen furthest from the diagonal: the plot's whole point
      is which teams the two sides read differently, and a reader should not
@@ -2045,7 +2155,7 @@ function showPollPlot(p){
     `${p.n} teams ${p.other} ranks. Each dot is a team: the dashed diagonal is `+
     `exact agreement, and a dot’s distance from it is how far the two sides `+
     `differ on that team. Above the line ${esc(vAxis(p))} is <b>higher</b> on a team `+
-    `than ${p.other} is; below it, lower. Hover any dot for the two places.</p>`+
+    `than ${p.other} is; below it, lower. Point at or near any dot for the team and its two places.</p>`+
     pollScatter(p)+
     `<p class="cdetail">${exact} team${exact===1?'':'s'} placed identically, `+
     `${above} rated higher by ${esc(vAxis(p))} than by ${p.other}, ${below} rated lower.</p>`+
@@ -2065,6 +2175,7 @@ function showPollPlot(p){
         `carry preseason expectation and what they have watched. This ranking reads `+
         `results alone. The gap is the comparison, not a fault in either.</p>`);
   d.showModal();
+  wireScatter($('pollbody'));
   $('pollbody').querySelectorAll('button.tm').forEach(b=>b.onclick=()=>{
     d.close(); go(b.dataset.t);
   });

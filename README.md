@@ -18,11 +18,14 @@ team page survives the move.
 | `docs/index.html` | Football rankings, with the AP and Coaches polls and ESPN's power index alongside. |
 | `docs/about.html` | How the method works, and what it can't do. |
 | `docs/season-20XX.json` | Football results, polls and power index, one file per season (2014–2026). |
+| `docs/season-all.json` | Every football season stacked into one, for the **All 13 seasons** view. Built from the files above by `build_combined.py`, never fetched. |
 | `docs/ncaam/` | The same, for men's college basketball (2021–22 through 2026–27). |
 | `docs/ncaaw/` | The same, for women's college basketball (2021–22 through 2026–27). No polls — see below. |
 | `docs/basketball/` | A redirect stub to `/ncaam/`, so links handed out before the rename still work. |
 | `recursive-rankings.html` | The research build — slates, the draft triangle, per-game revision history, poll comparison, backtesting. Open it directly; it loads a season through its own file picker. |
 | `fetch_season.py` | Pulls a football season from CollegeFootballData.com. |
+| `build_combined.py` | Rebuilds `docs/season-all.json` from the season files. Run it after every football pull. |
+| `build_logos.py` | Writes `logos.json` in each section: team name to ESPN id, for the logos on the scatter-plot hover cards. The images are CollegeFootballData's, fetched by the reader's browser only when a card shows. Re-run when a team joins a division; a missing entry just means a card without a picture. |
 | `fetch_basketball.py` | Pulls a men's basketball season from CollegeBasketballData.com. The same API key works for both. |
 | `fetch_wbasketball.py` | Pulls a women's basketball season from the wehoop data repository. No API key; needs `pyarrow`. |
 
@@ -76,13 +79,24 @@ ranked one regardless of when it fell.
 ```sh
 export COLLEGE_FOOTBALL_API_KEY='your-key'   # free at collegefootballdata.com/key
 python3 fetch_season.py --year 2026 --out docs/season-2026.json --include-title-games
+python3 build_combined.py --out docs/season-all.json   # after every football pull
 python3 fetch_basketball.py --season 2027 --out docs/ncaam/season-2027.json
 python3 fetch_wbasketball.py --season 2027 --out docs/ncaaw/season-2027.json
 ```
 
+**Rebuild the combined file after every football pull**, and commit it with the
+season file. The **All 13 seasons** view reads `docs/season-all.json` and nothing
+else, so a pull that skips `build_combined.py` leaves that view frozen at the last
+rebuild while every single-season view moves on, with nothing on the page to say
+so. In November 2026 it sat a week behind across three commits before anyone
+noticed. The rebuild takes a second and changes nothing else.
+
 A basketball season is named for the year it ends in, so the 2026–27 season is
 `--season 2027`. Adding a season also needs an `<option>` in the `season` select
-of the relevant `index.html`; the newest sits first and is what the page opens on.
+of the relevant `index.html`, newest year first. The page opens on whichever
+option is selected: the first, unless one is marked `selected`. Football marks
+2026, because **All 13 seasons** sits above it, so move `selected` to a new
+year when adding one.
 
 ### The women's game comes from somewhere else
 
