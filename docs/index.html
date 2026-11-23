@@ -12,12 +12,14 @@
     /* a fourth line colour for the chart: the committee's ranking, which has to
        stay apart from the gold of this ranking and the ink and grey of the polls */
     --poll3:#2f6f9f;
+    /* the alternate universe: everything a what-if touches, and nothing else */
+    --alt:#6f4fd6;
     --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
   }
   @media (prefers-color-scheme:dark){
     :root:not([data-theme=light]){
       --bg:#17171a; --ink:#ecebe6; --muted:#9a998f; --rule:#33332f;
-      --soft:#222226; --mark:#d9a62e; --win:#5fbd85; --loss:#e0756a; --panel:#1e1e22;
+      --soft:#222226; --mark:#d9a62e; --win:#5fbd85; --loss:#e0756a; --panel:#1e1e22; --alt:#a993ff;
       --poll3:#6fb6e8;
     }
   }
@@ -182,6 +184,53 @@
   .lg{display:inline-block;width:18px;height:18px;vertical-align:-4px;
     margin-right:7px;object-fit:contain}
   .lg.lgh{width:36px;height:36px;vertical-align:-8px;margin-right:12px}
+  /* What if. A result flipped from a team page puts the whole page inside a
+     frame of its own colour, with a tab at the top edge saying so, and that
+     colour is used for nothing else on the site: whatever is violet belongs to
+     the alternate universe, and while any of it is on, the frame is there. */
+  body.wif-on::before{content:"";position:fixed;inset:0;z-index:60;pointer-events:none;
+    border:3px solid var(--alt);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.25),inset 0 0 70px -10px var(--alt)}
+  body.wif-on::after{content:"Alternate universe";position:fixed;top:0;left:50%;z-index:61;
+    transform:translateX(-50%);pointer-events:none;padding:3px 14px 4px;
+    background:var(--alt);color:#fff;border-radius:0 0 8px 8px;
+    font:600 11px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+  button.wif{background:none;border:1px solid var(--rule);border-radius:5px;padding:1px 8px;
+    font:inherit;font-size:11.5px;color:var(--muted);cursor:pointer;white-space:nowrap}
+  button.wif:hover{color:var(--alt);border-color:var(--alt)}
+  button.wif[aria-pressed=true]{color:var(--alt);border-color:var(--alt);font-weight:600}
+  .g .res.hyp{display:none}
+  .g.flipped .res.hyp{display:inline;outline:1.5px dashed var(--alt);outline-offset:3px;
+    border-radius:2px}
+  .g.flipped .res.act{text-decoration:line-through;opacity:.45}
+  .g.flipped{box-shadow:inset 3px 0 var(--alt);padding-left:10px}
+  .wifp{position:relative;border:1.5px solid var(--alt);border-radius:10px;
+    padding:12px 16px 14px;margin:18px 0 22px;transition:opacity .15s;background-color:var(--panel);
+    background-image:repeating-linear-gradient(135deg,transparent 0 11px,
+      color-mix(in srgb,var(--alt) 7%,transparent) 11px 22px)}
+  .wifp.busy{opacity:.45}
+  .wifhd{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .wifhd b{font-size:15px;color:var(--alt)}
+  .wifhd .sub{color:var(--muted);font-size:13px}
+  .wifhd .back{margin-left:auto}
+  .wifp .facts{margin:10px 0 12px}
+  .wiflist{display:grid;gap:6px;margin:0 0 14px;font-size:13.5px}
+  .wiflist .res.was{text-decoration:line-through;opacity:.5}
+  .wiftw{overflow-x:auto}
+  .wift tr.me td{background:color-mix(in srgb,var(--alt) 12%,transparent)}
+  .wift tr.opp td:first-child{box-shadow:inset 3px 0 var(--alt)}
+  .wifmoves{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;margin-bottom:4px}
+  /* Not .cf: that class is the conference column, hidden on a phone. */
+  .wcf{font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .wifbar{position:sticky;bottom:14px;z-index:6;display:flex;align-items:center;gap:12px;
+    flex-wrap:wrap;margin:16px auto 0;max-width:660px;padding:9px 14px;
+    border:1.5px solid var(--alt);border-radius:10px;background:var(--panel);
+    box-shadow:0 8px 24px rgba(0,0,0,.18);font-size:13.5px;transition:opacity .15s}
+  .wifbar[hidden]{display:none}
+  .wifbar.away{opacity:0;pointer-events:none}
+  .wifbar > b{color:var(--alt)}
+  .wifbar .back{font-size:13px}
+  .wifbar .back:first-of-type{margin-left:auto}
   /* team page */
   .slatenav{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0 14px}
   .slatenav select{font:inherit;font-size:13px;padding:3px 6px}
@@ -763,6 +812,8 @@ if(window.matchMedia) matchMedia('(prefers-color-scheme: dark)')
 
 function render(){
   if(!SEASON) return;
+  /* Off unless a team page with a flip on turns it back on below. */
+  wifVeil(false);
   if(VIEW.kind==='team') renderTeam(VIEW.team);
   else if(VIEW.kind==='slates') renderSlates(VIEW.bucket);
   else if(VIEW.kind==='backtest') renderBacktest();
@@ -1147,6 +1198,184 @@ function renderList(){
   wire($('tbl'));
 }
 
+/* ---- what if ------------------------------------------------------------
+   Any of a team's results can be flipped from its page -- as many as the
+   reader likes -- and the whole field is re-ranked as though those games had
+   gone the other way. Nothing else on the page changes: the tiles, the chart
+   and every game line stay the season as played, and the panel above the
+   games is the only place the alternative is shown, so the two never share a
+   line. While any flip is on, the page sits inside the alternate-universe
+   frame (body.wif-on), so nobody reads a fantasy as the record.
+
+   A flip swaps winner and loser and nothing more. This ranking reads results
+   alone, so a scoreline would add nothing. The swapped game is regraded with
+   everyone else's, which is what makes the answer worth having: an upset
+   moves the loser, the winner, both sides' other opponents and, through them,
+   the rest of the field.
+
+   COST. A re-rank is a full solve -- the engine, the weighting's fixed point
+   and the victors gate -- measured at about 150 to 200 ms on a football or a
+   basketball season, whatever the number of flips: it is one solve over the
+   amended season either way, so nothing limits how many results change. It
+   runs after the click has painted, so the button answers at once, and each
+   answer is cached by its set of flips, so redrawing the page costs nothing.
+   The combined view does not offer it: one solve over thirteen seasons runs
+   to seconds (the ranking step alone measured at one), the same reason it has
+   no rank-by-week chart.
+
+   Flips belong to one team in one season and are dropped on moving to
+   another. They are keyed by week and the two teams rather than by a game's
+   index, so a change of scoring or pool, which rebuilds the season, keeps
+   them. Pulling the week slider back hides a flip that lies past it, and
+   moving forward again brings it back. */
+let WHATIF={year:null,team:null,keys:new Set()}, WIFCTX=null, wifToken=0, WIFOBS=null;
+const WIFCACHE=new Map();
+const gkey=gm=>gm.week+'|'+gm.winner+'|'+gm.loser;
+const wifWhen=w=>'Week '+w;
+function wifState(team){
+  if(WHATIF.team!==team||WHATIF.year!==YEAR) WHATIF={year:YEAR,team,keys:new Set()};
+  return WHATIF;
+}
+const wifVeil=on=>document.body.classList.toggle('wif-on',!!on);
+/* The flips inside the current horizon, as games, in order. */
+const wifGames=(keys,h)=>SEASON.games.filter(gm=>gm.week<=h&&keys.has(gkey(gm)))
+  .sort((a,b)=>a.week-b.week);
+function hypothetical(h,g,games){
+  const keys=new Set(games.map(gkey)), wm=$('wmode').value;
+  const ck=[YEAR,ENG.scoring,ENG.pool,wm,h,g.mode,g.n,
+            [...keys].sort().join('\u0001')].join('\u0002');
+  const hit=WIFCACHE.get(ck); if(hit) return hit;
+  const s2={...SEASON,games:SEASON.games.map(gm=>keys.has(gkey(gm))
+    ?{...gm,winner:gm.loser,loser:gm.winner}:gm)};
+  const e2=engine(s2,{scoring:ENG.scoring,pool:ENG.pool});
+  const W2=wm==='off'?null:weighted(e2,s2,h,{mode:wm});
+  const rows=W2?W2.rows:rank(e2,s2,h);
+  const out={rows,gated:applyGate(e2,rows,g.mode,g.n,h)};
+  if(WIFCACHE.size>=40) WIFCACHE.clear();
+  WIFCACHE.set(ck,out);
+  return out;
+}
+const wifMove=(x,y)=>{
+  if(!x||!y) return '';
+  const d=x.rank-y.rank;
+  return d>0?`<span class="up">\u25b2${d}</span>`:d<0?`<span class="dn">\u25bc${-d}</span>`
+    :'<span class="nr">no change</span>';
+};
+function whatIfHTML(C,hyp,games){
+  const team=C.team;
+  const A=new Map(C.rows.map(r=>[r.team,r])), B=new Map(hyp.rows.map(r=>[r.team,r]));
+  const a=A.get(team), b=B.get(team);
+  const rk=r=>r?'#'+r.rank:'NR', rec=r=>r?`${r.wins}\u2011${r.losses}`:'\u2014';
+  const inA=new Set(C.gated.kept.map(r=>r.team)), inB=new Set(hyp.gated.kept.map(r=>r.team));
+  const struckB=new Set(hyp.gated.all.filter(r=>!inB.has(r.team)).map(r=>r.team));
+  const opps=new Set(games.map(gm=>gm.winner===team?gm.loser:gm.winner));
+  const n=games.length;
+  let html='<div class="wifp">'+
+    `<div class="wifhd"><b>What if</b><span class="sub">${n} result${n===1?'':'s'} flipped, `+
+    `the whole field re-ranked through ${esc(wifWhen(C.h))}</span>`+
+    `<button class="back" id="wifreset">Reset to the real season</button></div>`;
+  html+='<div class="facts">'+
+    `<div class="fact"><b>${rk(a)} \u2192 ${rk(b)}</b><span>HERE ${wifMove(a,b)}</span></div>`+
+    `<div class="fact"><b>${rec(a)} \u2192 ${rec(b)}</b><span>RECORD</span></div>`+
+    (a&&b?`<div class="fact"><b>${a.key.toFixed(1)} \u2192 ${b.key.toFixed(1)}</b><span>RATING</span></div>`:'')+
+    (C.g.mode!=='off'&&inA.has(team)!==inB.has(team)
+      ?`<div class="fact"><b>${inA.has(team)?'clear':'struck'} \u2192 ${inB.has(team)?'clear':'struck'}</b>`+
+       `<span>VICTORS GATE</span></div>`:'')+
+    '</div>';
+  html+='<div class="wiflist">'+games.map(gm=>{
+    const won=gm.winner===team, o=won?gm.loser:gm.winner;
+    return `<div><span class="gw">${esc(wifWhen(gm.week))}</span> `+
+      `<span class="res ${won?'w':'l'} was">${won?'beat':'lost to'}</span> \u2192 `+
+      `<span class="res ${won?'l':'w'}">${won?'lost to':'beat'}</span> `+
+      `<button class="tm" data-t="${esc(o)}">${logo(o)}${esc(o)}</button> `+
+      `<span class="wcf">${rk(A.get(o))} \u2192 ${rk(B.get(o))} ${wifMove(A.get(o),B.get(o))}</span></div>`;
+  }).join('')+'</div>';
+  const top=hyp.rows.filter(r=>r.rank<=25), inTop=new Set(top.map(r=>r.team));
+  html+='<div class="combohd">the top 25 in this universe</div><div class="wiftw">'+
+    '<table class="htbl wift"><thead><tr><th>#</th><th style="text-align:left">Team</th>'+
+    '<th>Rec</th><th>Rating</th><th>As played</th><th>Move</th></tr></thead><tbody>'+
+    top.map(r=>{
+      const x=A.get(r.team);
+      const cls=[r.team===team?'me':'',opps.has(r.team)?'opp':'',
+                 struckB.has(r.team)?'gated':''].filter(Boolean).join(' ');
+      return `<tr${cls?` class="${cls}"`:''}><td>${r.rank}</td>`+
+        `<td style="text-align:left"><button class="tm" data-t="${esc(r.team)}">`+
+        `${logo(r.team)}${esc(r.team)}</button></td><td>${rec(r)}</td>`+
+        `<td>${r.key.toFixed(1)}</td><td class="nr">${rk(x)}</td><td>${wifMove(x,r)}</td></tr>`;
+    }).join('')+'</tbody></table></div>';
+  const out=C.rows.filter(r=>r.rank<=25&&!inTop.has(r.team));
+  if(out.length) html+='<p class="cdetail" style="margin-top:8px">Out of the top 25: '+
+    out.map(r=>`${esc(r.team)} (#${r.rank} \u2192 ${rk(B.get(r.team))})`).join(', ')+'.</p>';
+  const moves=hyp.rows.filter(r=>r.team!==team&&A.has(r.team)&&A.get(r.team).rank!==r.rank)
+    .map(r=>({t:r.team,a:A.get(r.team),b:r}))
+    .sort((x,y)=>Math.abs(y.a.rank-y.b.rank)-Math.abs(x.a.rank-x.b.rank)||x.b.rank-y.b.rank)
+    .slice(0,8);
+  if(moves.length) html+='<div class="combohd">moved furthest</div><div class="wifmoves">'+
+    moves.map(m=>`<span><button class="tm" data-t="${esc(m.t)}">${logo(m.t)}${esc(m.t)}</button> `+
+      `<span class="wcf">${rk(m.a)} \u2192 ${rk(m.b)}</span> ${wifMove(m.a,m.b)}</span>`).join('')+'</div>';
+  html+='<p class="cdetail" style="margin:12px 0 0">Only this box is the alternate universe; '+
+    'everything outside it is the season as played. The re-rank uses the same scoring, pool, '+
+    'weighting and victors gate as the table, at the same point in the season. A flipped game '+
+    'swaps winner and loser and nothing else, since this ranking reads results alone.</p>';
+  return html+'</div>';
+}
+function wifBarHTML(C,hyp,games){
+  const a=C.rows.find(r=>r.team===C.team), b=hyp.rows.find(r=>r.team===C.team);
+  return `<b>What if</b><span>${games.length} flipped \u00b7 ${logo(C.team)}${esc(C.team)} `+
+    `<b>${a?'#'+a.rank:'NR'} \u2192 ${b?'#'+b.rank:'NR'}</b> ${wifMove(a,b)}</span>`+
+    `<button class="back" id="wifshow">See the field \u2191</button>`+
+    `<button class="back" id="wifreset2">Reset</button>`;
+}
+function markFlip(b,on){
+  b.closest('.g').classList.toggle('flipped',on);
+  b.setAttribute('aria-pressed',on?'true':'false');
+  b.textContent=on?'undo':'what if?';
+}
+function drawWhatIf(){
+  const box=$('whatif'), bar=$('wifbar'), C=WIFCTX;
+  if(!box||!C) return;
+  const games=wifGames(wifState(C.team).keys,C.h), tok=++wifToken;
+  if(WIFOBS){ WIFOBS.disconnect(); WIFOBS=null; }
+  if(!games.length){ box.innerHTML=''; if(bar) bar.hidden=true; wifVeil(false); return; }
+  wifVeil(true);
+  const p=box.querySelector('.wifp'); if(p) p.classList.add('busy');
+  if(bar){ bar.hidden=false;
+    bar.innerHTML=`<b>What if</b><span>Re-ranking the field with ${games.length} `+
+      `result${games.length===1?'':'s'} flipped\u2026</span>`; }
+  setTimeout(()=>{
+    if(tok!==wifToken) return;
+    const hyp=hypothetical(C.h,C.g,games);
+    if(tok!==wifToken||$('whatif')!==box) return;
+    box.innerHTML=whatIfHTML(C,hyp,games);
+    wire(box);
+    if(bar) bar.innerHTML=wifBarHTML(C,hyp,games);
+    const reset=()=>{
+      wifState(C.team).keys.clear();
+      $('games').querySelectorAll('button.wif[aria-pressed=true]').forEach(x=>markFlip(x,false));
+      drawWhatIf();
+    };
+    for(const id of ['wifreset','wifreset2']){ const r=$(id); if(r) r.onclick=reset; }
+    const sh=$('wifshow');
+    if(sh) sh.onclick=()=>box.scrollIntoView({behavior:'smooth',block:'start'});
+    /* The bar stands in for the panel while the panel is off screen, and
+       steps aside when it is in view rather than repeat it. */
+    if(bar&&'IntersectionObserver' in window){
+      WIFOBS=new IntersectionObserver(es=>bar.classList.toggle('away',es[0].isIntersecting));
+      WIFOBS.observe(box);
+    }
+  },30);
+}
+function wireWhatIf(team){
+  const S=wifState(team);
+  $('games').querySelectorAll('button.wif').forEach(b=>b.onclick=()=>{
+    const k=b.dataset.k;
+    if(S.keys.has(k)) S.keys.delete(k); else S.keys.add(k);
+    markFlip(b,S.keys.has(k));
+    drawWhatIf();
+  });
+  drawWhatIf();
+}
+
 function renderTeam(team){
   const {h,g,rows,W,S,P,gated}=current();
   const SI=sosInfo(S,rows), ST=S.get(team), PT=P.get(team);
@@ -1278,6 +1507,8 @@ function renderTeam(team){
     pollSeries('Coaches Poll','var(--muted)','2 3'),
     pollSeries('CFP Rankings','var(--poll3)','4 3'),
   ],{labelOf:n=>'wk '+n});
+  const WI=wifState(team), canWif=!isCombined();
+  if(canWif) html+='<div id="whatif"></div>';
   html+='<div id="games">';
   for(let w=1;w<=h;w++){
     const wk=ENG.byWeek.get(w); if(!wk) continue;
@@ -1286,15 +1517,23 @@ function renderTeam(team){
     const oppRank=rankOf.get(e.opp);
     const others=(ENG.gamesOf.get(e.opp)||[]).filter(x=>x.week<=h&&x.id!==e.id);
     const ow=others.filter(x=>x.res===WIN).length;
-    html+='<div class="g"><div class="grow">'+
+    const gk=gkey(ENG.games[e.id]), fl=canWif&&WI.keys.has(gk);
+    html+=`<div class="g${fl?' flipped':''}"><div class="grow">`+
       `<span class="gw">${esc(isCombined()?weekName(w):'Week '+w)}</span>`+
-      `<span class="res ${e.res===WIN?'w':'l'}">${e.res===WIN?'beat':'lost to'}</span>`+
+      `<span class="res ${e.res===WIN?'w':'l'} act">${e.res===WIN?'beat':'lost to'}</span>`+
+      (canWif?`<span class="res ${e.res===WIN?'l':'w'} hyp" title="${esc('In the alternate '+
+        'universe only. The rest of this line is the game as played.')}">`+
+        `${e.res===WIN?'lost to':'beat'}</span>`:'')+
       `<button class="tm" data-t="${esc(e.opp)}">${logo(e.opp)}${esc(e.opp)}</button>`+
       `<span class="cf">${oppRank?'#'+oppRank:'unranked'} · ${ow}‑${others.length-ow} in their other games</span>`+
       `<span class="gsc${W&&p?' wtd':''}"${W&&p?` title="${esc(weightTip(W,p,e))}"`:''}>`+
       `${p?(W?(W.adjust(p.score,e.opp,e.res===WIN)).toFixed(1):p.score.toFixed(1)):'—'}`+
         (W&&p?`<span class="nr" style="font-weight:400"> &nbsp;${p.score.toFixed(1)}&times;${W.factor(e.opp).toFixed(2)}</span>`:'')+
-        `</span></div>`+
+        `</span>`+
+      (canWif?`<button class="wif" data-k="${esc(gk)}" aria-pressed="${fl}" `+
+        `title="${esc('Re-rank the whole field as if '+e.opp+' had '+(e.res===WIN?'won':'lost')+
+          ' this one. Flip as many as you like.')}">${fl?'undo':'what if?'}</button>`:'')+
+        `</div>`+
       sparkHTML(revision(ENG,team,w,h),{pool:ENG.scoring==='pooled',unit:'week',
         label:n=>isCombined()?weekName(n):'wk '+n})+'</div>';
   }
@@ -1330,7 +1569,9 @@ function renderTeam(team){
   }
 
   html+='<div id="histbox"></div>';
-  $('teamview').innerHTML=html;
+  $('teamview').innerHTML=html+(canWif?'<div id="wifbar" class="wifbar" hidden></div>':'');
+  WIFCTX={team,h,g,rows,gated};
+  if(canWif) wireWhatIf(team);
   $('back').onclick=()=>go(null);
   wire($('teamview'));
   /* After the page is on screen: thirteen seasons take about a second to read
