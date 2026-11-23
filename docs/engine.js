@@ -903,13 +903,18 @@ export const BACKTEST_METHODS=[
    a long run can yield to the browser.
 
    games is which games are scored: 'all' (every game between two eligible
-   teams) or 'ranked' (only those where both teams sit in the AP Top 25 AND
-   the Coaches Poll as they stood before the game). The second puts this
-   ranking and both polls on exactly the same games -- each poll can call
-   every one of them -- so their hit rates compare directly rather than
-   across different sets of games. */
+   teams), 'ranked' (only those where both teams sit in the AP Top 25 AND
+   the Coaches Poll as they stood before the game), or 'close' (only those
+   where the two records going in were within closeK results of each other).
+   'ranked' puts this ranking and both polls on exactly the same games --
+   each poll can call every one of them -- so their hit rates compare
+   directly. 'close' drops the mismatches any method gets right, a 10-2 side
+   against a 2-10 one, and keeps the games where the record alone says
+   little: two records are within k results when k or fewer results changing
+   hands would level them, which is a gap of at most 2k in wins minus losses,
+   so that sides with different numbers of games compare fairly too. */
 export function backtest(entries,opts={}){
-  const {start=4,wmode='B',onSeason=null,games='all'}=opts;
+  const {start=4,wmode='B',onSeason=null,games='all',closeK=3}=opts;
   const keys=BACKTEST_METHODS.map(m=>m.key);
   const logs=Object.fromEntries(keys.map(k=>[k,new Map()]));
   const tally=Object.fromEntries(keys.map(k=>[k,{h:0,t:0}]));
@@ -931,6 +936,18 @@ export function backtest(entries,opts={}){
       };
       const wk=Object.fromEntries(keys.map(k=>[k,{h:0,t:0}]));
       const seen=new Set();
+      /* Wins minus losses through week N, every opponent counted, as the
+         record column shows it. */
+      const marg=new Map();
+      const margin=t=>{
+        let m=marg.get(t);
+        if(m===undefined){
+          m=0;
+          for(const g of (eng.gamesOf.get(t)||[])) if(g.week<=N) m+=g.res===WIN?1:-1;
+          marg.set(t,m);
+        }
+        return m;
+      };
       for(const [t,g] of next){
         if(seen.has(g.id)) continue;
         seen.add(g.id);
@@ -939,6 +956,7 @@ export function backtest(entries,opts={}){
         if(!eligible.has(win)||!eligible.has(lose)) continue;
         if(games==='ranked'&&!(order.ap.has(win)&&order.ap.has(lose)
                                &&order.coaches.has(win)&&order.coaches.has(lose))) continue;
+        if(games==='close'&&Math.abs(margin(win)-margin(lose))>2*closeK) continue;
         const id=year+'|'+g.id;
         for(const k of keys){
           let ok;
@@ -965,4 +983,82 @@ export function backtest(entries,opts={}){
     weeks:weeks[m.key],
   })).filter(m=>m.games>0);
   return {methods,logs};
+}
+
+/* Looking back instead of ahead: does a ranking agree with the games already
+   played? Each ranking is taken as it stood at week h -- by default each
+   season's last poll week, so a finished season is judged on its final
+   rankings and the one being played on its latest -- and every game played
+   by then between two teams it ranks is checked. A violation is a game whose
+   loser the ranking puts above its winner. None at all is rarely possible:
+   when A beat B, B beat C and C beat A, any order breaks one of the three.
+
+   games is which games count: 'both' -- only games between two teams ranked
+   in the AP Top 25 AND the Coaches Poll at h, so every method is judged on
+   the same games -- or 'own' -- each method on the games between two teams
+   in its own top 25. A method that has the two teams level makes no claim
+   and skips the game, as in backtest(). Logs hold 1 where the winner sits
+   above the loser, so mcnemar() reads them the way it reads a backtest's. */
+export const LOOKBACK_METHODS=[
+  {key:'ranking',    label:'This ranking, weighted'},
+  {key:'unweighted', label:'This ranking, unweighted'},
+  {key:'ap',         label:'AP Top 25'},
+  {key:'coaches',    label:'Coaches Poll'},
+];
+/* The last week any poll on file reflects. Games after it -- a few December
+   games most years -- were played after the final rankings came out. */
+export function seasonEnd(season){
+  let h=0;
+  for(const p of season.polls) if(p.throughWeek>h&&p.throughWeek<=season.maxWeek) h=p.throughWeek;
+  return h||season.maxWeek;
+}
+export function lookback(entries,opts={}){
+  const {asOf='end',wmode='B',games='both',onSeason=null}=opts;
+  const keys=LOOKBACK_METHODS.map(m=>m.key);
+  const logs=Object.fromEntries(keys.map(k=>[k,new Map()]));
+  const tally=Object.fromEntries(keys.map(k=>[k,{w:0,t:0}]));
+  const seasons=[];
+  for(const {year,season,eng} of entries){
+    const h=asOf==='end'?seasonEnd(season):+asOf;
+    if(!(h>=1&&h<=season.maxWeek)) continue;
+    const top=season.topDivision||'FBS';
+    const eligible=new Set();
+    for(const [t,info] of season.teamInfo) if(info.division===top) eligible.add(t);
+    const order={
+      ranking:new Map(weighted(eng,season,h,{mode:wmode}).rows.map(r=>[r.team,r.rank])),
+      unweighted:new Map(rank(eng,season,h).map(r=>[r.team,r.rank])),
+      ap:new Map((pollAt(season,'AP Top 25',h)?.ranks||[]).map(r=>[r.team,r.rank])),
+      coaches:new Map((pollAt(season,'Coaches Poll',h)?.ranks||[]).map(r=>[r.team,r.rank])),
+    };
+    const counts=k=>games==='own'?t=>(order[k].get(t)??Infinity)<=25
+      :t=>order.ap.has(t)&&order.coaches.has(t);
+    const inSet=Object.fromEntries(keys.map(k=>[k,counts(k)]));
+    const row={year,week:h,...Object.fromEntries(keys.map(k=>[k,{w:0,t:0}]))};
+    const seen=new Set();
+    for(let w=1;w<=h;w++){
+      const wk=eng.byWeek.get(w); if(!wk) continue;
+      for(const [t,g] of wk){
+        if(seen.has(g.id)) continue;
+        seen.add(g.id);
+        const won=g.res===WIN, win=won?t:g.opp, lose=won?g.opp:t;
+        if(!eligible.has(win)||!eligible.has(lose)) continue;
+        const id=year+'|'+g.id;
+        for(const k of keys){
+          if(!inSet[k](win)||!inSet[k](lose)) continue;
+          const a=order[k].get(win), b=order[k].get(lose);
+          if(a==null||b==null||a===b) continue;
+          const bad=a>b?1:0;
+          row[k].w+=bad; row[k].t++; tally[k].w+=bad; tally[k].t++;
+          logs[k].set(id,1-bad);
+        }
+      }
+    }
+    seasons.push(row);
+    if(onSeason) onSeason(year);
+  }
+  const methods=LOOKBACK_METHODS.map(m=>({
+    ...m, wrong:tally[m.key].w, games:tally[m.key].t,
+    rate:tally[m.key].t?tally[m.key].w/tally[m.key].t:null,
+  })).filter(m=>m.games>0);
+  return {methods,logs,seasons};
 }
