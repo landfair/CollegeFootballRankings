@@ -3564,15 +3564,18 @@ const btGamesHelp=g=>g==='ranked'
    'both polls are judged on exactly the same games.'
   :' All games: every game between two teams in the top division.';
 const btHelp=v=>`Each season is tested from week ${+v+1} to its end. Before every week's `+
-  'predictions the ranking is rebuilt from the games before it, and only those. The first '+
-  'weeks of a season are hard for any ranking, which has seen only a few games; a later start '+
-  'tests it once it has more to go on. n is the current week, so the last two choices test '+
-  'every season over the stretch the current one has just reached.';
+  'predictions the ranking is rebuilt from the games before it, and only those. It needs about '+
+  'ten weeks of results before its order means much, so the test starts after week 10 unless '+
+  'you choose otherwise; an earlier start shows how it does with less to go on. n is the '+
+  'current week, so the last two choices test every season over the stretch the current one '+
+  'has just reached.';
 
 function renderBacktest(){
   showView('backtest');
   $('status').innerHTML='Does the ordering predict games it has not seen?';
-  const start=BTSEL??(BT?BT.start:'4');
+  /* Week 10 by default: before then this ranking has too few results for its
+     order to mean much, and a test that starts earlier mostly measures that. */
+  const start=BTSEL??(BT?BT.start:String(Math.max(3,Math.min(10,btCurrentWeek()-1))));
   const gsel=BTGAMES??(BT?BT.games:'all');
   const top=esc(SEASON?SEASON.topDivision||'FBS':'FBS');
   let html='<p><button class="back" id="back">&larr; All teams</button></p>'+
