@@ -1,588 +1,18 @@
 {
  "sport": "wbasketball",
  "season": 2027,
- "generated": "2026-11-22",
+ "generated": "2026-11-24",
  "upcoming": [
-  {
-   "date": "2026-11-22",
-   "home": "Arkansas State",
-   "away": "North Texas",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Baylor",
-   "away": "Northern Kentucky",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Boise State",
-   "away": "UC Davis",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Boston University",
-   "away": "New Hampshire",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Butler",
-   "away": "Eastern Michigan",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Chicago State",
-   "away": "Alaska Anchorage",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Colorado State",
-   "away": "Weber State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Creighton",
-   "away": "Nebraska",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Delaware",
-   "away": "Hampton",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Fordham",
-   "away": "Buffalo",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Gardner-Webb",
-   "away": "Mercer",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Georgia",
-   "away": "Louisiana Tech",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Idaho",
-   "away": "Northwest Indian",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Indiana",
-   "away": "Southern Indiana",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Iowa State",
-   "away": "Drake",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Kansas City",
-   "away": "Missouri State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Kansas State",
-   "away": "Missouri",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Liberty",
-   "away": "Lees McRae",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Loyola Maryland",
-   "away": "Drexel",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Maine",
-   "away": "Pennsylvania",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Merrimack",
-   "away": "UMass Lowell",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Minnesota",
-   "away": "Central Michigan",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Montana",
-   "away": "Montana State-Northern",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "NC State",
-   "away": "Coastal Carolina",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Oklahoma State",
-   "away": "Wichita State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Ole Miss",
-   "away": "Alabama A&M",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Omaha",
-   "away": "Air Force",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Penn State",
-   "away": "Saint Joseph's",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Portland",
-   "away": "Stanford",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Princeton",
-   "away": "Georgia Tech",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Rice",
-   "away": "Pepperdine",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Richmond",
-   "away": "Holy Cross",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "SE Louisiana",
-   "away": "Louisiana",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "SIU Edwardsville",
-   "away": "Valparaiso",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Samford",
-   "away": "Abilene Christian",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "San Diego State",
-   "away": "Winthrop",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "San Francisco",
-   "away": "Cal State Bakersfield",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Seattle U",
-   "away": "Louisville",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "South Carolina State",
-   "away": "Charleston Southern",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "South Dakota State",
-   "away": "Kansas",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "South Florida",
-   "away": "Texas Tech",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Southern Miss",
-   "away": "Mississippi State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Southern Utah",
-   "away": "Eastern Washington",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Stetson",
-   "away": "Wright State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Stonehill",
-   "away": "Illinois State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "TCU",
-   "away": "Utah State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Temple",
-   "away": "Georgetown",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Tennessee",
-   "away": "UCLA",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Tennessee State",
-   "away": "UT Arlington",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Texas",
-   "away": "Ohio State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Texas A&M-Corpus Christi",
-   "away": "West Florida",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Tulsa",
-   "away": "Stephen F. Austin",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "UC Riverside",
-   "away": "Idaho State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "UNC Wilmington",
-   "away": "East Carolina",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Vermont",
-   "away": "Central Connecticut",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Washington",
-   "away": "Cal Poly",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Western Carolina",
-   "away": "Morehead State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Wisconsin",
-   "away": "Lafayette",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-22",
-   "home": "Wyoming",
-   "away": "Harvard",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Arizona",
-   "away": "Vanderbilt",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "California",
-   "away": "Gonzaga",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Central Arkansas",
-   "away": "Ozarks (AR)",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Chattanooga",
-   "away": "St. Bonaventure",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Dayton",
-   "away": "Xavier",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Duquesne",
-   "away": "Canisius",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Fairleigh Dickinson",
-   "away": "Saint Peter's",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Furman",
-   "away": "Radford",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "High Point",
-   "away": "Grand Canyon",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Houston",
-   "away": "Prairie View A&M",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Incarnate Word",
-   "away": "Texas A&M-Kingsville",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Iowa",
-   "away": "Utah",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "LSU",
-   "away": "Belmont",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Lipscomb",
-   "away": "Tennessee Tech",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Marist",
-   "away": "Binghamton",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Memphis",
-   "away": "Old Dominion",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Miami",
-   "away": "Michigan",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Michigan State",
-   "away": "Alcorn State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Middle Tennessee",
-   "away": "Oregon State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Milwaukee",
-   "away": "Marquette",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Navy",
-   "away": "Toledo",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Norfolk State",
-   "away": "App State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "North Alabama",
-   "away": "Jackson State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "North Carolina Central",
-   "away": "Elon",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Northern Iowa",
-   "away": "Green Bay",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Northwestern",
-   "away": "Oakland",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Purdue Fort Wayne",
-   "away": "Grace (IN)",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Saint Mary's",
-   "away": "SMU",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Seton Hall",
-   "away": "Rider",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "South Alabama",
-   "away": "Clayton State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "South Dakota",
-   "away": "Nebraska Wesleyan",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "UAB",
-   "away": "George Washington",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "USC",
-   "away": "Northern Arizona",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "UT Martin",
-   "away": "Virginia Tech",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "VCU",
-   "away": "Morgan State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Virginia",
-   "away": "Oklahoma",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-23",
-   "home": "Wake Forest",
-   "away": "Wofford",
-   "tbd": false
-  },
   {
    "date": "2026-11-24",
    "home": "Alabama",
    "away": "UL Monroe",
+   "tbd": false
+  },
+  {
+   "date": "2026-11-24",
+   "home": "Alcorn State",
+   "away": "UT Martin",
    "tbd": false
   },
   {
@@ -739,6 +169,12 @@
    "date": "2026-11-24",
    "home": "Maryland",
    "away": "Monmouth",
+   "tbd": false
+  },
+  {
+   "date": "2026-11-24",
+   "home": "Michigan State",
+   "away": "Virginia Tech",
    "tbd": false
   },
   {
@@ -1091,6 +527,12 @@
   },
   {
    "date": "2026-11-25",
+   "home": "Miami",
+   "away": "Utah",
+   "tbd": false
+  },
+  {
+   "date": "2026-11-25",
    "home": "Michigan",
    "away": "Toledo",
    "tbd": false
@@ -1229,12 +671,6 @@
   },
   {
    "date": "2026-11-25",
-   "home": "Utah",
-   "away": "Miami",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
    "home": "Utah Tech",
    "away": "San Diego",
    "tbd": false
@@ -1333,12 +769,6 @@
    "date": "2026-11-26",
    "home": "Texas Tech",
    "away": "Air Force",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-26",
-   "home": "Tulsa",
-   "away": "Central Michigan",
    "tbd": false
   },
   {
@@ -1728,7 +1158,7 @@
   {
    "date": "2026-11-27",
    "home": "Tulsa",
-   "away": "Bowling Green",
+   "away": "Central Michigan",
    "tbd": false
   },
   {
@@ -2167,6 +1597,12 @@
    "date": "2026-11-28",
    "home": "Towson",
    "away": "Maryland",
+   "tbd": false
+  },
+  {
+   "date": "2026-11-28",
+   "home": "Tulsa",
+   "away": "Bowling Green",
    "tbd": false
   },
   {
