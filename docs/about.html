@@ -99,42 +99,39 @@ average of its games.</p>
 <p>The <a href="index.html#slates">slates</a> view shows this directly: every result from one week, in the order the grader puts them, with its score beside it.</p>
 
 <p>A grade on its own is not a number out of a hundred &mdash; it only becomes one
-once you say <i>among what</i>. By default that is <b>every game played so far this
+once you say <i>among what</i>. The answer is <b>every game played so far this
 season</b>, up to whichever week you are viewing. The pool grows as the season
-does, and a game is re&#8209;scored against the larger pool each week.</p>
+does, and every game is re&#8209;scored against the larger pool each week.</p>
 
-<p>The original method compared a game only against the games played in the same
-week, and you can switch back to it under the gear icon. It has two problems the
-season&#8209;wide pool does not. The first is that an identical result is worth
-different amounts depending on what else happened to be on the schedule that
-week &mdash; which no team controls. Across 2025 that distortion was small in
-the ordinary weeks, about nine&#8209;tenths of a point, but championship weekend
-had only sixty&#8209;four games in it and deflated every result by nearly sixteen
-points, hitting exactly the games that decide a playoff field.</p>
+<p>One pool for the whole season does two things. An identical result is worth the
+same whichever week it fell in, so no game is marked up or down by how many others
+happened to share its weekend. And a team&rsquo;s own results stay in a consistent
+order: when the grader says one win was better than another, the scores say so too,
+because both were placed among the same games.</p>
 
-<p>The second problem is worse, because it is a contradiction rather than a
-calibration error. Two of a team's own results sit in different weeks, so their
-percentiles come from different populations &mdash; and they can therefore come
-out in the wrong order. Florida beat Auburn in Week&nbsp;4 and Texas in
-Week&nbsp;8; both were wins over teams that finished .800 in their other games,
-and Texas&rsquo;s opponents had the better seasons of the two, so the Texas win is
-strictly the better result. Yet
-week&#8209;by&#8209;week scoring put Auburn above it, 95.6 to 95.1. Pooled, the
-order is right: 95.3 for Texas, 95.2 for Auburn. Across all thirteen seasons here
-there are 284,676 pairs of a team's own games that the grader ranks strictly;
+<p><b>In the settings.</b> Under the gear icon, <b>Compare each game against</b> can
+be switched from <b>the season so far</b> to <b>that week alone</b>, which scores
+each game only among the games played the same week. That treats every week as its
+own competition, and it gives up both of those properties. The same result scores
+differently depending on its week: across 2025 by about nine&#8209;tenths of a point
+in an ordinary week, but by nearly sixteen on championship weekend, which had only
+sixty&#8209;four games in it &mdash; exactly the games that decide a playoff field.
+And a team&rsquo;s own results can come out in the wrong order. Florida beat Auburn
+in Week&nbsp;4 and Texas in Week&nbsp;8; both were wins over teams that finished
+.800 in their other games, and Texas&rsquo;s opponents had the better seasons of the
+two, so the Texas win is strictly the better result. Scored week by week, Auburn
+comes out above it, 95.6 to 95.1; scored against the season so far, the order is
+right, 95.3 for Texas and 95.2 for Auburn. Across all thirteen seasons here there
+are 284,676 pairs of a team&rsquo;s own games that the grader ranks strictly;
 week&#8209;by&#8209;week scoring reverses 7,762 of them &mdash; one pair in
-thirty&#8209;seven. Pooling reverses none, because a single population cannot
-disagree with the comparison that built it.</p>
+thirty&#8209;seven &mdash; and the season&#8209;wide pool reverses none, because a
+single population cannot disagree with the comparison that built it.</p>
 
-<p>Pooling turns out to cost nothing. It agrees with the final AP poll slightly
-<i>more</i> often, not less &mdash; a mean Spearman of 0.82 against 0.81 across
-2014&ndash;2026, better in ten of the thirteen seasons and never clearly worse in
-any. The rankings themselves barely move either way: about one place on average
-among the teams shown, a median of exactly one, and 5% of gate decisions change.
-An earlier version of this page had that comparison the wrong way round, at 0.78
-against 0.79 with pooling the loser. That figure predated the weighting
-corrections described below and a fault in how the correlation treated tied
-places, and it did not survive either of them.</p>
+<p>For all that, the two give much the same table: about one place of difference on
+average among the teams shown, a median of exactly one, and 5% of gate decisions
+changed. The season&#8209;wide pool agrees with the final AP poll slightly more
+often &mdash; a mean Spearman of 0.82 against 0.81 across 2014&ndash;2026, better in
+ten of the thirteen seasons and never clearly worse in any.</p>
 
 <h3>Which games the field is drawn from</h3>
 
@@ -189,25 +186,23 @@ week&nbsp;16 to agree.</p>
 
 <h2>Weighing the opponent</h2>
 
-<p>The score so far says where a result finished among everyone who played that
-week. That already leans on opponent quality, but weakly. Beating a team that
+<p>The score so far says where a result finished among every game played so far. That already leans on opponent quality, but weakly. Beating a team that
 happens to be unbeaten counts enormously, whoever that team turns out to be
 — and an unbeaten record against poor opposition is still unbeaten.</p>
 
 <p>So there is an option to scale each game by how good the opponent actually
 proved to be. A win over the twelfth&#8209;best team keeps almost all its value;
 the same win over the hundred&#8209;and&#8209;twelfth keeps very little. How
-sharply the one falls away into the other is a single number, the falloff, and
-it was left at its mildest setting for a long time on the grounds that it was
-tuning rather than a reading anyone should have to make. Swept properly across
-thirteen seasons it was plainly too generous to weak opposition: agreement with
-the polls climbs to a peak around twice that setting before falling away again,
-so the shape was right and only the number was wrong. It now sits at the point
-that costs nothing &mdash; prediction identical to the old setting game for game
-over 7,280 predicted games, poll agreement up from 0.582 to 0.590, better in 241
-poll&#8209;weeks against 112 worse. Pushing it to the peak would buy a little
-more agreement at the cost of prediction, which is a trade rather than a gain,
-so it stops short. The same
+sharply the one falls away into the other is a single number, the falloff. It is
+fixed rather than offered as a setting, because it is tuning rather than a reading
+anyone should have to make, and it is set by measurement across thirteen seasons.
+Agreement with the polls rises as the falloff steepens, peaks, and falls away again.
+At its mildest it is too generous to weak opposition; at the value used, prediction
+of the following week&rsquo;s games is identical to the mildest value, game for
+game, over 7,280 predicted games, while agreement with the polls rises from 0.582
+to 0.590, better in 241 poll&#8209;weeks and worse in 112. Steepening it all the
+way to the peak would buy a little more agreement at the cost of prediction, which
+is a trade rather than a gain, so it stops short of it. The same
 scaling runs over defeats, and there the anchor has to be mirrored. The
 win/loss line sits at exactly 50, because every game puts one win and one loss
 into the pool; 50 is therefore the <em>floor</em> of the win range and the
@@ -266,7 +261,7 @@ across all thirteen seasons here, at every week a poll was published, 386 paired
 measurements in all, and the one that tracked the voters most closely won. That is
 <b>season&#8209;so&#8209;far scoring</b>, <b>games with an FBS team</b>, and
 <b>balanced weighting</b>, at a mean Spearman of 0.590, against 0.587 for the next
-best and 0.582 for the field it replaced. It leads at most weeks of the season,
+best. It leads at most weeks of the season,
 early and late alike, so the choice is not an artefact of when it was measured.
 The same combination wins on the basketball side, measured separately.</p>
 
@@ -501,8 +496,8 @@ in three of them, and ejects the eventual champion repeatedly.</p>
 
 <p>Checked once, the same question behaves. It never collapses, never drops a
 champion in any season here, and agrees with the committee's twelve slightly more
-often than the self&#8209;consistent rule over the top 50 it replaced &mdash; 9.8
-against 9.6 of twelve.</p>
+often than running the self&#8209;consistent rule over the top 50 would &mdash;
+9.8 against 9.6 of twelve.</p>
 
 <p>You can override all of this from the control at the top of the rankings, which
 starts on <em>automatic</em>. One pass is a looser version that reads the tier off the
@@ -629,8 +624,8 @@ week. The playoff field is chosen the day after the conference championships, an
 the season runs on past that &mdash; 2025 has a week&nbsp;17 holding eleven games
 and no poll at all, played when the field was already set. Since the question this
 ranking exists to answer is who had earned a place, it opens where that was
-decided. The slider still reaches the end of the season; only the starting point
-moved. The current season opens on its newest data instead.</p>
+decided. The slider still reaches the end of the season; selection week is only
+where it starts. The current season opens on its newest data instead.</p>
 
 <p>Three rankings are carried alongside for comparison: the <b>AP</b> and
 <b>Coaches</b> polls, which run from preseason to the end, and the <b>CFP</b>
