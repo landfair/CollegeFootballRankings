@@ -1,0 +1,797 @@
+{
+ "season": 2027,
+ "about": "Women's AP Top 25 and USA Today Coaches Poll for 2026-27, entered by hand from ESPN's published polls. Each rank carries the record and points printed beside it, so fetch_wbasketball.py can check which games the poll reflects. pollDate is the day after the last games a poll counts.",
+ "polls": [
+  {
+   "poll": "AP Top 25",
+   "week": 2,
+   "pollDate": "2026-11-09",
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "South Carolina",
+     "record": "2-0",
+     "points": 823,
+     "firstPlace": 32
+    },
+    {
+     "rank": 2,
+     "team": "Michigan",
+     "record": "2-0",
+     "points": 777
+    },
+    {
+     "rank": 3,
+     "team": "USC",
+     "record": "2-0",
+     "points": 734,
+     "firstPlace": 1
+    },
+    {
+     "rank": 4,
+     "team": "UConn",
+     "record": "2-1",
+     "points": 733
+    },
+    {
+     "rank": 5,
+     "team": "Duke",
+     "record": "2-0",
+     "points": 681
+    },
+    {
+     "rank": 6,
+     "team": "Texas",
+     "record": "2-0",
+     "points": 641
+    },
+    {
+     "rank": 7,
+     "team": "Louisville",
+     "record": "3-0",
+     "points": 613
+    },
+    {
+     "rank": 8,
+     "team": "Vanderbilt",
+     "record": "2-0",
+     "points": 609
+    },
+    {
+     "rank": 9,
+     "team": "LSU",
+     "record": "2-0",
+     "points": 561
+    },
+    {
+     "rank": 10,
+     "team": "Iowa",
+     "record": "2-1",
+     "points": 469
+    },
+    {
+     "rank": 10,
+     "team": "UCLA",
+     "record": "2-0",
+     "points": 469
+    },
+    {
+     "rank": 12,
+     "team": "Kentucky",
+     "record": "3-0",
+     "points": 447
+    },
+    {
+     "rank": 13,
+     "team": "Notre Dame",
+     "record": "2-0",
+     "points": 430
+    },
+    {
+     "rank": 14,
+     "team": "Oklahoma",
+     "record": "2-0",
+     "points": 363
+    },
+    {
+     "rank": 15,
+     "team": "TCU",
+     "record": "3-0",
+     "points": 336
+    },
+    {
+     "rank": 16,
+     "team": "Washington",
+     "record": "2-0",
+     "points": 314
+    },
+    {
+     "rank": 17,
+     "team": "Ohio State",
+     "record": "3-0",
+     "points": 282
+    },
+    {
+     "rank": 18,
+     "team": "Minnesota",
+     "record": "2-0",
+     "points": 268
+    },
+    {
+     "rank": 19,
+     "team": "Oklahoma State",
+     "record": "2-0",
+     "points": 216
+    },
+    {
+     "rank": 19,
+     "team": "Maryland",
+     "record": "1-1",
+     "points": 216
+    },
+    {
+     "rank": 21,
+     "team": "Ole Miss",
+     "record": "2-0",
+     "points": 214
+    },
+    {
+     "rank": 22,
+     "team": "Illinois",
+     "record": "2-0",
+     "points": 134
+    },
+    {
+     "rank": 23,
+     "team": "North Carolina",
+     "record": "0-2",
+     "points": 110
+    },
+    {
+     "rank": 24,
+     "team": "West Virginia",
+     "record": "3-0",
+     "points": 108
+    },
+    {
+     "rank": 25,
+     "team": "Nebraska",
+     "record": "2-0",
+     "points": 44
+    }
+   ]
+  },
+  {
+   "poll": "Coaches Poll",
+   "week": 2,
+   "pollDate": "2026-11-10",
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "South Carolina",
+     "record": "2-0",
+     "points": 800,
+     "firstPlace": 32
+    },
+    {
+     "rank": 2,
+     "team": "Michigan",
+     "record": "2-0",
+     "points": 750
+    },
+    {
+     "rank": 3,
+     "team": "USC",
+     "record": "2-0",
+     "points": 738
+    },
+    {
+     "rank": 4,
+     "team": "UConn",
+     "record": "2-1",
+     "points": 672
+    },
+    {
+     "rank": 5,
+     "team": "Duke",
+     "record": "2-0",
+     "points": 669
+    },
+    {
+     "rank": 6,
+     "team": "Texas",
+     "record": "2-0",
+     "points": 624
+    },
+    {
+     "rank": 7,
+     "team": "Louisville",
+     "record": "3-0",
+     "points": 612
+    },
+    {
+     "rank": 8,
+     "team": "Vanderbilt",
+     "record": "3-0",
+     "points": 561
+    },
+    {
+     "rank": 9,
+     "team": "LSU",
+     "record": "2-0",
+     "points": 560
+    },
+    {
+     "rank": 10,
+     "team": "Kentucky",
+     "record": "3-0",
+     "points": 465
+    },
+    {
+     "rank": 11,
+     "team": "Notre Dame",
+     "record": "2-0",
+     "points": 447
+    },
+    {
+     "rank": 12,
+     "team": "UCLA",
+     "record": "2-0",
+     "points": 423
+    },
+    {
+     "rank": 13,
+     "team": "Iowa",
+     "record": "2-1",
+     "points": 402
+    },
+    {
+     "rank": 14,
+     "team": "Oklahoma",
+     "record": "2-0",
+     "points": 347
+    },
+    {
+     "rank": 15,
+     "team": "TCU",
+     "record": "3-0",
+     "points": 326
+    },
+    {
+     "rank": 16,
+     "team": "Washington",
+     "record": "2-0",
+     "points": 311
+    },
+    {
+     "rank": 17,
+     "team": "Minnesota",
+     "record": "2-0",
+     "points": 284
+    },
+    {
+     "rank": 18,
+     "team": "Maryland",
+     "record": "1-1",
+     "points": 255
+    },
+    {
+     "rank": 19,
+     "team": "Ohio State",
+     "record": "3-0",
+     "points": 248
+    },
+    {
+     "rank": 20,
+     "team": "Oklahoma State",
+     "record": "3-0",
+     "points": 240
+    },
+    {
+     "rank": 21,
+     "team": "Illinois",
+     "record": "2-0",
+     "points": 163
+    },
+    {
+     "rank": 22,
+     "team": "West Virginia",
+     "record": "3-0",
+     "points": 129
+    },
+    {
+     "rank": 23,
+     "team": "North Carolina",
+     "record": "0-2",
+     "points": 120
+    },
+    {
+     "rank": 24,
+     "team": "Ole Miss",
+     "record": "2-0",
+     "points": 99
+    },
+    {
+     "rank": 25,
+     "team": "Nebraska",
+     "record": "2-0",
+     "points": 31
+    }
+   ]
+  },
+  {
+   "poll": "AP Top 25",
+   "week": 3,
+   "pollDate": "2026-11-16",
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "South Carolina",
+     "record": "4-0",
+     "points": 825,
+     "firstPlace": 33
+    },
+    {
+     "rank": 2,
+     "team": "Michigan",
+     "record": "3-0",
+     "points": 787
+    },
+    {
+     "rank": 3,
+     "team": "Louisville",
+     "record": "6-0",
+     "points": 728
+    },
+    {
+     "rank": 4,
+     "team": "USC",
+     "record": "3-1",
+     "points": 720
+    },
+    {
+     "rank": 5,
+     "team": "Duke",
+     "record": "4-0",
+     "points": 698
+    },
+    {
+     "rank": 6,
+     "team": "Texas",
+     "record": "4-0",
+     "points": 656
+    },
+    {
+     "rank": 7,
+     "team": "UConn",
+     "record": "3-2",
+     "points": 617
+    },
+    {
+     "rank": 8,
+     "team": "Iowa",
+     "record": "4-1",
+     "points": 562
+    },
+    {
+     "rank": 9,
+     "team": "LSU",
+     "record": "4-0",
+     "points": 558
+    },
+    {
+     "rank": 10,
+     "team": "UCLA",
+     "record": "4-0",
+     "points": 506
+    },
+    {
+     "rank": 11,
+     "team": "Vanderbilt",
+     "record": "4-1",
+     "points": 480
+    },
+    {
+     "rank": 12,
+     "team": "Kentucky",
+     "record": "5-0",
+     "points": 475
+    },
+    {
+     "rank": 13,
+     "team": "Notre Dame",
+     "record": "4-0",
+     "points": 451
+    },
+    {
+     "rank": 14,
+     "team": "Oklahoma",
+     "record": "4-0",
+     "points": 405
+    },
+    {
+     "rank": 15,
+     "team": "TCU",
+     "record": "6-0",
+     "points": 350
+    },
+    {
+     "rank": 16,
+     "team": "Washington",
+     "record": "3-0",
+     "points": 283
+    },
+    {
+     "rank": 17,
+     "team": "Minnesota",
+     "record": "4-0",
+     "points": 264
+    },
+    {
+     "rank": 18,
+     "team": "Maryland",
+     "record": "2-1",
+     "points": 260
+    },
+    {
+     "rank": 19,
+     "team": "Ohio State",
+     "record": "4-1",
+     "points": 224
+    },
+    {
+     "rank": 19,
+     "team": "Ole Miss",
+     "record": "4-0",
+     "points": 224
+    },
+    {
+     "rank": 21,
+     "team": "Illinois",
+     "record": "3-0",
+     "points": 156
+    },
+    {
+     "rank": 22,
+     "team": "West Virginia",
+     "record": "4-0",
+     "points": 115
+    },
+    {
+     "rank": 23,
+     "team": "Nebraska",
+     "record": "4-0",
+     "points": 111
+    },
+    {
+     "rank": 24,
+     "team": "North Carolina",
+     "record": "2-2",
+     "points": 79
+    },
+    {
+     "rank": 25,
+     "team": "Oklahoma State",
+     "record": "4-1",
+     "points": 71
+    }
+   ]
+  },
+  {
+   "poll": "Coaches Poll",
+   "week": 3,
+   "pollDate": "2026-11-17",
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "South Carolina",
+     "record": "4-0",
+     "points": 800,
+     "firstPlace": 32
+    },
+    {
+     "rank": 2,
+     "team": "Michigan",
+     "record": "4-0",
+     "points": 764
+    },
+    {
+     "rank": 3,
+     "team": "Louisville",
+     "record": "6-0",
+     "points": 711
+    },
+    {
+     "rank": 4,
+     "team": "Duke",
+     "record": "4-0",
+     "points": 669
+    },
+    {
+     "rank": 5,
+     "team": "USC",
+     "record": "3-1",
+     "points": 662
+    },
+    {
+     "rank": 6,
+     "team": "Texas",
+     "record": "4-0",
+     "points": 633
+    },
+    {
+     "rank": 7,
+     "team": "LSU",
+     "record": "5-0",
+     "points": 575
+    },
+    {
+     "rank": 8,
+     "team": "UConn",
+     "record": "3-2",
+     "points": 546
+    },
+    {
+     "rank": 9,
+     "team": "Kentucky",
+     "record": "5-0",
+     "points": 517
+    },
+    {
+     "rank": 10,
+     "team": "Iowa",
+     "record": "4-1",
+     "points": 484
+    },
+    {
+     "rank": 11,
+     "team": "UCLA",
+     "record": "4-0",
+     "points": 480
+    },
+    {
+     "rank": 12,
+     "team": "Notre Dame",
+     "record": "4-0",
+     "points": 475
+    },
+    {
+     "rank": 13,
+     "team": "Vanderbilt",
+     "record": "4-1",
+     "points": 432
+    },
+    {
+     "rank": 14,
+     "team": "Oklahoma",
+     "record": "4-0",
+     "points": 409
+    },
+    {
+     "rank": 15,
+     "team": "TCU",
+     "record": "6-0",
+     "points": 345
+    },
+    {
+     "rank": 16,
+     "team": "Minnesota",
+     "record": "4-0",
+     "points": 336
+    },
+    {
+     "rank": 17,
+     "team": "Washington",
+     "record": "3-0",
+     "points": 307
+    },
+    {
+     "rank": 18,
+     "team": "Maryland",
+     "record": "2-1",
+     "points": 258
+    },
+    {
+     "rank": 19,
+     "team": "Ohio State",
+     "record": "4-1",
+     "points": 181
+    },
+    {
+     "rank": 20,
+     "team": "West Virginia",
+     "record": "4-0",
+     "points": 175
+    },
+    {
+     "rank": 21,
+     "team": "Illinois",
+     "record": "3-0",
+     "points": 169
+    },
+    {
+     "rank": 22,
+     "team": "Ole Miss",
+     "record": "4-0",
+     "points": 132
+    },
+    {
+     "rank": 23,
+     "team": "Nebraska",
+     "record": "4-0",
+     "points": 91
+    },
+    {
+     "rank": 24,
+     "team": "North Carolina",
+     "record": "2-2",
+     "points": 79
+    },
+    {
+     "rank": 25,
+     "team": "Oklahoma State",
+     "record": "4-1",
+     "points": 42
+    }
+   ]
+  },
+  {
+   "poll": "AP Top 25",
+   "week": 4,
+   "pollDate": "2026-11-23",
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "South Carolina",
+     "record": "6-0",
+     "points": 825,
+     "firstPlace": 33
+    },
+    {
+     "rank": 2,
+     "team": "Michigan",
+     "record": "5-0",
+     "points": 788
+    },
+    {
+     "rank": 3,
+     "team": "Louisville",
+     "record": "9-0",
+     "points": 741
+    },
+    {
+     "rank": 4,
+     "team": "USC",
+     "record": "4-1",
+     "points": 719
+    },
+    {
+     "rank": 5,
+     "team": "Duke",
+     "record": "6-0",
+     "points": 691
+    },
+    {
+     "rank": 6,
+     "team": "Texas",
+     "record": "6-0",
+     "points": 663
+    },
+    {
+     "rank": 7,
+     "team": "UConn",
+     "record": "4-2",
+     "points": 611
+    },
+    {
+     "rank": 8,
+     "team": "Iowa",
+     "record": "5-1",
+     "points": 564
+    },
+    {
+     "rank": 9,
+     "team": "LSU",
+     "record": "6-0",
+     "points": 549
+    },
+    {
+     "rank": 10,
+     "team": "UCLA",
+     "record": "6-0",
+     "points": 525
+    },
+    {
+     "rank": 11,
+     "team": "Kentucky",
+     "record": "6-0",
+     "points": 479
+    },
+    {
+     "rank": 12,
+     "team": "Vanderbilt",
+     "record": "5-1",
+     "points": 467
+    },
+    {
+     "rank": 13,
+     "team": "Notre Dame",
+     "record": "5-0",
+     "points": 440
+    },
+    {
+     "rank": 14,
+     "team": "Oklahoma",
+     "record": "6-0",
+     "points": 414
+    },
+    {
+     "rank": 15,
+     "team": "TCU",
+     "record": "8-0",
+     "points": 347
+    },
+    {
+     "rank": 16,
+     "team": "Washington",
+     "record": "6-0",
+     "points": 321
+    },
+    {
+     "rank": 17,
+     "team": "Minnesota",
+     "record": "6-0",
+     "points": 279
+    },
+    {
+     "rank": 18,
+     "team": "Maryland",
+     "record": "4-1",
+     "points": 274
+    },
+    {
+     "rank": 19,
+     "team": "Ohio State",
+     "record": "5-2",
+     "points": 210
+    },
+    {
+     "rank": 20,
+     "team": "Illinois",
+     "record": "4-0",
+     "points": 167
+    },
+    {
+     "rank": 21,
+     "team": "Ole Miss",
+     "record": "5-1",
+     "points": 156
+    },
+    {
+     "rank": 22,
+     "team": "West Virginia",
+     "record": "5-0",
+     "points": 125
+    },
+    {
+     "rank": 23,
+     "team": "Nebraska",
+     "record": "6-0",
+     "points": 120
+    },
+    {
+     "rank": 24,
+     "team": "North Carolina",
+     "record": "4-2",
+     "points": 85
+    },
+    {
+     "rank": 25,
+     "team": "Baylor",
+     "record": "6-1",
+     "points": 57
+    }
+   ]
+  }
+ ]
+}

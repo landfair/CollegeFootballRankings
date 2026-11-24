@@ -11571,6 +11571,548 @@
   "2026-11-22",
   "2026-11-23"
  ],
+ "polls": [
+  {
+   "poll": "AP Top 25",
+   "week": 2,
+   "pollDate": "2026-11-09",
+   "throughWeek": 8,
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "South Carolina"
+    },
+    {
+     "rank": 2,
+     "team": "Michigan"
+    },
+    {
+     "rank": 3,
+     "team": "USC"
+    },
+    {
+     "rank": 4,
+     "team": "UConn"
+    },
+    {
+     "rank": 5,
+     "team": "Duke"
+    },
+    {
+     "rank": 6,
+     "team": "Texas"
+    },
+    {
+     "rank": 7,
+     "team": "Louisville"
+    },
+    {
+     "rank": 8,
+     "team": "Vanderbilt"
+    },
+    {
+     "rank": 9,
+     "team": "LSU"
+    },
+    {
+     "rank": 10,
+     "team": "Iowa"
+    },
+    {
+     "rank": 10,
+     "team": "UCLA"
+    },
+    {
+     "rank": 12,
+     "team": "Kentucky"
+    },
+    {
+     "rank": 13,
+     "team": "Notre Dame"
+    },
+    {
+     "rank": 14,
+     "team": "Oklahoma"
+    },
+    {
+     "rank": 15,
+     "team": "TCU"
+    },
+    {
+     "rank": 16,
+     "team": "Washington"
+    },
+    {
+     "rank": 17,
+     "team": "Ohio State"
+    },
+    {
+     "rank": 18,
+     "team": "Minnesota"
+    },
+    {
+     "rank": 19,
+     "team": "Oklahoma State"
+    },
+    {
+     "rank": 19,
+     "team": "Maryland"
+    },
+    {
+     "rank": 21,
+     "team": "Ole Miss"
+    },
+    {
+     "rank": 22,
+     "team": "Illinois"
+    },
+    {
+     "rank": 23,
+     "team": "North Carolina"
+    },
+    {
+     "rank": 24,
+     "team": "West Virginia"
+    },
+    {
+     "rank": 25,
+     "team": "Nebraska"
+    }
+   ]
+  },
+  {
+   "poll": "Coaches Poll",
+   "week": 2,
+   "pollDate": "2026-11-10",
+   "throughWeek": 9,
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "South Carolina"
+    },
+    {
+     "rank": 2,
+     "team": "Michigan"
+    },
+    {
+     "rank": 3,
+     "team": "USC"
+    },
+    {
+     "rank": 4,
+     "team": "UConn"
+    },
+    {
+     "rank": 5,
+     "team": "Duke"
+    },
+    {
+     "rank": 6,
+     "team": "Texas"
+    },
+    {
+     "rank": 7,
+     "team": "Louisville"
+    },
+    {
+     "rank": 8,
+     "team": "Vanderbilt"
+    },
+    {
+     "rank": 9,
+     "team": "LSU"
+    },
+    {
+     "rank": 10,
+     "team": "Kentucky"
+    },
+    {
+     "rank": 11,
+     "team": "Notre Dame"
+    },
+    {
+     "rank": 12,
+     "team": "UCLA"
+    },
+    {
+     "rank": 13,
+     "team": "Iowa"
+    },
+    {
+     "rank": 14,
+     "team": "Oklahoma"
+    },
+    {
+     "rank": 15,
+     "team": "TCU"
+    },
+    {
+     "rank": 16,
+     "team": "Washington"
+    },
+    {
+     "rank": 17,
+     "team": "Minnesota"
+    },
+    {
+     "rank": 18,
+     "team": "Maryland"
+    },
+    {
+     "rank": 19,
+     "team": "Ohio State"
+    },
+    {
+     "rank": 20,
+     "team": "Oklahoma State"
+    },
+    {
+     "rank": 21,
+     "team": "Illinois"
+    },
+    {
+     "rank": 22,
+     "team": "West Virginia"
+    },
+    {
+     "rank": 23,
+     "team": "North Carolina"
+    },
+    {
+     "rank": 24,
+     "team": "Ole Miss"
+    },
+    {
+     "rank": 25,
+     "team": "Nebraska"
+    }
+   ]
+  },
+  {
+   "poll": "AP Top 25",
+   "week": 3,
+   "pollDate": "2026-11-16",
+   "throughWeek": 15,
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "South Carolina"
+    },
+    {
+     "rank": 2,
+     "team": "Michigan"
+    },
+    {
+     "rank": 3,
+     "team": "Louisville"
+    },
+    {
+     "rank": 4,
+     "team": "USC"
+    },
+    {
+     "rank": 5,
+     "team": "Duke"
+    },
+    {
+     "rank": 6,
+     "team": "Texas"
+    },
+    {
+     "rank": 7,
+     "team": "UConn"
+    },
+    {
+     "rank": 8,
+     "team": "Iowa"
+    },
+    {
+     "rank": 9,
+     "team": "LSU"
+    },
+    {
+     "rank": 10,
+     "team": "UCLA"
+    },
+    {
+     "rank": 11,
+     "team": "Vanderbilt"
+    },
+    {
+     "rank": 12,
+     "team": "Kentucky"
+    },
+    {
+     "rank": 13,
+     "team": "Notre Dame"
+    },
+    {
+     "rank": 14,
+     "team": "Oklahoma"
+    },
+    {
+     "rank": 15,
+     "team": "TCU"
+    },
+    {
+     "rank": 16,
+     "team": "Washington"
+    },
+    {
+     "rank": 17,
+     "team": "Minnesota"
+    },
+    {
+     "rank": 18,
+     "team": "Maryland"
+    },
+    {
+     "rank": 19,
+     "team": "Ohio State"
+    },
+    {
+     "rank": 19,
+     "team": "Ole Miss"
+    },
+    {
+     "rank": 21,
+     "team": "Illinois"
+    },
+    {
+     "rank": 22,
+     "team": "West Virginia"
+    },
+    {
+     "rank": 23,
+     "team": "Nebraska"
+    },
+    {
+     "rank": 24,
+     "team": "North Carolina"
+    },
+    {
+     "rank": 25,
+     "team": "Oklahoma State"
+    }
+   ]
+  },
+  {
+   "poll": "Coaches Poll",
+   "week": 3,
+   "pollDate": "2026-11-17",
+   "throughWeek": 16,
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "South Carolina"
+    },
+    {
+     "rank": 2,
+     "team": "Michigan"
+    },
+    {
+     "rank": 3,
+     "team": "Louisville"
+    },
+    {
+     "rank": 4,
+     "team": "Duke"
+    },
+    {
+     "rank": 5,
+     "team": "USC"
+    },
+    {
+     "rank": 6,
+     "team": "Texas"
+    },
+    {
+     "rank": 7,
+     "team": "LSU"
+    },
+    {
+     "rank": 8,
+     "team": "UConn"
+    },
+    {
+     "rank": 9,
+     "team": "Kentucky"
+    },
+    {
+     "rank": 10,
+     "team": "Iowa"
+    },
+    {
+     "rank": 11,
+     "team": "UCLA"
+    },
+    {
+     "rank": 12,
+     "team": "Notre Dame"
+    },
+    {
+     "rank": 13,
+     "team": "Vanderbilt"
+    },
+    {
+     "rank": 14,
+     "team": "Oklahoma"
+    },
+    {
+     "rank": 15,
+     "team": "TCU"
+    },
+    {
+     "rank": 16,
+     "team": "Minnesota"
+    },
+    {
+     "rank": 17,
+     "team": "Washington"
+    },
+    {
+     "rank": 18,
+     "team": "Maryland"
+    },
+    {
+     "rank": 19,
+     "team": "Ohio State"
+    },
+    {
+     "rank": 20,
+     "team": "West Virginia"
+    },
+    {
+     "rank": 21,
+     "team": "Illinois"
+    },
+    {
+     "rank": 22,
+     "team": "Ole Miss"
+    },
+    {
+     "rank": 23,
+     "team": "Nebraska"
+    },
+    {
+     "rank": 24,
+     "team": "North Carolina"
+    },
+    {
+     "rank": 25,
+     "team": "Oklahoma State"
+    }
+   ]
+  },
+  {
+   "poll": "AP Top 25",
+   "week": 4,
+   "pollDate": "2026-11-23",
+   "throughWeek": 22,
+   "ranks": [
+    {
+     "rank": 1,
+     "team": "South Carolina"
+    },
+    {
+     "rank": 2,
+     "team": "Michigan"
+    },
+    {
+     "rank": 3,
+     "team": "Louisville"
+    },
+    {
+     "rank": 4,
+     "team": "USC"
+    },
+    {
+     "rank": 5,
+     "team": "Duke"
+    },
+    {
+     "rank": 6,
+     "team": "Texas"
+    },
+    {
+     "rank": 7,
+     "team": "UConn"
+    },
+    {
+     "rank": 8,
+     "team": "Iowa"
+    },
+    {
+     "rank": 9,
+     "team": "LSU"
+    },
+    {
+     "rank": 10,
+     "team": "UCLA"
+    },
+    {
+     "rank": 11,
+     "team": "Kentucky"
+    },
+    {
+     "rank": 12,
+     "team": "Vanderbilt"
+    },
+    {
+     "rank": 13,
+     "team": "Notre Dame"
+    },
+    {
+     "rank": 14,
+     "team": "Oklahoma"
+    },
+    {
+     "rank": 15,
+     "team": "TCU"
+    },
+    {
+     "rank": 16,
+     "team": "Washington"
+    },
+    {
+     "rank": 17,
+     "team": "Minnesota"
+    },
+    {
+     "rank": 18,
+     "team": "Maryland"
+    },
+    {
+     "rank": 19,
+     "team": "Ohio State"
+    },
+    {
+     "rank": 20,
+     "team": "Illinois"
+    },
+    {
+     "rank": 21,
+     "team": "Ole Miss"
+    },
+    {
+     "rank": 22,
+     "team": "West Virginia"
+    },
+    {
+     "rank": 23,
+     "team": "Nebraska"
+    },
+    {
+     "rank": 24,
+     "team": "North Carolina"
+    },
+    {
+     "rank": 25,
+     "team": "Baylor"
+    }
+   ]
+  }
+ ],
  "teamStats": {
   "Boston College": {
    "rpg": 36.0,

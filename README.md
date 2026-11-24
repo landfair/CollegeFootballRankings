@@ -20,7 +20,8 @@ team page survives the move.
 | `docs/season-20XX.json` | Football results, polls and box-score team statistics, one file per season (2014–2026); the current season also carries ESPN's power index. The statistics cover the regular season and championship weekend, the same games the ranking grades, and leave out havoc before 2016, where the feed measures it on another scale. |
 | `docs/season-all.json` | Every football season stacked into one, for the **All 13 seasons** view. Built from the files above by `build_combined.py`, never fetched. |
 | `docs/ncaam/` | The same, for men's college basketball (2021–22 through 2026–27). |
-| `docs/ncaaw/` | The same, for women's college basketball (2021–22 through 2026–27). No polls — see below. |
+| `docs/ncaaw/` | The same, for women's college basketball (2021–22 through 2026–27). Polls only from 2026–27, entered by hand — see below. |
+| `polls/ncaaw-2027.json` | The women's AP and Coaches polls for 2026–27, copied in by hand; `fetch_wbasketball.py` merges them on every pull. |
 | `docs/basketball/` | A redirect stub to `/ncaam/`, so links handed out before the rename still work. |
 | `recursive-rankings.html` | The research build — slates, the draft triangle, per-game revision history, poll comparison, backtesting. Open it directly; it loads a season through its own file picker. |
 | `fetch_season.py` | Pulls a football season from CollegeFootballData.com. |
@@ -139,6 +140,16 @@ by sweeping every setting against the polls, and on `/ncaaw/` they are inherited
 cannot be checked. ESPN's core API publishes both polls by week and could fill this
 later.
 
+**From 2026–27 the polls are entered by hand.** Each week's AP Top 25 and Coaches
+Poll go into `polls/ncaaw-<season>.json` exactly as ESPN prints them: every place
+with its rank, team, record and points, and the poll's `pollDate`, the day after the
+last games it counts (the AP counts through Sunday and comes out Monday; the Coaches
+Poll counts through Monday). The fetcher merges the file on every pull, sets each
+poll's `throughWeek` from its date, and checks every printed record against the
+results through that day, printing a warning for any that differ. When it prints
+none, the date is right and the names match. A poll naming a team the season does
+not have is warned about and left out.
+
 The basketball fetcher also stores the postseason — the NCAA tournament, the NIT
 and the rest — under its own `postseason` key. **These games are never ranked.**
 `ingest()` reads only `games`, and postseason rows carry a plain date rather than
@@ -183,7 +194,7 @@ A basketball season is named for the year it ends in: 2026 is the 2025–26 seas
 About five API calls per football run; basketball pages its games endpoint, which
 caps responses at 3,000 rows. All three have offline self-tests needing no key, no
 network and — for the women's one — no pyarrow: `--selftest` (63 checks for football,
-36 for men's basketball, 53 for women's).
+36 for men's basketball, 66 for women's).
 
 Three rankings ride along for comparison: the AP and Coaches polls, and the CFP
 selection committee's ranking, which only publishes from about week 10. Poll names

@@ -56,6 +56,18 @@ measurement of the gaps rather than of the rankings, so the page shows no poll
 rather than a poll-shaped guess. ESPN's core API does publish these per week
 and could fill the hole later; that is a separate piece of work.
 
+POLLS ENTERED BY HAND. From 2026-27 the published polls are copied in by hand
+to polls/ncaaw-<season>.json beside this script -- the AP Top 25 and the
+Coaches Poll exactly as ESPN prints them, every place with its record -- and
+merged into the season file on every pull, so a fresh fetch keeps them. Each
+poll's throughWeek is the number of game days before its pollDate, the games
+it could have counted, as on the men's side. The printed records are the
+check: each is compared with the results through that day, and any that
+differ are reported. A difference usually means the date is a day off (the
+AP counts games through Sunday, the Coaches Poll through Monday) or a typing
+slip. A poll naming a team the season does not have is reported and left out
+rather than written short.
+
 The output is the payload every other season file uses, so docs/engine.js
 reads it unchanged:
 
@@ -835,11 +847,89 @@ def selftest():
     ok(not (graded & {(s["home"], s["away"]) for s in soon}),
        "no fixture appears in the graded list")
 
+    # hand-entered polls: the game day a poll reflects, and its records checked
+    pd = ["2026-11-01", "2026-11-02", "2026-11-03"]
+    pg = [{"week": 1, "home": "A", "away": "B", "homePoints": 70, "awayPoints": 60},
+          {"week": 2, "home": "C", "away": "A", "homePoints": 50, "awayPoints": 65},
+          {"week": 3, "home": "B", "away": "C", "homePoints": 80, "awayPoints": 71}]
+    def entry(when, recs, team3="C"):
+        ranks = [{"rank": 1, "team": "A", "record": recs[0]},
+                 {"rank": 2, "team": "B", "record": recs[1]},
+                 {"rank": 3, "team": team3, "record": recs[2]}]
+        ranks += [{"rank": i, "team": "A"} for i in range(4, 26)]   # fill to 25
+        return {"poll": "AP Top 25", "week": 2, "pollDate": when, "ranks": ranks}
+    got, probs = attach_polls([entry("2026-11-03", ["2-0", "0-1", "0-1"])], pg, pd, {"A", "B", "C"})
+    ok(len(got) == 1 and got[0]["throughWeek"] == 2 and not probs,
+       "a poll dated the day after game day 2 reflects two game days, records agree")
+    ok(set(got[0]["ranks"][0]) == {"rank", "team"},
+       "a written place carries only its rank and team, as the men's polls do")
+    got, probs = attach_polls([entry("2026-11-04", ["2-0", "0-1", "0-1"])], pg, pd, {"A", "B", "C"})
+    ok(len(got) == 1 and len(probs) == 1 and "2 record(s)" in probs[0],
+       "a poll dated a day late is kept but its records are flagged")
+    got, probs = attach_polls([entry("2026-11-03", ["2-0", "0-1", "0-1"], "Q")], pg, pd, {"A", "B", "C"})
+    ok(not got and "no team named Q" in probs[0], "a poll naming an unknown team is left out")
+    got, _ = attach_polls([entry("2026-10-20", ["0-0", "0-0", "0-0"])], pg, pd, {"A", "B", "C"})
+    ok(got[0]["throughWeek"] == 0, "a preseason poll reflects no game day")
+
     print(f"\n{checks} checks, {failed} failed")
     if failed:
         return 1
     print("all checks passed")
     return 0
+
+
+# ---------------------------------------------------------------------------
+# Polls entered by hand (see the module docstring)
+
+def polls_path(season):
+    """polls/ncaaw-<season>.json, beside this script."""
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), "polls",
+                        f"ncaaw-{season}.json")
+
+
+def results_through(games, through):
+    """{team: (wins, losses)} over game days 1..through, every opponent
+    counted, as a poll's record column counts them."""
+    rec = {}
+    for g in games:
+        if g["week"] > through:
+            continue
+        home_won = g["homePoints"] > g["awayPoints"]
+        for team, won in ((g["home"], home_won), (g["away"], not home_won)):
+            w, l = rec.get(team, (0, 0))
+            rec[team] = (w + 1, l) if won else (w, l + 1)
+    return rec
+
+
+def attach_polls(entered, games, dates, names):
+    """The entered polls in the payload's shape, each stamped with the game
+    day it reflects, and a list of the problems found checking them."""
+    out, problems = [], []
+    for p in entered:
+        label = f"{p.get('poll')} week {p.get('week')}"
+        when, ranks = p.get("pollDate") or "", p.get("ranks") or []
+        unknown = [r.get("team") for r in ranks if r.get("team") not in names]
+        if unknown:
+            problems.append(f"{label}: no team named {', '.join(map(str, unknown))}; poll left out")
+            continue
+        if not when or len(ranks) < 25:
+            problems.append(f"{label}: needs a pollDate and 25 places; poll left out")
+            continue
+        through = sum(1 for d in dates if d < when)
+        rec = results_through(games, through)
+        off = []
+        for r in ranks:
+            have = "-".join(map(str, rec.get(r["team"], (0, 0))))
+            if r.get("record") and have != r["record"]:
+                off.append(f"{r['team']} {have}, printed {r['record']}")
+        if off:
+            day = dates[through - 1] if through else "before any game"
+            problems.append(f"{label}: {len(off)} record(s) differ from the results "
+                            f"through {day}: " + "; ".join(off[:4]))
+        out.append({"poll": p["poll"], "week": p.get("week"), "pollDate": when,
+                    "throughWeek": through,
+                    "ranks": [{"rank": int(r["rank"]), "team": r["team"]} for r in ranks]})
+    return out, problems
 
 
 # ---------------------------------------------------------------------------
@@ -859,6 +949,9 @@ def main():
     p.add_argument("--cache-dir", default=None,
                    help="keep the downloaded parquet here instead of a temp "
                         "directory, to avoid re-fetching")
+    p.add_argument("--polls", default=None,
+                   help="hand-entered polls to merge (default: polls/ncaaw-<season>.json "
+                        "beside this script, if it exists)")
     p.add_argument("--selftest", action="store_true")
     a = p.parse_args()
     if a.selftest:
@@ -988,11 +1081,23 @@ def main():
     reg.sort(key=lambda g: (g["week"], g["home"]))
     post.sort(key=lambda g: (g["date"], g["home"]))
 
-    # No `polls` key. See the module docstring: wehoop publishes no rankings
-    # file, and the page would rather show nothing than a reconstructed poll.
+    # wehoop publishes no rankings file, and the page would rather show nothing
+    # than a reconstructed poll; the only polls are the ones entered by hand.
+    polls = []
+    pf = a.polls or polls_path(a.season)
+    if os.path.exists(pf):
+        with open(pf, encoding="utf-8") as f:
+            entered = json.load(f).get("polls", [])
+        polls, problems = attach_polls(entered, reg, dates, set(teams))
+        print(f"  polls, entered by hand\n     {len(polls)} of {len(entered)} from "
+              f"{os.path.relpath(pf)}")
+        for m in problems:
+            warn(m)
     payload = {"sport": "wbasketball", "topDivision": TOP_DIVISION,
                "teams": ordered_teams(teams, TOP_DIVISION),
                "games": reg, "dates": dates}
+    if polls:
+        payload["polls"] = polls
     if post:
         payload["postseason"] = post
     if stats:

@@ -394,6 +394,13 @@
      the pointer from the plot underneath. */
   .cscat{position:relative}
   .cscat svg .pt.hot{fill:var(--ink);fill-opacity:1;stroke:var(--panel);stroke-width:1.5}
+  /* Logos stand in for dots where a team has one. The circle stays beneath
+     as the hover's handle, drawn only as a ring: round the points marked
+     far, and round the one under the pointer. */
+  .cscat svg circle.pt.lg{fill:none;stroke:none}
+  .cscat svg circle.pt.lg.far{stroke:var(--mark);stroke-width:1.4;stroke-opacity:.85}
+  .cscat svg circle.pt.lg.hot{fill:none;stroke:var(--ink);stroke-width:1.4}
+  .cscat svg image.lgp{pointer-events:none}
   .ctip{position:absolute;z-index:5;pointer-events:none;display:flex;gap:9px;
     align-items:center;max-width:270px;padding:6px 11px 6px 7px;
     background:var(--panel);color:var(--ink);border:1px solid var(--rule);
@@ -902,6 +909,13 @@ function renderList(){
     const now=haveP.filter(([,p])=>p.throughWeek>=h).map(([n])=>n);
     const back=haveP.filter(([,p])=>p.throughWeek<h);
     if(!back.length) bits.push(`poll${haveP.length===1?'':'s'} reflect${haveP.length===1?'s':''} the same games`);
+    else if(!now.length&&new Set(back.map(([,p])=>p.throughWeek)).size>1){
+      /* Both behind, by different amounts -- one poll's newest week is in and
+         the other's is not yet -- so each is named with its own day rather
+         than both being dated by the newer one. */
+      bits.push('polls reflect games through '+back.map(([n,p])=>
+        `${fmtDay(dayOf(p.throughWeek))} (${n})`).join(' and '));
+    }
     else if(!now.length){
       const t=Math.max(...back.map(([,p])=>p.throughWeek));
       /* Two different dates, and running them together misdates the poll.
@@ -2011,6 +2025,20 @@ const fmtv=v=>Math.abs(v)>=100?v.toFixed(0):Math.abs(v)>=10?v.toFixed(1)
 
    The card's logo is the one the rest of the page uses (see "team logos"),
    fetched at card size; a team without one gets a card without a picture. */
+/* One scatter point: the team's logo where it has one, a dot where it does
+   not. The circle is drawn either way -- it carries the figures the hover
+   card reads, and the hover finds points by it -- but behind a logo it is
+   only a ring. s is the logo's size and r the dot's radius, in the plot's
+   own units; the logo comes just before its circle, which is how the hover
+   finds it. */
+function scatPt(x,y,team,{s,r,cls='pt',data=''}){
+  const src=logoSrc(team,48), cx=x.toFixed(1), cy=y.toFixed(1);
+  if(!src) return `<circle class="${cls}" cx="${cx}" cy="${cy}" r="${r}" data-t="${esc(team)}" ${data}/>`;
+  return `<image class="lgp" href="${esc(src)}" x="${(x-s/2).toFixed(1)}" y="${(y-s/2).toFixed(1)}" `+
+    `width="${s}" height="${s}"/>`+
+    `<circle class="${cls} lg" cx="${cx}" cy="${cy}" r="${(s/2+1).toFixed(1)}" data-rd="${r}" `+
+    `data-t="${esc(team)}" ${data}/>`;
+}
 const REACH=28;
 function wireScatter(root){
   loadLogos();
@@ -2018,11 +2046,27 @@ function wireScatter(root){
     const svg=box.querySelector('svg');
     const dots=svg?[...svg.querySelectorAll('circle.pt[data-t]')]:[];
     if(!dots.length) return;
+    /* A logo that fails to load gives its point back its dot. */
+    svg.querySelectorAll('image.lgp').forEach(im=>im.addEventListener('error',()=>{
+      const c=im.nextElementSibling; im.remove();
+      if(c&&c.classList.contains('lg')){
+        c.classList.remove('lg'); c.setAttribute('r',c.dataset.rd||'3'); delete c.dataset.r0;
+      }
+    }));
     const tip=document.createElement('div');
     tip.className='ctip'; tip.hidden=true; tip.setAttribute('aria-hidden','true');
     box.appendChild(tip);
     let hot=null;
+    /* The logo drawn just before a point's circle, if it has one, and a way
+       to size it about the circle's centre. */
+    const imgOf=c=>{ const im=c.previousElementSibling;
+      return im&&im.classList.contains('lgp')?im:null; };
+    const size=(im,c,s)=>{
+      const cx=+c.getAttribute('cx'), cy=+c.getAttribute('cy');
+      im.setAttribute('x',(cx-s/2).toFixed(1)); im.setAttribute('y',(cy-s/2).toFixed(1));
+      im.setAttribute('width',s); im.setAttribute('height',s); };
     const cool=()=>{ if(!hot) return;
+      const im=imgOf(hot); if(im) size(im,hot,+im.dataset.s0);
       hot.classList.remove('hot'); hot.setAttribute('r',hot.dataset.r0); hot=null; };
     const hide=()=>{ cool(); tip.hidden=true; };
     const show=ev=>{
@@ -2039,7 +2083,13 @@ function wireScatter(root){
         cool();
         hot=best.c;
         if(!hot.dataset.r0) hot.dataset.r0=hot.getAttribute('r');
-        hot.setAttribute('r',(+hot.dataset.r0+2.2).toFixed(1));
+        const lgi=imgOf(hot);
+        if(lgi){
+          if(!lgi.dataset.s0) lgi.dataset.s0=lgi.getAttribute('width');
+          const s=Math.round(+lgi.dataset.s0*1.5);
+          size(lgi,hot,s); hot.setAttribute('r',(s/2+1).toFixed(1));
+          hot.parentNode.appendChild(lgi);
+        } else hot.setAttribute('r',(+hot.dataset.r0+2.2).toFixed(1));
         hot.classList.add('hot');
         hot.parentNode.appendChild(hot);   // drawn last, so on top of its neighbours
         const t=hot.dataset.t, src=logoSrc(t,64);
@@ -2083,10 +2133,11 @@ function corrScatter(p){
   let sxy=0,sxx=0;
   for(let i=0;i<n;i++){ sxy+=(xs[i]-mx)*(ys[i]-my); sxx+=(xs[i]-mx)**2; }
   const slope=sxx>0?sxy/sxx:0, icpt=my-slope*mx;
-  const pts=xs.map((x,i)=>
-    `<circle class="pt" cx="${sx(x).toFixed(1)}" cy="${sy(ys[i]).toFixed(1)}" r="2.6" `+
-    `data-t="${esc(p.teams[i])}" data-d="${esc(p.a.h+' '+fmtv(x))}" `+
-    `data-e="${esc(p.b.h+' '+fmtv(ys[i]))}"/>`).join('');
+  /* Logos shrink as the field grows: a few dozen teams carry them at a
+     readable size, three hundred have to share the space. */
+  const ls=n>200?11:n>80?14:18;
+  const pts=xs.map((x,i)=>scatPt(sx(x),sy(ys[i]),p.teams[i],{s:ls,r:2.6,
+    data:`data-d="${esc(p.a.h+' '+fmtv(x))}" data-e="${esc(p.b.h+' '+fmtv(ys[i]))}"`})).join('');
   const fit=`<line class="fit" x1="${sx(x0).toFixed(1)}" y1="${sy(slope*x0+icpt).toFixed(1)}" `+
     `x2="${sx(x1).toFixed(1)}" y2="${sy(slope*x1+icpt).toFixed(1)}"/>`;
   const num=v=>Math.abs(v)>=100?v.toFixed(0):v.toFixed(1);
@@ -2166,7 +2217,7 @@ function corrExpand(p,A){
   return '<div class="cexp">'+corrScatter(q)+
     `<p class="cdetail">${nm(q.b)} against ${nm(q.a)} — `+
     `r = ${q.r>0?'+':'−'}${Math.abs(q.r).toFixed(3)} over ${q.n} teams `+
-    `(${strengthWord(q.r)}). Each dot is a team; point at or near one to name it. `+
+    `(${strengthWord(q.r)}). Each logo is a team; point at or near one to name it. `+
     `The dashed line is the least-squares fit.</p></div>`;
 }
 
@@ -2972,8 +3023,10 @@ function pollScatter(p){
      against a 365-team ranking would otherwise crush every point into the
      top corner. The ranking axis still starts at 1 so the top of the field
      is visible even when no ranked team sits there. */
-  const maxP=Math.max(...pairs.map(d=>d.poll));
-  const maxO=Math.max(...pairs.map(d=>d.ours));
+  /* An animation passes hiP/hiO so every frame shares one pair of axes. */
+  const maxP=p.hiP??Math.max(...pairs.map(d=>d.poll));
+  const maxO=p.hiO??Math.max(...pairs.map(d=>d.ours));
+  const PS=18;   // logo size
   /* Each axis scales to its OWN depth. A 25-team poll against a ranking that
      places one of those teams 177th would otherwise spend a quarter of its
      width on the poll and leave the rest blank. The diagonal is then no
@@ -3010,14 +3063,14 @@ function pollScatter(p){
   const dots=pairs.map(d=>{
     const off=d.poll-d.ours;          // positive: we are higher on them
     const cls=Math.abs(off)>=Math.max(6,hi*0.12)?'pt far':'pt';
-    return `<circle class="${cls}" cx="${sx(d.poll).toFixed(1)}" cy="${sy(d.ours).toFixed(1)}" r="3" `+
-      `data-t="${esc(d.team)}" data-d="${esc(`${p.other} #${d.poll} · ${vAxis(p)} #${d.ours}`)}" `+
+    return scatPt(sx(d.poll),sy(d.ours),d.team,{s:PS,r:3,cls,data:
+      `data-d="${esc(`${p.other} #${d.poll} · ${vAxis(p)} #${d.ours}`)}" `+
       `data-e="${esc(
         /* "we" only reads right when one side IS this ranking; the
            yardstick plot sets two polls against each other. */
         off===0?'Exact agreement':off>0
           ?`${p.mineLabel?p.mineLabel+' is':'We are'} ${off} place${off===1?'':'s'} higher`
-          :`${p.mineLabel?p.mineLabel+' is':'We are'} ${-off} place${off===-1?'':'s'} lower`)}"/>`;
+          :`${p.mineLabel?p.mineLabel+' is':'We are'} ${-off} place${off===-1?'':'s'} lower`)}"`});
   }).join('');
   /* Name the half-dozen furthest from the diagonal: the plot's whole point
      is which teams the two sides read differently, and a reader should not
@@ -3025,8 +3078,8 @@ function pollScatter(p){
   const far=[...pairs].sort((a,b)=>Math.abs(b.poll-b.ours)-Math.abs(a.poll-a.ours)).slice(0,6);
   const labels=far.map(d=>{
     const x=sx(d.poll), y=sy(d.ours);
-    const right=x<W*0.62;
-    return `<text class="lbl" x="${(right?x+6:x-6).toFixed(1)}" y="${(y+3.5).toFixed(1)}"`+
+    const right=x<W*0.62, o=logoSrc(d.team,48)?PS/2+3:6;
+    return `<text class="lbl" x="${(right?x+o:x-o).toFixed(1)}" y="${(y+3.5).toFixed(1)}"`+
       ` text-anchor="${right?'start':'end'}">${esc(d.team)}</text>`;
   }).join('');
   return `<div class="cscat pollscat"><svg viewBox="0 0 ${W} ${H}" role="img" `+
@@ -3052,11 +3105,14 @@ function showPollPlot(p){
   $('polltitle').textContent=p.label;
   $('pollbody').innerHTML=
     `<p class="cdetail">Spearman <b>ρ = ${p.rho.toFixed(3)}</b> over the `+
-    `${p.n} teams ${p.other} ranks. Each dot is a team: the dashed diagonal is `+
-    `exact agreement, and a dot’s distance from it is how far the two sides `+
+    `${p.n} teams ${p.other} ranks. Each logo is a team: the dashed diagonal is `+
+    `exact agreement, and a logo’s distance from it is how far the two sides `+
     `differ on that team. Above the line ${esc(vAxis(p))} is <b>higher</b> on a team `+
-    `than ${p.other} is; below it, lower. Point at or near any dot for the team and its two places.</p>`+
-    pollScatter(p)+
+    `than ${p.other} is; below it, lower. Point at or near any team for its two places.</p>`+
+    /* A page that defines a play bar (football's steps through the weeks)
+       puts it above the plot; the others draw the plot alone. */
+    (typeof pollPlayBar==='function'?pollPlayBar(p):'')+
+    '<div id="pscat">'+pollScatter(p)+'</div>'+
     `<p class="cdetail">${exact} team${exact===1?'':'s'} placed identically, `+
     `${above} rated higher by ${esc(vAxis(p))} than by ${p.other}, ${below} rated lower.</p>`+
     `<div class="combohd">furthest apart</div>`+
@@ -3076,6 +3132,7 @@ function showPollPlot(p){
         `results alone. The gap is the comparison, not a fault in either.</p>`);
   d.showModal();
   wireScatter($('pollbody'));
+  if(typeof pollPlayWire==='function') pollPlayWire(p);
   $('pollbody').querySelectorAll('button.tm').forEach(b=>b.onclick=()=>{
     d.close(); go(b.dataset.t);
   });
