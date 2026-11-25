@@ -1431,8 +1431,8 @@ function renderTeam(team){
     };
     const SRC='Counted from THIS ranking\u2019s order, never from a poll: an opponent\u2019s '+
       'place is the one on the table you just came from, so these figures move when you change '+
-      'the scoring, the field, the weighting or the day. No poll is published with this '+
-      'sport\u2019s data at all. ';
+      'the scoring, the field, the weighting or the day \u2014 which a poll-based tier could '+
+      'not do. ';
     const CUM='Cumulative \u2014 a win over #3 is counted here and in every wider tier below.';
     /* The quadrant rows are EXCLUSIVE bands, not cumulative tiers, and together
        they account for every game played: 1-30, 31-100, 101-200, 201+, plus
@@ -2772,7 +2772,7 @@ function statRows(X){
   const bd=b=>(b[0]+b[1])?`${b[0]}‑${b[1]}`:null;
   const C=[
     {k:'rank', h:'#',          cls:'rk',  low:true,  v:r=>r.rank, d:r=>r.rank,
-     tip:'Place in this ranking, computed from results alone — no poll is published with this sport’s data at all.'},
+     tip:'Place in this ranking — the same number as the Rankings page, carried here so the two can be read against each other. Computed from results alone.'},
     {k:'team', h:'Team',       cls:'',    low:true,  v:r=>r.team, text:true,
      d:r=>`<button class="tm" data-t="${esc(r.team)}">${logo(r.team)}${esc(r.team)}</button>`},
     {k:'conf', h:'Conference', cls:'cf',  low:true,  v:r=>r.conference||'', text:true,
