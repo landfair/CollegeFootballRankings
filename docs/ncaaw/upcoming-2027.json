@@ -1,302 +1,8 @@
 {
  "sport": "wbasketball",
  "season": 2027,
- "generated": "2026-11-25",
+ "generated": "2026-11-26",
  "upcoming": [
-  {
-   "date": "2026-11-25",
-   "home": "Alabama",
-   "away": "Samford",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Auburn",
-   "away": "Wisconsin",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Boston University",
-   "away": "Brown",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Bradley",
-   "away": "UTEP",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Butler",
-   "away": "Oral Roberts",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Cleveland State",
-   "away": "Lindenwood",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Coastal Carolina",
-   "away": "Newberry",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Eastern Illinois",
-   "away": "Oakland",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "George Washington",
-   "away": "Arizona",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Georgia Southern",
-   "away": "Western Michigan",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Georgia State",
-   "away": "Chattanooga",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Grand Canyon",
-   "away": "Winthrop",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Harvard",
-   "away": "Illinois State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Holy Cross",
-   "away": "Rhode Island",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "IU Indianapolis",
-   "away": "IU Columbus",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Iowa",
-   "away": "Navy",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "James Madison",
-   "away": "Arkansas",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Kennesaw State",
-   "away": "Florida A&M",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Lamar",
-   "away": "UIC",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Louisiana Tech",
-   "away": "Mississippi Valley State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Loyola Maryland",
-   "away": "Washington Adventist",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Memphis",
-   "away": "SMU",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Mercer",
-   "away": "Campbell",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Mercyhurst",
-   "away": "Canisius",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Miami",
-   "away": "Utah",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Michigan",
-   "away": "Toledo",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Montana State",
-   "away": "Middle Tennessee",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Northern Iowa",
-   "away": "Saint Louis",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Northern Kentucky",
-   "away": "Southern Indiana",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Old Dominion",
-   "away": "Saint Mary's",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Oregon State",
-   "away": "Vanderbilt",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Portland",
-   "away": "UC Santa Barbara",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Presbyterian",
-   "away": "Furman",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Princeton",
-   "away": "Rutgers",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Purdue",
-   "away": "Murray State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Rice",
-   "away": "UT Rio Grande Valley",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Saint Peter's",
-   "away": "NJIT",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "San Francisco",
-   "away": "Cal State East Bay",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Seattle U",
-   "away": "Weber State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "South Carolina Upstate",
-   "away": "Tennessee State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Stetson",
-   "away": "Robert Morris",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Syracuse",
-   "away": "Southern",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Texas",
-   "away": "SE Louisiana",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Texas Southern",
-   "away": "Vermont",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Texas State",
-   "away": "Pacific",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "UAlbany",
-   "away": "Union",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "UNC Greensboro",
-   "away": "Montreat",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "UNLV",
-   "away": "Loyola Marymount",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-25",
-   "home": "Utah Tech",
-   "away": "San Diego",
-   "tbd": false
-  },
   {
    "date": "2026-11-26",
    "home": "Binghamton",
@@ -317,14 +23,20 @@
   },
   {
    "date": "2026-11-26",
-   "home": "Colorado State",
-   "away": "Grambling",
+   "home": "Florida",
+   "away": "Davidson",
    "tbd": false
   },
   {
    "date": "2026-11-26",
-   "home": "Florida",
-   "away": "Davidson",
+   "home": "Grambling",
+   "away": "Colorado State",
+   "tbd": false
+  },
+  {
+   "date": "2026-11-26",
+   "home": "Howard",
+   "away": "Texas Southern",
    "tbd": false
   },
   {
@@ -379,12 +91,6 @@
    "date": "2026-11-26",
    "home": "Tennessee Tech",
    "away": "Little Rock",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-26",
-   "home": "Texas Southern",
-   "away": "Howard",
    "tbd": false
   },
   {
@@ -2807,12 +2513,6 @@
   },
   {
    "date": "2026-12-04",
-   "home": "Oklahoma",
-   "away": "Michigan",
-   "tbd": false
-  },
-  {
-   "date": "2026-12-04",
    "home": "Omaha",
    "away": "Stephen F. Austin",
    "tbd": false
@@ -3079,6 +2779,12 @@
    "date": "2026-12-05",
    "home": "Ohio",
    "away": "Radford",
+   "tbd": false
+  },
+  {
+   "date": "2026-12-05",
+   "home": "Oklahoma",
+   "away": "Michigan",
    "tbd": false
   },
   {
