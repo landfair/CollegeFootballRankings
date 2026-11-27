@@ -3,7 +3,7 @@
  "topDivision": "FBS",
  "combined": {
   "seasons": 13,
-  "buckets": 210,
+  "buckets": 211,
   "spans": [
    {
     "file": "season-2014.json",
@@ -80,11 +80,11 @@
    {
     "file": "season-2026.json",
     "from": 198,
-    "to": 210,
-    "games": 3642
+    "to": 211,
+    "games": 3646
    }
   ],
-  "built": "2026-11-24"
+  "built": "2026-11-27"
  },
  "teams": [
   {
@@ -217087,6 +217087,34 @@
    "away": "New Mexico",
    "homePoints": 17,
    "awayPoints": 24
+  },
+  {
+   "week": 211,
+   "home": "Alabama State",
+   "away": "Tuskegee",
+   "homePoints": 45,
+   "awayPoints": 0
+  },
+  {
+   "week": 211,
+   "home": "Eastern Michigan",
+   "away": "Kent State",
+   "homePoints": 17,
+   "awayPoints": 12
+  },
+  {
+   "week": 211,
+   "home": "Texas Tech",
+   "away": "TCU",
+   "homePoints": 48,
+   "awayPoints": 27
+  },
+  {
+   "week": 211,
+   "home": "Western Michigan",
+   "away": "Miami (OH)",
+   "homePoints": 24,
+   "awayPoints": 28
   }
  ]
 }

@@ -25857,6 +25857,13 @@
   },
   {
    "week": 12,
+   "home": "Benedict",
+   "away": "Kentucky State",
+   "homePoints": 52,
+   "awayPoints": 45
+  },
+  {
+   "week": 12,
    "home": "Benedictine (IL)",
    "away": "Concordia (WI)",
    "homePoints": 24,
@@ -27719,6 +27726,13 @@
   },
   {
    "week": 12,
+   "home": "Virginia Union",
+   "away": "Johnson C. Smith",
+   "homePoints": 15,
+   "awayPoints": 14
+  },
+  {
+   "week": 12,
    "home": "Wagner",
    "away": "New Haven",
    "homePoints": 14,
@@ -27978,6 +27992,13 @@
   },
   {
    "week": 13,
+   "home": "Amherst",
+   "away": "Bridgewater State",
+   "homePoints": 42,
+   "awayPoints": 7
+  },
+  {
+   "week": 13,
    "home": "App State",
    "away": "UL Monroe",
    "homePoints": 17,
@@ -28017,6 +28038,20 @@
    "away": "Texas Tech",
    "homePoints": 10,
    "awayPoints": 20
+  },
+  {
+   "week": 13,
+   "home": "Benedict",
+   "away": "Newberry",
+   "homePoints": 3,
+   "awayPoints": 38
+  },
+  {
+   "week": 13,
+   "home": "Benedictine (IL)",
+   "away": "Hanover",
+   "homePoints": 24,
+   "awayPoints": 30
   },
   {
    "week": 13,
@@ -28069,6 +28104,13 @@
   },
   {
    "week": 13,
+   "home": "CSU Pueblo",
+   "away": "Midwestern State",
+   "homePoints": 34,
+   "awayPoints": 10
+  },
+  {
+   "week": 13,
    "home": "California",
    "away": "Stanford",
    "homePoints": 28,
@@ -28097,6 +28139,13 @@
   },
   {
    "week": 13,
+   "home": "Central Washington",
+   "away": "Western Colorado",
+   "homePoints": 24,
+   "awayPoints": 17
+  },
+  {
+   "week": 13,
    "home": "Chicago",
    "away": "St. Norbert",
    "homePoints": 28,
@@ -28108,6 +28157,13 @@
    "away": "Colorado",
    "homePoints": 35,
    "awayPoints": 28
+  },
+  {
+   "week": 13,
+   "home": "Claremont Mudd Scripps",
+   "away": "Huntingdon",
+   "homePoints": 20,
+   "awayPoints": 19
   },
   {
    "week": 13,
@@ -28153,6 +28209,13 @@
   },
   {
    "week": 13,
+   "home": "East Stroudsburg",
+   "away": "Assumption",
+   "homePoints": 24,
+   "awayPoints": 3
+  },
+  {
+   "week": 13,
    "home": "East Texas A&M",
    "away": "Incarnate Word",
    "homePoints": 3,
@@ -28171,6 +28234,20 @@
    "away": "Portland State",
    "homePoints": 38,
    "awayPoints": 40
+  },
+  {
+   "week": 13,
+   "home": "Ferris State",
+   "away": "Truman State",
+   "homePoints": 45,
+   "awayPoints": 14
+  },
+  {
+   "week": 13,
+   "home": "Findlay",
+   "away": "Augustana (SD)",
+   "homePoints": 23,
+   "awayPoints": 20
   },
   {
    "week": 13,
@@ -28223,10 +28300,31 @@
   },
   {
    "week": 13,
+   "home": "Hardin Simmons",
+   "away": "Texas Lutheran",
+   "homePoints": 34,
+   "awayPoints": 31
+  },
+  {
+   "week": 13,
+   "home": "Harding",
+   "away": "Washburn",
+   "homePoints": 58,
+   "awayPoints": 31
+  },
+  {
+   "week": 13,
    "home": "Harvard",
    "away": "Yale",
    "homePoints": 17,
    "awayPoints": 20
+  },
+  {
+   "week": 13,
+   "home": "Heidelberg",
+   "away": "Monmouth (IL)",
+   "homePoints": 21,
+   "awayPoints": 24
   },
   {
    "week": 13,
@@ -28318,6 +28416,20 @@
    "away": "Miami (OH)",
    "homePoints": 3,
    "awayPoints": 20
+  },
+  {
+   "week": 13,
+   "home": "Kentucky State",
+   "away": "Carson Newman",
+   "homePoints": 14,
+   "awayPoints": 42
+  },
+  {
+   "week": 13,
+   "home": "Kutztown",
+   "away": "Fayetteville State",
+   "homePoints": 34,
+   "awayPoints": 13
   },
   {
    "week": 13,
@@ -28444,6 +28556,13 @@
    "away": "Oregon",
    "homePoints": 7,
    "awayPoints": 45
+  },
+  {
+   "week": 13,
+   "home": "Michigan Tech",
+   "away": "Minnesota State",
+   "homePoints": 35,
+   "awayPoints": 21
   },
   {
    "week": 13,
@@ -28587,6 +28706,20 @@
   },
   {
    "week": 13,
+   "home": "Northwest Missouri State",
+   "away": "Ouachita Baptist",
+   "homePoints": 45,
+   "awayPoints": 14
+  },
+  {
+   "week": 13,
+   "home": "Northwood",
+   "away": "Grand Valley State",
+   "homePoints": 16,
+   "awayPoints": 27
+  },
+  {
+   "week": 13,
    "home": "Notre Dame",
    "away": "SMU",
    "homePoints": 24,
@@ -28685,6 +28818,13 @@
   },
   {
    "week": 13,
+   "home": "Slippery Rock",
+   "away": "Charleston (WV)",
+   "homePoints": 59,
+   "awayPoints": 21
+  },
+  {
+   "week": 13,
    "home": "South Carolina",
    "away": "Georgia",
    "homePoints": 6,
@@ -28755,6 +28895,13 @@
   },
   {
    "week": 13,
+   "home": "Susquehanna",
+   "away": "Eastern",
+   "homePoints": 42,
+   "awayPoints": 7
+  },
+  {
+   "week": 13,
    "home": "TCU",
    "away": "Utah",
    "homePoints": 17,
@@ -28811,6 +28958,13 @@
   },
   {
    "week": 13,
+   "home": "Trinity (CT)",
+   "away": "Rensselaer",
+   "homePoints": 21,
+   "awayPoints": 17
+  },
+  {
+   "week": 13,
    "home": "Troy",
    "away": "Georgia Southern",
    "homePoints": 7,
@@ -28860,6 +29014,13 @@
   },
   {
    "week": 13,
+   "home": "UNC Pembroke",
+   "away": "Central State",
+   "homePoints": 42,
+   "awayPoints": 23
+  },
+  {
+   "week": 13,
    "home": "USC",
    "away": "Maryland",
    "homePoints": 35,
@@ -28871,6 +29032,13 @@
    "away": "Furman",
    "homePoints": 3,
    "awayPoints": 35
+  },
+  {
+   "week": 13,
+   "home": "Valdosta State",
+   "away": "Edward Waters",
+   "homePoints": 56,
+   "awayPoints": 26
   },
   {
    "week": 13,
@@ -28892,6 +29060,20 @@
    "away": "North Carolina",
    "homePoints": 41,
    "awayPoints": 24
+  },
+  {
+   "week": 13,
+   "home": "Virginia Union",
+   "away": "California (PA)",
+   "homePoints": 14,
+   "awayPoints": 31
+  },
+  {
+   "week": 13,
+   "home": "Wartburg",
+   "away": "Northwestern (MN)",
+   "homePoints": 42,
+   "awayPoints": 7
   },
   {
    "week": 13,
@@ -28951,10 +29133,24 @@
   },
   {
    "week": 14,
+   "home": "Alabama State",
+   "away": "Tuskegee",
+   "homePoints": 45,
+   "awayPoints": 0
+  },
+  {
+   "week": 14,
    "home": "Eastern Michigan",
    "away": "Kent State",
    "homePoints": 17,
    "awayPoints": 12
+  },
+  {
+   "week": 14,
+   "home": "Texas Tech",
+   "away": "TCU",
+   "homePoints": 48,
+   "awayPoints": 27
   },
   {
    "week": 14,
@@ -38377,63 +38573,63 @@
    "defFieldPos": 73.1
   },
   "TCU": {
-   "games": 11,
-   "yards": 3988.0,
-   "oppYards": 3465.0,
-   "rushYards": 1218.0,
-   "oppRushYards": 1233.0,
-   "passYards": 2770.0,
-   "oppPassYards": 2232.0,
-   "firstDowns": 225.0,
-   "oppFirstDowns": 192.0,
-   "rushAtt": 350.0,
-   "oppRushAtt": 380.0,
-   "passAtt": 377.0,
-   "oppPassAtt": 323.0,
-   "passComp": 238.0,
-   "oppPassComp": 184.0,
-   "turnovers": 17.0,
-   "oppTurnovers": 14.0,
-   "sacks": 28.0,
-   "oppSacks": 32.0,
-   "tfl": 60.0,
-   "oppTfl": 66.0,
-   "penalties": 73.0,
-   "oppPenalties": 66.0,
-   "penaltyYards": 668.0,
-   "oppPenaltyYards": 588.0,
-   "thirdDowns": 154.0,
-   "oppThirdDowns": 159.0,
-   "thirdConv": 67.0,
-   "oppThirdConv": 54.0,
-   "fourthDowns": 16.0,
+   "games": 12,
+   "yards": 4451.0,
+   "oppYards": 3924.0,
+   "rushYards": 1463.0,
+   "oppRushYards": 1320.0,
+   "passYards": 2988.0,
+   "oppPassYards": 2604.0,
+   "firstDowns": 247.0,
+   "oppFirstDowns": 214.0,
+   "rushAtt": 399.0,
+   "oppRushAtt": 404.0,
+   "passAtt": 414.0,
+   "oppPassAtt": 351.0,
+   "passComp": 262.0,
+   "oppPassComp": 206.0,
+   "turnovers": 19.0,
+   "oppTurnovers": 15.0,
+   "sacks": 30.0,
+   "oppSacks": 34.0,
+   "tfl": 64.0,
+   "oppTfl": 71.0,
+   "penalties": 79.0,
+   "oppPenalties": 71.0,
+   "penaltyYards": 733.0,
+   "oppPenaltyYards": 633.0,
+   "thirdDowns": 172.0,
+   "oppThirdDowns": 167.0,
+   "thirdConv": 76.0,
+   "oppThirdConv": 57.0,
+   "fourthDowns": 18.0,
    "oppFourthDowns": 18.0,
-   "fourthConv": 7.0,
+   "fourthConv": 8.0,
    "oppFourthConv": 8.0,
-   "possSeconds": 20134.0,
-   "oppPossSeconds": 19466.0,
-   "offPpa": 0.08097755485525225,
-   "offSuccess": 0.4151967435549525,
-   "offExpl": 1.2402993407865661,
-   "offStuff": 0.18944099378881987,
-   "offLineYards": 2.884472049689441,
-   "offPower": 0.7777777777777778,
-   "offPpo": 3.208955223880597,
-   "offPlays": 737.0,
-   "offDrives": 122.0,
-   "offHavoc": 0.159,
-   "offFieldPos": 70.9,
-   "defPpa": -0.021939387968589855,
-   "defSuccess": 0.35614525139664804,
-   "defExpl": 1.1766465086494413,
-   "defStuff": 0.20903954802259886,
-   "defLineYards": 2.7031073446327682,
-   "defPower": 0.6444444444444445,
-   "defPpo": 2.8,
-   "defPlays": 716.0,
-   "defDrives": 132.0,
-   "defHavoc": 0.158,
-   "defFieldPos": 73.4
+   "possSeconds": 22385.0,
+   "oppPossSeconds": 20815.0,
+   "offPpa": 0.07364548190786925,
+   "offSuccess": 0.41140776699029125,
+   "offExpl": 1.2503312282673928,
+   "offStuff": 0.1783783783783784,
+   "offLineYards": 2.9318918918918917,
+   "offPower": 0.75,
+   "offPpo": 3.276315789473684,
+   "offPlays": 824.0,
+   "offDrives": 135.0,
+   "offHavoc": 0.157,
+   "offFieldPos": 71.1,
+   "defPpa": 0.014124483787550273,
+   "defSuccess": 0.3693107932379714,
+   "defExpl": 1.2148921156231058,
+   "defStuff": 0.2074468085106383,
+   "defLineYards": 2.7159574468085106,
+   "defPower": 0.6170212765957447,
+   "defPpo": 3.1451612903225805,
+   "defPlays": 769.0,
+   "defDrives": 144.0,
+   "defHavoc": 0.156,
+   "defFieldPos": 73.0
   },
   "Temple": {
    "games": 11,
@@ -38731,63 +38927,63 @@
    "defFieldPos": 70.7
   },
   "Texas Tech": {
-   "games": 11,
-   "yards": 4889.0,
-   "oppYards": 4353.0,
-   "rushYards": 2338.0,
-   "oppRushYards": 1238.0,
-   "passYards": 2551.0,
-   "oppPassYards": 3115.0,
-   "firstDowns": 235.0,
-   "oppFirstDowns": 211.0,
-   "rushAtt": 452.0,
-   "oppRushAtt": 361.0,
-   "passAtt": 304.0,
-   "oppPassAtt": 440.0,
-   "passComp": 194.0,
-   "oppPassComp": 280.0,
-   "turnovers": 17.0,
-   "oppTurnovers": 16.0,
-   "sacks": 35.0,
-   "oppSacks": 19.0,
-   "tfl": 73.0,
-   "oppTfl": 67.0,
-   "penalties": 72.0,
-   "oppPenalties": 63.0,
-   "penaltyYards": 614.0,
-   "oppPenaltyYards": 548.0,
-   "thirdDowns": 143.0,
-   "oppThirdDowns": 175.0,
-   "thirdConv": 55.0,
-   "oppThirdConv": 63.0,
+   "games": 12,
+   "yards": 5348.0,
+   "oppYards": 4816.0,
+   "rushYards": 2425.0,
+   "oppRushYards": 1483.0,
+   "passYards": 2923.0,
+   "oppPassYards": 3333.0,
+   "firstDowns": 257.0,
+   "oppFirstDowns": 233.0,
+   "rushAtt": 476.0,
+   "oppRushAtt": 410.0,
+   "passAtt": 332.0,
+   "oppPassAtt": 477.0,
+   "passComp": 216.0,
+   "oppPassComp": 304.0,
+   "turnovers": 18.0,
+   "oppTurnovers": 18.0,
+   "sacks": 37.0,
+   "oppSacks": 21.0,
+   "tfl": 78.0,
+   "oppTfl": 71.0,
+   "penalties": 77.0,
+   "oppPenalties": 69.0,
+   "penaltyYards": 659.0,
+   "oppPenaltyYards": 613.0,
+   "thirdDowns": 151.0,
+   "oppThirdDowns": 193.0,
+   "thirdConv": 58.0,
+   "oppThirdConv": 72.0,
    "fourthDowns": 17.0,
-   "oppFourthDowns": 30.0,
+   "oppFourthDowns": 32.0,
    "fourthConv": 11.0,
-   "oppFourthConv": 9.0,
-   "possSeconds": 18957.0,
-   "oppPossSeconds": 20643.0,
-   "offPpa": 0.17721467445743558,
-   "offSuccess": 0.44155844155844154,
-   "offExpl": 1.2752768331083713,
-   "offStuff": 0.19907407407407407,
-   "offLineYards": 3.0597222222222222,
-   "offPower": 0.6883116883116883,
-   "offPpo": 3.963855421686747,
-   "offPlays": 770.0,
-   "offDrives": 145.0,
-   "offHavoc": 0.177,
+   "oppFourthConv": 10.0,
+   "possSeconds": 20306.0,
+   "oppPossSeconds": 22894.0,
+   "offPpa": 0.19808703420457094,
+   "offSuccess": 0.44835965978128794,
+   "offExpl": 1.296961041702441,
+   "offStuff": 0.19823788546255505,
+   "offLineYards": 3.0530837004405287,
+   "offPower": 0.6708860759493671,
+   "offPpo": 4.111111111111111,
+   "offPlays": 823.0,
+   "offDrives": 157.0,
+   "offHavoc": 0.174,
    "offFieldPos": 67.9,
-   "defPpa": -0.009392533428626969,
-   "defSuccess": 0.371007371007371,
-   "defExpl": 1.3371893786396498,
-   "defStuff": 0.21646341463414634,
-   "defLineYards": 2.6731707317073172,
-   "defPower": 0.5428571428571428,
-   "defPpo": 3.306451612903226,
-   "defPlays": 814.0,
-   "defDrives": 149.0,
-   "defHavoc": 0.172,
-   "defFieldPos": 74.3
+   "defPpa": -0.007371923470742507,
+   "defSuccess": 0.37180910099889014,
+   "defExpl": 1.3377966580630782,
+   "defStuff": 0.20212765957446807,
+   "defLineYards": 2.746808510638298,
+   "defPower": 0.5384615384615384,
+   "defPpo": 3.3661971830985915,
+   "defPlays": 901.0,
+   "defDrives": 162.0,
+   "defHavoc": 0.169,
+   "defFieldPos": 74.2
   },
   "Toledo": {
    "games": 11,
@@ -40325,7 +40521,7 @@
   }
  },
  "fpi": {
-  "asOf": "2026-11-25",
+  "asOf": "2026-11-27",
   "teams": [
    {
     "team": "Georgia",

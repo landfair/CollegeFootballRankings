@@ -1,116 +1,8 @@
 {
  "sport": "wbasketball",
  "season": 2027,
- "generated": "2026-11-26",
+ "generated": "2026-11-27",
  "upcoming": [
-  {
-   "date": "2026-11-26",
-   "home": "Binghamton",
-   "away": "UTSA",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-26",
-   "home": "Charleston",
-   "away": "McNeese",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-26",
-   "home": "Colorado",
-   "away": "Georgia",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-26",
-   "home": "Florida",
-   "away": "Davidson",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-26",
-   "home": "Grambling",
-   "away": "Colorado State",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-26",
-   "home": "Howard",
-   "away": "Texas Southern",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-26",
-   "home": "Maryland Eastern Shore",
-   "away": "Oregon",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-26",
-   "home": "Miami (OH)",
-   "away": "Cincinnati",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-26",
-   "home": "Missouri State",
-   "away": "Minnesota",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-26",
-   "home": "North Dakota State",
-   "away": "Fairfield",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-26",
-   "home": "Notre Dame",
-   "away": "West Virginia",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-26",
-   "home": "Robert Morris",
-   "away": "Clemson",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-26",
-   "home": "Santa Clara",
-   "away": "Xavier",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-26",
-   "home": "Southern",
-   "away": "Auburn",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-26",
-   "home": "Tennessee Tech",
-   "away": "Little Rock",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-26",
-   "home": "Texas Tech",
-   "away": "Air Force",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-26",
-   "home": "Washington State",
-   "away": "Kansas",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-26",
-   "home": "Wisconsin",
-   "away": "Syracuse",
-   "tbd": false
-  },
   {
    "date": "2026-11-27",
    "home": "Abilene Christian",
@@ -251,6 +143,12 @@
   },
   {
    "date": "2026-11-27",
+   "home": "Grambling",
+   "away": "Tennessee Tech",
+   "tbd": false
+  },
+  {
+   "date": "2026-11-27",
    "home": "Hawai'i",
    "away": "San Diego State",
    "tbd": false
@@ -295,6 +193,12 @@
    "date": "2026-11-27",
    "home": "LSU",
    "away": "Villanova",
+   "tbd": false
+  },
+  {
+   "date": "2026-11-27",
+   "home": "Little Rock",
+   "away": "Colorado State",
    "tbd": false
   },
   {
@@ -575,6 +479,12 @@
   },
   {
    "date": "2026-11-28",
+   "home": "Air Force",
+   "away": "Xavier",
+   "tbd": false
+  },
+  {
+   "date": "2026-11-28",
    "home": "App State",
    "away": "Western Carolina",
    "tbd": false
@@ -761,12 +671,6 @@
   },
   {
    "date": "2026-11-28",
-   "home": "Monmouth",
-   "away": "Fairleigh Dickinson",
-   "tbd": false
-  },
-  {
-   "date": "2026-11-28",
    "home": "Morehead State",
    "away": "Western Kentucky",
    "tbd": false
@@ -865,6 +769,12 @@
    "date": "2026-11-28",
    "home": "Saint Mary's",
    "away": "San Jos\u00e9 State",
+   "tbd": false
+  },
+  {
+   "date": "2026-11-28",
+   "home": "Santa Clara",
+   "away": "Texas Tech",
    "tbd": false
   },
   {
@@ -1207,6 +1117,12 @@
    "date": "2026-11-29",
    "home": "Milwaukee",
    "away": "Toledo",
+   "tbd": false
+  },
+  {
+   "date": "2026-11-29",
+   "home": "Monmouth",
+   "away": "Fairleigh Dickinson",
    "tbd": false
   },
   {
@@ -3929,6 +3845,12 @@
   },
   {
    "date": "2026-12-09",
+   "home": "UNC Greensboro",
+   "away": "Virginia Lynchburg",
+   "tbd": false
+  },
+  {
+   "date": "2026-12-09",
    "home": "Utah Valley",
    "away": "Utah State",
    "tbd": false
@@ -4933,12 +4855,6 @@
    "date": "2026-12-13",
    "home": "UC Davis",
    "away": "Montana",
-   "tbd": false
-  },
-  {
-   "date": "2026-12-13",
-   "home": "UNC Greensboro",
-   "away": "Virginia Lynchburg",
    "tbd": false
   },
   {
