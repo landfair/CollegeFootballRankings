@@ -559,6 +559,46 @@ export function split(eng,horizon,W){
    teams in the last three of them, those being the two semi-finals and the
    final; it is derived from the games rather than stored, so it cannot drift
    from them. An incomplete or absent bracket yields empty sets, not a guess. */
+/* Opponent-adjusted scoring margin: solve for a strength per team such that
+   the predicted margin best explains every game played.
+
+   This is the one thing a box score cannot give you and a seed can. A
+   mid-major's raw numbers look identical to a power team's -- across five
+   seasons both average about 13 points of net rating -- while the schedules
+   behind them differ by nine points. Adjusting for the opponent is what
+   closes that gap, and it is why this rates above the recursive ranking at
+   picking tournament games.
+
+   Ridge-regularised and solved by iteration rather than matrix inversion:
+   with LAM in the denominator a team with one game is shrunk toward zero
+   instead of being handed its whole margin. Margins are capped so a
+   fifty-point win over nobody cannot buy more credit than winning did.
+
+   This reads `season.games`, which never contains a postseason game, so a
+   rating built here cannot see a tournament it is asked to predict. */
+export function adjustedMargin(season,{cap=25,lam=4,passes=300}={}){
+  const teams=[...new Set(season.games.flatMap(g=>[g.winner,g.loser]))];
+  const idx=new Map(teams.map((t,i)=>[t,i]));
+  const n=teams.length;
+  const gs=season.games.map(g=>({w:idx.get(g.winner),l:idx.get(g.loser),
+    m:Math.min(g.margin,cap)}));
+  const cnt=new Float64Array(n);
+  for(const g of gs){ cnt[g.w]++; cnt[g.l]++; }
+  let r=new Float64Array(n);
+  for(let it=0;it<passes;it++){
+    const num=new Float64Array(n);
+    for(const g of gs){ num[g.w]+=g.m+r[g.l]; num[g.l]+=-g.m+r[g.w]; }
+    const nr=new Float64Array(n);
+    for(let i=0;i<n;i++) nr[i]=cnt[i]?num[i]/(cnt[i]+lam):0;
+    let mu=0; for(let i=0;i<n;i++) mu+=nr[i]; mu/=n;
+    for(let i=0;i<n;i++) nr[i]-=mu;
+    r=nr;
+  }
+  const out=new Map();
+  teams.forEach((t,i)=>out.set(t,r[i]));
+  return out;
+}
+
 export function bracket(season,event='NCAA'){
   const all=(season.postseason||[]).filter(g=>g&&g.home&&g.away);
   const gs=all.filter(g=>(g.tournament||'')===event)

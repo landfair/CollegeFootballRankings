@@ -184,3 +184,24 @@ for(let i=0;i<2000;i++){
   if(k>=table[4][1].ok) beat++;
 }
 console.log(`  matched or beat the rule in ${beat} of 2000 runs (${(beat/20).toFixed(1)}%)`);
+
+/* ---- what upsets have in common ---------------------------------------- */
+const dog=g=>g.sH<g.sA?g.away:g.home;
+const upsets=EVAL.filter(g=>fav(g)!==g.win);
+const A=-0.033,B=0.171,pFav=d=>1/(1+Math.exp(-(A+B*d)));
+const cor=(xs,ys)=>{const n=xs.length,mx=xs.reduce((a,b)=>a+b,0)/n,
+  my=ys.reduce((a,b)=>a+b,0)/n;let sxy=0,sxx=0,syy=0;
+  for(let i=0;i<n;i++){sxy+=(xs[i]-mx)*(ys[i]-my);sxx+=(xs[i]-mx)**2;syy+=(ys[i]-my)**2;}
+  const r=sxy/Math.sqrt(sxx*syy);return {r,t:r*Math.sqrt((n-2)/(1-r*r)),n};};
+const surp=upsets.map(g=>pFav(Math.abs(g.sH-g.sA)));
+const agap=upsets.map(g=>feat[g.y][fav(g)].adj-feat[g.y][dog(g)].adj);
+const c=cor(surp,agap);
+console.log(`\nupsets: ${upsets.length}`);
+console.log(`  corr(how unlikely by seed, favourite's edge in adjusted margin)`);
+console.log(`  = ${c.r.toFixed(3)}  t = ${c.t.toFixed(2)}`);
+console.log(`  => the more surprising the upset, the MORE the favourite deserved`);
+console.log(`     to win. Big upsets are random; small ones are mis-seeds.`);
+const sgap=EVAL.map(g=>Math.abs(g.sH-g.sA));
+const ssos=EVAL.map(g=>feat[g.y][fav(g)].sos-feat[g.y][dog(g)].sos);
+console.log(`\n  corr(seed gap, schedule gap) = ${cor(sgap,ssos).r.toFixed(3)}`);
+console.log(`  => a schedule-gap "finding" about upsets is mostly the seed gap.`);

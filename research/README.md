@@ -72,6 +72,26 @@ Two leakage traps had to be avoided, and both are easy to fall into:
    comparison. All 310 evaluation games have two different seeds, and both
    sides are judged on identical games.
 
+## What upsets have in common
+
+Separately, every feature was tested for whether the favourite's edge in it
+predicts the result *beyond what the seed gap already says*. Across ~30
+features the strongest reached t = 1.5 — what the best of thirty coin flips
+looks like. Nothing survives as a warning sign.
+
+**The big upsets were the least foreseeable.** The correlation between how
+improbable an upset was by seed and how much the favourite deserved to win on
+adjusted margin is **+0.70** (t = 8.9, n = 86). In the twenty biggest the
+favourite was better by 6.7 points; in the twenty smallest the "underdog" was
+better by 0.1 and the game was a mis-seed, not an upset.
+
+**A correction.** An earlier pass here found the schedule gap hugely
+predictive of upsets (t = −5.2) and that was confounded: the schedule gap
+correlates 0.74 with the seed gap, because the committee seeds largely on
+schedule, so the test was rediscovering "close-seeded games have more upsets".
+Controlling for the seed gap the signal mostly vanishes, and inside the
+one-apart band it reverses.
+
 ## Caveats
 
 310 games is not many, and 53 of them carry the entire result. The rule should

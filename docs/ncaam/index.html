@@ -301,8 +301,19 @@
   .mcell button.tm{font-size:11.5px;padding:0;border:0;background:0;color:inherit;
     cursor:pointer;text-align:left}
   .mcell button.tm:hover{text-decoration:underline}
-  .sd{font-family:var(--mono);font-size:9.5px;color:var(--muted);margin-left:4px}
+  /* The seed badge sits beside a team name everywhere it appears, so it has
+     to read as a separate token rather than joining the word: "Gonzaga 3",
+     never "Gonzaga3". */
+  .sd{font-family:var(--mono);font-size:9.5px;color:var(--muted);
+    margin-left:5px;padding:0 3px;border:1px solid var(--rule);border-radius:3px;
+    line-height:1.5;display:inline-block;vertical-align:1px}
   table.mad.h2x2{width:auto;min-width:300px;margin-top:0}
+  table.mad.ups td.st{line-height:1.5}
+  table.mad.ups .ov{color:var(--muted);font-size:10.5px;margin:0 7px;
+    letter-spacing:.04em}
+  table.mad .nr{color:var(--muted)}
+  table.mad td.pos{color:var(--win)} table.mad td.neg{color:var(--loss)}
+  .slateintro .pos{color:var(--win)} .slateintro .neg{color:var(--loss)}
   .mdrop{font-size:11.5px;color:var(--muted);margin:-6px 0 16px;font-style:italic}
   .mall{font-size:12.5px;color:var(--muted);line-height:1.5;margin:0 0 14px;
     padding:9px 12px;border-left:2.5px solid var(--rule);
@@ -634,7 +645,7 @@ Rankings recomputed in your browser. <a href="about.html">How this works</a>.</f
 <script type="module">
 import {WIN, esc, ingest, engine, rank, applyGate, pollAt,
         agreement, revision, sparkHTML, weighted, schedule, split, bracket,
-        remaining, corrPct, mcnemar} from '../engine.js?v=c535ef2fbbff';
+        remaining, corrPct, mcnemar, adjustedMargin} from '../engine.js?v=d677ddadc845';
 
 const SHOW=100;
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -2573,9 +2584,27 @@ function madSeason(season,eng,year){
   };
   const pred=madFill(tree,better);
   const ours=madScore(tree,pred);
+
+  /* The hybrid: the seed line everywhere except where the committee is
+     weakest. See madRule() for why one seed apart is the line. */
+  const adj=adjustedMargin(season);
+  const net=new Map();
+  for(const [t,x] of Object.entries(season.teamStats||{})){
+    if(x&&x.oRating!=null&&x.dRating!=null) net.set(t,x.oRating-x.dRating);
+  }
+  const ruleBetter=(x,y)=>{
+    const sx=seeds.get(x), sy=seeds.get(y);
+    if(sx==null||sy==null) return better(x,y);
+    if(Math.abs(sx-sy)>1) return sx!==sy?(sx<sy?x:y):better(x,y);
+    const ax=adj.get(x), ay=adj.get(y);
+    if(ax==null||ay==null) return better(x,y);
+    return ax!==ay?(ax>ay?x:y):better(x,y);
+  };
+  const rulePred=seeds.size>=b.field.size?madFill(tree,ruleBetter):null;
+  const rule=rulePred?madScore(tree,rulePred):null;
   const seeded=seeds.size>=b.field.size;
   const sd=seeded?madSeedRun(tree,seeds):null;
-  return {year,b,tree,rk,seeds,pred,ours,sd,unranked,
+  return {year,b,tree,rk,seeds,pred,ours,sd,unranked,adj,net,rule,rulePred,
     ties:seeded?madTies(tree,seeds):0,
     horizon:H, field:b.field.size, seeded};
 }
@@ -2707,6 +2736,187 @@ function madHead2Head(D){
   return {games,n,o,sd,mc,byRound,
     ups:ups.length, upsO:ups.filter(x=>x.oOK).length,
     dropped:tree.rounds.flat().length-n};
+}
+
+
+
+/* ---- upsets, in order of how unlikely they were -------------------------
+   "Upsettingness" needs a definition. Seed gap alone is crude -- a 9 beating
+   an 8 is not an upset in any useful sense -- so the measure here is the
+   chance the seed line gave the favourite, from a two-parameter logistic fit
+   of seed gap against result over all 310 games. Two parameters, not twenty,
+   so it cannot memorise individual pairings out of a thin sample: this
+   sample has 12-seeds beating 5-seeds 35% of the time and never beating a
+   4-seed in seven tries, neither of which is a real rate.
+
+   What they have in common is the interesting part, and the answer is
+   mostly "nothing". See madUpsetNote(). */
+const MAD_PA=-0.033, MAD_PB=0.171;
+const madPFav=d=>1/(1+Math.exp(-(MAD_PA+MAD_PB*d)));
+
+function madUpsets(D){
+  const {tree,seeds,adj,net,rk}=D;
+  const out=[];
+  tree.rounds.forEach((r,ri)=>r.forEach(g=>{
+    const sh=seeds.get(g.home), sa=seeds.get(g.away);
+    if(sh==null||sa==null||sh===sa) return;
+    const fav=sh<sa?g.home:g.away, dog=sh<sa?g.away:g.home;
+    const w=madWin(g);
+    if(w===fav) return;
+    const d=Math.abs(sh-sa);
+    const ag=(adj.get(fav)??null), ad=(adj.get(dog)??null);
+    out.push({round:ri,fav,dog,
+      sFav:Math.min(sh,sa), sDog:Math.max(sh,sa),
+      p:madPFav(d),
+      adjGap:(ag!=null&&ad!=null)?ag-ad:null,
+      netGap:(net.has(fav)&&net.has(dog))?net.get(fav)-net.get(dog):null,
+      rFav:rk.get(fav)??null, rDog:rk.get(dog)??null});
+  }));
+  out.sort((a,b)=>b.p-a.p);
+  return out;
+}
+
+function madUpsetHtml(D){
+  const U=madUpsets(D);
+  if(!U.length) return '';
+  const sg=v=>v==null?'—':(v>0?'+':'−')+Math.abs(v).toFixed(1);
+  const rows=U.map(u=>
+    `<tr><td class="num">${(100*u.p).toFixed(0)}%</td>`+
+    `<td class="st">${madTeam(u.dog,u.sDog)}<span class="ov">over</span>`+
+      `${madTeam(u.fav,u.sFav)}</td>`+
+    `<td>${esc(MAD_ROUNDS[u.round].name)}</td>`+
+    `<td class="num ${u.adjGap==null?'':u.adjGap>0?'neg':'pos'}" title="${esc(
+      u.adjGap==null?'no figure':
+      u.adjGap>0?`The favourite was the better team by ${u.adjGap.toFixed(1)} points `+
+        `of opponent-adjusted margin, so nothing in the numbers saw this coming.`
+      :`The underdog was already the better team by ${Math.abs(u.adjGap).toFixed(1)} `+
+        `points of opponent-adjusted margin: a mis-seed rather than an upset.`)}">`+
+      `${sg(u.adjGap)}</td>`+
+    `<td class="num nr">${u.rDog==null?'—':'#'+u.rDog}</td></tr>`).join('');
+  return `<div class="thead"><h3>Upsets, most unlikely first</h3></div>`+
+    `<p class="slateintro">How improbable the seed line said each one was: `+
+    `<b>P(fav)</b> is the chance it gave the favourite, from the seed gap `+
+    `alone. <b>Adj gap</b> is the favourite’s edge in opponent-adjusted `+
+    `margin before the tournament — <span class="neg">positive</span> `+
+    `means the favourite really was better and the result was a genuine `+
+    `shock, <span class="pos">negative</span> means the underdog was better `+
+    `all along and the committee had simply mis-seeded them.</p>`+
+    `<table class="mad ups"><thead><tr><th class="num">P(fav)</th><th>Upset</th>`+
+    `<th>Round</th><th class="num">Adj gap</th><th class="num">Our rank</th>`+
+    `</tr></thead><tbody>${rows}</tbody></table>`+madUpsetNote();
+}
+
+/* What the upsets have in common, written once rather than recomputed per
+   season: these are findings over all five, and a single tournament has far
+   too few to say anything. */
+function madUpsetNote(){
+  return `<div class="thead"><h3>What they have in common</h3></div>`+
+    `<ul class="mnotes">`+
+    `<li><b>Mostly nothing, and that is the finding.</b> Every stat the feed `+
+    `carries was tested for whether the favourite’s edge in it predicts `+
+    `the result beyond what the seed gap already says. Across about thirty `+
+    `features the strongest reached t = 1.5, which is what the best of thirty `+
+    `coin flips looks like. No shooting, rebounding, turnover or tempo figure `+
+    `survives as a warning sign.</li>`+
+    `<li><b>The big upsets were the least foreseeable.</b> The more improbable `+
+    `an upset by seed, the <i>more</i> the favourite deserved to win on the `+
+    `numbers: the correlation between the two runs at <b>+0.70</b> `+
+    `(t = 8.9, 86 upsets). In the twenty biggest the favourite was better by `+
+    `6.7 points of adjusted margin; in the twenty smallest the “underdog” `+
+    `was <i>better</i> by 0.1 and the game was never an upset at all, just a `+
+    `mis-seed. Fairleigh Dickinson over Purdue was not a signal anybody `+
+    `missed. It was a coin landing on its edge.</li>`+
+    `<li><b>Strength of schedule looks like a warning sign and is not.</b> `+
+    `Favourites who lost had a far smaller schedule advantage than favourites `+
+    `who held — but the schedule gap correlates <b>0.74</b> with the seed `+
+    `gap, because the committee seeds largely on schedule. Hold the seed gap `+
+    `fixed and the signal mostly vanishes, and in one-apart games it reverses. `+
+    `It was the seed gap wearing a different hat.</li>`+
+    `<li><b>The one real signal is narrow.</b> In games seeded one apart, when `+
+    `the underdog already had the better net rating it won <b>76%</b> of the `+
+    `time against 31% when it did not. That single band is where the rule `+
+    `above gets everything it gets; in every other band the same comparison is `+
+    `noise or points the wrong way.</li>`+
+    `<li><b>Chaos does not cluster by round.</b> Against what the seed gaps `+
+    `predict, the Round of 64 ran about five upsets hot over five seasons and `+
+    `every later round came in within three of expectation. There is no stage `+
+    `at which the tournament becomes more random than its matchups imply.</li>`+
+    `</ul>`;
+}
+
+/* ---- the hybrid rule ----------------------------------------------------
+   The one thing found that beats the seed line, and the reasoning is worth
+   stating because the rule looks arbitrary without it.
+
+   The committee is excellent at ordering teams that are far apart and close
+   to useless at ordering teams it has placed side by side: across these five
+   seasons the higher seed wins 54.7% of games seeded ONE apart, which is a
+   coin flip. Every bit of available improvement lives in that one band.
+
+   And that band is exactly where a raw efficiency figure can be trusted.
+   Normally it cannot: a mid-major posts the same raw numbers as a power team
+   against a schedule nine points weaker, so unadjusted stats overrate it, and
+   when a raw net rating disagrees with the seed line across all games it is
+   right only 32% of the time. But in one-apart games the committee has
+   already matched the two teams on schedule -- the mean gap in strength of
+   schedule is 2.5 there against 6.9 elsewhere -- so the adjustment the stat
+   is missing has been made for it.
+
+   So: trust the seed line, except within one seed, where the better team by
+   opponent-adjusted margin wins. 75.2% against the seed line's 72.3% over
+   310 games, differing on 17 and right on 13 of them, p = 0.029. It gains in
+   four of five seasons and loses in none. Coin-flipping those same games
+   instead matched it in 3 of 2000 runs.
+
+   research/seed_vs_stats.mjs in the repository reproduces all of that. */
+function madRuleHtml(D){
+  if(!D.rule||!D.sd) return '';
+  const {rule,ours,sd,tree,seeds,rulePred}=D;
+  const act=ours.act;
+  /* Which slots the rule and the plain seed line actually differ on. */
+  const moved=[];
+  tree.rounds.forEach((r,ri)=>r.forEach((g,gi)=>{
+    const a=rulePred[ri][gi];
+    const sx=seeds.get(g.home), sy=seeds.get(g.away);
+    if(sx==null||sy==null||sx===sy) return;
+    const line=sx<sy?g.home:g.away;
+    /* Only count a departure in a game whose two teams are the ones the
+       bracket really paired: otherwise the comparison is against a slot the
+       seed line never saw. */
+    if(a!==line&&(a===g.home||a===g.away))
+      moved.push({ri,gi,took:a,over:line,right:a===act[ri][gi],
+        sTook:seeds.get(a),sOver:seeds.get(line)});
+  }));
+  const diff=rule.pts-sd.mean;
+  return `<div class="thead"><h3>A rule that beats the seed line</h3></div>`+
+    `<p class="slateintro">Trust the committee, <b>except where it is weakest</b>. `+
+    `Across these five tournaments the higher seed wins only <b>54.7%</b> of `+
+    `games seeded one apart — a coin flip — and that is also the one `+
+    `place a raw efficiency figure can be trusted, because the committee has `+
+    `already matched those two teams on schedule. So: take the seed line `+
+    `everywhere, but in a game seeded one apart take the better team by `+
+    `<b>opponent-adjusted margin</b>. Over all five seasons that scores `+
+    `<b>75.2%</b> against the seed line’s <b>72.3%</b>, gaining in four `+
+    `and losing in none.</p>`+
+    `<p class="slateintro">That 75.2% is measured <b>game by game on the real `+
+    `matchups</b>, which is where a rule about single games can be judged. `+
+    `Filled in blind as a bracket it is noisier — one early pick drags a `+
+    `whole quarter with it — though still better than this ranking alone, `+
+    `412 points against 377 over the five.</p>`+
+    `<p class="slateintro">On ${esc(yrsLabel(D.year))} it fills the bracket for `+
+    `<b>${rule.pts}</b> points against <b>${ours.pts}</b> for this ranking and `+
+    `<b>${sd.mean.toFixed(0)}</b> for the seed line`+
+    (rule.pts<sd.mean?` — a season where the blind bracket went against `+
+      `it, despite the per-game rule being sound`:'')+
+    `, and departs from the seed line in <b>${moved.length}</b> `+
+    `slot${moved.length===1?'':'s'}`+
+    (moved.length?`:`:`.`)+`</p>`+
+    (moved.length?`<table class="mad"><thead><tr><th>Round</th><th>Took</th>`+
+      `<th>Over</th><th>Result</th></tr></thead><tbody>`+
+      moved.map(m=>`<tr><td class="st">${esc(MAD_ROUNDS[m.ri].name)}</td>`+
+        `<td>${madTeam(m.took,m.sTook)}</td><td>${madTeam(m.over,m.sOver)}</td>`+
+        `<td class="${m.right?'pos':'neg'}">${m.right?'right':'wrong'}</td></tr>`).join('')+
+      `</tbody></table>`:'');
 }
 
 function madH2Hhtml(D){
@@ -2981,7 +3191,8 @@ function paintMad(D){
     `<p class="slateintro">Our pick in each slot. Green is a slot we called `+
     `right; red shows our pick struck through with the team that actually `+
     `won it beneath.</p>`+
-    `<div class="mgrid">${cols}</div>`+madH2Hhtml(D)+gaps+notes;
+    `<div class="mgrid">${cols}</div>`+madH2Hhtml(D)+madRuleHtml(D)+
+    madUpsetHtml(D)+gaps+notes;
   $('madsub').textContent=`${D.field} teams, ${D.b.games.length} games, `+
     `${esc(yrsLabel(D.year))}`;
   madWireHead(); madWirePicker();

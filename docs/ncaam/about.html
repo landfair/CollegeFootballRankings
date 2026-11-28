@@ -455,6 +455,77 @@ the flattering one.</p>
 the committee already has the favourites covered, so the entire case for a
 ranking like this one rests on the games seeding gets wrong.</p>
 
+<h2 id="rule">A rule that beats the seed line</h2>
+
+<p>A search over every team stat the feed carries, and combinations of them,
+turned up exactly one thing that predicts tournament games better than the
+committee. It is not a stat. It is knowing <em>where the committee is
+weak</em>.</p>
+
+<p>In games seeded one apart, the higher seed wins only <strong>54.7%</strong>
+of the time &mdash; a coin flip. The committee is excellent at ordering teams
+far apart and close to useless at ordering teams it has placed side by side,
+which is unsurprising, since those are the ones it agonised over. All the
+available improvement lives in that band.</p>
+
+<p>And that band is the one place a raw efficiency figure can be trusted.
+Normally it cannot: a mid-major posts the same raw net rating as a power team
+&mdash; both average about 13 points across these five seasons &mdash; against
+a schedule nine points weaker, so unadjusted stats systematically overrate it.
+When raw net rating disagrees with the seed line across all games it is right
+only 32% of the time. But in one-apart games the committee has already matched
+the two teams on schedule: the mean gap in strength of schedule is
+<strong>2.5</strong> there against <strong>6.9</strong> elsewhere. The
+adjustment the stat is missing has been made for it.</p>
+
+<p>So the rule is: <strong>trust the seed line, except within one seed, where
+you take the better team by opponent-adjusted margin</strong>. Game by game on
+the real matchups that scores <strong>75.2%</strong> against the seed
+line&rsquo;s <strong>72.3%</strong>, differing on 17 games and right on 13 of
+them (McNemar p&nbsp;=&nbsp;0.029). It gains in four of the five seasons and
+loses in none, and coin-flipping those same games instead matched it in 3 of
+2000 runs. Filled in blind as a bracket it is noisier, because one early pick
+drags a whole quarter with it, but still ahead of this ranking alone at 412
+points against 377.</p>
+
+<p>The opponent-adjusted margin is <code>adjustedMargin()</code> in
+<code>engine.js</code>: a ridge-regularised solve for a strength per team such
+that predicted margin best explains every regular-season game, with margins
+capped at 25 so a blowout over nobody cannot buy more credit than winning did.
+On its own it reaches 71.3%, ahead of this site&rsquo;s recursive ranking at
+68.7% and just behind the committee.</p>
+
+<h2 id="upsets">What upsets have in common</h2>
+
+<p>Mostly nothing, and that is the finding. Every stat the feed carries was
+tested for whether the favourite&rsquo;s edge in it predicts the result
+<em>beyond what the seed gap already says</em>. Across about thirty features
+the strongest reached t&nbsp;=&nbsp;1.5, which is what the best of thirty coin
+flips looks like. No shooting, rebounding, turnover or tempo figure survives as
+a warning sign.</p>
+
+<p><strong>The big upsets were the least foreseeable.</strong> The more
+improbable an upset by seed, the <em>more</em> the favourite deserved to win on
+the numbers: the correlation runs at <strong>+0.70</strong>
+(t&nbsp;=&nbsp;8.9 over 86 upsets). In the twenty biggest the favourite was
+better by 6.7 points of adjusted margin; in the twenty smallest the
+&ldquo;underdog&rdquo; was better by 0.1 and the game was never an upset at
+all, just a mis-seed. Fairleigh Dickinson over Purdue was not a signal anyone
+missed.</p>
+
+<p><strong>Strength of schedule looks like a warning sign and is not.</strong>
+Favourites who lost had a far smaller schedule advantage than favourites who
+held, which at first looked like a strong effect. But the schedule gap
+correlates <strong>0.74</strong> with the seed gap, because the committee seeds
+largely on schedule. Hold the seed gap fixed and the signal mostly vanishes
+&mdash; and in one-apart games it reverses. It was the seed gap wearing a
+different hat, and the first measurement of it here was confounded.</p>
+
+<p>The one real signal is narrow: in games seeded one apart, when the underdog
+already had the better net rating it won <strong>76%</strong> of the time
+against 31% when it did not. That single band is where the rule above gets
+everything it gets.</p>
+
 <p>What the ranking does do is disagree in a consistent direction. Across
 those five fields it places a team from outside the six biggest conferences
 about <strong>eight places higher</strong> than seed order does, and a
