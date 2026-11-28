@@ -302,6 +302,8 @@
     cursor:pointer;text-align:left}
   .mcell button.tm:hover{text-decoration:underline}
   .sd{font-family:var(--mono);font-size:9.5px;color:var(--muted);margin-left:4px}
+  table.mad.h2x2{width:auto;min-width:300px;margin-top:0}
+  .mdrop{font-size:11.5px;color:var(--muted);margin:-6px 0 16px;font-style:italic}
   .mall{font-size:12.5px;color:var(--muted);line-height:1.5;margin:0 0 14px;
     padding:9px 12px;border-left:2.5px solid var(--rule);
     background:color-mix(in srgb,var(--fg) 3%,transparent)}
@@ -632,7 +634,7 @@ Rankings recomputed in your browser. <a href="about.html">How this works</a>.</f
 <script type="module">
 import {WIN, esc, ingest, engine, rank, applyGate, pollAt,
         agreement, revision, sparkHTML, weighted, schedule, split, bracket,
-        remaining, corrPct} from '../engine.js?v=c535ef2fbbff';
+        remaining, corrPct, mcnemar} from '../engine.js?v=c535ef2fbbff';
 
 const SHOW=100;
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -2658,6 +2660,114 @@ function madWirePicker(){
     go({kind:'team',team:b.dataset.t}));
 }
 
+
+/* ---- every actual matchup ------------------------------------------------
+   The second way to ask the question, and the fairer one for comparing two
+   systems rather than two brackets.
+
+   The bracket above is scored the way a pool is: filled in blind, errors
+   compounding. That answers "how would this have done in my office pool",
+   but it confounds two things -- how good the picks are, and how badly an
+   early miss cascades. Here both systems are shown the 67 real matchups and
+   asked only who wins each one. Nothing compounds; it is 67 independent
+   calls, and it is the measure on which the ranking looks most respectable.
+
+   Same-seed games are dropped. On those the committee expressed no opinion
+   at all, and scoring them for us while the seed line gets a coin flip
+   would be a comparison of a system with a shrug. Both sides are therefore
+   judged on exactly the same games.
+*/
+function madHead2Head(D){
+  const {b,rk,seeds,tree}=D;
+  const games=[];
+  tree.rounds.forEach((r,ri)=>r.forEach(g=>{
+    const w=madWin(g);
+    const ro=rk.get(g.home), ra=rk.get(g.away);
+    const so=seeds.get(g.home), sa=seeds.get(g.away);
+    if(ro==null||ra==null||so==null||sa==null||so===sa) return;
+    const ours=(ro<ra?g.home:g.away), seed=(so<sa?g.home:g.away);
+    games.push({g,round:ri,win:w,ours,seed,
+      oOK:ours===w, sOK:seed===w,
+      gap:Math.abs(so-sa),
+      agree:ours===seed});
+  }));
+  const n=games.length;
+  const o=games.filter(x=>x.oOK).length, sd=games.filter(x=>x.sOK).length;
+  /* McNemar on the games where the two disagreed: the only ones that carry
+     information about which is better. Agreement, right or wrong, says
+     nothing about the difference between them. */
+  const A=new Map(games.map((x,i)=>[i,x.oOK])), B=new Map(games.map((x,i)=>[i,x.sOK]));
+  const mc=mcnemar(A,B);
+  const ups=games.filter(x=>!x.sOK);                   /* the worse seed won */
+  const byRound=tree.rounds.map((r,ri)=>{
+    const gs=games.filter(x=>x.round===ri);
+    return {name:MAD_ROUNDS[ri].name, n:gs.length,
+      o:gs.filter(x=>x.oOK).length, s:gs.filter(x=>x.sOK).length};
+  }).filter(x=>x.n);
+  return {games,n,o,sd,mc,byRound,
+    ups:ups.length, upsO:ups.filter(x=>x.oOK).length,
+    dropped:tree.rounds.flat().length-n};
+}
+
+function madH2Hhtml(D){
+  const H=madHead2Head(D);
+  if(!H.n) return '';
+  const pct=(a,b)=>b?`${(100*a/b).toFixed(1)}%`:'—';
+  const lead=H.o-H.sd;
+  /* McNemar's p is about the DIFFERENCE, so it is the thing that decides
+     whether a gap of a few games is worth a sentence. */
+  const sig=H.mc.n<8 ? `too few disagreements to test`
+    : H.mc.p<0.05 ? `a real difference (p = ${H.mc.p.toFixed(3)})`
+    : `well inside chance (p = ${H.mc.p.toFixed(2)}), so on this evidence the `+
+      `two are not far apart`;
+  const rows=H.byRound.map(r=>
+    `<tr><td class="st">${esc(r.name)}</td>`+
+    `<td class="num">${r.o}/${r.n}</td><td class="num">${pct(r.o,r.n)}</td>`+
+    `<td class="num gap">${r.s}/${r.n}</td><td class="num">${pct(r.s,r.n)}</td></tr>`).join('');
+  const table=`<table class="mad"><thead><tr><th></th>`+
+    `<th class="num grp" colspan="2">This ranking</th>`+
+    `<th class="num grp gap" colspan="2">Better seed</th></tr>`+
+    `<tr><th>Round</th><th class="num">right</th><th class="num">%</th>`+
+    `<th class="num gap">right</th><th class="num">%</th></tr></thead><tbody>${rows}`+
+    `<tr class="tot"><td class="st">All games</td>`+
+    `<td class="num">${H.o}/${H.n}</td><td class="num">${pct(H.o,H.n)}</td>`+
+    `<td class="num gap">${H.sd}/${H.n}</td><td class="num">${pct(H.sd,H.n)}</td>`+
+    `</tr></tbody></table>`;
+
+  /* The 2x2 that the significance test is actually computed from. */
+  const both=H.games.filter(x=>x.oOK&&x.sOK).length;
+  const nei=H.games.filter(x=>!x.oOK&&!x.sOK).length;
+  const grid=`<table class="mad h2x2"><thead><tr><th></th>`+
+    `<th class="num">Seed right</th><th class="num">Seed wrong</th></tr></thead><tbody>`+
+    `<tr><td class="st">We were right</td><td class="num">${both}</td>`+
+    `<td class="num pos">${H.mc.b}</td></tr>`+
+    `<tr><td class="st">We were wrong</td><td class="num neg">${H.mc.c}</td>`+
+    `<td class="num">${nei}</td></tr></tbody></table>`;
+
+  return `<div class="thead"><h3>Every actual matchup</h3></div>`+
+    `<p class="slateintro">The other way to ask it. Both systems are shown the `+
+    `real pairings and asked only who wins each game, so nothing compounds and `+
+    `an early miss costs one game rather than a quarter of the bracket. `+
+    `<b>${H.o} of ${H.n}</b> for the ranking against <b>${H.sd} of ${H.n}</b> `+
+    `for the better seed`+
+    (lead===0?`, dead level`:`, ${lead>0?'ahead':'behind'} by ${Math.abs(lead)} `+
+      `game${Math.abs(lead)===1?'':'s'}`)+`.</p>`+
+    table+
+    `<p class="slateintro">They picked the same team in `+
+    `<b>${H.games.filter(x=>x.agree).length} of ${H.n}</b> games, so only `+
+    `<b>${H.mc.n}</b> actually separate them: we were right and the seed wrong `+
+    `in <b>${H.mc.b}</b>, the reverse in <b>${H.mc.c}</b>. That is ${sig}.</p>`+
+    grid+
+    `<p class="slateintro">Of the <b>${H.ups}</b> game${H.ups===1?'':'s'} the `+
+    `worse seed won — the upsets — this ranking called `+
+    `<b>${H.upsO}</b>${H.ups?` (${pct(H.upsO,H.ups)})`:''}. That is the only `+
+    `thing a seed-free method can offer: the committee has the favourites `+
+    `covered already.</p>`+
+    (H.dropped?`<p class="mdrop">${H.dropped} game${H.dropped===1?'':'s'} left `+
+      `out, where both teams held the same seed and the seed line therefore `+
+      `expressed no preference.</p>`:'');
+}
+
 /* Every season already computed, in one line. Only seasons the reader has
    opened are in hand -- computing all six up front would cost several
    seconds for a figure most readers will not scroll to -- so this says how
@@ -2668,21 +2778,37 @@ function madAll(){
   /* How many seasons COULD appear here: every one tried that had a bracket.
      A season tried and found empty is not missing, so once every season with
      a tournament is loaded the invitation to open more should stop. */
-  const seasons=[...$('season').options].length;
-  const empty=[...MAD.values()].filter(x=>x.none).length;
-  const playable=seasons-empty;
+  /* Whether there is anything left to open. A season only reveals that it
+     has no tournament once it has been tried, so "untried" is the honest
+     test -- and once every tab has been tried, the invitation goes away
+     whether those seasons had brackets or not. */
+  const tried=new Set([...MAD.values()].map(x=>x.year));
+  const untried=[...$('season').options].map(o=>+o.value).filter(y=>!tried.has(y));
   if(got.length<2) return '';
   const o=got.reduce((t,x)=>t+x.ours.pts,0);
   const sm=got.reduce((t,x)=>t+x.sd.mean,0);
   const wins=got.filter(x=>x.ours.pts>x.sd.mean).length;
   const champs=got.filter(x=>x.ours.champ===x.ours.actChamp).length;
+  /* The same two measures the season below reports, totalled: the pool
+     score, and the straight per-matchup rate. They disagree about how far
+     behind the ranking is, which is the point of showing both. */
+  const H=got.map(madHead2Head);
+  const hn=H.reduce((t,x)=>t+x.n,0), ho=H.reduce((t,x)=>t+x.o,0),
+        hs=H.reduce((t,x)=>t+x.sd,0);
+  const ups=H.reduce((t,x)=>t+x.ups,0), upsO=H.reduce((t,x)=>t+x.upsO,0);
+  const pct=(a,b)=>b?`${(100*a/b).toFixed(1)}%`:'\u2014';
   return `<p class="mall"><b>Across the ${got.length} season`+
     `${got.length===1?'':'s'} loaded so far</b> `+
     `(${got.map(x=>esc(yrsShort(yrsLabel(x.year)))).join(', ')}): `+
-    `<b>${o}</b> points against <b>${sm.toFixed(0)}</b> for the seed line, `+
-    `ahead in <b>${wins} of ${got.length}</b>, and the champion called `+
-    `${champs===0?'<b>never</b>':`<b>${champs}</b> time${champs===1?'':'s'}`}.`+
-    (got.length<playable?` Open the other seasons to fill this in.`:'')+`</p>`;
+    `as a filled-in bracket, <b>${o}</b> points against <b>${sm.toFixed(0)}</b> `+
+    `for the seed line, ahead in <b>${wins} of ${got.length}</b>, and the `+
+    `champion called `+
+    `${champs===0?'<b>never</b>':`<b>${champs}</b> time${champs===1?'':'s'}`}. `+
+    `Game by game on the real matchups it is much closer: `+
+    `<b>${pct(ho,hn)}</b> against <b>${pct(hs,hn)}</b> over ${hn} games, `+
+    `with <b>${pct(upsO,ups)}</b> of the ${ups} upsets called.`+
+    (untried.length?` Open the other season${untried.length===1?'':'s'} to `+
+      `fill this in.`:'')+`</p>`;
 }
 
 function paintMad(D){
@@ -2855,7 +2981,7 @@ function paintMad(D){
     `<p class="slateintro">Our pick in each slot. Green is a slot we called `+
     `right; red shows our pick struck through with the team that actually `+
     `won it beneath.</p>`+
-    `<div class="mgrid">${cols}</div>`+gaps+notes;
+    `<div class="mgrid">${cols}</div>`+madH2Hhtml(D)+gaps+notes;
   $('madsub').textContent=`${D.field} teams, ${D.b.games.length} games, `+
     `${esc(yrsLabel(D.year))}`;
   madWireHead(); madWirePicker();
