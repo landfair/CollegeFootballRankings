@@ -321,6 +321,33 @@
     padding:9px 12px;border-left:2.5px solid var(--rule);
     background:color-mix(in srgb,var(--fg) 3%,transparent)}
   .mall b{color:var(--fg)}
+  /* The side-by-side grid. A slot both brackets agreed on is deliberately
+     quiet: the eye should land on the splits, which is where the rule is
+     doing anything at all. */
+  .vgrid .mcol{flex:0 0 186px;min-width:186px}
+  .vcell{font-size:11.5px;padding:3px 5px;margin-bottom:3px;border-radius:3px;
+    border-left:2.5px solid var(--rule);line-height:1.35;
+    background:color-mix(in srgb,var(--fg) 3%,transparent)}
+  .vcell.no .vboth{text-decoration:line-through;opacity:.55}
+  .vcell .vboth,.vcell .vwon,.vcell .vr,.vcell .vs{display:block}
+  .vcell .vwon{font-weight:600;opacity:.85}
+  .vcell .lg{width:13px;height:13px;vertical-align:-2px;margin-right:3px}
+  .vcell button.tm{font-size:11.5px;padding:0;border:0;background:0;
+    color:inherit;cursor:pointer;text-align:left}
+  .vcell button.tm:hover{text-decoration:underline}
+  /* A split slot is the point of the grid, so it gets the colour and the
+     weight; the loser of the pair is struck through rather than hidden. */
+  .vcell.vsplit{border-left-width:3px;
+    background:color-mix(in srgb,var(--fg) 6%,transparent)}
+  .vcell.vsplit.ok{border-left-color:var(--win)}
+  .vcell.vsplit.no{border-left-color:var(--loss)}
+  .vcell.vsplit.nei{border-left-color:var(--muted)}
+  .vcell .vr i,.vcell .vs i{font-style:normal;font-size:8.5px;margin-left:5px;
+    letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .vcell .vr:not(.hit),.vcell .vs:not(.hit){opacity:.5;
+    text-decoration:line-through}
+  .vcell .vr.hit,.vcell .vs.hit{font-weight:650}
+  .kgrey{color:var(--muted)} .kgreen{color:var(--win)}
   .mnotes{font-size:12.5px;color:var(--muted);line-height:1.55;
     padding-left:18px;margin:6px 0 20px}
   .mnotes li{margin-bottom:7px}
@@ -2604,9 +2631,25 @@ function madSeason(season,eng,year){
   };
   const rulePred=seeds.size>=b.field.size?madFill(tree,ruleBetter):null;
   const rule=rulePred?madScore(tree,rulePred):null;
+  /* A single, reproducible seed bracket to set beside the rule's. The Monte
+     Carlo above answers "what is the seed line worth"; this answers "what
+     does it actually pick", which needs one bracket rather than four hundred.
+     Its same-seed games fall to the better adjusted margin -- the same
+     tiebreak the rule uses, so the two brackets differ ONLY where the rule
+     is doing its work, and never because of a coin. */
+  const seedBetter=(x,y)=>{
+    const sx=seeds.get(x), sy=seeds.get(y);
+    if(sx==null||sy==null) return better(x,y);
+    if(sx!==sy) return sx<sy?x:y;
+    const ax=adj.get(x), ay=adj.get(y);
+    return (ax!=null&&ay!=null&&ax!==ay)?(ax>ay?x:y):better(x,y);
+  };
+  const seedPred=seeds.size>=b.field.size?madFill(tree,seedBetter):null;
+  const seedOne=seedPred?madScore(tree,seedPred):null;
   const seeded=seeds.size>=b.field.size;
   const sd=seeded?madSeedRun(tree,seeds):null;
   return {year,b,tree,rk,seeds,pred,ours,sd,unranked,adj,net,rule,rulePred,
+    seedPred,seedOne,
     ties:seeded?madTies(tree,seeds):0,
     horizon:H, field:b.field.size, seeded};
 }
@@ -2946,6 +2989,74 @@ function madStrategies(D){
   return out;
 }
 
+
+/* ---- the two brackets, side by side -------------------------------------
+   The rule differs from the seed line in only a handful of slots, so showing
+   two full brackets separately would hide the comparison in 134 cells that
+   mostly agree. Instead one grid, with each slot marked for what the two
+   picked and what actually happened.
+
+   Both brackets break a same-seed tie the same way, on adjusted margin, so
+   every difference you see is the rule doing its work rather than a coin. */
+function madVsHtml(D){
+  if(!D.rulePred||!D.seedPred||!D.rule||!D.seedOne) return '';
+  const {tree,seeds,rulePred,seedPred,ours}=D;
+  const act=ours.act;
+  const sdOf=t=>seeds.get(t)??null;
+  let same=0, bothRight=0, split={rule:0,seed:0,neither:0};
+  const cols=tree.rounds.map((r,ri)=>{
+    const cells=r.map((g,gi)=>{
+      const a=rulePred[ri][gi], b=seedPred[ri][gi], w=act[ri][gi];
+      if(a===b){
+        same++; if(a===w) bothRight++;
+        const ok=a===w;
+        return `<div class="vcell ${ok?'ok':'no'}" title="${esc(
+          `Both picked ${a}. ${ok?`${a} won this slot.`:`${w} won it.`}`)}">`+
+          `<span class="vboth">${madTeam(a,sdOf(a))}</span>`+
+          (ok?'':`<span class="vwon">${madTeam(w,sdOf(w))}</span>`)+`</div>`;
+      }
+      const rOK=a===w, sOK=b===w;
+      if(rOK) split.rule++; else if(sOK) split.seed++; else split.neither++;
+      return `<div class="vcell vsplit ${rOK?'ok':sOK?'no':'nei'}" title="${esc(
+        `The rule took ${a}; the seed line took ${b}. ${w} won this slot.`)}">`+
+        `<span class="vr ${rOK?'hit':''}">${madTeam(a,sdOf(a))}`+
+          `<i>rule</i></span>`+
+        `<span class="vs ${sOK?'hit':''}">${madTeam(b,sdOf(b))}`+
+          `<i>seed</i></span>`+
+        (rOK||sOK?'':`<span class="vwon">${madTeam(w,sdOf(w))}</span>`)+
+        `</div>`;
+    }).join('');
+    return `<div class="mcol"><h4>${esc(MAD_ROUNDS[ri].short)}</h4>${cells}</div>`;
+  }).join('');
+  const differ=split.rule+split.seed+split.neither;
+  const diff=D.rule.pts-D.seedOne.pts;
+  return `<div class="thead"><h3>The two brackets, side by side</h3></div>`+
+    `<p class="slateintro">The rule’s bracket against the seed line’s, `+
+    `for ${esc(yrsLabel(D.year))}. Both resolve a same-seed game the same way, `+
+    `so every split below is the rule choosing differently, not a coin. `+
+    `A <span class="kgrey">grey</span> slot is one they agreed on; a split slot `+
+    `shows both picks, the one that was right in `+
+    `<span class="kgreen">green</span>.</p>`+
+    `<p class="slateintro">They agree on <b>${same} of ${same+differ}</b> slots `+
+    `and part on <b>${differ}</b>`+
+    (differ?`: the rule was right in <b>${split.rule}</b>, the seed line in `+
+      `<b>${split.seed}</b>`+(split.neither?`, and neither in `+
+      `<b>${split.neither}</b>`:'')+`.`:'.')+
+    ` Final score <b>${D.rule.pts}</b> to <b>${D.seedOne.pts}</b>`+
+    (diff===0?', level':`, ${diff>0?'the rule':'the seed line'} ahead by `+
+      `${Math.abs(diff)}`)+`.</p>`+
+    `<div class="mgrid vgrid">${cols}</div>`+
+    /* The honest footnote to the "rule loses as a bracket" finding above. */
+    `<p class="mdrop">Over all five seasons, compared this way — both `+
+    `brackets settling a same-seed game identically — the rule finishes `+
+    `<b>412</b> to <b>407</b>, right in 13 of the 22 slots they split. The `+
+    `seed line’s larger average of 456 quoted elsewhere on this page comes `+
+    `from letting its same-seed games fall to a coin and reporting the mean `+
+    `over four hundred tries: that is the right way to value seeding, but a `+
+    `good part of the gap is the coin landing well rather than the committee `+
+    `judging better.</p>`;
+}
+
 function madStrategyHtml(D){
   const R=madStrategies(D);
   if(!R) return '';
@@ -2971,9 +3082,12 @@ function madStrategyHtml(D){
     `between these; the five-season figures are the ones to read.</p>`+
     `<div class="thead"><h3>Why the better rule fills a worse bracket</h3></div>`+
     `<p class="slateintro">Over five seasons the rule scores <b>412</b> as a `+
-    `blind bracket against the seed line’s <b>456</b>, despite winning `+
-    `game for game. That is not a contradiction, and the reason is worth `+
-    `understanding before anyone takes this to a pool.</p>`+
+    `blind bracket against the seed line’s <b>456</b> — though `+
+    `<b>407</b> when both settle a same-seed game the same way, so much of `+
+    `that gap is the seed line’s coin flips landing well rather than the `+
+    `committee judging better. What survives is still awkward: the rule wins `+
+    `game for game by a clear margin and barely moves a bracket. The reason `+
+    `is worth understanding before anyone takes this to a pool.</p>`+
     `<ul class="mnotes">`+
     `<li><b>The rounds are not worth the same.</b> A Round of 64 game pays 1 `+
     `point and the final pays 32. The rule’s entire edge sits in the `+
@@ -2995,7 +3109,9 @@ function madStrategyHtml(D){
     `bracket on identical coin flips, that variant won <b>2000 of 2000</b> `+
     `simulated pools by an average of <b>9 points</b> — it banks the `+
     `cheap early games the rule is good at without ever putting an underdog `+
-    `into a round that pays 8, 16 or 32.</li>`+
+    `into a round that pays 8, 16 or 32. On the side-by-side above you can `+
+    `see why: every slot the two brackets split is an 8/9 or a 4/5, and the `+
+    `rule took 13 of the 22 across five seasons.</li>`+
     `</ul>`;
 }
 
@@ -3343,7 +3459,7 @@ function paintMad(D){
     `</ul>`;
 
   host.innerHTML=madHead()+madPicker()+verdict+madAll()+table+
-    madRuleHtml(D)+madStrategyHtml(D)+madUpsetHtml(D)+
+    madRuleHtml(D)+madVsHtml(D)+madStrategyHtml(D)+madUpsetHtml(D)+
     `<div class="thead"><h3>The bracket as this ranking filled it</h3></div>`+
     `<p class="slateintro">For comparison, the site’s own ranking used on `+
     `its own. Green is a slot it called right; red shows its pick struck `+
