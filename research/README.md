@@ -92,6 +92,30 @@ schedule, so the test was rediscovering "close-seeded games have more upsets".
 Controlling for the seed gap the signal mostly vanishes, and inside the
 one-apart band it reverses.
 
+## The rule wins games and loses brackets
+
+Filled in blind over the five seasons the rule scores **412** points against
+the seed line's **456**, and head to head — one deterministic bracket against a
+seed bracket whose same-seed games are flipped — it finishes ahead only about
+**18%** of the time. Three reasons:
+
+- **The rounds are not worth the same.** R64 pays 1, the final pays 32.
+  One-apart games are 8/9s, 7/10s and 4/5s, which live at the start of a
+  bracket, so the rule's edge is in the cheapest games on the board.
+- **An underdog you advance usually dies next round and takes your line with
+  it.** The rule took the worse seed in 17 real matchups and was right in 12
+  (71%) — and a 9-seed correctly advanced past an 8 then loses to a 1-seed,
+  blanking every later slot. The seed bracket has the 1-seed there instead,
+  compounding into the rounds that pay.
+- **The two measures answer different questions.** Game by game asks who
+  judges a matchup better; a bracket asks who survives to the expensive
+  rounds, and chalk is what survives.
+
+**The usable version:** apply the rule in the first two rounds only and hand
+the rest back to the committee. Paired against a seed bracket on identical
+coin flips, that won **2000 of 2000** simulated pools by an average of **9
+points**.
+
 ## Caveats
 
 310 games is not many, and 53 of them carry the entire result. The rule should

@@ -493,7 +493,43 @@ points against 377.</p>
 that predicted margin best explains every regular-season game, with margins
 capped at 25 so a blowout over nobody cannot buy more credit than winning did.
 On its own it reaches 71.3%, ahead of this site&rsquo;s recursive ranking at
-68.7% and just behind the committee.</p>
+68.7% and just behind the committee. Using raw net rating in the rule scores
+marginally better still, 75.2% against 74.5%, but it cannot separate two teams
+on the same seed, which the adjusted figure can.</p>
+
+<h2 id="pool">Why the better rule fills a worse bracket</h2>
+
+<p>Here is the part worth knowing before anyone takes this to a pool. The rule
+wins game for game and <strong>loses as a bracket</strong>: filled in blind
+over five seasons it scores <strong>412</strong> points against the seed
+line&rsquo;s <strong>456</strong>. Pitted head to head &mdash; one
+deterministic bracket against a seed bracket whose same-seed games are flipped
+&mdash; it finishes ahead only about 18% of the time.</p>
+
+<p>That is not a contradiction. Three things cause it:</p>
+
+<p><strong>The rounds are not worth the same.</strong> A Round of 64 game pays
+one point and the final pays thirty-two. One-seed-apart games are 8/9s, 7/10s
+and 4/5s, which live at the start of a bracket, so the rule&rsquo;s entire edge
+is in the cheapest games on the board.</p>
+
+<p><strong>An underdog you advance usually dies next round and takes your line
+with it.</strong> The rule took the worse seed in 17 real matchups and was
+right in 12 &mdash; a 71% hit rate, which is the rule working. But a 9-seed
+correctly advanced past an 8 then meets a 1-seed and loses, and every later
+slot on that line goes blank. The seed-line bracket has the 1-seed sitting
+there instead, still alive, compounding into the rounds that pay 8, 16
+and 32.</p>
+
+<p><strong>So the two measures answer different questions.</strong> Game by
+game asks which system judges a matchup better, and the rule wins. A bracket
+asks which system survives to the expensive rounds, and chalk wins, because
+chalk is what usually survives. If you are picking one game, use the rule. If
+you are filling a pool sheet, apply it in the first two rounds and leave the
+rest to the committee: paired against a seed bracket on identical coin flips,
+that variant won <strong>2000 of 2000</strong> simulated pools by an average of
+<strong>9 points</strong>. It banks the cheap early games the rule is good at
+without ever sending an underdog into a round that pays 8, 16 or 32.</p>
 
 <h2 id="upsets">What upsets have in common</h2>
 

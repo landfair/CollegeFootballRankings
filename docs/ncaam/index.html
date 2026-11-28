@@ -315,6 +315,8 @@
   table.mad td.pos{color:var(--win)} table.mad td.neg{color:var(--loss)}
   .slateintro .pos{color:var(--win)} .slateintro .neg{color:var(--loss)}
   .mdrop{font-size:11.5px;color:var(--muted);margin:-6px 0 16px;font-style:italic}
+  .mlede{font-size:14.5px;line-height:1.6;margin:0 0 12px;max-width:62em}
+  .mlede b{font-weight:650}
   .mall{font-size:12.5px;color:var(--muted);line-height:1.5;margin:0 0 14px;
     padding:9px 12px;border-left:2.5px solid var(--rule);
     background:color-mix(in srgb,var(--fg) 3%,transparent)}
@@ -2715,8 +2717,13 @@ function madHead2Head(D){
     const so=seeds.get(g.home), sa=seeds.get(g.away);
     if(ro==null||ra==null||so==null||sa==null||so===sa) return;
     const ours=(ro<ra?g.home:g.away), seed=(so<sa?g.home:g.away);
-    games.push({g,round:ri,win:w,ours,seed,
-      oOK:ours===w, sOK:seed===w,
+    /* The rule's pick for this same matchup: the seed line unless the two
+       are one apart, where adjusted margin decides. */
+    const ax=D.adj.get(g.home), ay=D.adj.get(g.away);
+    const rule=(Math.abs(so-sa)>1||ax==null||ay==null)
+      ? seed : (ax>ay?g.home:g.away);
+    games.push({g,round:ri,win:w,ours,seed,rule,
+      oOK:ours===w, sOK:seed===w, rOK:rule===w,
       gap:Math.abs(so-sa),
       agree:ours===seed});
   }));
@@ -2734,7 +2741,9 @@ function madHead2Head(D){
       o:gs.filter(x=>x.oOK).length, s:gs.filter(x=>x.sOK).length};
   }).filter(x=>x.n);
   return {games,n,o,sd,mc,byRound,
+    rule:games.filter(x=>x.rOK).length,
     ups:ups.length, upsO:ups.filter(x=>x.oOK).length,
+    upsR:ups.filter(x=>x.rOK).length,
     dropped:tree.rounds.flat().length-n};
 }
 
@@ -2869,6 +2878,127 @@ function madUpsetNote(){
    instead matched it in 3 of 2000 runs.
 
    research/seed_vs_stats.mjs in the repository reproduces all of that. */
+
+/* ---- filling a bracket by the rule --------------------------------------
+   The rule wins game by game and LOSES as a bracket, and that contradiction
+   is the most useful thing on this page, so it is measured rather than
+   glossed.
+
+   A bracket is not a sequence of independent calls. A pick only scores if
+   the team is still alive in YOUR bracket when the real slot comes round,
+   and the rounds are worth 1, 2, 4, 8, 16, 32. The rule's edge is entirely
+   in the first two rounds, where the points are smallest, and it buys that
+   edge by advancing underdogs -- who then lose, taking the whole line with
+   them. The seed line keeps the favourite there instead, still alive,
+   compounding into the rounds that pay.
+
+   Measured over five seasons: the rule takes the worse seed in 17 real
+   matchups and is right in 12 of them (71%), and still finishes behind. */
+const MAD_STRATS=[
+  {k:'seed', name:'The seed line',
+   tip:'Always advance the better seed. Same-seed games are a coin flip.'},
+  {k:'rule', name:'The rule',
+   tip:'The seed line, except in games seeded one apart, where the better '+
+       'team by opponent-adjusted margin advances.'},
+  {k:'adj',  name:'Adjusted margin',
+   tip:'Ignore the seeds entirely and advance the better team by '+
+       'opponent-adjusted margin.'},
+  {k:'ours', name:'This ranking',
+   tip:'Advance whichever team this site ranks higher.'},
+];
+function madStrategies(D){
+  const {tree,seeds,adj,rk}=D;
+  if(!tree||seeds.size<D.b.field.size) return null;
+  const nameTB=(x,y)=>x<y?x:y;
+  const bySeed=(x,y,tb)=>{const a=seeds.get(x)??99,c=seeds.get(y)??99;
+    return a!==c?(a<c?x:y):tb(x,y);};
+  const byAdj=(x,y,tb)=>{const a=adj.get(x)??-1e9,c=adj.get(y)??-1e9;
+    return a!==c?(a>c?x:y):tb(x,y);};
+  const byRank=(x,y,tb)=>{const a=rk.get(x)??9999,c=rk.get(y)??9999;
+    return a!==c?(a<c?x:y):tb(x,y);};
+  const F={
+    seed:tb=>(x,y)=>bySeed(x,y,tb),
+    rule:tb=>(x,y)=>{const a=seeds.get(x)??99,c=seeds.get(y)??99;
+      return Math.abs(a-c)>1?bySeed(x,y,tb):byAdj(x,y,tb);},
+    adj:tb=>(x,y)=>byAdj(x,y,tb),
+    ours:tb=>(x,y)=>byRank(x,y,tb),
+  };
+  /* Each strategy gets the same treatment as the seed line did: the games it
+     genuinely cannot separate are flipped, many times over, and the average
+     reported. A strategy that separates everything shows no spread, which is
+     itself worth seeing. */
+  const out={};
+  for(const {k} of MAD_STRATS){
+    const pts=[]; let sample=null;
+    for(let i=0;i<MAD_TRIALS;i++){
+      const coin=new Map();
+      const tb=(x,y)=>{const key=x<y?x+'\u0000'+y:y+'\u0000'+x;
+        if(!coin.has(key)) coin.set(key,Math.random()<0.5);
+        return coin.get(key)?x:y;};
+      const sc=madScore(tree,madFill(tree,F[k](tb)));
+      pts.push(sc.pts); if(i===0) sample=sc;
+    }
+    pts.sort((a,b)=>a-b);
+    out[k]={mean:pts.reduce((a,b)=>a+b,0)/pts.length,
+      lo:pts[Math.floor(.05*pts.length)], hi:pts[Math.floor(.95*pts.length)],
+      fixed:pts[0]===pts[pts.length-1], sample};
+  }
+  return out;
+}
+
+function madStrategyHtml(D){
+  const R=madStrategies(D);
+  if(!R) return '';
+  const best=Object.entries(R).sort((a,b)=>b[1].mean-a[1].mean)[0][0];
+  const rows=MAD_STRATS.map(s=>{
+    const r=R[s.k];
+    return `<tr${s.k===best?' class="tot"':''}>`+
+      `<td class="st" title="${esc(s.tip)}">${esc(s.name)}</td>`+
+      `<td class="num">${r.mean.toFixed(0)}</td>`+
+      `<td class="num nr">${r.fixed?'—':r.lo+'–'+r.hi}</td>`+
+      `<td class="num">${r.sample.hit}/${r.sample.tot}</td></tr>`;
+  }).join('');
+  return `<div class="thead"><h3>Filling the bracket by the rule</h3></div>`+
+    `<p class="slateintro">The same four ways of picking, each used to fill `+
+    `${esc(yrsLabel(D.year))} in blind before a ball was thrown. The spread `+
+    `is where a strategy cannot separate two teams and has to flip — the `+
+    `seed line does that on same-seed games, while anything using adjusted `+
+    `margin separates everything and so has none.</p>`+
+    `<table class="mad"><thead><tr><th>Strategy</th>`+
+    `<th class="num">Points</th><th class="num nr">90% range</th>`+
+    `<th class="num">Games</th></tr></thead><tbody>${rows}</tbody></table>`+
+    `<p class="mdrop">Out of ${MAD_MAX}. One season is far too few to choose `+
+    `between these; the five-season figures are the ones to read.</p>`+
+    `<div class="thead"><h3>Why the better rule fills a worse bracket</h3></div>`+
+    `<p class="slateintro">Over five seasons the rule scores <b>412</b> as a `+
+    `blind bracket against the seed line’s <b>456</b>, despite winning `+
+    `game for game. That is not a contradiction, and the reason is worth `+
+    `understanding before anyone takes this to a pool.</p>`+
+    `<ul class="mnotes">`+
+    `<li><b>The rounds are not worth the same.</b> A Round of 64 game pays 1 `+
+    `point and the final pays 32. The rule’s entire edge sits in the `+
+    `first two rounds — one-seed-apart games are 8/9s, 7/10s and 4/5s, `+
+    `which live at the start of a bracket — so it is winning the cheapest `+
+    `games on the board.</li>`+
+    `<li><b>An underdog you advance usually dies next round, and takes your `+
+    `line with it.</b> The rule took the worse seed in 17 real matchups and `+
+    `was right in 12, a 71% hit rate. But a 9-seed you correctly advance past `+
+    `an 8 then meets a 1-seed and loses, and every later slot on that line is `+
+    `now blank. The seed-line bracket has the 1-seed sitting there instead, `+
+    `still alive, compounding into the rounds that pay 8, 16 and 32.</li>`+
+    `<li><b>So the two measures answer different questions.</b> Game by game `+
+    `asks which system judges a matchup better, and the rule wins. A bracket `+
+    `asks which system survives to the expensive rounds, and chalk wins, `+
+    `because chalk is what usually survives.</li>`+
+    `<li><b>What to actually do with it.</b> Apply the rule in the first two `+
+    `rounds and hand the rest back to the committee. Paired against a seed `+
+    `bracket on identical coin flips, that variant won <b>2000 of 2000</b> `+
+    `simulated pools by an average of <b>9 points</b> — it banks the `+
+    `cheap early games the rule is good at without ever putting an underdog `+
+    `into a round that pays 8, 16 or 32.</li>`+
+    `</ul>`;
+}
+
 function madRuleHtml(D){
   if(!D.rule||!D.sd) return '';
   const {rule,ours,sd,tree,seeds,rulePred}=D;
@@ -2896,13 +3026,16 @@ function madRuleHtml(D){
     `already matched those two teams on schedule. So: take the seed line `+
     `everywhere, but in a game seeded one apart take the better team by `+
     `<b>opponent-adjusted margin</b>. Over all five seasons that scores `+
-    `<b>75.2%</b> against the seed line’s <b>72.3%</b>, gaining in four `+
-    `and losing in none.</p>`+
-    `<p class="slateintro">That 75.2% is measured <b>game by game on the real `+
+    `<b>74.5%</b> against the seed line’s <b>72.3%</b>: it differs on 17 `+
+    `games and is right on 12 of them. Using raw net rating in place of the `+
+    `adjusted figure scores marginally better still, 75.2%, but cannot `+
+    `separate two teams on the same seed, which the adjusted margin can.</p>`+
+    `<p class="slateintro">That is measured <b>game by game on the real `+
     `matchups</b>, which is where a rule about single games can be judged. `+
-    `Filled in blind as a bracket it is noisier — one early pick drags a `+
-    `whole quarter with it — though still better than this ranking alone, `+
-    `412 points against 377 over the five.</p>`+
+    `Filled in blind as a bracket it goes the other way: <b>412</b> points `+
+    `over five seasons against the seed line’s <b>456</b>, though still `+
+    `ahead of this ranking’s 377. A rule that is better at single games `+
+    `and worse at brackets is not a contradiction — see below.</p>`+
     `<p class="slateintro">On ${esc(yrsLabel(D.year))} it fills the bracket for `+
     `<b>${rule.pts}</b> points against <b>${ours.pts}</b> for this ranking and `+
     `<b>${sd.mean.toFixed(0)}</b> for the seed line`+
@@ -2930,18 +3063,26 @@ function madH2Hhtml(D){
     : H.mc.p<0.05 ? `a real difference (p = ${H.mc.p.toFixed(3)})`
     : `well inside chance (p = ${H.mc.p.toFixed(2)}), so on this evidence the `+
       `two are not far apart`;
-  const rows=H.byRound.map(r=>
+  const byR=H.byRound.map(r=>{
+    const gs=H.games.filter(x=>MAD_ROUNDS[x.round].name===r.name);
+    return {...r,rl:gs.filter(x=>x.rOK).length};
+  });
+  const rows=byR.map(r=>
     `<tr><td class="st">${esc(r.name)}</td>`+
-    `<td class="num">${r.o}/${r.n}</td><td class="num">${pct(r.o,r.n)}</td>`+
-    `<td class="num gap">${r.s}/${r.n}</td><td class="num">${pct(r.s,r.n)}</td></tr>`).join('');
+    `<td class="num">${r.s}/${r.n}</td><td class="num">${pct(r.s,r.n)}</td>`+
+    `<td class="num gap">${r.rl}/${r.n}</td><td class="num">${pct(r.rl,r.n)}</td>`+
+    `<td class="num gap">${r.o}/${r.n}</td><td class="num">${pct(r.o,r.n)}</td></tr>`).join('');
   const table=`<table class="mad"><thead><tr><th></th>`+
-    `<th class="num grp" colspan="2">This ranking</th>`+
-    `<th class="num grp gap" colspan="2">Better seed</th></tr>`+
+    `<th class="num grp" colspan="2">Seed line</th>`+
+    `<th class="num grp gap" colspan="2">The rule</th>`+
+    `<th class="num grp gap" colspan="2">This ranking</th></tr>`+
     `<tr><th>Round</th><th class="num">right</th><th class="num">%</th>`+
+    `<th class="num gap">right</th><th class="num">%</th>`+
     `<th class="num gap">right</th><th class="num">%</th></tr></thead><tbody>${rows}`+
     `<tr class="tot"><td class="st">All games</td>`+
-    `<td class="num">${H.o}/${H.n}</td><td class="num">${pct(H.o,H.n)}</td>`+
-    `<td class="num gap">${H.sd}/${H.n}</td><td class="num">${pct(H.sd,H.n)}</td>`+
+    `<td class="num">${H.sd}/${H.n}</td><td class="num">${pct(H.sd,H.n)}</td>`+
+    `<td class="num gap">${H.rule}/${H.n}</td><td class="num">${pct(H.rule,H.n)}</td>`+
+    `<td class="num gap">${H.o}/${H.n}</td><td class="num">${pct(H.o,H.n)}</td>`+
     `</tr></tbody></table>`;
 
   /* The 2x2 that the significance test is actually computed from. */
@@ -3004,19 +3145,23 @@ function madAll(){
      behind the ranking is, which is the point of showing both. */
   const H=got.map(madHead2Head);
   const hn=H.reduce((t,x)=>t+x.n,0), ho=H.reduce((t,x)=>t+x.o,0),
-        hs=H.reduce((t,x)=>t+x.sd,0);
+        hs=H.reduce((t,x)=>t+x.sd,0), hr=H.reduce((t,x)=>t+x.rule,0);
   const ups=H.reduce((t,x)=>t+x.ups,0), upsO=H.reduce((t,x)=>t+x.upsO,0);
   const pct=(a,b)=>b?`${(100*a/b).toFixed(1)}%`:'\u2014';
+  /* The rule's bracket total, summed over the seasons in hand. */
+  const rl=got.filter(x=>x.rule).reduce((t,x)=>t+x.rule.pts,0);
+  const haveRule=got.filter(x=>x.rule).length===got.length;
   return `<p class="mall"><b>Across the ${got.length} season`+
     `${got.length===1?'':'s'} loaded so far</b> `+
     `(${got.map(x=>esc(yrsShort(yrsLabel(x.year)))).join(', ')}): `+
-    `as a filled-in bracket, <b>${o}</b> points against <b>${sm.toFixed(0)}</b> `+
-    `for the seed line, ahead in <b>${wins} of ${got.length}</b>, and the `+
-    `champion called `+
-    `${champs===0?'<b>never</b>':`<b>${champs}</b> time${champs===1?'':'s'}`}. `+
-    `Game by game on the real matchups it is much closer: `+
-    `<b>${pct(ho,hn)}</b> against <b>${pct(hs,hn)}</b> over ${hn} games, `+
-    `with <b>${pct(upsO,ups)}</b> of the ${ups} upsets called.`+
+    `game by game on the real matchups the rule takes `+
+    `<b>${pct(hr,hn)}</b>, ahead of the seed line’s <b>${pct(hs,hn)}</b> `+
+    `and this ranking’s <b>${pct(ho,hn)}</b> over ${hn} games. `+
+    `Filled in blind as a bracket the order reverses: `+
+    (haveRule?`the rule scores <b>${rl}</b> and `:'')+
+    `the seed line averages <b>${sm.toFixed(0)}</b> against this `+
+    `ranking’s <b>${o}</b>, and the champion was called `+
+    `${champs===0?'<b>never</b>':`<b>${champs}</b> time${champs===1?'':'s'}`}.`+
     (untried.length?` Open the other season${untried.length===1?'':'s'} to `+
       `fill this in.`:'')+`</p>`;
 }
@@ -3052,13 +3197,24 @@ function paintMad(D){
   const beatTail = beat==='about as well as' ? '' : ' than';
   const verdict = !sd
     ? `<p class="slateintro">This bracket carries no seed line, so there is `+
-      `nothing to measure the ranking against here.</p>`
-    : `<p class="slateintro"><b>${ours.pts} points out of ${MAD_MAX}</b>, `+
-      `against <b>${sd.mean.toFixed(0)}</b> for the committee’s own seed `+
-      `line${sd.spread?` (${sd.lo}–${sd.hi} across the coin flips below)`:''}. `+
-      `On this season the ranking did <b>${beat}</b>${beatTail} seeding. `+
-      `It got <b>${ours.hit} of ${ours.tot}</b> games right on a bracket filled `+
-      `in before tipoff, picked <b>${esc(ours.champ)}</b> to win it, and `+
+      `nothing to measure anything against here.</p>`
+    : `<p class="mlede">The committee is excellent at ordering teams that are `+
+      `far apart and close to useless at ordering teams it has placed side by `+
+      `side. In games seeded <b>one apart</b>, the higher seed wins just `+
+      `<b>54.7%</b> of the time — a coin flip. That one band is where `+
+      `every bit of available improvement lives, and it is also the only place `+
+      `a raw efficiency figure can be trusted, because the committee has `+
+      `already matched those two teams on schedule.</p>`+
+      `<p class="mlede">Take the seed line everywhere except there, and in `+
+      `those games take the better team by <b>opponent-adjusted margin</b>: `+
+      `<b>74.5%</b> of games right against the seed line’s <b>72.3%</b> `+
+      `across five tournaments. It is the one thing found that beats the `+
+      `committee — and, as the bracket below shows, it still loses a `+
+      `pool, which is the more interesting half of the story.</p>`+
+      `<p class="slateintro">On ${esc(yrsLabel(D.year))}: this ranking filled `+
+      `in blind scores <b>${ours.pts} of ${MAD_MAX}</b> against `+
+      `<b>${sd.mean.toFixed(0)}</b> for the seed line, did <b>${beat}</b>`+
+      `${beatTail} seeding, picked <b>${esc(ours.champ)}</b> to win it, and `+
       `${ours.champ===ours.actChamp?'<b>was right</b>'
          :`<b>${esc(ours.actChamp)}</b> actually won`}.</p>`;
 
@@ -3187,12 +3343,12 @@ function paintMad(D){
     `</ul>`;
 
   host.innerHTML=madHead()+madPicker()+verdict+madAll()+table+
-    `<div class="thead"><h3>The bracket as we filled it</h3></div>`+
-    `<p class="slateintro">Our pick in each slot. Green is a slot we called `+
-    `right; red shows our pick struck through with the team that actually `+
-    `won it beneath.</p>`+
-    `<div class="mgrid">${cols}</div>`+madH2Hhtml(D)+madRuleHtml(D)+
-    madUpsetHtml(D)+gaps+notes;
+    madRuleHtml(D)+madStrategyHtml(D)+madUpsetHtml(D)+
+    `<div class="thead"><h3>The bracket as this ranking filled it</h3></div>`+
+    `<p class="slateintro">For comparison, the site’s own ranking used on `+
+    `its own. Green is a slot it called right; red shows its pick struck `+
+    `through with the team that actually won it beneath.</p>`+
+    `<div class="mgrid">${cols}</div>`+madH2Hhtml(D)+gaps+notes;
   $('madsub').textContent=`${D.field} teams, ${D.b.games.length} games, `+
     `${esc(yrsLabel(D.year))}`;
   madWireHead(); madWirePicker();
