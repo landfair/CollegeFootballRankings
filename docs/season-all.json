@@ -81,7 +81,7 @@
     "file": "season-2026.json",
     "from": 198,
     "to": 211,
-    "games": 3646
+    "games": 3656
    }
   ],
   "built": "2026-11-27"
@@ -217090,6 +217090,13 @@
   },
   {
    "week": 211,
+   "home": "Akron",
+   "away": "Buffalo",
+   "homePoints": 9,
+   "awayPoints": 17
+  },
+  {
+   "week": 211,
    "home": "Alabama State",
    "away": "Tuskegee",
    "homePoints": 45,
@@ -217104,10 +217111,73 @@
   },
   {
    "week": 211,
+   "home": "Florida State",
+   "away": "Florida",
+   "homePoints": 10,
+   "awayPoints": 26
+  },
+  {
+   "week": 211,
+   "home": "Iowa",
+   "away": "Nebraska",
+   "homePoints": 31,
+   "awayPoints": 7
+  },
+  {
+   "week": 211,
+   "home": "Memphis",
+   "away": "Temple",
+   "homePoints": 31,
+   "awayPoints": 35
+  },
+  {
+   "week": 211,
+   "home": "New Mexico",
+   "away": "Air Force",
+   "homePoints": 42,
+   "awayPoints": 19
+  },
+  {
+   "week": 211,
+   "home": "Ohio",
+   "away": "Toledo",
+   "homePoints": 31,
+   "awayPoints": 34
+  },
+  {
+   "week": 211,
+   "home": "Ole Miss",
+   "away": "Mississippi State",
+   "homePoints": 41,
+   "awayPoints": 17
+  },
+  {
+   "week": 211,
+   "home": "San Jos\u00e9 State",
+   "away": "North Dakota State",
+   "homePoints": 31,
+   "awayPoints": 38
+  },
+  {
+   "week": 211,
+   "home": "South Alabama",
+   "away": "App State",
+   "homePoints": 20,
+   "awayPoints": 13
+  },
+  {
+   "week": 211,
    "home": "Texas Tech",
    "away": "TCU",
    "homePoints": 48,
    "awayPoints": 27
+  },
+  {
+   "week": 211,
+   "home": "UTSA",
+   "away": "Tulsa",
+   "homePoints": 28,
+   "awayPoints": 22
   },
   {
    "week": 211,
