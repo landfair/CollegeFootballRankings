@@ -702,6 +702,26 @@ export function spearman(x,y){
   return dx&&dy?num/Math.sqrt(dx*dy):0;
 }
 
+/* A correlation read as a percentage. Readers who never met Pearson still
+   know what "+92%" means, while "+0.916" asks them to hold a scale in their
+   head. The sign is kept and printed explicitly, because a correlation of
+   −0.42 is a real inverse relationship, not a small positive one: dropping
+   the minus would turn "these move oppositely" into "these barely move
+   together". Rounded to whole points -- a correlation is never precise enough
+   for a decimal place to mean anything, and 0.916 vs 0.9163 is noise at every
+   sample size this app reaches.
+
+   A value that rounds to zero but is not zero keeps its sign, so a weak
+   inverse relationship reads "−0%" rather than "+0%". That looks odd, and
+   it is meant to: the figure is telling the reader the relationship is
+   nothing, and the sign is the honest remainder. */
+export const corrPct=(r,{sign=true}={})=>{
+  if(r==null||!isFinite(r)) return null;
+  const n=Math.round(Math.abs(r)*100);
+  const neg=r<0;
+  return (sign?(neg?'\u2212':'+'):(neg?'\u2212':''))+n+'%';
+};
+
 export function agreement(a,b){
   const common=a.filter(r=>b.has(r.team));
   if(common.length<3) return null;

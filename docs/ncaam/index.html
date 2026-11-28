@@ -585,7 +585,7 @@ Rankings recomputed in your browser. <a href="about.html">How this works</a>.</f
 <script type="module">
 import {WIN, esc, ingest, engine, rank, applyGate, pollAt,
         agreement, revision, sparkHTML, weighted, schedule, split, bracket,
-        remaining} from '../engine.js?v=8e3f14d0fa01';
+        remaining, corrPct} from '../engine.js?v=c535ef2fbbff';
 
 const SHOW=100;
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -963,13 +963,13 @@ function renderList(){
     return key;
   };
   $('pollfacts').innerHTML = (sAP||sCO||ref)
-    ? (sAP?fact(sAP.rho.toFixed(3),'RANK CORRELATION WITH AP',
-        `Spearman over the ${sAP.n} teams the AP ranks. +1 means the two orders agree exactly, 0 means no relation, −1 means they are reversed. Measured against the full ranking, so the victors gate does not move it. Where either side ties, the tied teams take the mean of the places they span, so a tie contributes no order that was not there.`,
+    ? (sAP?fact(corrPct(sAP.rho),'RANK CORRELATION WITH AP',
+        `Rank agreement over the ${sAP.n} teams the AP ranks. +100% means the two orders agree exactly, 0% means no relation, −100% means they are reversed. Measured against the full ranking, so the victors gate does not move it. Where either side ties, the tied teams take the mean of the places they span, so a tie contributes no order that was not there.`,
         reg('ap',ap.ranks,fullRank,sAP.rho,sAP.n,'This ranking against the AP poll','AP')):'')
-      +(sCO?fact(sCO.rho.toFixed(3),'RANK CORRELATION WITH COACHES',
-        `Spearman over the ${sCO.n} teams the Coaches poll ranks.`,
+      +(sCO?fact(corrPct(sCO.rho),'RANK CORRELATION WITH COACHES',
+        `Rank agreement over the ${sCO.n} teams the Coaches poll ranks.`,
         reg('co',co.ranks,fullRank,sCO.rho,sCO.n,'This ranking against the Coaches poll','Coaches')):'')
-      +(ref?fact(ref.rho.toFixed(3),'AP AGAINST COACHES — HOW MUCH TWO VOTES AGREE',
+      +(ref?fact(corrPct(ref.rho),'AP AGAINST COACHES — HOW MUCH TWO VOTES AGREE',
         `The same measure applied to the two human polls against each other, over the ${ref.n} teams both rank. It is the yardstick: this is how closely two rooms of voters looking at the same season agree with one another.`+
         (refB<h?` Both are taken from ${fmtDay(dayOf(refB))}, the last day they both cover, so this compares two rooms rather than two dates.`:''),
         reg('refs',refAP.ranks,new Map(refCO.ranks.map(r=>[r.team,r.rank])),ref.rho,ref.n,
@@ -1963,15 +1963,16 @@ function strengthWord(r){
 function corrTip(p){
   const sign=p.r>0?'together':'in opposite directions';
   const d=Math.abs(p.r-p.rho)>=0.12
-    ? ` Spearman (rank) r is ${p.rho.toFixed(2)}, which differs enough from Pearson `+
-      `to say the relationship is not a straight line \u2014 the ranks agree more `+
-      `than the raw figures do, or the reverse.`
-    : ` Spearman (rank) r is ${p.rho.toFixed(2)}, close to Pearson, so a `+
-      `straight line describes it fairly.`;
-  return `${p.a.h} and ${p.b.h} move ${sign}: r = ${p.r>0?'+':'\u2212'}`+
-    `${Math.abs(p.r).toFixed(3)} over `+
-    `${p.n} teams, a ${strengthWord(p.r)} relationship. r runs from −1 to +1; `+
-    `0 means the two columns say nothing about each other.${d} `+
+    ? ` Measured on rank order instead of raw values it is ${corrPct(p.rho)}, `+
+      `which differs enough to say the relationship is not a straight line \u2014 `+
+      `the ranks agree more than the raw figures do, or the reverse.`
+    : ` Measured on rank order instead of raw values it is ${corrPct(p.rho)}, `+
+      `close to the same, so a straight line describes it fairly.`;
+  return `${p.a.h} and ${p.b.h} move ${sign}: ${corrPct(p.r)} over `+
+    `${p.n} teams, a ${strengthWord(p.r)} relationship. The figure runs from `+
+    `\u2212100% to +100%; a plus means they rise together, a minus means one `+
+    `rises as the other falls, and 0% means the two columns say nothing about `+
+    `each other.${d} `+
     `Correlation is not cause: both may follow from something else entirely, `+
     `such as simply being a better team.`;
 }
@@ -2003,7 +2004,7 @@ function corrRow(p,i,on){
     `${name(p.a)}<span class="vs">vs</span>${name(p.b)}</button>${tag}</span>`+
     corrBar(p.r)+
     `<span class="cr ${p.r>0?'pos':'neg'}" title="${esc(corrTip(p))}">`+
-    `${p.r>0?'+':'−'}${Math.abs(p.r).toFixed(3)}</span></div>`;
+    `${corrPct(p.r)}</span></div>`;
 }
 
 /* A figure's useful precision depends on its size: PPA runs in hundredths
@@ -2205,7 +2206,7 @@ function corrOneRow(p,A,i,on){
     `<span class="cread">${esc(read)}</span></span>`+
     corrBar(p.r)+
     `<span class="cr ${p.r>0?'pos':'neg'}" title="${esc(corrTip(p))}">`+
-    `${p.r>0?'+':'−'}${Math.abs(p.r).toFixed(3)}</span></div>`;
+    `${corrPct(p.r)}</span></div>`;
 }
 
 /* The plot opens under the row that asked for it rather than at the top of
@@ -2217,7 +2218,7 @@ function corrExpand(p,A){
   const nm=c=>`<b${c.tip?` title="${esc(c.h+' — '+c.tip)}" class="defn"`:''}>${esc(c.h)}</b>`;
   return '<div class="cexp">'+corrScatter(q)+
     `<p class="cdetail">${nm(q.b)} against ${nm(q.a)} — `+
-    `r = ${q.r>0?'+':'−'}${Math.abs(q.r).toFixed(3)} over ${q.n} teams `+
+    `correlation ${corrPct(q.r)} over ${q.n} teams `+
     `(${strengthWord(q.r)}). Each logo is a team; point at or near one to name it. `+
     `The dashed line is the least-squares fit.</p></div>`;
 }
@@ -2391,8 +2392,13 @@ function paintYears(S,live){
   if(!cols.some(c=>c.k===yrsAnchor)) yrsAnchor=cols.some(c=>c.k==='key')?'key':cols[0].k;
   const A=cols.find(c=>c.k===yrsAnchor);
   const done=seasons.map(s=>s.year!==live);
-  const sg=(r,d=2)=>(r>0?'+':r<0?'−':'')+Math.abs(r).toFixed(d).replace(/^0/,'');
-  const nz=(v,d=2)=>v.toFixed(d).replace(/^0/,'');
+  /* Correlations read as percentages here, like everywhere else on the page.
+     The d argument survived from the decimal form and is ignored: a whole
+     percentage point is already finer than these figures can support. */
+  const sg=(r,d=2)=>corrPct(r);
+  /* range and sd are spreads BETWEEN correlations, not correlations, so they
+     carry no sign and are percentage POINTS rather than a percentage. */
+  const nz=(v,d=2)=>Math.round(v*100)+'pt';
   const L=seasons.map(s=>yrsLabel(s.year));
 
   const all=cols.filter(c=>c.k!==A.k).map(c=>{
@@ -2486,7 +2492,7 @@ function paintYears(S,live){
          runs against the rating, a higher r is a weaker relationship. */
       const way=z==null?'':((z>0)===((R.mean??x.r)>=0)?'stronger':'weaker');
       return `<td${cls?` class="${cls}"`:''} style="${tint(x.r)}" title="${esc(
-        `${R.c.h} with ${A.h}, ${L[i]}: r = ${sg(x.r,3)} over ${x.n} teams`+
+        `${R.c.h} with ${A.h}, ${L[i]}: ${sg(x.r,3)} over ${x.n} teams`+
         (z==null?'.':`, ${Math.abs(z).toFixed(1)} standard errors ${way} than its other seasons.`)+
         (rh?` ${R.c.h}\u2019s strongest season.`:'')+
         (rl?` ${R.c.h}\u2019s weakest season.`:'')+
@@ -2497,18 +2503,18 @@ function paintYears(S,live){
     `<td class="sum gap">${R.mean==null?'—':sg(R.mean)}</td>`+
     `<td${R.lo?` title="${esc(`low ${sg(R.lo.r,3)} in ${L[R.lo.i]}, high ${sg(R.hi.r,3)} in ${L[R.hi.i]}`)}"`:''}>`+
       `${R.range==null?'—':nz(R.range)}</td>`+
-    `<td${R.sd==null?'':` title="${esc('standard deviation '+R.sd.toFixed(3))}"`}>`+
+    `<td${R.sd==null?'':` title="${esc('standard deviation '+Math.round(R.sd*100)+' percentage points')}"`}>`+
       `${R.sd==null?'—':nz(R.sd)}</td></tr>`;
 
   const nDone=done.filter(Boolean).length;
   let html=yrsHead()+yrsModes()+
     '<p class="slateintro">How closely every stat moves with one chosen column, season by '+
     'season. Each season is graded at its own final week with the settings above and '+
-    'correlated across its own teams; a cell is that season’s <b>r</b>, green where '+
+    'correlated across its own teams; a cell is that season’s correlation, green where '+
     'the two rise together and red where one falls as the other rises, deeper the stronger. '+
     `<b>Mean</b>, <b>Range</b> (highest season minus lowest) and <b>SD</b> cover the `+
-    `${nDone} complete season${nDone===1?'':'s'}. Chance alone moves r from one season to `+
-    `the next by roughly (1 − r²)/√n — about ${nz(noise)} at r = 0.6 `+
+    `${nDone} complete season${nDone===1?'':'s'}. Chance alone moves the figure from one season to `+
+    `the next by roughly (1 \u2212 r\u00b2)/\u221an \u2014 about ${nz(noise)} at +60% `+
     `with ${n0} teams — so an SD near that is a relationship that holds steady. `+
     'Each cell is also measured by how many standard errors it sits from the same stat\u2019s '+
     'other seasons: dark corners mark each row\u2019s strongest season (top right) and weakest '+
@@ -2781,9 +2787,9 @@ function renderCorr(){
     '<p class="slateintro">'+
     'Pick one column and every other is ranked by how closely it moves with it '+
     '— which side of the ball tracks the rating more closely, say — or switch '+
-    'to every pair at once. <b>r</b> runs from −1 to +1: at +1 the two rise in '+
-    'perfect step, at −1 one falls as the other rises, and at 0 they tell you '+
-    'nothing about each other. A negative sign is not a fault — fewer turnovers '+
+    'to every pair at once. The figure runs from <b>−100%</b> to <b>+100%</b>: at '+
+    '+100% the two rise in perfect step, at −100% one falls as the other rises, '+
+    'and at 0% they tell you nothing about each other. A negative sign is not a fault — fewer turnovers '+
     'and a better record <i>should</i> run opposite. Click a row to plot it under the '+
     'row; <b>centre</b> makes that column the one the list is measured against. Pairs '+
     'where one column is <b>computed from</b> the other are set apart, because their '+
@@ -3137,7 +3143,7 @@ function showPollPlot(p){
   const far=[...p.pairs].sort((a,b)=>Math.abs(b.poll-b.ours)-Math.abs(a.poll-a.ours)).slice(0,5);
   $('polltitle').textContent=p.label;
   $('pollbody').innerHTML=
-    `<p class="cdetail">Spearman <b>ρ = ${p.rho.toFixed(3)}</b> over the `+
+    `<p class="cdetail">Rank agreement <b>${corrPct(p.rho)}</b> over the `+
     `${p.n} teams ${p.other} ranks. Each logo is a team: the dashed diagonal is `+
     `exact agreement, and a logo’s distance from it is how far the two sides `+
     `differ on that team. Above the line ${esc(vAxis(p))} is <b>higher</b> on a team `+
