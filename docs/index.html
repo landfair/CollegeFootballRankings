@@ -270,7 +270,11 @@
   .thead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:14px 0 4px}
   .thead h2{font-size:22px;margin:0;letter-spacing:-.01em}
   .thead .sub{color:var(--muted);font-size:14px}
-  .facts{display:flex;gap:26px;flex-wrap:wrap;margin:14px 0 20px;
+  /* The four poll tiles are meant to read as one row. The gap is the first
+     thing to give: a narrower one buys the row back without shrinking the
+     figures, and below about 760px the row wraps on purpose rather than
+     squeezing four tiles into a phone's width. */
+  .facts{display:flex;gap:18px;flex-wrap:wrap;margin:14px 0 20px;
     border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:13px 0}
   .fact b{display:block;font-family:var(--mono);font-size:21px;font-weight:600;letter-spacing:-.02em}
   .fact span{font-size:11.5px;color:var(--muted);letter-spacing:.03em}
@@ -1121,16 +1125,16 @@ function renderList(){
     return key;
   };
   $('pollfacts').innerHTML = (sAP||sCO||sCF||ref)
-    ? (sAP?fact(corrPct(sAP.rho),'RANK CORRELATION WITH AP',
+    ? (sAP?fact(corrPct(sAP.rho),'CORRELATION WITH AP RANK',
         `Rank agreement over the ${sAP.n} teams the AP ranks. +100% means the two orders agree exactly, 0% means no relation, −100% means they are reversed. Measured against the full ranking, so the victors gate does not move it. Where either side ties, the tied teams take the mean of the places they span, so a tie contributes no order that was not there.`,
         reg('ap',ap.ranks,fullRank,sAP.rho,sAP.n,'This ranking against the AP poll','AP')):'')
-      +(sCO?fact(corrPct(sCO.rho),'RANK CORRELATION WITH COACHES',
+      +(sCO?fact(corrPct(sCO.rho),'CORRELATION WITH COACHES RANK',
         `Rank agreement over the ${sCO.n} teams the Coaches poll ranks.`,
         reg('co',co.ranks,fullRank,sCO.rho,sCO.n,'This ranking against the Coaches poll','Coaches')):'')
-      +(sCF?fact(corrPct(sCF.rho),'RANK CORRELATION WITH CFP',
+      +(sCF?fact(corrPct(sCF.rho),'CORRELATION WITH CFP RANK',
         `Rank agreement over the ${sCF.n} teams the selection committee ranks. The committee publishes from about week 10, so this is blank earlier in a season and absent before 2014, when the BCS standings it replaced were still running.`,
         reg('cf',cf.ranks,fullRank,sCF.rho,sCF.n,'This ranking against the selection committee','CFP')):'')
-      +(ref?fact(corrPct(ref.rho),'AP AGAINST COACHES — HOW MUCH TWO VOTES AGREE',
+      +(ref?fact(corrPct(ref.rho),'AP RANK AGAINST COACHES RANK',
         `The same measure applied to the two human polls against each other, over the ${ref.n} teams both rank. It is the yardstick: this is how closely two rooms of voters looking at the same season agree with one another.`+
         (refB<h?` Both are taken from week ${refB}, the last one they both cover, so this compares two rooms rather than two weeks.`:''),
         reg('refs',refAP.ranks,new Map(refCO.ranks.map(r=>[r.team,r.rank])),ref.rho,ref.n,
@@ -2301,7 +2305,7 @@ function statRows(X){
      tip:'Points per scoring opportunity — per drive that reached the opponent’s 40. Measures finishing rather than moving the ball.'},
     {k:'dppo', h:'Opp pts/opp',cls:'num', low:true,  v:r=>r.defPpo, d:r=>f2(r.defPpo), tip:'Points allowed per opponent scoring opportunity. Lower is better.'},
     {k:'fpos', h:'Field pos',  cls:'num', low:true,  v:r=>r.offFieldPos, d:r=>f1(r.offFieldPos),
-     tip:'Average starting field position on offence, measured as yards from the opponent’s goal line — so a LOWER number is a shorter field and the better result. Checked against this season rather than assumed: the figure correlates −0.54 with win percentage, and the teams starting closest are the ones winning.'},
+     tip:'Average starting field position on offence, measured as yards from the opponent’s goal line — so a LOWER number is a shorter field and the better result. Checked against this season rather than assumed: the figure correlates −54% with win percentage, and the teams starting closest are the ones winning.'},
   ];
   return {data,C};
 }
