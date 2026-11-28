@@ -139,10 +139,22 @@ def build_postseason(raw):
         d = game_day(g)
         if d is None:
             continue
-        out.append({"home": home, "away": away,
-                    "homePoints": int(hp), "awayPoints": int(ap),
-                    "date": d.isoformat(),
-                    "tournament": g.get("tournament") or ""})
+        rec = {"home": home, "away": away,
+               "homePoints": int(hp), "awayPoints": int(ap),
+               "date": d.isoformat(),
+               "tournament": g.get("tournament") or ""}
+        # The seed line of the bracket, when the feed carries it. It is the
+        # only account of what the committee thought BEFORE the tournament,
+        # which makes it the one fair yardstick for a ranking that is also
+        # trying to predict the thing. Absent for events that are not seeded,
+        # and absent in older seasons, so every reader of it must cope with
+        # None rather than assume a number.
+        hs, as_ = g.get("homeSeed"), g.get("awaySeed")
+        if hs is not None:
+            rec["homeSeed"] = int(hs)
+        if as_ is not None:
+            rec["awaySeed"] = int(as_)
+        out.append(rec)
     out.sort(key=lambda g: (g["date"], g["home"], g["away"]))
     return out
 
@@ -522,6 +534,7 @@ FIXTURE_POLLS = [
 FIXTURE_POST = [
     # a four-team bracket: two semi-finals then the final, out of date order
     {"homeTeam": "Duke", "awayTeam": "Baylor", "homePoints": 70, "awayPoints": 60,
+     "homeSeed": 1, "awaySeed": 3,
      "status": "final", "tournament": "NCAA", "startDate": "2024-04-08T23:00:00.000Z"},
     {"homeTeam": "Duke", "awayTeam": "Kansas", "homePoints": 75, "awayPoints": 70,
      "status": "final", "tournament": "NCAA", "startDate": "2024-04-06T23:00:00.000Z"},
@@ -685,6 +698,12 @@ def selftest():
          sorted(g["date"] for g in post)),
         ("postseason carries its event name",
          {g["tournament"] for g in post} == {"NCAA", "NIT"}),
+        ("a seeded game keeps both seeds",
+         [(g["homeSeed"], g["awaySeed"]) for g in post
+          if g["home"] == "Duke" and g["away"] == "Baylor"] == [(1, 3)]),
+        ("a game the feed gives no seed for carries no seed key",
+         all("homeSeed" not in g and "awaySeed" not in g for g in post
+             if not (g["home"] == "Duke" and g["away"] == "Baylor"))),
         ("Final Four is the last three NCAA games, not the NIT or earlier rounds",
          final_four(post) == ["Baylor", "Duke", "Gonzaga", "Kansas"]),
         ("an incomplete bracket yields no Final Four",

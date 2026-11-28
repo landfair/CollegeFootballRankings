@@ -56671,7 +56671,9 @@
    "homePoints": 76,
    "awayPoints": 67,
    "date": "2022-03-15",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 16,
+   "awaySeed": 16
   },
   {
    "home": "Utah State",
@@ -56711,7 +56713,9 @@
    "homePoints": 58,
    "awayPoints": 66,
    "date": "2022-03-15",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 12,
+   "awaySeed": 12
   },
   {
    "home": "Xavier",
@@ -56759,7 +56763,9 @@
    "homePoints": 87,
    "awayPoints": 89,
    "date": "2022-03-16",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 11,
+   "awaySeed": 11
   },
   {
    "home": "SMU",
@@ -56823,7 +56829,9 @@
    "homePoints": 93,
    "awayPoints": 82,
    "date": "2022-03-16",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 16,
+   "awaySeed": 16
   },
   {
    "home": "Youngstown State",
@@ -56839,7 +56847,9 @@
    "homePoints": 75,
    "awayPoints": 71,
    "date": "2022-03-17",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 4,
+   "awaySeed": 13
   },
   {
    "home": "Baylor",
@@ -56847,7 +56857,9 @@
    "homePoints": 85,
    "awayPoints": 49,
    "date": "2022-03-17",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 16
   },
   {
    "home": "Boise State",
@@ -56855,7 +56867,9 @@
    "homePoints": 53,
    "awayPoints": 64,
    "date": "2022-03-17",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 8,
+   "awaySeed": 9
   },
   {
    "home": "Colorado State",
@@ -56863,7 +56877,9 @@
    "homePoints": 63,
    "awayPoints": 75,
    "date": "2022-03-17",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 6,
+   "awaySeed": 11
   },
   {
    "home": "Fresno State",
@@ -56879,7 +56895,9 @@
    "homePoints": 93,
    "awayPoints": 72,
    "date": "2022-03-17",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 16
   },
   {
    "home": "Iowa",
@@ -56887,7 +56905,9 @@
    "homePoints": 63,
    "awayPoints": 67,
    "date": "2022-03-17",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 5,
+   "awaySeed": 12
   },
   {
    "home": "Kansas",
@@ -56895,7 +56915,9 @@
    "homePoints": 83,
    "awayPoints": 56,
    "date": "2022-03-17",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 16
   },
   {
    "home": "Kentucky",
@@ -56903,7 +56925,9 @@
    "homePoints": 79,
    "awayPoints": 85,
    "date": "2022-03-17",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 15
   },
   {
    "home": "Murray State",
@@ -56911,7 +56935,9 @@
    "homePoints": 92,
    "awayPoints": 87,
    "date": "2022-03-17",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 7,
+   "awaySeed": 10
   },
   {
    "home": "North Carolina",
@@ -56919,7 +56945,9 @@
    "homePoints": 95,
    "awayPoints": 63,
    "date": "2022-03-17",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 8,
+   "awaySeed": 9
   },
   {
    "home": "Providence",
@@ -56927,7 +56955,9 @@
    "homePoints": 66,
    "awayPoints": 57,
    "date": "2022-03-17",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 4,
+   "awaySeed": 13
   },
   {
    "home": "Saint Mary's",
@@ -56935,7 +56965,9 @@
    "homePoints": 82,
    "awayPoints": 53,
    "date": "2022-03-17",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 5,
+   "awaySeed": 12
   },
   {
    "home": "San Diego State",
@@ -56943,7 +56975,9 @@
    "homePoints": 69,
    "awayPoints": 72,
    "date": "2022-03-17",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 8,
+   "awaySeed": 9
   },
   {
    "home": "Tennessee",
@@ -56951,7 +56985,9 @@
    "homePoints": 88,
    "awayPoints": 56,
    "date": "2022-03-17",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 3,
+   "awaySeed": 14
   },
   {
    "home": "UCLA",
@@ -56959,7 +56995,9 @@
    "homePoints": 57,
    "awayPoints": 53,
    "date": "2022-03-17",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 4,
+   "awaySeed": 13
   },
   {
    "home": "UConn",
@@ -56967,7 +57005,9 @@
    "homePoints": 63,
    "awayPoints": 70,
    "date": "2022-03-17",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 5,
+   "awaySeed": 12
   },
   {
    "home": "Alabama",
@@ -56975,7 +57015,9 @@
    "homePoints": 64,
    "awayPoints": 78,
    "date": "2022-03-18",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 6,
+   "awaySeed": 11
   },
   {
    "home": "Arizona",
@@ -56983,7 +57025,9 @@
    "homePoints": 87,
    "awayPoints": 70,
    "date": "2022-03-18",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 16
   },
   {
    "home": "Auburn",
@@ -56991,7 +57035,9 @@
    "homePoints": 80,
    "awayPoints": 61,
    "date": "2022-03-18",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 15
   },
   {
    "home": "Duke",
@@ -56999,7 +57045,9 @@
    "homePoints": 78,
    "awayPoints": 61,
    "date": "2022-03-18",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 15
   },
   {
    "home": "Houston",
@@ -57007,7 +57055,9 @@
    "homePoints": 82,
    "awayPoints": 68,
    "date": "2022-03-18",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 5,
+   "awaySeed": 12
   },
   {
    "home": "Illinois",
@@ -57015,7 +57065,9 @@
    "homePoints": 54,
    "awayPoints": 53,
    "date": "2022-03-18",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 4,
+   "awaySeed": 13
   },
   {
    "home": "LSU",
@@ -57023,7 +57075,9 @@
    "homePoints": 54,
    "awayPoints": 59,
    "date": "2022-03-18",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 6,
+   "awaySeed": 11
   },
   {
    "home": "Michigan State",
@@ -57031,7 +57085,9 @@
    "homePoints": 74,
    "awayPoints": 73,
    "date": "2022-03-18",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 7,
+   "awaySeed": 10
   },
   {
    "home": "Ohio State",
@@ -57039,7 +57095,9 @@
    "homePoints": 54,
    "awayPoints": 41,
    "date": "2022-03-18",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 7,
+   "awaySeed": 10
   },
   {
    "home": "Purdue",
@@ -57047,7 +57105,9 @@
    "homePoints": 78,
    "awayPoints": 56,
    "date": "2022-03-18",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 3,
+   "awaySeed": 14
   },
   {
    "home": "Seton Hall",
@@ -57055,7 +57115,9 @@
    "homePoints": 42,
    "awayPoints": 69,
    "date": "2022-03-18",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 8,
+   "awaySeed": 9
   },
   {
    "home": "Texas",
@@ -57063,7 +57125,9 @@
    "homePoints": 81,
    "awayPoints": 73,
    "date": "2022-03-18",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 6,
+   "awaySeed": 11
   },
   {
    "home": "Texas Tech",
@@ -57071,7 +57135,9 @@
    "homePoints": 97,
    "awayPoints": 62,
    "date": "2022-03-18",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 3,
+   "awaySeed": 14
   },
   {
    "home": "USC",
@@ -57079,7 +57145,9 @@
    "homePoints": 66,
    "awayPoints": 68,
    "date": "2022-03-18",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 7,
+   "awaySeed": 10
   },
   {
    "home": "Villanova",
@@ -57087,7 +57155,9 @@
    "homePoints": 80,
    "awayPoints": 60,
    "date": "2022-03-18",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 15
   },
   {
    "home": "Wisconsin",
@@ -57095,7 +57165,9 @@
    "homePoints": 67,
    "awayPoints": 60,
    "date": "2022-03-18",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 3,
+   "awaySeed": 14
   },
   {
    "home": "Arkansas",
@@ -57103,7 +57175,9 @@
    "homePoints": 53,
    "awayPoints": 48,
    "date": "2022-03-19",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 4,
+   "awaySeed": 12
   },
   {
    "home": "BYU",
@@ -57119,7 +57193,9 @@
    "homePoints": 86,
    "awayPoints": 93,
    "date": "2022-03-19",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 8
   },
   {
    "home": "California Baptist",
@@ -57135,7 +57211,9 @@
    "homePoints": 82,
    "awayPoints": 78,
    "date": "2022-03-19",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 9
   },
   {
    "home": "Kansas",
@@ -57143,7 +57221,9 @@
    "homePoints": 79,
    "awayPoints": 72,
    "date": "2022-03-19",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 9
   },
   {
    "home": "Murray State",
@@ -57151,7 +57231,9 @@
    "homePoints": 60,
    "awayPoints": 70,
    "date": "2022-03-19",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 7,
+   "awaySeed": 15
   },
   {
    "home": "Portland",
@@ -57167,7 +57249,9 @@
    "homePoints": 79,
    "awayPoints": 51,
    "date": "2022-03-19",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 4,
+   "awaySeed": 12
   },
   {
    "home": "Purdue Fort Wayne",
@@ -57191,7 +57275,9 @@
    "homePoints": 68,
    "awayPoints": 76,
    "date": "2022-03-19",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 3,
+   "awaySeed": 11
   },
   {
    "home": "Texas A&M",
@@ -57207,7 +57293,9 @@
    "homePoints": 72,
    "awayPoints": 56,
    "date": "2022-03-19",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 4,
+   "awaySeed": 5
   },
   {
    "home": "UNC Asheville",
@@ -57239,7 +57327,9 @@
    "homePoints": 85,
    "awayPoints": 80,
    "date": "2022-03-20",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 9
   },
   {
    "home": "Auburn",
@@ -57247,7 +57337,9 @@
    "homePoints": 61,
    "awayPoints": 79,
    "date": "2022-03-20",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 10
   },
   {
    "home": "Boston University",
@@ -57263,7 +57355,9 @@
    "homePoints": 85,
    "awayPoints": 76,
    "date": "2022-03-20",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 7
   },
   {
    "home": "Illinois",
@@ -57271,7 +57365,9 @@
    "homePoints": 53,
    "awayPoints": 68,
    "date": "2022-03-20",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 4,
+   "awaySeed": 5
   },
   {
    "home": "North Texas",
@@ -57303,7 +57399,9 @@
    "homePoints": 81,
    "awayPoints": 71,
    "date": "2022-03-20",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 3,
+   "awaySeed": 6
   },
   {
    "home": "SMU",
@@ -57319,7 +57417,9 @@
    "homePoints": 59,
    "awayPoints": 53,
    "date": "2022-03-20",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 3,
+   "awaySeed": 11
   },
   {
    "home": "Troy",
@@ -57351,7 +57451,9 @@
    "homePoints": 71,
    "awayPoints": 61,
    "date": "2022-03-20",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 7
   },
   {
    "home": "Wisconsin",
@@ -57359,7 +57461,9 @@
    "homePoints": 49,
    "awayPoints": 54,
    "date": "2022-03-20",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 3,
+   "awaySeed": 11
   },
   {
    "home": "Xavier",
@@ -57495,7 +57599,9 @@
    "homePoints": 60,
    "awayPoints": 72,
    "date": "2022-03-24",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 5
   },
   {
    "home": "Duke",
@@ -57503,7 +57609,9 @@
    "homePoints": 78,
    "awayPoints": 73,
    "date": "2022-03-24",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 3
   },
   {
    "home": "Gonzaga",
@@ -57511,7 +57619,9 @@
    "homePoints": 68,
    "awayPoints": 74,
    "date": "2022-03-24",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 4
   },
   {
    "home": "Villanova",
@@ -57519,7 +57629,9 @@
    "homePoints": 63,
    "awayPoints": 55,
    "date": "2022-03-24",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 11
   },
   {
    "home": "Kansas",
@@ -57527,7 +57639,9 @@
    "homePoints": 66,
    "awayPoints": 61,
    "date": "2022-03-25",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 4
   },
   {
    "home": "Miami",
@@ -57535,7 +57649,9 @@
    "homePoints": 70,
    "awayPoints": 56,
    "date": "2022-03-25",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 10,
+   "awaySeed": 11
   },
   {
    "home": "Purdue",
@@ -57543,7 +57659,9 @@
    "homePoints": 64,
    "awayPoints": 67,
    "date": "2022-03-25",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 3,
+   "awaySeed": 15
   },
   {
    "home": "UCLA",
@@ -57551,7 +57669,9 @@
    "homePoints": 66,
    "awayPoints": 73,
    "date": "2022-03-25",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 4,
+   "awaySeed": 8
   },
   {
    "home": "Duke",
@@ -57559,7 +57679,9 @@
    "homePoints": 78,
    "awayPoints": 69,
    "date": "2022-03-26",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 4
   },
   {
    "home": "Southern Utah",
@@ -57575,7 +57697,9 @@
    "homePoints": 50,
    "awayPoints": 44,
    "date": "2022-03-26",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 5
   },
   {
    "home": "Kansas",
@@ -57583,7 +57707,9 @@
    "homePoints": 76,
    "awayPoints": 50,
    "date": "2022-03-27",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 10
   },
   {
    "home": "North Carolina",
@@ -57591,7 +57717,9 @@
    "homePoints": 69,
    "awayPoints": 49,
    "date": "2022-03-27",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 8,
+   "awaySeed": 15
   },
   {
    "home": "Fresno State",
@@ -57647,7 +57775,9 @@
    "homePoints": 77,
    "awayPoints": 81,
    "date": "2022-04-02",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 8
   },
   {
    "home": "Kansas",
@@ -57655,7 +57785,9 @@
    "homePoints": 81,
    "awayPoints": 65,
    "date": "2022-04-02",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 2
   },
   {
    "home": "Kansas",
@@ -57663,7 +57795,9 @@
    "homePoints": 72,
    "awayPoints": 69,
    "date": "2022-04-04",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 8
   }
  ]
 }

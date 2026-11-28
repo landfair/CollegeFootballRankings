@@ -59261,7 +59261,9 @@
    "homePoints": 68,
    "awayPoints": 71,
    "date": "2024-03-19",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 16,
+   "awaySeed": 16
   },
   {
    "home": "Iowa",
@@ -59333,7 +59335,9 @@
    "homePoints": 42,
    "awayPoints": 67,
    "date": "2024-03-19",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 10,
+   "awaySeed": 10
   },
   {
    "home": "Virginia Tech",
@@ -59357,7 +59361,9 @@
    "homePoints": 53,
    "awayPoints": 60,
    "date": "2024-03-20",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 10,
+   "awaySeed": 10
   },
   {
    "home": "Bowling Green",
@@ -59397,7 +59403,9 @@
    "homePoints": 81,
    "awayPoints": 88,
    "date": "2024-03-20",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 16,
+   "awaySeed": 16
   },
   {
    "home": "Princeton",
@@ -59445,7 +59453,9 @@
    "homePoints": 85,
    "awayPoints": 65,
    "date": "2024-03-21",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 15
   },
   {
    "home": "BYU",
@@ -59453,7 +59463,9 @@
    "homePoints": 67,
    "awayPoints": 71,
    "date": "2024-03-21",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 6,
+   "awaySeed": 11
   },
   {
    "home": "Creighton",
@@ -59461,7 +59473,9 @@
    "homePoints": 77,
    "awayPoints": 60,
    "date": "2024-03-21",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 3,
+   "awaySeed": 14
   },
   {
    "home": "Dayton",
@@ -59469,7 +59483,9 @@
    "homePoints": 63,
    "awayPoints": 60,
    "date": "2024-03-21",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 7,
+   "awaySeed": 10
   },
   {
    "home": "Gonzaga",
@@ -59477,7 +59493,9 @@
    "homePoints": 86,
    "awayPoints": 65,
    "date": "2024-03-21",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 5,
+   "awaySeed": 12
   },
   {
    "home": "Illinois",
@@ -59485,7 +59503,9 @@
    "homePoints": 85,
    "awayPoints": 69,
    "date": "2024-03-21",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 3,
+   "awaySeed": 14
   },
   {
    "home": "Iowa State",
@@ -59493,7 +59513,9 @@
    "homePoints": 82,
    "awayPoints": 65,
    "date": "2024-03-21",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 15
   },
   {
    "home": "Kansas",
@@ -59501,7 +59523,9 @@
    "homePoints": 93,
    "awayPoints": 89,
    "date": "2024-03-21",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 4,
+   "awaySeed": 13
   },
   {
    "home": "Kentucky",
@@ -59509,7 +59533,9 @@
    "homePoints": 76,
    "awayPoints": 80,
    "date": "2024-03-21",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 3,
+   "awaySeed": 14
   },
   {
    "home": "Mississippi State",
@@ -59517,7 +59543,9 @@
    "homePoints": 51,
    "awayPoints": 69,
    "date": "2024-03-21",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 8,
+   "awaySeed": 9
   },
   {
    "home": "North Carolina",
@@ -59525,7 +59553,9 @@
    "homePoints": 90,
    "awayPoints": 62,
    "date": "2024-03-21",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 16
   },
   {
    "home": "South Carolina",
@@ -59533,7 +59563,9 @@
    "homePoints": 73,
    "awayPoints": 87,
    "date": "2024-03-21",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 6,
+   "awaySeed": 11
   },
   {
    "home": "Tennessee",
@@ -59541,7 +59573,9 @@
    "homePoints": 83,
    "awayPoints": 49,
    "date": "2024-03-21",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 15
   },
   {
    "home": "Texas",
@@ -59549,7 +59583,9 @@
    "homePoints": 56,
    "awayPoints": 44,
    "date": "2024-03-21",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 7,
+   "awaySeed": 10
   },
   {
    "home": "Texas Tech",
@@ -59557,7 +59593,9 @@
    "homePoints": 67,
    "awayPoints": 80,
    "date": "2024-03-21",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 6,
+   "awaySeed": 11
   },
   {
    "home": "Washington State",
@@ -59565,7 +59603,9 @@
    "homePoints": 66,
    "awayPoints": 61,
    "date": "2024-03-21",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 7,
+   "awaySeed": 10
   },
   {
    "home": "Alabama",
@@ -59573,7 +59613,9 @@
    "homePoints": 109,
    "awayPoints": 96,
    "date": "2024-03-22",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 4,
+   "awaySeed": 13
   },
   {
    "home": "Auburn",
@@ -59581,7 +59623,9 @@
    "homePoints": 76,
    "awayPoints": 78,
    "date": "2024-03-22",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 4,
+   "awaySeed": 13
   },
   {
    "home": "Baylor",
@@ -59589,7 +59633,9 @@
    "homePoints": 92,
    "awayPoints": 67,
    "date": "2024-03-22",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 3,
+   "awaySeed": 14
   },
   {
    "home": "Clemson",
@@ -59597,7 +59643,9 @@
    "homePoints": 77,
    "awayPoints": 56,
    "date": "2024-03-22",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 6,
+   "awaySeed": 11
   },
   {
    "home": "Duke",
@@ -59605,7 +59653,9 @@
    "homePoints": 64,
    "awayPoints": 47,
    "date": "2024-03-22",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 4,
+   "awaySeed": 13
   },
   {
    "home": "Florida",
@@ -59613,7 +59663,9 @@
    "homePoints": 100,
    "awayPoints": 102,
    "date": "2024-03-22",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 7,
+   "awaySeed": 10
   },
   {
    "home": "Florida Atlantic",
@@ -59621,7 +59673,9 @@
    "homePoints": 65,
    "awayPoints": 77,
    "date": "2024-03-22",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 8,
+   "awaySeed": 9
   },
   {
    "home": "Houston",
@@ -59629,7 +59683,9 @@
    "homePoints": 86,
    "awayPoints": 46,
    "date": "2024-03-22",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 16
   },
   {
    "home": "Marquette",
@@ -59637,7 +59693,9 @@
    "homePoints": 87,
    "awayPoints": 69,
    "date": "2024-03-22",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 15
   },
   {
    "home": "Nebraska",
@@ -59645,7 +59703,9 @@
    "homePoints": 83,
    "awayPoints": 98,
    "date": "2024-03-22",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 8,
+   "awaySeed": 9
   },
   {
    "home": "Purdue",
@@ -59653,7 +59713,9 @@
    "homePoints": 78,
    "awayPoints": 50,
    "date": "2024-03-22",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 16
   },
   {
    "home": "Saint Mary's",
@@ -59661,7 +59723,9 @@
    "homePoints": 66,
    "awayPoints": 75,
    "date": "2024-03-22",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 5,
+   "awaySeed": 12
   },
   {
    "home": "San Diego State",
@@ -59669,7 +59733,9 @@
    "homePoints": 69,
    "awayPoints": 65,
    "date": "2024-03-22",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 5,
+   "awaySeed": 12
   },
   {
    "home": "UConn",
@@ -59677,7 +59743,9 @@
    "homePoints": 91,
    "awayPoints": 52,
    "date": "2024-03-22",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 16
   },
   {
    "home": "Utah State",
@@ -59685,7 +59753,9 @@
    "homePoints": 88,
    "awayPoints": 72,
    "date": "2024-03-22",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 8,
+   "awaySeed": 9
   },
   {
    "home": "Wisconsin",
@@ -59693,7 +59763,9 @@
    "homePoints": 61,
    "awayPoints": 72,
    "date": "2024-03-22",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 5,
+   "awaySeed": 12
   },
   {
    "home": "Arizona",
@@ -59701,7 +59773,9 @@
    "homePoints": 78,
    "awayPoints": 68,
    "date": "2024-03-23",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 7
   },
   {
    "home": "Bethune-Cookman",
@@ -59733,7 +59807,9 @@
    "homePoints": 86,
    "awayPoints": 73,
    "date": "2024-03-23",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 3,
+   "awaySeed": 11
   },
   {
    "home": "Delaware State",
@@ -59749,7 +59825,9 @@
    "homePoints": 89,
    "awayPoints": 63,
    "date": "2024-03-23",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 3,
+   "awaySeed": 11
   },
   {
    "home": "Iowa State",
@@ -59757,7 +59835,9 @@
    "homePoints": 67,
    "awayPoints": 56,
    "date": "2024-03-23",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 7
   },
   {
    "home": "Kansas",
@@ -59765,7 +59845,9 @@
    "homePoints": 68,
    "awayPoints": 89,
    "date": "2024-03-23",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 4,
+   "awaySeed": 5
   },
   {
    "home": "NC State",
@@ -59773,7 +59855,9 @@
    "homePoints": 79,
    "awayPoints": 73,
    "date": "2024-03-23",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 11,
+   "awaySeed": 14
   },
   {
    "home": "Norfolk State",
@@ -59789,7 +59873,9 @@
    "homePoints": 85,
    "awayPoints": 69,
    "date": "2024-03-23",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 9
   },
   {
    "home": "Ohio State",
@@ -59813,7 +59899,9 @@
    "homePoints": 62,
    "awayPoints": 58,
    "date": "2024-03-23",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 7
   },
   {
    "home": "Alabama",
@@ -59821,7 +59909,9 @@
    "homePoints": 72,
    "awayPoints": 61,
    "date": "2024-03-24",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 4,
+   "awaySeed": 12
   },
   {
    "home": "Baylor",
@@ -59829,7 +59919,9 @@
    "homePoints": 64,
    "awayPoints": 72,
    "date": "2024-03-24",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 3,
+   "awaySeed": 6
   },
   {
    "home": "Cleveland State",
@@ -59845,7 +59937,9 @@
    "homePoints": 93,
    "awayPoints": 55,
    "date": "2024-03-24",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 4,
+   "awaySeed": 12
   },
   {
    "home": "Evansville",
@@ -59861,7 +59955,9 @@
    "homePoints": 100,
    "awayPoints": 95,
    "date": "2024-03-24",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 9
   },
   {
    "home": "Indiana State",
@@ -59885,7 +59981,9 @@
    "homePoints": 81,
    "awayPoints": 77,
    "date": "2024-03-24",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 10
   },
   {
    "home": "Presbyterian",
@@ -59901,7 +59999,9 @@
    "homePoints": 106,
    "awayPoints": 67,
    "date": "2024-03-24",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 8
   },
   {
    "home": "San Diego State",
@@ -59909,7 +60009,9 @@
    "homePoints": 85,
    "awayPoints": 57,
    "date": "2024-03-24",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 5,
+   "awaySeed": 13
   },
   {
    "home": "South Florida",
@@ -59925,7 +60027,9 @@
    "homePoints": 75,
    "awayPoints": 58,
    "date": "2024-03-24",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 9
   },
   {
    "home": "UNLV",
@@ -60061,7 +60165,9 @@
    "homePoints": 72,
    "awayPoints": 77,
    "date": "2024-03-28",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 6
   },
   {
    "home": "Iowa State",
@@ -60069,7 +60175,9 @@
    "homePoints": 69,
    "awayPoints": 72,
    "date": "2024-03-28",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 3
   },
   {
    "home": "North Carolina",
@@ -60077,7 +60185,9 @@
    "homePoints": 87,
    "awayPoints": 89,
    "date": "2024-03-28",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 4
   },
   {
    "home": "UConn",
@@ -60085,7 +60195,9 @@
    "homePoints": 82,
    "awayPoints": 52,
    "date": "2024-03-28",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 5
   },
   {
    "home": "Houston",
@@ -60093,7 +60205,9 @@
    "homePoints": 51,
    "awayPoints": 54,
    "date": "2024-03-29",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 4
   },
   {
    "home": "Marquette",
@@ -60101,7 +60215,9 @@
    "homePoints": 58,
    "awayPoints": 67,
    "date": "2024-03-29",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 11
   },
   {
    "home": "Purdue",
@@ -60109,7 +60225,9 @@
    "homePoints": 80,
    "awayPoints": 68,
    "date": "2024-03-29",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 5
   },
   {
    "home": "Tennessee",
@@ -60117,7 +60235,9 @@
    "homePoints": 82,
    "awayPoints": 75,
    "date": "2024-03-29",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 2,
+   "awaySeed": 3
   },
   {
    "home": "Alabama",
@@ -60125,7 +60245,9 @@
    "homePoints": 89,
    "awayPoints": 82,
    "date": "2024-03-30",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 4,
+   "awaySeed": 6
   },
   {
    "home": "UConn",
@@ -60133,7 +60255,9 @@
    "homePoints": 77,
    "awayPoints": 52,
    "date": "2024-03-30",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 3
   },
   {
    "home": "Duke",
@@ -60141,7 +60265,9 @@
    "homePoints": 64,
    "awayPoints": 76,
    "date": "2024-03-31",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 4,
+   "awaySeed": 11
   },
   {
    "home": "Purdue",
@@ -60149,7 +60275,9 @@
    "homePoints": 72,
    "awayPoints": 66,
    "date": "2024-03-31",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 2
   },
   {
    "home": "Indiana State",
@@ -60181,7 +60309,9 @@
    "homePoints": 63,
    "awayPoints": 50,
    "date": "2024-04-06",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 11
   },
   {
    "home": "UConn",
@@ -60189,7 +60319,9 @@
    "homePoints": 86,
    "awayPoints": 72,
    "date": "2024-04-06",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 4
   },
   {
    "home": "UConn",
@@ -60197,7 +60329,9 @@
    "homePoints": 75,
    "awayPoints": 60,
    "date": "2024-04-08",
-   "tournament": "NCAA"
+   "tournament": "NCAA",
+   "homeSeed": 1,
+   "awaySeed": 1
   }
  ]
 }

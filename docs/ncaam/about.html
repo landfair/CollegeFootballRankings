@@ -393,6 +393,55 @@ as an opponent for everyone else. A team can be struck through because an oppone
 slipped, and cleared the week after &mdash; that is the rule working, not a
 glitch.</p>
 
+<h2 id="madness">March Madness</h2>
+
+<p>The <a href="./#madness">March Madness</a> view fills in a past NCAA
+tournament from the ranking as it stood on Selection Sunday, then scores it
+against what actually happened. It is the hardest test on the site, and the
+ranking does not pass it.</p>
+
+<p><strong>The rating cannot see the tournament.</strong> This is structural
+rather than a matter of care. <code>fetch_basketball.py</code> keeps postseason
+games in their own <code>postseason</code> key, and <code>ingest()</code> reads
+only <code>games</code>, so a tournament result cannot reach a rating even in
+principle. The horizon used is the last regular-season day, which is Selection
+Sunday.</p>
+
+<p><strong>The bracket is filled in before tipoff.</strong> It would be easy,
+and flattering, to walk the 67 real matchups and ask who we would have picked
+in each &mdash; but that hands the method the right matchups for free and
+scores roughly ten points higher. A real bracket is filled in blind, so an
+early mistake carries forward and later rounds are picked from teams that may
+already have lost. Scoring is the usual pool ladder: one point a game in the
+Round of 64, doubling each round to 32 for the final, 192 in all.</p>
+
+<p><strong>The yardstick is the committee&rsquo;s seed line</strong>, not the
+polls. Seeds cover all 68 teams rather than 25, and they are what was published
+before a ball was thrown, which makes them the fair opponent for a system
+trying to do the same job. One wrinkle matters enormously: seeds do not order
+two teams on the same seed, and a bracket has about five such games a season
+&mdash; play-ins, and in 2024 the final itself was 1-vs-1. Breaking those ties
+alphabetically scores seeding at 375 points over five seasons; breaking them by
+bracket line scores 487, almost the whole gap coming from one lucky flip in
+that 2024 final. So the seed line is run 400 times with those ties flipped at
+random and the average is what gets quoted, with the spread shown beside it.</p>
+
+<p><strong>The result.</strong> Over 2021&ndash;22 to 2025&ndash;26 the ranking
+scored 377 points against 455 for the seed line, trailed in all five seasons,
+and never once picked the champion. The committee knows things this ranking
+refuses to look at &mdash; injuries, form, who is playing well in March &mdash;
+and a method that counts only who beat whom gives all of that up. The view says
+so on its face rather than burying it.</p>
+
+<p>What the ranking does do is disagree in a consistent direction. Across
+those five fields it places a team from outside the six biggest conferences
+about <strong>eight places higher</strong> than seed order does, and a
+power-conference team about <strong>seven places lower</strong> &mdash; it will
+not credit a good record built against a soft schedule, and it will not
+discount a mid-major that actually beat people. The disagreement table on each
+season shows how those bets turned out, which is the only thing that settles
+them.</p>
+
 <h2 id="correlations">What moves with what</h2>
 
 <p>The <a href="./#corr">Correlations</a> view takes every pair of columns on the

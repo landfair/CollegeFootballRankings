@@ -268,6 +268,48 @@
   .cmb{color:var(--mark)}
   .srk{margin-left:5px;color:var(--mark);font-family:var(--mono);font-size:10.5px;
     letter-spacing:0;opacity:.85}
+  /* ---- March Madness ---- */
+  table.mad{width:100%;border-collapse:collapse;margin:10px 0 18px;font-size:13px}
+  table.mad th,table.mad td{padding:5px 8px;border-bottom:1px solid var(--rule);
+    text-align:left;vertical-align:middle}
+  table.mad th{font-size:11px;letter-spacing:.04em;color:var(--muted);font-weight:600}
+  table.mad td.num,table.mad th.num{text-align:right;font-family:var(--mono)}
+  table.mad .gap{border-left:1px solid var(--rule);padding-left:12px}
+  table.mad th.grp{text-align:center;border-bottom:0;padding-bottom:1px;
+    color:var(--fg);font-size:11.5px}
+  table.mad tr.tot td{font-weight:700;border-top:1px solid var(--fg);border-bottom:0}
+  table.mad td.pos{color:var(--win)} table.mad td.neg{color:var(--loss)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  @media(max-width:860px){.two{grid-template-columns:1fr}}
+  /* The bracket grid scrolls sideways rather than squeezing seven rounds
+     into a phone: a column narrower than a team name is worse than a swipe. */
+  .mgrid{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;margin-bottom:18px}
+  .mcol{flex:0 0 164px;min-width:164px}
+  .mcol h4{font-size:10.5px;letter-spacing:.05em;color:var(--muted);margin:0 0 6px;
+    display:flex;justify-content:space-between;font-weight:600}
+  .mcol h4 span{font-family:var(--mono)}
+  .mcell{font-size:11.5px;padding:3px 5px;margin-bottom:3px;border-radius:3px;
+    border-left:2.5px solid transparent;line-height:1.35}
+  .mcell.ok{border-left-color:var(--win);
+    background:color-mix(in srgb,var(--win) 11%,transparent)}
+  .mcell.no{border-left-color:var(--loss);
+    background:color-mix(in srgb,var(--loss) 9%,transparent)}
+  .mcell.no .mp{text-decoration:line-through;opacity:.62}
+  .mcell .mp,.mcell .ma{display:block}
+  .mcell .ma{font-weight:600}
+  .mcell .lg{width:13px;height:13px;vertical-align:-2px;margin-right:3px}
+  .mcell button.tm{font-size:11.5px;padding:0;border:0;background:0;color:inherit;
+    cursor:pointer;text-align:left}
+  .mcell button.tm:hover{text-decoration:underline}
+  .sd{font-family:var(--mono);font-size:9.5px;color:var(--muted);margin-left:4px}
+  .mall{font-size:12.5px;color:var(--muted);line-height:1.5;margin:0 0 14px;
+    padding:9px 12px;border-left:2.5px solid var(--rule);
+    background:color-mix(in srgb,var(--fg) 3%,transparent)}
+  .mall b{color:var(--fg)}
+  .mnotes{font-size:12.5px;color:var(--muted);line-height:1.55;
+    padding-left:18px;margin:6px 0 20px}
+  .mnotes li{margin-bottom:7px}
+  .mnotes b{color:var(--fg)}
   .g{border-bottom:1px solid var(--rule);padding:13px 0}
   .g:last-child{border-bottom:0}
   .grow{display:flex;gap:13px;align-items:baseline;flex-wrap:wrap}
@@ -428,7 +470,7 @@
 <header>
   <div class="bar">
     <h1>Recursive Rankings <span class="sport">NCAAM</span></h1>
-    <nav><a href="./" aria-current="page">Rankings</a><a href="#stats">Stats</a><a href="#corr">Correlations</a><a href="#years">Year by year</a><a href="#slates">Slates</a><a href="about.html">About</a><a href="../">Football</a><a href="../ncaaw/">NCAAW</a></nav>
+    <nav><a href="./" aria-current="page">Rankings</a><a href="#stats">Stats</a><a href="#corr">Correlations</a><a href="#years">Year by year</a><a href="#madness">March Madness</a><a href="#slates">Slates</a><a href="about.html">About</a><a href="../">Football</a><a href="../ncaaw/">NCAAW</a></nav>
     <button class="iconbtn" id="gearbtn" title="Settings" aria-label="Settings">&#9881;</button>
     <button class="iconbtn" id="helpbtn" title="How this works" aria-label="How this works">?</button>
   </div>
@@ -580,6 +622,7 @@ no margin of victory, no votes. The AP and Coaches polls are shown alongside for
 <div id="statsview" hidden></div>
 <div id="corrview" hidden></div>
 <div id="yearsview" hidden></div>
+<div id="madnessview" hidden></div>
 
 <footer>Game results and polls from
 <a href="https://collegebasketballdata.com">collegebasketballdata.com</a>.
@@ -746,6 +789,7 @@ function parseHash(){
   if(/^#stats$/.test(location.hash)) return {kind:'stats'};
   if(/^#corr$/.test(location.hash)) return {kind:'corr'};
   if(/^#years$/.test(location.hash)) return {kind:'years'};
+  if(/^#madness$/.test(location.hash)) return {kind:'madness'};
   return {kind:'list'};
 }
 const sameView=(a,b)=>a.kind===b.kind&&a.team===b.team&&a.bucket===b.bucket;
@@ -756,6 +800,7 @@ function showView(which){
   $('statsview').hidden=which!=='stats';
   $('corrview').hidden=which!=='corr';
   $('yearsview').hidden=which!=='years';
+  $('madnessview').hidden=which!=='madness';
 }
 /* ---- team logos ---------------------------------------------------------
    Every team named on the page carries its logo: the table, a team page and
@@ -809,6 +854,7 @@ function render(){
   else if(VIEW.kind==='stats') renderStats();
   else if(VIEW.kind==='corr') renderCorr();
   else if(VIEW.kind==='years') renderYears();
+  else if(VIEW.kind==='madness') renderMadness();
   else renderList();
 }
 
@@ -2349,6 +2395,472 @@ async function yrsOne(y){
                            TS:season.teamStats});
   return {year:y,data,C};
 }
+
+/* ---- March Madness -------------------------------------------------------
+   One season's NCAA tournament, filled out IN ADVANCE from the ranking as it
+   stood on Selection Sunday, then scored against what actually happened.
+
+   The honesty of the whole view rests on one thing: the rating that fills the
+   bracket must not know any tournament result. It does not, and the reason is
+   structural rather than careful -- fetch_basketball.py keeps the postseason
+   in its own `postseason` key and ingest() reads only `games`, so a rating
+   cannot see a tournament game even in principle. The horizon is the last
+   regular-season bucket, which is Selection Sunday.
+
+   A FORECAST, not a game-by-game call. It would be easy, and flattering, to
+   walk the 67 real matchups and ask who we would have picked in each: that
+   hands the method the right matchups for free and scores about ten points
+   higher. A bracket is filled out before a ball is thrown, so an early error
+   carries forward and every later pick is made from teams that may already
+   have lost. That is what is scored here.
+*/
+const MAD_ROUNDS=[
+  {n:4, pts:0,  name:'First Four',  short:'FF'},
+  {n:32,pts:1,  name:'Round of 64', short:'R64'},
+  {n:16,pts:2,  name:'Round of 32', short:'R32'},
+  {n:8, pts:4,  name:'Sweet 16',    short:'S16'},
+  {n:4, pts:8,  name:'Elite Eight', short:'E8'},
+  {n:2, pts:16, name:'Final Four',  short:'F4'},
+  {n:1, pts:32, name:'Final',       short:'F'},
+];
+const MAD_MAX=MAD_ROUNDS.reduce((t,r)=>t+r.n*r.pts,0);   /* 192 */
+const madWin=g=>g.homePoints>g.awayPoints?g.home:g.away;
+
+/* The bracket as a tree, recovered from the games themselves.
+
+   The feed gives no slot numbers, so which game feeds which is derived: a
+   later game's two teams are each the winner of exactly one earlier game, and
+   that is the link. It is exact for a bracket that actually ran -- every team
+   in round N+1 won in round N -- and returns null for a link it cannot place,
+   which the caller treats as a bracket it will not score rather than guessing.
+*/
+function madTree(b){
+  const pool=b.games.slice().sort((x,y)=>
+    String(x.date).localeCompare(String(y.date))||x.home.localeCompare(y.home));
+  const rounds=[]; let i=0;
+  for(const r of MAD_ROUNDS){ rounds.push(pool.slice(i,i+r.n)); i+=r.n; }
+  if(i!==pool.length) return null;
+  if(rounds.some((r,k)=>r.length!==MAD_ROUNDS[k].n)) return null;
+  const feed=[];                    /* feed[r][gi] = [parent index, parent index] */
+  for(let r=1;r<rounds.length;r++)
+    feed[r]=rounds[r].map(g=>[g.home,g.away].map(t=>
+      rounds[r-1].findIndex(x=>madWin(x)===t)));
+  return {rounds,feed};
+}
+
+/* Fill the bracket in before anything is played.
+
+   `better(a,b)` returns the team the system advances. The First Four is
+   predicted first because its winners occupy R64 slots: a R64 team that is
+   the winner of a play-in is replaced by whoever we think wins that play-in,
+   so an error there propagates exactly as it would on a paper bracket. */
+function madFill(tree,better){
+  const {rounds,feed}=tree;
+  const pred=[rounds[0].map(g=>better(g.home,g.away))];
+  pred[1]=rounds[1].map((g,gi)=>{
+    const sub=t=>{ const k=feed[1][gi][[g.home,g.away].indexOf(t)];
+                   return k>=0?pred[0][k]:t; };
+    return better(sub(g.home),sub(g.away));
+  });
+  for(let r=2;r<rounds.length;r++)
+    pred[r]=rounds[r].map((g,gi)=>{
+      const [a,c]=feed[r][gi].map(k=>k>=0?pred[r-1][k]:null);
+      return (a&&c)?better(a,c):null;
+    });
+  return pred;
+}
+
+/* Score a filled bracket the way a pool does: a slot counts only if the team
+   named in it is the team that actually won that slot. The First Four is
+   worth nothing, as in every pool that bothers with it at all. */
+function madScore(tree,pred){
+  const act=tree.rounds.map(r=>r.map(madWin));
+  let pts=0,hit=0,tot=0;
+  const per=tree.rounds.map((r,ri)=>{
+    let k=0;
+    r.forEach((g,gi)=>{ if(pred[ri][gi]===act[ri][gi]) k++; });
+    pts+=k*MAD_ROUNDS[ri].pts;
+    if(ri>0){ hit+=k; tot+=r.length; }
+    return {round:MAD_ROUNDS[ri],hit:k,of:r.length};
+  });
+  return {pts,hit,tot,per,act,
+    champ:pred[pred.length-1][0], actChamp:act[act.length-1][0]};
+}
+
+/* Each team's seed, taken from any game it played. */
+function madSeeds(b){
+  const m=new Map();
+  for(const g of b.games){
+    if(g.homeSeed!=null&&!m.has(g.home)) m.set(g.home,g.homeSeed);
+    if(g.awaySeed!=null&&!m.has(g.away)) m.set(g.away,g.awaySeed);
+  }
+  return m;
+}
+
+/* The seed line as an opponent -- and the care it needs.
+
+   Seeds are the fair yardstick: unlike a poll they cover all 68 teams, and
+   unlike our rating they are what the committee published before a ball was
+   thrown. But they do NOT order two teams on the same seed, and that is not
+   a rare edge: about five games a season are 16-vs-16 play-ins, 10-vs-10
+   first-rounders, and in 2024 the FINAL itself was 1-vs-1.
+
+   This matters enormously. Breaking those ties alphabetically scores the
+   seed line at 375 points over five seasons; breaking them by bracket line
+   scores 487. The gap is almost entirely one lucky coin flip in the 2024
+   final, worth 32 points on its own. Either single number would be a
+   statement about the tiebreak rather than about seeding.
+
+   So the seed line is run many times with those ties flipped at random, and
+   what is reported is the distribution: the mean is what seeding is worth
+   when the coin is fair, and the spread is how much of any one figure was
+   luck. A tie is flipped once per PAIR per trial, not once per appearance,
+   so a bracket stays self-consistent.
+*/
+const MAD_TRIALS=400;
+function madSeedRun(tree,seeds,trials=MAD_TRIALS){
+  const pts=[];
+  let fixed=null;
+  for(let i=0;i<trials;i++){
+    const coin=new Map();
+    const pred=madFill(tree,(x,y)=>{
+      const a=seeds.get(x)??99, c=seeds.get(y)??99;
+      if(a!==c) return a<c?x:y;
+      const k=x<y?x+'\u0000'+y:y+'\u0000'+x;
+      if(!coin.has(k)) coin.set(k,Math.random()<0.5);
+      return coin.get(k)?x:y;
+    });
+    const sc=madScore(tree,pred);
+    pts.push(sc.pts);
+    if(i===0) fixed=sc;      /* one concrete bracket, for the round table */
+  }
+  pts.sort((a,b)=>a-b);
+  const q=f=>pts[Math.min(pts.length-1,Math.floor(f*pts.length))];
+  return {mean:pts.reduce((a,b)=>a+b,0)/pts.length,
+          lo:q(.05), hi:q(.95), min:pts[0], max:pts[pts.length-1],
+          spread:pts[pts.length-1]!==pts[0], sample:fixed};
+}
+
+/* How many same-seed games a bracket actually contains, so the page can say
+   whether the spread above is worth a sentence or is nothing. */
+function madTies(tree,seeds){
+  let n=0;
+  for(const r of tree.rounds) for(const g of r)
+    if((seeds.get(g.home)??-1)===(seeds.get(g.away)??-2)) n++;
+  return n;
+}
+
+/* Everything one season needs, computed once. */
+function madSeason(season,eng,year){
+  const b=bracket(season,'NCAA');
+  if(!b.games.length) return {year,none:'no tournament in this season’s data'};
+  const tree=madTree(b);
+  if(!tree) return {year,none:`the bracket does not resolve (${b.games.length} games)`};
+  const H=Math.max(...eng.byWeek.keys());
+  /* The page's own weighting, so the bracket is filled by the ranking the
+     reader is looking at rather than by a second one invented here. */
+  const wm=$('wmode').value;
+  const W=wm==='off'?null:weighted(eng,season,H,{mode:wm});
+  const rows=W?W.rows:rank(eng,season,H);
+  const rk=new Map(rows.map(r=>[r.team,r.rank]));
+  const unranked=[...b.field].filter(t=>!rk.has(t));
+  const seeds=madSeeds(b);
+  const better=(x,y)=>{
+    const a=rk.get(x)??9999, c=rk.get(y)??9999;
+    return a!==c?(a<c?x:y):(x<y?x:y);
+  };
+  const pred=madFill(tree,better);
+  const ours=madScore(tree,pred);
+  const seeded=seeds.size>=b.field.size;
+  const sd=seeded?madSeedRun(tree,seeds):null;
+  return {year,b,tree,rk,seeds,pred,ours,sd,unranked,
+    ties:seeded?madTies(tree,seeds):0,
+    horizon:H, field:b.field.size, seeded};
+}
+
+let madYear=null, madToken=0;
+const MAD=new Map();                 /* year|settings -> madSeason result */
+const madHead=()=>'<p><button class="back" id="back">&larr; Rankings</button> '+
+  '<button class="back" id="toyrs2">Year by year &rarr;</button></p>'+
+  '<div class="thead"><h2>March Madness</h2><span class="sub" id="madsub"></span></div>';
+function madWireHead(){
+  $('back').onclick=()=>go(null);
+  $('toyrs2').onclick=()=>go({kind:'years'});
+}
+const madTeam=(t,seedOf,extra)=>
+  `<button class="tm" data-t="${esc(t)}">${logo(t)}${esc(t)}</button>`+
+  (seedOf!=null?`<span class="sd">${seedOf}</span>`:'')+(extra||'');
+
+async function renderMadness(){
+  showView('madness');
+  const host=$('madnessview');
+  const tok=++madToken;
+  const years=[...$('season').options].map(o=>+o.value).sort((a,b)=>a-b);
+  if(madYear==null||!years.includes(madYear)){
+    /* Open on the newest season that actually HAS a tournament, walking back
+       from the newest: for most of the calendar that is last season, because
+       the season being played carries no postseason until March. Opening on
+       the current one instead would greet every reader with "no tournament in
+       this season's data", which is true and useless.
+
+       Each candidate is loaded to ask, rather than assumed from the year, so
+       this stays right in April when the newest season DOES have one. The
+       files are cached and the walk stops at the first hit, so in practice it
+       loads one season, or two in the autumn. */
+    madYear=years[years.length-1];
+    for(let i=years.length-1;i>=0&&i>=years.length-3;i--){
+      const y=years[i];
+      if(!CACHE.has(y)){
+        host.innerHTML=madHead()+'<p class="msg">Looking for the newest finished tournament…</p>';
+        madWireHead();
+        const res=await fetch('season-'+y+'.json',{cache:'no-cache'});
+        if(tok!==madToken) return;
+        if(!res.ok) continue;
+        CACHE.set(y,{season:ingest(await res.json()),eng:{}});
+      }
+      if(bracket(CACHE.get(y).season,'NCAA').games.length>=60){ madYear=y; break; }
+    }
+    if(tok!==madToken) return;
+  }
+  const m=$('smode').value, pl=$('pmode').value, wm=$('wmode').value;
+  const key=`${madYear}|${m}|${pl}|${wm}`;
+  if(!MAD.has(key)){
+    host.innerHTML=madHead()+'<p class="msg">Grading '+esc(yrsLabel(madYear))+
+      ' and filling the bracket…</p>';
+    madWireHead();
+    await new Promise(r=>setTimeout(r,0));
+    if(!CACHE.has(madYear)){
+      const res=await fetch('season-'+madYear+'.json',{cache:'no-cache'});
+      if(!res.ok){ if(tok===madToken) paintMad({year:madYear,none:'that season did not load'}); return; }
+      CACHE.set(madYear,{season:ingest(await res.json()),eng:{}});
+    }
+    if(tok!==madToken) return;
+    const c=CACHE.get(madYear), ek=m+'|'+pl+'|1';
+    if(!c.eng[ek]) c.eng[ek]={eng:engine(c.season,{scoring:m,pool:pl}),season:c.season};
+    const {eng,season}=c.eng[ek];
+    MAD.set(key,madSeason(season,eng,madYear));
+  }
+  if(tok!==madToken) return;
+  paintMad(MAD.get(key));
+}
+
+const madPicker=()=>{
+  const years=[...$('season').options].map(o=>+o.value).sort((a,b)=>b-a);
+  return '<div class="cmodes" role="tablist">'+years.map(y=>
+    `<button class="cmode" role="tab" data-my="${y}" aria-selected="${y===madYear}">`+
+    `${esc(yrsLabel(y))}</button>`).join('')+'</div>';
+};
+function madWirePicker(){
+  $('madnessview').querySelectorAll('button[data-my]').forEach(b=>b.onclick=()=>{
+    madYear=+b.dataset.my; renderMadness();
+  });
+  $('madnessview').querySelectorAll('button.tm').forEach(b=>b.onclick=()=>
+    go({kind:'team',team:b.dataset.t}));
+}
+
+/* Every season already computed, in one line. Only seasons the reader has
+   opened are in hand -- computing all six up front would cost several
+   seconds for a figure most readers will not scroll to -- so this says how
+   many it covers rather than implying it is the whole record. */
+function madAll(){
+  const got=[...MAD.values()].filter(x=>!x.none&&x.sd)
+    .sort((a,b)=>a.year-b.year);
+  /* How many seasons COULD appear here: every one tried that had a bracket.
+     A season tried and found empty is not missing, so once every season with
+     a tournament is loaded the invitation to open more should stop. */
+  const seasons=[...$('season').options].length;
+  const empty=[...MAD.values()].filter(x=>x.none).length;
+  const playable=seasons-empty;
+  if(got.length<2) return '';
+  const o=got.reduce((t,x)=>t+x.ours.pts,0);
+  const sm=got.reduce((t,x)=>t+x.sd.mean,0);
+  const wins=got.filter(x=>x.ours.pts>x.sd.mean).length;
+  const champs=got.filter(x=>x.ours.champ===x.ours.actChamp).length;
+  return `<p class="mall"><b>Across the ${got.length} season`+
+    `${got.length===1?'':'s'} loaded so far</b> `+
+    `(${got.map(x=>esc(yrsShort(yrsLabel(x.year)))).join(', ')}): `+
+    `<b>${o}</b> points against <b>${sm.toFixed(0)}</b> for the seed line, `+
+    `ahead in <b>${wins} of ${got.length}</b>, and the champion called `+
+    `${champs===0?'<b>never</b>':`<b>${champs}</b> time${champs===1?'':'s'}`}.`+
+    (got.length<playable?` Open the other seasons to fill this in.`:'')+`</p>`;
+}
+
+function paintMad(D){
+  showView('madness');
+  const host=$('madnessview');
+  if(D.none){
+    host.innerHTML=madHead()+madPicker()+
+      `<p class="msg">${esc(yrsLabel(D.year))}: ${esc(D.none)}.</p>`;
+    madWireHead(); madWirePicker(); return;
+  }
+  const {ours,sd,tree,pred,rk,seeds}=D;
+  const pc=n=>Math.round(100*n);
+  /* The verdict, stated before any table. A view whose whole point is "how
+     did it do" should answer that in its first sentence, including when the
+     answer is unflattering. */
+  /* "Clearly" has to mean clearly. Against a seed line whose same-seed ties
+     are coin flips, the honest test is whether our score sits outside the
+     range those flips produce -- but when a bracket has no same-seed games
+     that range collapses to a single number, and then a one-point gap would
+     read as "clearly worse". So a verdict also has to clear a margin worth
+     caring about: one Sweet 16 pick, 4 points. Inside that, it is level. */
+  const MARGIN=4;
+  const beat = !sd ? null
+    : (ours.pts>=sd.hi+MARGIN ? 'clearly better'
+     : ours.pts<=sd.lo-MARGIN ? 'clearly worse'
+     : Math.abs(ours.pts-sd.mean)<MARGIN ? 'about as well as'
+     : ours.pts>sd.mean ? 'a little better' : 'a little worse');
+  /* The two "clearly" verdicts read as "did clearly better THAN seeding",
+     the middle one as "did about as well AS seeding", so the connecting word
+     belongs with the verdict rather than after it. */
+  const beatTail = beat==='about as well as' ? '' : ' than';
+  const verdict = !sd
+    ? `<p class="slateintro">This bracket carries no seed line, so there is `+
+      `nothing to measure the ranking against here.</p>`
+    : `<p class="slateintro"><b>${ours.pts} points out of ${MAD_MAX}</b>, `+
+      `against <b>${sd.mean.toFixed(0)}</b> for the committee’s own seed `+
+      `line${sd.spread?` (${sd.lo}–${sd.hi} across the coin flips below)`:''}. `+
+      `On this season the ranking did <b>${beat}</b>${beatTail} seeding. `+
+      `It got <b>${ours.hit} of ${ours.tot}</b> games right on a bracket filled `+
+      `in before tipoff, picked <b>${esc(ours.champ)}</b> to win it, and `+
+      `${ours.champ===ours.actChamp?'<b>was right</b>'
+         :`<b>${esc(ours.actChamp)}</b> actually won`}.</p>`;
+
+  /* Round by round, ours against the seed line's sample bracket. */
+  const sr=sd&&sd.sample?sd.sample.per:null;
+  const rows=ours.per.map((p,i)=>{
+    const s=sr?sr[i]:null;
+    const w=p.round.pts*p.hit, sw=s?p.round.pts*s.hit:null;
+    return `<tr><td class="st">${esc(p.round.name)}</td>`+
+      `<td class="num" title="${esc(`${p.hit} of ${p.of} slots, ${p.round.pts} points each`)}">`+
+        `${p.hit}/${p.of}</td>`+
+      `<td class="num">${p.round.pts?w:'—'}</td>`+
+      (sr?`<td class="num gap">${s.hit}/${s.of}</td>`+
+          `<td class="num">${p.round.pts?sw:'—'}</td>`:'')+
+      `</tr>`;
+  }).join('');
+  const table=`<table class="mad"><thead><tr><th></th>`+
+    `<th class="num grp" colspan="2">This ranking</th>`+
+    (sr?`<th class="num grp gap" colspan="2">Seed line</th>`:'')+
+    `</tr><tr><th>Round</th><th class="num">right</th><th class="num">pts</th>`+
+    (sr?`<th class="num gap">right</th><th class="num">pts</th>`:'')+
+    `</tr></thead><tbody>${rows}`+
+    `<tr class="tot"><td class="st">Total</td><td class="num">${ours.hit}/${ours.tot}</td>`+
+    `<td class="num">${ours.pts}</td>`+
+    (sr?`<td class="num gap">${sd.sample.hit}/${sd.sample.tot}</td>`+
+        `<td class="num">${sd.sample.pts}</td>`:'')+
+    `</tr></tbody></table>`;
+
+  /* The bracket itself, as columns of picks. A pick is marked against what
+     actually happened in that slot. */
+  const cols=tree.rounds.map((r,ri)=>{
+    const act=ours.act[ri];
+    const cells=r.map((g,gi)=>{
+      const p=pred[ri][gi], a=act[gi], ok=p===a;
+      const sdOf=t=>seeds.get(t)??null;
+      return `<div class="mcell ${ok?'ok':'no'}" title="${esc(
+        ok?`Picked ${p} and ${p} won this slot.`
+          :`Picked ${p}; ${a} won this slot.`)}">`+
+        `<span class="mp">${madTeam(p,sdOf(p))}</span>`+
+        (ok?'':`<span class="ma">${madTeam(a,sdOf(a))}</span>`)+
+        `</div>`;
+    }).join('');
+    return `<div class="mcol"><h4>${esc(MAD_ROUNDS[ri].short)}`+
+      `<span>${ours.per[ri].hit}/${ours.per[ri].of}</span></h4>${cells}</div>`;
+  }).join('');
+
+  /* Where the ranking and the committee disagreed most about a team, by
+     comparing each team's place in our order with its place in seed order.
+     Both are positions within this 68-team field, so they are comparable. */
+  let gaps='';
+  if(D.seeded){
+    const field=[...D.b.field].filter(t=>rk.has(t));
+    const byUs=[...field].sort((a,c)=>rk.get(a)-rk.get(c));
+    const bySeed=[...field].sort((a,c)=>
+      (seeds.get(a)??99)-(seeds.get(c)??99)||rk.get(a)-rk.get(c));
+    const posUs=new Map(byUs.map((t,i)=>[t,i+1]));
+    const posSd=new Map(bySeed.map((t,i)=>[t,i+1]));
+    /* How far each team actually went, taken from the games rather than
+       named: `won` is the last round it WON, so unless it won the final it
+       went out in the round after that. A team that won nothing went out in
+       the first round it appeared in, which for a play-in team is the First
+       Four and for everyone else the Round of 64. */
+    const won=new Map(), played=new Map();
+    tree.rounds.forEach((r,ri)=>r.forEach(g=>{
+      for(const t of [g.home,g.away]) if(!played.has(t)) played.set(t,ri);
+      won.set(madWin(g),ri);
+    }));
+    const OUT=['the First Four','the Round of 64','the Round of 32',
+      'the Sweet 16','the Elite Eight','the Final Four','the final'];
+    const went=t=>{
+      const w=won.get(t);
+      if(w===tree.rounds.length-1) return 'won the tournament';
+      const exit=w==null?(played.get(t)??0):w+1;
+      return 'lost in '+OUT[exit];
+    };
+    const line=t=>{
+      const d=posSd.get(t)-posUs.get(t);
+      const got=went(t);
+      return `<tr><td class="st">${madTeam(t,seeds.get(t))}</td>`+
+        `<td class="num">#${rk.get(t)}</td>`+
+        `<td class="num">${posSd.get(t)}</td>`+
+        `<td class="num ${d>0?'pos':'neg'}">${d>0?'+':'−'}${Math.abs(d)}</td>`+
+        `<td>${esc(got)}</td></tr>`;
+    };
+    const diff=[...field].sort((a,c)=>
+      (posSd.get(c)-posUs.get(c))-(posSd.get(a)-posUs.get(a)));
+    const head=`<tr><th>Team</th><th class="num">Our rank</th>`+
+      `<th class="num">Seed order</th><th class="num">Gap</th>`+
+      `<th>What happened</th></tr>`;
+    gaps=`<div class="thead"><h3>Where we disagreed with the committee</h3></div>`+
+      `<p class="slateintro">Each team's place in our order against its place `+
+      `in seed order, within this 68-team field. A positive gap means we rated `+
+      `the team higher than the committee seeded it. The last column is the `+
+      `only thing that settles it.</p>`+
+      `<div class="two"><table class="mad"><thead>${head}</thead><tbody>`+
+      diff.slice(0,8).map(line).join('')+`</tbody></table>`+
+      `<table class="mad"><thead>${head}</thead><tbody>`+
+      diff.slice(-8).reverse().map(line).join('')+`</tbody></table></div>`;
+  }
+
+  /* The caveats, which belong on the page rather than in a commit message. */
+  const notes=`<div class="thead"><h3>How this is built</h3></div>`+
+    `<ul class="mnotes">`+
+    `<li><b>The rating cannot see the tournament.</b> Postseason games are `+
+    `kept in their own part of the season file and the ranking reads only the `+
+    `regular season, so a bracket result can never feed the rating that `+
+    `predicted it. The ranking here is the one that stood on Selection Sunday, `+
+    `at ${esc(fmtFull(dayOf(D.horizon))||('day '+D.horizon))}.</li>`+
+    `<li><b>The bracket is filled in before tipoff</b>, not judged game by `+
+    `game. An early mistake carries forward: later rounds are picked from `+
+    `teams that may already have lost, exactly as on a paper bracket. Scoring `+
+    `a system against the 67 real matchups instead flatters it by roughly ten `+
+    `points, because it hands over the matchups for free.</li>`+
+    `<li><b>Scoring is the usual pool ladder</b> — 1 point a game in the `+
+    `Round of 64, doubling each round to 32 for the final, ${MAD_MAX} in all. `+
+    `The First Four scores nothing.</li>`+
+    (D.seeded?`<li><b>The seed line does not order teams on the same seed</b>, `+
+      `and this bracket has ${D.ties} such game${D.ties===1?'':'s'}. Those are `+
+      `settled by a coin flip, the whole bracket is run ${MAD_TRIALS} times, `+
+      `and the figure quoted is the average. It matters: across five seasons, `+
+      `breaking those ties one way scores seeding at 375 and the other way at `+
+      `487, almost all of it one lucky flip in a 1-vs-1 final.</li>`:'')+
+    (D.unranked.length?`<li><b>${D.unranked.length} team${D.unranked.length===1?'':'s'} `+
+      `in the field carr${D.unranked.length===1?'ies':'y'} no rating</b> `+
+      `and lose every matchup by default.</li>`:'')+
+    `</ul>`;
+
+  host.innerHTML=madHead()+madPicker()+verdict+madAll()+table+
+    `<div class="thead"><h3>The bracket as we filled it</h3></div>`+
+    `<p class="slateintro">Our pick in each slot. Green is a slot we called `+
+    `right; red shows our pick struck through with the team that actually `+
+    `won it beneath.</p>`+
+    `<div class="mgrid">${cols}</div>`+gaps+notes;
+  $('madsub').textContent=`${D.field} teams, ${D.b.games.length} games, `+
+    `${esc(yrsLabel(D.year))}`;
+  madWireHead(); madWirePicker();
+}
+
 async function renderYears(){
   showView('years');
   const host=$('yearsview'), tok=++yrsToken;
@@ -3539,6 +4051,7 @@ function go(v){
              : VIEW.kind==='stats' ? 'stats'
              : VIEW.kind==='corr' ? 'corr'
              : VIEW.kind==='years' ? 'years'
+             : VIEW.kind==='madness' ? 'madness'
              : VIEW.kind==='slates' ? 'slates'+(VIEW.bucket?'='+VIEW.bucket:'')
              : '';
   if(want) location.hash=want;
